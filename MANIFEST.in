@@ -1,0 +1,6 @@
+include README.md
+include LICENSE
+include src/voipms/*.json
+recursive-include tests *.py
+recursive-include examples *.py
+recursive-include docs *.md
