@@ -108,7 +108,7 @@ class VoIPMSAPIJSONGenerator:
                     xsd_type = element.get('type', 'xsd:string')
                     parameters[param_name] = {
                         "type": self._map_xsd_to_json_type(xsd_type),
-                        "required": element.get('minOccurs', '1') != '0',
+                        "required": self._is_parameter_required(op_name, param_name),
                         "description": self._generate_param_description(op_name, param_name)
                     }
                     
@@ -288,6 +288,35 @@ class VoIPMSAPIJSONGenerator:
                 "http_status": 500
             }
         }
+        
+    def _is_parameter_required(self, op_name: str, param_name: str) -> bool:
+        """
+        Determine if a parameter is required based on operation and parameter name.
+        Since WSDL doesn't specify minOccurs, we use heuristics based on API knowledge.
+        """
+        # Known required parameters
+        required_params = {
+            'getCDR': ['date_from', 'date_to'],
+            'getResellerCDR': ['date_from', 'date_to'],
+            'sendSMS': ['did', 'destination', 'message'],
+            'sendMMS': ['did', 'destination', 'message'],
+            'createSubAccount': ['username', 'protocol', 'auth_type', 'password'],
+            'createVoicemail': ['digits', 'email', 'password', 'skip_password', 'attach_message', 'delete_message', 'say_time', 'timezone', 'say_callerid', 'play_instructions', 'language'],
+            'addCharge': ['client', 'charge', 'description', 'test'],
+            'addPayment': ['client', 'payment', 'description', 'test'],
+            'deleteCDR': ['account', 'cdr'],
+            'deleteVoicemail': ['mailbox'],
+            'setSubAccount': ['account'],
+            'sendCallRecordingEmail': ['account', 'recording', 'email'],
+            'sendFaxMessage': ['fax_number', 'destination', 'file']
+        }
+        
+        # Check if this operation/parameter combo is known to be required
+        if op_name in required_params:
+            return param_name in required_params[op_name]
+            
+        # Most VoIP.ms API parameters are optional
+        return False
         
     def _map_xsd_to_json_type(self, xsd_type: str) -> str:
         """Map XSD types to JSON schema types"""

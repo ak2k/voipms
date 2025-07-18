@@ -176,7 +176,7 @@ class TestAPIExamples:
         mock_post.return_value = mock_response
         
         # Make API call
-        result = self.client.getCDR()
+        result = self.client.getCDR(date_from='2024-01-01', date_to='2024-01-31')
         
         # Verify response
         assert result['status'] == 'success'
@@ -196,7 +196,7 @@ class TestAPIExamples:
         mock_post.return_value = mock_response
         
         # Make API call
-        result = self.client.getResellerCDR()
+        result = self.client.getResellerCDR(date_from='2024-01-01', date_to='2024-01-31')
         
         # Verify response
         assert result['status'] == 'success'

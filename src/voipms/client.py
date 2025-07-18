@@ -13,7 +13,10 @@ import logging
 from functools import wraps
 from datetime import datetime
 import asyncio
-import pkg_resources
+try:
+    from importlib import resources
+except ImportError:
+    import importlib_resources as resources
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -101,15 +104,32 @@ class VoIPMSClient:
         else:
             # Try as package resource
             try:
-                resource_path = pkg_resources.resource_filename('voipms', path)
-                with open(resource_path, 'r') as f:
-                    self.api_definition = json.load(f)
-            except:
-                # Try with default name as package resource
-                try:
-                    resource_path = pkg_resources.resource_filename('voipms', 'voipms_api_enriched.json')
-                    with open(resource_path, 'r') as f:
+                # Try to load from package resources
+                import voipms
+                if hasattr(resources, 'files'):
+                    # Python 3.9+
+                    package_files = resources.files(voipms)
+                    resource_path = package_files / path
+                    with resource_path.open('r') as f:
                         self.api_definition = json.load(f)
+                else:
+                    # Python 3.7-3.8
+                    with resources.path(voipms, path) as resource_path:
+                        with open(resource_path, 'r') as f:
+                            self.api_definition = json.load(f)
+            except:
+                # Try with default name
+                try:
+                    default_name = 'voipms_api_enriched.json'
+                    if hasattr(resources, 'files'):
+                        package_files = resources.files(voipms)
+                        resource_path = package_files / default_name
+                        with resource_path.open('r') as f:
+                            self.api_definition = json.load(f)
+                    else:
+                        with resources.path(voipms, default_name) as resource_path:
+                            with open(resource_path, 'r') as f:
+                                self.api_definition = json.load(f)
                 except:
                     raise FileNotFoundError(f"API definition not found: {path}")
             

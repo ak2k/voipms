@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated_at": "2025-07-17T18:23:57.902534",
+  "generated_at": "2025-07-17T22:07:43.838954",
   "base_url": "https://voip.ms/api/v1/rest.php",
   "authentication": {
     "type": "api_credentials",
@@ -103,12 +103,12 @@
       "parameters": {
         "vpri": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Vpri"
         },
         "did": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "DID (phone number) in format 1234567890"
         }
       },
@@ -129,77 +129,77 @@
       "parameters": {
         "quantity": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Quantity"
         },
         "state": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "State"
         },
         "ratecenter": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Ratecenter"
         },
         "routing": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Routing"
         },
         "failover_busy": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Busy"
         },
         "failover_unreachable": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Unreachable"
         },
         "failover_noanswer": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Noanswer"
         },
         "voicemail": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Voicemail"
         },
         "pop": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Pop"
         },
         "dialtime": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Dialtime"
         },
         "cnam": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Cnam"
         },
         "callerid_prefix": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Callerid Prefix"
         },
         "note": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Note"
         },
         "billing_type": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Type of billing"
         },
         "test": {
           "type": "boolean",
-          "required": true,
+          "required": false,
           "description": "Test"
         }
       },
@@ -220,77 +220,77 @@
       "parameters": {
         "quantity": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Quantity"
         },
         "province": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Province"
         },
         "ratecenter": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Ratecenter"
         },
         "routing": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Routing"
         },
         "failover_busy": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Busy"
         },
         "failover_unreachable": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Unreachable"
         },
         "failover_noanswer": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Noanswer"
         },
         "voicemail": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Voicemail"
         },
         "pop": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Pop"
         },
         "dialtime": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Dialtime"
         },
         "cnam": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Cnam"
         },
         "callerid_prefix": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Callerid Prefix"
         },
         "note": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Note"
         },
         "billing_type": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Type of billing"
         },
         "test": {
           "type": "boolean",
-          "required": true,
+          "required": false,
           "description": "Test"
         }
       },
@@ -318,17 +318,17 @@
         },
         "cancelcomment": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Cancelcomment"
         },
         "portout": {
           "type": "boolean",
-          "required": true,
+          "required": false,
           "description": "Portout"
         },
         "test": {
           "type": "boolean",
-          "required": true,
+          "required": false,
           "description": "Test"
         }
       },
@@ -356,37 +356,37 @@
         },
         "account": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Account"
         },
         "monthly": {
           "type": "number",
-          "required": true,
+          "required": false,
           "description": "Monthly"
         },
         "setup": {
           "type": "number",
-          "required": true,
+          "required": false,
           "description": "Setup"
         },
         "minute": {
           "type": "number",
-          "required": true,
+          "required": false,
           "description": "Minute"
         },
         "next_billing": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Next Billing"
         },
         "dont_charge_setup": {
           "type": "number",
-          "required": true,
+          "required": false,
           "description": "Dont Charge Setup"
         },
         "dont_charge_monthly": {
           "type": "number",
-          "required": true,
+          "required": false,
           "description": "Dont Charge Monthly"
         }
       },
@@ -407,42 +407,42 @@
       "parameters": {
         "did": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "DID (phone number) in format 1234567890"
         },
         "account": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Account"
         },
         "monthly": {
           "type": "number",
-          "required": true,
+          "required": false,
           "description": "Monthly"
         },
         "setup": {
           "type": "number",
-          "required": true,
+          "required": false,
           "description": "Setup"
         },
         "minute": {
           "type": "number",
-          "required": true,
+          "required": false,
           "description": "Minute"
         },
         "next_billing": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Next Billing"
         },
         "dont_charge_setup": {
           "type": "number",
-          "required": true,
+          "required": false,
           "description": "Dont Charge Setup"
         },
         "dont_charge_monthly": {
           "type": "number",
-          "required": true,
+          "required": false,
           "description": "Dont Charge Monthly"
         }
       },
@@ -473,7 +473,7 @@
         },
         "description": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sub Account Description (Example: 'VoIP Account')",
           "example": null,
           "validation": null
@@ -487,14 +487,14 @@
         },
         "password": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sub Account Password (For Password Authentication)",
           "example": null,
           "validation": null
         },
         "ip": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sub Account IP (For IP Authentication)",
           "example": null,
           "validation": null
@@ -508,14 +508,14 @@
         },
         "callerid_number": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Caller ID Override",
           "example": null,
           "validation": null
         },
         "canada_routing": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Route Code (Values from getRoutes)",
           "example": null,
           "validation": null
@@ -543,7 +543,7 @@
         },
         "language": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Language for system messages, such as \"Invalid Option\" (Values from getLanguages)",
           "example": null,
           "validation": null
@@ -571,169 +571,169 @@
         },
         "sip_traffic": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Encrypted SIP Traffic (Boolean: 1/0)",
           "example": null,
           "validation": null
         },
         "max_expiry": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Max Expiry between 60 and 3600 (Example: 3000)",
           "example": null,
           "validation": null
         },
         "rtp_timeout": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "RTP Time Out between 1 and 3600 (Example: 60)",
           "example": null,
           "validation": null
         },
         "rtp_hold_timeout": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "RTP Hold Time Out between 1 and 3600 (Example: 600)",
           "example": null,
           "validation": null
         },
         "ip_restriction": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "List of IP/Netmask to allow outgoing calls separated by commas (Example: 123.45.3.21,10.255.12.0/22,device.mydomain.com)",
           "example": null,
           "validation": null
         },
         "enable_ip_restriction": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Enable IP Restriction (Boolean: 1/0)",
           "example": null,
           "validation": null
         },
         "pop_restriction": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "List of POP Servers to allow outgoing calls separated by commas (values from getServersInfo. Example: 10,23,45)",
           "example": null,
           "validation": null
         },
         "enable_pop_restriction": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Enable POP Restriction (Boolean: 1/0)",
           "example": null,
           "validation": null
         },
         "internal_extension": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sub Account Internal Extension (Example: 1 -> Creates 101)",
           "example": null,
           "validation": null
         },
         "internal_voicemail": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sub Account Internal Voicemail (Example: 101)",
           "example": null,
           "validation": null
         },
         "internal_dialtime": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sub Account Internal Dialtime (Example: 60 -> seconds)",
           "example": null,
           "validation": null
         },
         "reseller_client": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Reseller Account ID (Example: 561115)",
           "example": null,
           "validation": null
         },
         "reseller_package": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Reseller Package (Example: 92364)",
           "example": null,
           "validation": null
         },
         "reseller_nextbilling": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Reseller Next Billing Date (Example: '2012-12-31')",
           "example": null,
           "validation": null
         },
         "reseller_chargesetup": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "True if you want to charge Package Setup Fee after Save",
           "example": null,
           "validation": null
         },
         "send_bye": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Send BYE on successful transfer (Boolean: 1/0)",
           "example": null,
           "validation": null
         },
         "record_calls": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Record Calls (Boolean: 1/0)",
           "example": null,
           "validation": null
         },
         "transcribe": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Transcribe"
         },
         "transcription_locale": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Transcription Locale"
         },
         "transcription_email": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Transcription Email"
         },
         "transcription_start_delay": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Call Transcription Delay Seconds between 0 and 60, Increments of 5 (Example: 10 -> seconds)",
           "example": null,
           "validation": null
         },
         "enable_internal_cnam": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Enable Internal CallerID",
           "example": null,
           "validation": null
         },
         "internal_cnam": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Internal CallerID Name",
           "example": null,
           "validation": null
         },
         "dialing_mode": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Allows you to dial outgoing calls using either the NANPA configuration or the E164 configuration. (Values: 0 = Use Main Account Setting, 1 = E164, 2 = NANPA)",
           "example": null,
           "validation": null
         },
         "tfcarrier": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "This allows you to select the carrier to be used for outgoing calls to toll-free numbers. (Values: -1 = Use main account settings, 0 = Default server setting, 1 = US carrier, 2 = Canadian carrier)",
           "example": null,
           "validation": null
@@ -783,7 +783,7 @@
         },
         "email": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Email address for receiving messages, multiple email addresses are allowed if separated by a comma",
           "example": null,
           "validation": null
@@ -839,28 +839,28 @@
         },
         "email_attachment_format": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Code for Email Attachment format (Values from getVoicemailAttachmentFormats)",
           "example": null,
           "validation": null
         },
         "unavailable_message_recording": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Recording for the Unavailable Message (values from getRecordings)",
           "example": null,
           "validation": null
         },
         "transcription": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Voicemail Transcription",
           "example": null,
           "validation": null
         },
         "transcription_locale": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Transcription locale code (values from getLocales)",
           "example": null,
           "validation": null
@@ -884,7 +884,7 @@
       "parameters": {
         "callback": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Callback"
         }
       },
@@ -905,7 +905,7 @@
       "parameters": {
         "filtering": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Filtering"
         }
       },
@@ -956,7 +956,7 @@
       "parameters": {
         "client": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Client/sub-account ID"
         }
       },
@@ -977,7 +977,7 @@
       "parameters": {
         "disa": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Disa"
         }
       },
@@ -998,7 +998,7 @@
       "parameters": {
         "forwarding": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Forwarding"
         }
       },
@@ -1019,7 +1019,7 @@
       "parameters": {
         "ivr": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Ivr"
         }
       },
@@ -1047,12 +1047,12 @@
         },
         "folder": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Folder"
         },
         "message_num": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Message Num"
         }
       },
@@ -1073,7 +1073,7 @@
       "parameters": {
         "phonebook": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Phonebook"
         }
       },
@@ -1094,7 +1094,7 @@
       "parameters": {
         "group": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Group"
         }
       },
@@ -1115,7 +1115,7 @@
       "parameters": {
         "queue": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Queue"
         }
       },
@@ -1136,7 +1136,7 @@
       "parameters": {
         "recording": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Recording file or ID"
         }
       },
@@ -1157,7 +1157,7 @@
       "parameters": {
         "ringgroup": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Ringgroup"
         }
       },
@@ -1178,7 +1178,7 @@
       "parameters": {
         "sipuri": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Sipuri"
         }
       },
@@ -1199,7 +1199,7 @@
       "parameters": {
         "id": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Id"
         }
       },
@@ -1222,7 +1222,7 @@
       "parameters": {
         "id": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Id"
         }
       },
@@ -1243,12 +1243,12 @@
       "parameters": {
         "member": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Member"
         },
         "queue": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Queue"
         }
       },
@@ -1292,7 +1292,7 @@
       "parameters": {
         "timecondition": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Timecondition"
         }
       },
@@ -1336,7 +1336,7 @@
       "parameters": {
         "codec": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Codec"
         }
       },
@@ -1358,7 +1358,7 @@
       "parameters": {
         "type": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Type"
         }
       },
@@ -1380,7 +1380,7 @@
       "parameters": {
         "advanced": {
           "type": "boolean",
-          "required": true,
+          "required": false,
           "description": "Advanced"
         }
       },
@@ -1402,7 +1402,7 @@
       "parameters": {
         "balance_management": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Balance Management for Client (Values from getBalanceManagement)",
           "example": null,
           "validation": null
@@ -1442,7 +1442,7 @@
       "parameters": {
         "callback": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Callback"
         }
       },
@@ -1480,7 +1480,7 @@
       "parameters": {
         "filtering": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Filtering"
         },
         "did": {
@@ -1509,7 +1509,7 @@
       "parameters": {
         "client": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Client/sub-account ID"
         }
       },
@@ -1531,7 +1531,7 @@
       "parameters": {
         "carrier": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Carrier"
         }
       },
@@ -1563,44 +1563,44 @@
         },
         "answered": {
           "type": "boolean",
-          "required": true,
+          "required": false,
           "description": "Answered"
         },
         "noanswer": {
           "type": "boolean",
-          "required": true,
+          "required": false,
           "description": "Noanswer"
         },
         "busy": {
           "type": "boolean",
-          "required": true,
+          "required": false,
           "description": "Busy"
         },
         "failed": {
           "type": "boolean",
-          "required": true,
+          "required": false,
           "description": "Failed"
         },
         "timezone": {
           "type": "number",
-          "required": true,
+          "required": false,
           "description": "Adjust time of MMSs according to Timezome (Numeric: -12 to 13)",
           "example": null,
           "validation": null
         },
         "calltype": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Calltype"
         },
         "callbilling": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Callbilling"
         },
         "account": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Account"
         }
       },
@@ -1622,7 +1622,7 @@
       "parameters": {
         "client": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Client/sub-account ID"
         }
       },
@@ -1644,7 +1644,7 @@
       "parameters": {
         "client": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Client/sub-account ID"
         }
       },
@@ -1666,7 +1666,7 @@
       "parameters": {
         "client": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Client/sub-account ID"
         }
       },
@@ -1688,7 +1688,7 @@
       "parameters": {
         "client": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Client/sub-account ID"
         }
       },
@@ -1710,7 +1710,7 @@
       "parameters": {
         "country": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Country"
         }
       },
@@ -1732,7 +1732,7 @@
       "parameters": {
         "client": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Client/sub-account ID"
         }
       },
@@ -1778,12 +1778,12 @@
       "parameters": {
         "country_id": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Country identifier"
         },
         "type": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Type"
         }
       },
@@ -1805,12 +1805,12 @@
       "parameters": {
         "province": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Province"
         },
         "ratecenter": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Ratecenter"
         }
       },
@@ -1832,7 +1832,7 @@
       "parameters": {
         "vpri": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Vpri"
         }
       },
@@ -1854,7 +1854,7 @@
       "parameters": {
         "client": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Client/sub-account ID"
         },
         "did": {
@@ -1907,7 +1907,7 @@
       "parameters": {
         "country_id": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Country identifier"
         }
       },
@@ -1929,7 +1929,7 @@
       "parameters": {
         "country_id": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Country identifier"
         }
       },
@@ -1951,7 +1951,7 @@
       "parameters": {
         "country_id": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Country identifier"
         }
       },
@@ -1973,12 +1973,12 @@
       "parameters": {
         "state": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "State"
         },
         "ratecenter": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Ratecenter"
         }
       },
@@ -2000,7 +2000,7 @@
       "parameters": {
         "disa": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Disa"
         }
       },
@@ -2046,7 +2046,7 @@
       "parameters": {
         "forwarding": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Forwarding"
         }
       },
@@ -2068,7 +2068,7 @@
       "parameters": {
         "type": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Type"
         }
       },
@@ -2106,7 +2106,7 @@
       "parameters": {
         "ivr": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Ivr"
         }
       },
@@ -2128,7 +2128,7 @@
       "parameters": {
         "type": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Type"
         }
       },
@@ -2150,7 +2150,7 @@
       "parameters": {
         "language": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Language"
         }
       },
@@ -2172,7 +2172,7 @@
       "parameters": {
         "locale": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Locale"
         }
       },
@@ -2242,29 +2242,29 @@
       "parameters": {
         "name": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Name"
         },
         "description": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sub Account Description (Example: 'VoIP Account')",
           "example": null,
           "validation": null
         },
         "volume": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Volume"
         },
         "sort": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sort"
         },
         "recordings": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Recordings"
         }
       },
@@ -2332,7 +2332,7 @@
       "parameters": {
         "package": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Package"
         }
       },
@@ -2354,22 +2354,22 @@
       "parameters": {
         "phonebook": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Phonebook"
         },
         "name": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Name"
         },
         "group": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Group"
         },
         "group_name": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Group Name"
         }
       },
@@ -2391,12 +2391,12 @@
       "parameters": {
         "name": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Name"
         },
         "group": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Group"
         }
       },
@@ -2442,7 +2442,7 @@
       "parameters": {
         "protocol": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Protocol"
         }
       },
@@ -2480,7 +2480,7 @@
       "parameters": {
         "queue": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Queue"
         }
       },
@@ -2502,7 +2502,7 @@
       "parameters": {
         "province": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Province"
         }
       },
@@ -2524,7 +2524,7 @@
       "parameters": {
         "state": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "State"
         }
       },
@@ -2546,12 +2546,12 @@
       "parameters": {
         "package": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Package"
         },
         "query": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Query"
         }
       },
@@ -2573,7 +2573,7 @@
       "parameters": {
         "recording": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Recording file or ID"
         }
       },
@@ -2595,7 +2595,7 @@
       "parameters": {
         "recording": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Recording file or ID"
         }
       },
@@ -2617,7 +2617,7 @@
       "parameters": {
         "account": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Account"
         }
       },
@@ -2639,7 +2639,7 @@
       "parameters": {
         "type": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Type"
         }
       },
@@ -2661,7 +2661,7 @@
       "parameters": {
         "client": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Client/sub-account ID"
         }
       },
@@ -2693,49 +2693,49 @@
         },
         "client": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Client/sub-account ID"
         },
         "answered": {
           "type": "boolean",
-          "required": true,
+          "required": false,
           "description": "Answered"
         },
         "noanswer": {
           "type": "boolean",
-          "required": true,
+          "required": false,
           "description": "Noanswer"
         },
         "busy": {
           "type": "boolean",
-          "required": true,
+          "required": false,
           "description": "Busy"
         },
         "failed": {
           "type": "boolean",
-          "required": true,
+          "required": false,
           "description": "Failed"
         },
         "timezone": {
           "type": "number",
-          "required": true,
+          "required": false,
           "description": "Adjust time of MMSs according to Timezome (Numeric: -12 to 13)",
           "example": null,
           "validation": null
         },
         "calltype": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Calltype"
         },
         "callbilling": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Callbilling"
         },
         "account": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Account"
         }
       },
@@ -2757,68 +2757,68 @@
       "parameters": {
         "sms": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "ID for a specific MMS (Example: 5853)",
           "example": null,
           "validation": null
         },
         "client": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Client/sub-account ID"
         },
         "from": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Start Date for Filtering SMSs (Example: '2014-03-30') - Default value: Today",
           "example": null,
           "validation": null
         },
         "to": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "End Date for Filtering MMSs (Example: '2014-03-30')",
           "example": null,
           "validation": null
         },
         "type": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Filter SMSs by Type (Boolean: 1 = received / 0 = sent)",
           "example": null,
           "validation": null
         },
         "did": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "DID number for Filtering MMSs (Example: 5551234567)",
           "example": null,
           "validation": null
         },
         "contact": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Contact number for Filtering MMSs (Example: 5551234567)",
           "example": null,
           "validation": null
         },
         "limit": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Number of records to be displayed (Example: 20) - Default value: 50",
           "example": null,
           "validation": null
         },
         "timezone": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Adjust time of MMSs according to Timezome (Numeric: -12 to 13)",
           "example": null,
           "validation": null
         },
         "all_messages": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Filter to recive all SMSs and MMSs, 1 recive all SMS and MMS, 0 if only need SMS, important: the sms ID must be 0",
           "example": null,
           "validation": null
@@ -2842,66 +2842,66 @@
       "parameters": {
         "mms": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Mms"
         },
         "client": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Client/sub-account ID"
         },
         "from": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Start Date for Filtering SMSs (Example: '2014-03-30') - Default value: Today",
           "example": null,
           "validation": null
         },
         "to": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "End Date for Filtering MMSs (Example: '2014-03-30')",
           "example": null,
           "validation": null
         },
         "type": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Filter SMSs by Type (Boolean: 1 = received / 0 = sent)",
           "example": null,
           "validation": null
         },
         "did": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "DID number for Filtering MMSs (Example: 5551234567)",
           "example": null,
           "validation": null
         },
         "contact": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Contact number for Filtering MMSs (Example: 5551234567)",
           "example": null,
           "validation": null
         },
         "limit": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Number of records to be displayed (Example: 20) - Default value: 50",
           "example": null,
           "validation": null
         },
         "timezone": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Adjust time of MMSs according to Timezome (Numeric: -12 to 13)",
           "example": null,
           "validation": null
         },
         "all_messages": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Filter to recive all SMSs and MMSs, 1 recive all SMS and MMS, 0 if only need SMS, important: the sms ID must be 0",
           "example": null,
           "validation": null
@@ -2925,7 +2925,7 @@
       "parameters": {
         "ring_group": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Ring Group"
         }
       },
@@ -2947,7 +2947,7 @@
       "parameters": {
         "strategy": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Strategy"
         }
       },
@@ -2969,7 +2969,7 @@
       "parameters": {
         "route": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Route"
         }
       },
@@ -2991,7 +2991,7 @@
       "parameters": {
         "server_pop": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Server Pop"
         }
       },
@@ -3013,7 +3013,7 @@
       "parameters": {
         "sipuri": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sipuri"
         }
       },
@@ -3035,22 +3035,22 @@
       "parameters": {
         "sms": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Sms"
         },
         "from": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "From"
         },
         "to": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "To"
         },
         "type": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Type"
         },
         "did": {
@@ -3062,22 +3062,22 @@
         },
         "contact": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Contact"
         },
         "limit": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Maximum number of records to return"
         },
         "timezone": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Timezone offset (-12 to 12)"
         },
         "all_messages": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "All Messages"
         }
       },
@@ -3099,22 +3099,22 @@
       "parameters": {
         "mms": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Mms"
         },
         "from": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "From"
         },
         "to": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "To"
         },
         "type": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Type"
         },
         "did": {
@@ -3126,22 +3126,22 @@
         },
         "contact": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Contact"
         },
         "limit": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Maximum number of records to return"
         },
         "timezone": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Timezone offset (-12 to 12)"
         },
         "all_messages": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "All Messages"
         }
       },
@@ -3163,12 +3163,12 @@
       "parameters": {
         "id": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Id"
         },
         "media_as_array": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Media As Array"
         }
       },
@@ -3206,12 +3206,12 @@
       "parameters": {
         "queue": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Queue"
         },
         "member": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Member"
         }
       },
@@ -3233,7 +3233,7 @@
       "parameters": {
         "account": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Account"
         }
       },
@@ -3255,12 +3255,12 @@
       "parameters": {
         "query": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Query"
         },
         "route": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Route"
         }
       },
@@ -3282,7 +3282,7 @@
       "parameters": {
         "timecondition": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Timecondition"
         }
       },
@@ -3359,7 +3359,7 @@
       "parameters": {
         "email_attachment_format": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Email Attachment Format"
         }
       },
@@ -3405,7 +3405,7 @@
       "parameters": {
         "voicemailsetup": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Voicemailsetup"
         }
       },
@@ -3450,82 +3450,82 @@
         },
         "routing": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Routing"
         },
         "failover_busy": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Busy"
         },
         "failover_unreachable": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Unreachable"
         },
         "failover_noanswer": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Noanswer"
         },
         "voicemail": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Voicemail"
         },
         "pop": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Pop"
         },
         "dialtime": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Dialtime"
         },
         "cnam": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Cnam"
         },
         "callerid_prefix": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Callerid Prefix"
         },
         "note": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Note"
         },
         "billing_type": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Type of billing"
         },
         "account": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Account"
         },
         "monthly": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Monthly"
         },
         "setup": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Setup"
         },
         "minute": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Minute"
         },
         "test": {
           "type": "boolean",
-          "required": true,
+          "required": false,
           "description": "Test"
         }
       },
@@ -3546,92 +3546,92 @@
       "parameters": {
         "location_id": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Location identifier"
         },
         "quantity": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Quantity"
         },
         "routing": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Routing"
         },
         "failover_busy": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Busy"
         },
         "failover_unreachable": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Unreachable"
         },
         "failover_noanswer": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Noanswer"
         },
         "voicemail": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Voicemail"
         },
         "pop": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Pop"
         },
         "dialtime": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Dialtime"
         },
         "cnam": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Cnam"
         },
         "callerid_prefix": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Callerid Prefix"
         },
         "billing_type": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Type of billing"
         },
         "note": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Note"
         },
         "account": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Account"
         },
         "monthly": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Monthly"
         },
         "setup": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Setup"
         },
         "minute": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Minute"
         },
         "test": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Test"
         }
       },
@@ -3652,92 +3652,92 @@
       "parameters": {
         "location_id": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Location identifier"
         },
         "quantity": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Quantity"
         },
         "routing": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Routing"
         },
         "failover_busy": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Busy"
         },
         "failover_unreachable": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Unreachable"
         },
         "failover_noanswer": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Noanswer"
         },
         "voicemail": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Voicemail"
         },
         "pop": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Pop"
         },
         "dialtime": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Dialtime"
         },
         "cnam": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Cnam"
         },
         "callerid_prefix": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Callerid Prefix"
         },
         "billing_type": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Type of billing"
         },
         "note": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Note"
         },
         "account": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Account"
         },
         "monthly": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Monthly"
         },
         "setup": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Setup"
         },
         "minute": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Minute"
         },
         "test": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Test"
         }
       },
@@ -3758,87 +3758,87 @@
       "parameters": {
         "location_id": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Location identifier"
         },
         "quantity": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Quantity"
         },
         "routing": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Routing"
         },
         "failover_busy": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Busy"
         },
         "failover_unreachable": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Unreachable"
         },
         "failover_noanswer": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Noanswer"
         },
         "voicemail": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Voicemail"
         },
         "pop": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Pop"
         },
         "dialtime": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Dialtime"
         },
         "cnam": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Cnam"
         },
         "callerid_prefix": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Callerid Prefix"
         },
         "note": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Note"
         },
         "account": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Account"
         },
         "monthly": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Monthly"
         },
         "setup": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Setup"
         },
         "minute": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Minute"
         },
         "test": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Test"
         }
       },
@@ -3859,82 +3859,82 @@
       "parameters": {
         "digits": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Digits"
         },
         "routing": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Routing"
         },
         "failover_busy": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Busy"
         },
         "failover_unreachable": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Unreachable"
         },
         "failover_noanswer": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Noanswer"
         },
         "voicemail": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Voicemail"
         },
         "pop": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Pop"
         },
         "dialtime": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Dialtime"
         },
         "cnam": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Cnam"
         },
         "callerid_prefix": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Callerid Prefix"
         },
         "note": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Note"
         },
         "account": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Account"
         },
         "monthly": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Monthly"
         },
         "setup": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Setup"
         },
         "minute": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Minute"
         },
         "test": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Test"
         }
       },
@@ -3962,77 +3962,77 @@
         },
         "routing": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Routing"
         },
         "failover_busy": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Busy"
         },
         "failover_unreachable": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Unreachable"
         },
         "failover_noanswer": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Noanswer"
         },
         "voicemail": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Voicemail"
         },
         "pop": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Pop"
         },
         "dialtime": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Dialtime"
         },
         "cnam": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Cnam"
         },
         "callerid_prefix": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Callerid Prefix"
         },
         "note": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Note"
         },
         "account": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Account"
         },
         "monthly": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Monthly"
         },
         "setup": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Setup"
         },
         "minute": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Minute"
         },
         "test": {
           "type": "boolean",
-          "required": true,
+          "required": false,
           "description": "Test"
         }
       },
@@ -4060,82 +4060,82 @@
         },
         "routing": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Routing"
         },
         "failover_busy": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Busy"
         },
         "failover_unreachable": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Unreachable"
         },
         "failover_noanswer": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Noanswer"
         },
         "voicemail": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Voicemail"
         },
         "pop": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Pop"
         },
         "dialtime": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Dialtime"
         },
         "cnam": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Cnam"
         },
         "callerid_prefix": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Callerid Prefix"
         },
         "note": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Note"
         },
         "carrier": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Carrier"
         },
         "account": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Account"
         },
         "monthly": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Monthly"
         },
         "setup": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Setup"
         },
         "minute": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Minute"
         },
         "test": {
           "type": "boolean",
-          "required": true,
+          "required": false,
           "description": "Test"
         }
       },
@@ -4156,7 +4156,7 @@
       "parameters": {
         "vpri": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Vpri"
         },
         "did": {
@@ -4184,17 +4184,17 @@
       "parameters": {
         "province": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Province"
         },
         "type": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Type"
         },
         "query": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Query"
         }
       },
@@ -4215,17 +4215,17 @@
       "parameters": {
         "state": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "State"
         },
         "type": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Type"
         },
         "query": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Query"
         }
       },
@@ -4246,12 +4246,12 @@
       "parameters": {
         "type": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Type"
         },
         "query": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Query"
         }
       },
@@ -4272,12 +4272,12 @@
       "parameters": {
         "type": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Type"
         },
         "query": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Query"
         }
       },
@@ -4298,12 +4298,12 @@
       "parameters": {
         "type": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Type"
         },
         "query": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Query"
         }
       },
@@ -4331,7 +4331,7 @@
         },
         "dst": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Dst"
         },
         "message": {
@@ -4366,7 +4366,7 @@
         },
         "dst": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Dst"
         },
         "message": {
@@ -4376,17 +4376,17 @@
         },
         "media1": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Media1"
         },
         "media2": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Media2"
         },
         "media3": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Media3"
         }
       },
@@ -4407,37 +4407,37 @@
       "parameters": {
         "callback": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Callback"
         },
         "description": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Description or note"
         },
         "number": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Number"
         },
         "delay_before": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Delay Before"
         },
         "response_timeout": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Response Timeout"
         },
         "digit_timeout": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Digit Timeout"
         },
         "callerid_number": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Callerid Number"
         }
       },
@@ -4458,12 +4458,12 @@
       "parameters": {
         "filter": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Filter"
         },
         "callerid": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Callerid"
         },
         "did": {
@@ -4475,27 +4475,27 @@
         },
         "routing": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Routing"
         },
         "failover_unreachable": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Unreachable"
         },
         "failover_busy": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Busy"
         },
         "failover_noanswer": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Noanswer"
         },
         "note": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Note"
         }
       },
@@ -4516,7 +4516,7 @@
       "parameters": {
         "client": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Client/sub-account ID"
         },
         "email": {
@@ -4535,7 +4535,7 @@
         },
         "company": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Client's Company",
           "example": null,
           "validation": null
@@ -4598,7 +4598,7 @@
         },
         "balance_management": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Balance Management for Client (Values from getBalanceManagement)",
           "example": null,
           "validation": null
@@ -4621,7 +4621,7 @@
       "parameters": {
         "client": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Client/sub-account ID"
         },
         "email": {
@@ -4633,7 +4633,7 @@
         },
         "threshold": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Threshold"
         }
       },
@@ -4661,7 +4661,7 @@
         },
         "billing_type": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Type of billing"
         }
       },
@@ -4689,92 +4689,92 @@
         },
         "routing": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Routing"
         },
         "failover_busy": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Busy"
         },
         "failover_unreachable": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Unreachable"
         },
         "failover_noanswer": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover Noanswer"
         },
         "voicemail": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Voicemail"
         },
         "pop": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Pop"
         },
         "dialtime": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Dialtime"
         },
         "cnam": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Cnam"
         },
         "callerid_prefix": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Callerid Prefix"
         },
         "note": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Note"
         },
         "port_out_pin": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Port Out Pin"
         },
         "billing_type": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Type of billing"
         },
         "record_calls": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Record Calls"
         },
         "transcribe": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Transcribe"
         },
         "transcription_locale": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Transcription Locale"
         },
         "transcription_email": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Transcription Email"
         },
         "transcription_start_delay": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Transcription Start Delay"
         },
         "voicemail_threshold": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Voicemail Threshold"
         }
       },
@@ -4802,7 +4802,7 @@
         },
         "pop": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Pop"
         }
       },
@@ -4830,7 +4830,7 @@
         },
         "routing": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Routing"
         }
       },
@@ -4858,7 +4858,7 @@
         },
         "voicemail": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Voicemail"
         }
       },
@@ -4879,27 +4879,27 @@
       "parameters": {
         "disa": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Disa"
         },
         "name": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Name"
         },
         "pin": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Pin"
         },
         "digit_timeout": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Digit Timeout"
         },
         "callerid_override": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Callerid Override"
         }
       },
@@ -4920,37 +4920,37 @@
       "parameters": {
         "forwarding": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Forwarding"
         },
         "phone_number": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Phone Number"
         },
         "callerid_override": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Callerid Override"
         },
         "description": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Description or note"
         },
         "dtmf_digits": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Dtmf Digits"
         },
         "pause": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Pause"
         },
         "diversion_header": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Diversion Header"
         }
       },
@@ -4971,37 +4971,37 @@
       "parameters": {
         "ivr": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Ivr"
         },
         "name": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Name"
         },
         "recording": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Recording file or ID"
         },
         "timeout": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Timeout"
         },
         "language": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Language"
         },
         "voicemailsetup": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Voicemailsetup"
         },
         "choices": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Choices"
         }
       },
@@ -5022,37 +5022,37 @@
       "parameters": {
         "phonebook": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Phonebook"
         },
         "speed_dial": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Speed Dial"
         },
         "name": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Name"
         },
         "number": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Number"
         },
         "callerid": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Callerid"
         },
         "note": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Note"
         },
         "group": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Group"
         }
       },
@@ -5073,22 +5073,22 @@
       "parameters": {
         "phonebook": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Phonebook"
         },
         "group": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Group"
         },
         "name": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Name"
         },
         "members": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Members"
         }
       },
@@ -5109,167 +5109,167 @@
       "parameters": {
         "queue": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Queue"
         },
         "queue_name": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Queue Name"
         },
         "queue_number": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Queue Number"
         },
         "queue_language": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Queue Language"
         },
         "queue_password": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Queue Password"
         },
         "callerid_prefix": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Callerid Prefix"
         },
         "join_announcement": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Join Announcement"
         },
         "priority_weight": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Priority Weight"
         },
         "agent_announcement": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Agent Announcement"
         },
         "report_hold_time_agent": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Report Hold Time Agent"
         },
         "member_delay": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Member Delay"
         },
         "maximum_wait_time": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Maximum Wait Time"
         },
         "maximum_callers": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Maximum Callers"
         },
         "join_when_empty": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Join When Empty"
         },
         "leave_when_empty": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Leave When Empty"
         },
         "ring_strategy": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Ring Strategy"
         },
         "ring_inuse": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Ring Inuse"
         },
         "agent_ring_timeout": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Agent Ring Timeout"
         },
         "retry_timer": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Retry Timer"
         },
         "wrapup_time": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Wrapup Time"
         },
         "voice_announcement": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Voice Announcement"
         },
         "frequency_announcement": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Frequency Announcement"
         },
         "announce_position_frecuency": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Announce Position Frecuency"
         },
         "announce_round_seconds": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Announce Round Seconds"
         },
         "if_announce_position_enabled_report_estimated_hold_time": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "If Announce Position Enabled Report Estimated Hold Time"
         },
         "thankyou_for_your_patience": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Thankyou For Your Patience"
         },
         "music_on_hold": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Music On Hold"
         },
         "fail_over_routing_timeout": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Fail Over Routing Timeout"
         },
         "fail_over_routing_full": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Fail Over Routing Full"
         },
         "fail_over_routing_join_empty": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Fail Over Routing Join Empty"
         },
         "fail_over_routing_leave_empty": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Fail Over Routing Leave Empty"
         },
         "fail_over_routing_join_unavail": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Fail Over Routing Join Unavail"
         },
         "fail_over_routing_leave_unavail": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Fail Over Routing Leave Unavail"
         }
       },
@@ -5290,17 +5290,17 @@
       "parameters": {
         "recording": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Recording file or ID"
         },
         "file": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "File"
         },
         "name": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Name"
         }
       },
@@ -5321,37 +5321,37 @@
       "parameters": {
         "ring_group": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Ring Group"
         },
         "name": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Name"
         },
         "members": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Members"
         },
         "voicemail": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Voicemail"
         },
         "caller_announcement": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Caller Announcement"
         },
         "music_on_hold": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Music On Hold"
         },
         "language": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Language"
         }
       },
@@ -5372,27 +5372,27 @@
       "parameters": {
         "sipuri": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sipuri"
         },
         "uri": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Uri"
         },
         "description": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Description or note"
         },
         "callerid_override": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Callerid Override"
         },
         "callerid_e164": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Callerid E164"
         }
       },
@@ -5420,52 +5420,52 @@
         },
         "enable": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Enable"
         },
         "email_enabled": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Email Enabled"
         },
         "email_address": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Email Address"
         },
         "sms_forward_enable": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sms Forward Enable"
         },
         "sms_forward": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sms Forward"
         },
         "url_callback_enable": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Url Callback Enable"
         },
         "url_callback": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Url Callback"
         },
         "url_callback_retry": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Url Callback Retry"
         },
         "sms_sipaccount": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sms Sipaccount"
         },
         "sms_sipaccount_enabled": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sms Sipaccount Enabled"
         }
       },
@@ -5488,27 +5488,27 @@
       "parameters": {
         "member": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Member"
         },
         "queue": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Queue"
         },
         "member_name": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Member Name"
         },
         "account": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Account"
         },
         "priority": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Priority level"
         }
       },
@@ -5536,7 +5536,7 @@
         },
         "description": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sub Account Description (Example: 'VoIP Account')",
           "example": null,
           "validation": null
@@ -5550,14 +5550,14 @@
         },
         "password": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sub Account Password (For Password Authentication)",
           "example": null,
           "validation": null
         },
         "ip": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sub Account IP (For IP Authentication)",
           "example": null,
           "validation": null
@@ -5571,14 +5571,14 @@
         },
         "callerid_number": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Caller ID Override",
           "example": null,
           "validation": null
         },
         "canada_routing": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Route Code (Values from getRoutes)",
           "example": null,
           "validation": null
@@ -5606,7 +5606,7 @@
         },
         "language": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Language for system messages, such as \"Invalid Option\" (Values from getLanguages)",
           "example": null,
           "validation": null
@@ -5634,162 +5634,162 @@
         },
         "sip_traffic": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Encrypted SIP Traffic (Boolean: 1/0)",
           "example": null,
           "validation": null
         },
         "max_expiry": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Max Expiry between 60 and 3600 (Example: 3000)",
           "example": null,
           "validation": null
         },
         "rtp_timeout": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "RTP Time Out between 1 and 3600 (Example: 60)",
           "example": null,
           "validation": null
         },
         "rtp_hold_timeout": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "RTP Hold Time Out between 1 and 3600 (Example: 600)",
           "example": null,
           "validation": null
         },
         "ip_restriction": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "List of IP/Netmask to allow outgoing calls separated by commas (Example: 123.45.3.21,10.255.12.0/22,device.mydomain.com)",
           "example": null,
           "validation": null
         },
         "enable_ip_restriction": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Enable IP Restriction (Boolean: 1/0)",
           "example": null,
           "validation": null
         },
         "pop_restriction": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "List of POP Servers to allow outgoing calls separated by commas (values from getServersInfo. Example: 10,23,45)",
           "example": null,
           "validation": null
         },
         "enable_pop_restriction": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Enable POP Restriction (Boolean: 1/0)",
           "example": null,
           "validation": null
         },
         "internal_extension": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sub Account Internal Extension (Example: 1 -> Creates 101)",
           "example": null,
           "validation": null
         },
         "internal_voicemail": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sub Account Internal Voicemail (Example: 101)",
           "example": null,
           "validation": null
         },
         "internal_dialtime": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sub Account Internal Dialtime (Example: 60 -> seconds)",
           "example": null,
           "validation": null
         },
         "reseller_client": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Reseller Account ID (Example: 561115)",
           "example": null,
           "validation": null
         },
         "reseller_package": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Reseller Package (Example: 92364)",
           "example": null,
           "validation": null
         },
         "reseller_nextbilling": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Reseller Next Billing Date (Example: '2012-12-31')",
           "example": null,
           "validation": null
         },
         "reseller_chargesetup": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "True if you want to charge Package Setup Fee after Save",
           "example": null,
           "validation": null
         },
         "send_bye": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Send BYE on successful transfer (Boolean: 1/0)",
           "example": null,
           "validation": null
         },
         "record_calls": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Record Calls (Boolean: 1/0)",
           "example": null,
           "validation": null
         },
         "transcribe": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Transcribe"
         },
         "transcription_locale": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Transcription Locale"
         },
         "transcription_email": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Transcription Email"
         },
         "transcription_start_delay": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Call Transcription Delay Seconds between 0 and 60, Increments of 5 (Example: 10 -> seconds)",
           "example": null,
           "validation": null
         },
         "dialing_mode": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Allows you to dial outgoing calls using either the NANPA configuration or the E164 configuration. (Values: 0 = Use Main Account Setting, 1 = E164, 2 = NANPA)",
           "example": null,
           "validation": null
         },
         "tfcarrier": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "This allows you to select the carrier to be used for outgoing calls to toll-free numbers. (Values: -1 = Use main account settings, 0 = Default server setting, 1 = US carrier, 2 = Canadian carrier)",
           "example": null,
           "validation": null
         },
         "default_e911": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "e911 Default CallerID",
           "example": null,
           "validation": null
@@ -5812,52 +5812,52 @@
       "parameters": {
         "timecondition": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Timecondition"
         },
         "name": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Name"
         },
         "routing_match": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Routing Match"
         },
         "routing_nomatch": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Routing Nomatch"
         },
         "starthour": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Starthour"
         },
         "startminute": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Startminute"
         },
         "endhour": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Endhour"
         },
         "endminute": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Endminute"
         },
         "weekdaystart": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Weekdaystart"
         },
         "weekdayend": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Weekdayend"
         }
       },
@@ -5906,7 +5906,7 @@
         },
         "email": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Email address for receiving messages, multiple email addresses are allowed if separated by a comma",
           "example": null,
           "validation": null
@@ -5962,28 +5962,28 @@
         },
         "email_attachment_format": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Code for Email Attachment format (Values from getVoicemailAttachmentFormats)",
           "example": null,
           "validation": null
         },
         "unavailable_message_recording": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Recording for the Unavailable Message (values from getRecordings)",
           "example": null,
           "validation": null
         },
         "transcription": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Voicemail Transcription",
           "example": null,
           "validation": null
         },
         "transcription_locale": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Transcription locale code (values from getLocales)",
           "example": null,
           "validation": null
@@ -6020,7 +6020,7 @@
         },
         "company": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Client's Company",
           "example": null,
           "validation": null
@@ -6097,14 +6097,14 @@
         },
         "activate": {
           "type": "boolean",
-          "required": true,
+          "required": false,
           "description": "Activates Client (Boolean: 1/0)",
           "example": null,
           "validation": null
         },
         "balance_management": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Balance Management for Client (Values from getBalanceManagement)",
           "example": null,
           "validation": null
@@ -6150,7 +6150,7 @@
       "parameters": {
         "did": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "DID (phone number) in format 1234567890"
         }
       },
@@ -6171,12 +6171,12 @@
       "parameters": {
         "id": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Id"
         },
         "test": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Set to true if testing how to send a Fax Message",
           "example": null,
           "validation": null
@@ -6199,12 +6199,12 @@
       "parameters": {
         "id": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Id"
         },
         "test": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Set to true if testing how to send a Fax Message",
           "example": null,
           "validation": null
@@ -6227,12 +6227,12 @@
       "parameters": {
         "id": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Id"
         },
         "test": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Set to true if testing how to send a Fax Message",
           "example": null,
           "validation": null
@@ -6255,12 +6255,12 @@
       "parameters": {
         "id": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Id"
         },
         "test": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Set to true if testing how to send a Fax Message",
           "example": null,
           "validation": null
@@ -6283,7 +6283,7 @@
       "parameters": {
         "id": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Id"
         }
       },
@@ -6305,7 +6305,7 @@
       "parameters": {
         "province": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Province"
         }
       },
@@ -6327,7 +6327,7 @@
       "parameters": {
         "state": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "State"
         }
       },
@@ -6349,7 +6349,7 @@
       "parameters": {
         "province": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Province"
         }
       },
@@ -6371,7 +6371,7 @@
       "parameters": {
         "state": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "State"
         }
       },
@@ -6393,7 +6393,7 @@
       "parameters": {
         "did": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "DID (phone number) in format 1234567890"
         }
       },
@@ -6415,7 +6415,7 @@
       "parameters": {
         "did": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "DID (phone number) in format 1234567890"
         }
       },
@@ -6437,22 +6437,22 @@
       "parameters": {
         "from": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "From"
         },
         "to": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "To"
         },
         "folder": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Folder"
         },
         "id": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Id"
         }
       },
@@ -6474,7 +6474,7 @@
       "parameters": {
         "id": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Id"
         }
       },
@@ -6496,7 +6496,7 @@
       "parameters": {
         "id": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Id"
         }
       },
@@ -6518,7 +6518,7 @@
       "parameters": {
         "id": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Id"
         }
       },
@@ -6540,12 +6540,12 @@
       "parameters": {
         "id": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Id"
         },
         "email": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Email"
         }
       },
@@ -6566,17 +6566,17 @@
       "parameters": {
         "fax_id": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Fax identifier"
         },
         "folder_id": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Folder identifier"
         },
         "test": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Set to true if testing how to send a Fax Message",
           "example": null,
           "validation": null
@@ -6599,47 +6599,47 @@
       "parameters": {
         "location": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Location"
         },
         "quantity": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Quantity"
         },
         "email": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Email"
         },
         "email_enable": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Email Enable"
         },
         "email_attach_file": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Email Attach File"
         },
         "url_callback": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Url Callback"
         },
         "url_callback_enable": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Url Callback Enable"
         },
         "url_callback_retry": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Url Callback Retry"
         },
         "test": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Set to true if testing how to send a Fax Message",
           "example": null,
           "validation": null
@@ -6662,17 +6662,17 @@
       "parameters": {
         "id": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Id"
         },
         "name": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Name"
         },
         "test": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Set to true if testing how to send a Fax Message",
           "example": null,
           "validation": null
@@ -6695,37 +6695,37 @@
       "parameters": {
         "id": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Id"
         },
         "enabled": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Enable/disable status (0 or 1)"
         },
         "auth_email": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Auth Email"
         },
         "from_number_id": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "From_Number identifier"
         },
         "security_code_enabled": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Security Code Enabled"
         },
         "security_code": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Security Code"
         },
         "test": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Set to true if testing how to send a Fax Message",
           "example": null,
           "validation": null
@@ -6748,7 +6748,7 @@
       "parameters": {
         "area_code": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Area Code"
         }
       },
@@ -6769,7 +6769,7 @@
       "parameters": {
         "area_code": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Area Code"
         }
       },
@@ -6790,42 +6790,42 @@
       "parameters": {
         "did": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "DID (phone number) in format 1234567890"
         },
         "email": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Email"
         },
         "email_enable": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Email Enable"
         },
         "email_attach_file": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Email Attach File"
         },
         "url_callback": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Url Callback"
         },
         "url_callback_enable": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Url Callback Enable"
         },
         "url_callback_retry": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Url Callback Retry"
         },
         "test": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Set to true if testing how to send a Fax Message",
           "example": null,
           "validation": null
@@ -6848,27 +6848,27 @@
       "parameters": {
         "did": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "DID (phone number) in format 1234567890"
         },
         "email": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Email"
         },
         "email_enable": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Email Enable"
         },
         "email_attach_file": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Email Attach File"
         },
         "test": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Set to true if testing how to send a Fax Message",
           "example": null,
           "validation": null
@@ -6891,27 +6891,27 @@
       "parameters": {
         "did": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "DID (phone number) in format 1234567890"
         },
         "url_callback": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Url Callback"
         },
         "url_callback_enable": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Url Callback Enable"
         },
         "url_callback_retry": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Url Callback Retry"
         },
         "test": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Set to true if testing how to send a Fax Message",
           "example": null,
           "validation": null
@@ -6955,21 +6955,21 @@
         },
         "send_email_enabled": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Flag to enable the send of a copy of your Fax via email. - (Values: 1 = true, 0 = false) - Default: 0",
           "example": null,
           "validation": null
         },
         "send_email": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Email address where you want send a copy of your Fax.",
           "example": null,
           "validation": null
         },
         "station_id": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "An word to identify a equipment or department sending the Fax.",
           "example": null,
           "validation": null
@@ -6983,7 +6983,7 @@
         },
         "test": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Set to true if testing how to send a Fax Message",
           "example": null,
           "validation": null
@@ -7006,7 +7006,7 @@
       "parameters": {
         "type": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Type"
         }
       },
@@ -7102,14 +7102,14 @@
         },
         "address_type": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Address Type that will be validated (Values from e911AddressTypes).",
           "example": null,
           "validation": null
         },
         "address_number": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Address Number that will be validated.",
           "example": null,
           "validation": null
@@ -7137,19 +7137,19 @@
         },
         "zip": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Zip"
         },
         "language": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Language that will be validated. Only available for addresses from Canada. Value can be EN (English) or FR (French).",
           "example": null,
           "validation": null
         },
         "other_info": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Additional Address Information that will be validated. Only available for addresses from Canada.",
           "example": null,
           "validation": null
@@ -7200,14 +7200,14 @@
         },
         "address_type": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Address Type that will be validated (Values from e911AddressTypes).",
           "example": null,
           "validation": null
         },
         "address_number": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Address Number that will be validated.",
           "example": null,
           "validation": null
@@ -7235,19 +7235,19 @@
         },
         "zip": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Zip"
         },
         "language": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Language that will be validated. Only available for addresses from Canada. Value can be EN (English) or FR (French).",
           "example": null,
           "validation": null
         },
         "other_info": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Additional Address Information that will be validated. Only available for addresses from Canada.",
           "example": null,
           "validation": null
@@ -7298,14 +7298,14 @@
         },
         "address_type": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Address Type that will be validated (Values from e911AddressTypes).",
           "example": null,
           "validation": null
         },
         "address_number": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Address Number that will be validated.",
           "example": null,
           "validation": null
@@ -7333,19 +7333,19 @@
         },
         "zip": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Zip"
         },
         "language": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Language that will be validated. Only available for addresses from Canada. Value can be EN (English) or FR (French).",
           "example": null,
           "validation": null
         },
         "other_info": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Additional Address Information that will be validated. Only available for addresses from Canada.",
           "example": null,
           "validation": null
@@ -7396,14 +7396,14 @@
         },
         "address_type": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Address Type that will be validated (Values from e911AddressTypes).",
           "example": null,
           "validation": null
         },
         "address_number": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Address Number that will be validated.",
           "example": null,
           "validation": null
@@ -7431,19 +7431,19 @@
         },
         "zip": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Zip"
         },
         "language": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Language that will be validated. Only available for addresses from Canada. Value can be EN (English) or FR (French).",
           "example": null,
           "validation": null
         },
         "other_info": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Additional Address Information that will be validated. Only available for addresses from Canada.",
           "example": null,
           "validation": null
@@ -7466,7 +7466,7 @@
       "parameters": {
         "folder": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Folder"
         }
       },
@@ -7495,17 +7495,17 @@
         },
         "folder": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Folder"
         },
         "date_from": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Start date in YYYY-MM-DD format"
         },
         "date_to": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "End date in YYYY-MM-DD format"
         }
       },
@@ -7534,12 +7534,12 @@
         },
         "folder": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Folder"
         },
         "message_num": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Message Num"
         }
       },
@@ -7568,17 +7568,17 @@
         },
         "folder": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Folder"
         },
         "message_num": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Message Num"
         },
         "email_address": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Email Address"
         }
       },
@@ -7641,17 +7641,17 @@
         },
         "folder": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Folder"
         },
         "message_num": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Message Num"
         },
         "listened": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Listened"
         }
       },
@@ -7679,17 +7679,17 @@
         },
         "folder": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Folder"
         },
         "message_num": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Message Num"
         },
         "urgent": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Urgent"
         }
       },
@@ -7717,17 +7717,17 @@
         },
         "folder": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Folder"
         },
         "message_num": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Message Num"
         },
         "new_folder": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "New Folder"
         }
       },
@@ -7772,7 +7772,7 @@
       "parameters": {
         "callhunting": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Callhunting"
         }
       },
@@ -7832,22 +7832,22 @@
         },
         "start": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Start"
         },
         "length": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Length"
         },
         "date_from": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Start date in YYYY-MM-DD format"
         },
         "date_to": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "End date in YYYY-MM-DD format"
         }
       },
@@ -7892,7 +7892,7 @@
       "parameters": {
         "callhunting": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Callhunting"
         }
       },
@@ -7920,37 +7920,37 @@
         },
         "name": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Name"
         },
         "timeout": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Timeout"
         },
         "music": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Music"
         },
         "failover": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Failover"
         },
         "language": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Language"
         },
         "destination": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Destination phone number"
         },
         "delay": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Delay"
         }
       },
@@ -7971,47 +7971,47 @@
       "parameters": {
         "callhunting": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Callhunting"
         },
         "description": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Description or note"
         },
         "music": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Music"
         },
         "recording": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Recording file or ID"
         },
         "language": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Language"
         },
         "order": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Order"
         },
         "members": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Members"
         },
         "ring_time": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Ring Time"
         },
         "press": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Press"
         }
       },
@@ -8032,7 +8032,7 @@
       "parameters": {
         "conference": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Conference"
         }
       },
@@ -8054,132 +8054,132 @@
       "parameters": {
         "conference": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Conference"
         },
         "name": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Name"
         },
         "description": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Description or note"
         },
         "members": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Members"
         },
         "max_members": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Max Members"
         },
         "sound_join": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sound Join"
         },
         "sound_leave": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sound Leave"
         },
         "sound_has_joined": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sound Has Joined"
         },
         "sound_has_left": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sound Has Left"
         },
         "sound_kicked": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sound Kicked"
         },
         "sound_muted": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sound Muted"
         },
         "sound_unmuted": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sound Unmuted"
         },
         "sound_only_person": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sound Only Person"
         },
         "sound_only_one": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sound Only One"
         },
         "sound_there_are": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sound There Are"
         },
         "sound_other_in_party": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sound Other In Party"
         },
         "sound_place_into_conference": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sound Place Into Conference"
         },
         "sound_get_pin": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sound Get Pin"
         },
         "sound_invalid_pin": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sound Invalid Pin"
         },
         "sound_locked": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sound Locked"
         },
         "sound_locked_now": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sound Locked Now"
         },
         "sound_unlocked_now": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sound Unlocked Now"
         },
         "sound_error_menu": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sound Error Menu"
         },
         "sound_participants_muted": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sound Participants Muted"
         },
         "sound_participants_unmuted": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Sound Participants Unmuted"
         },
         "language": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Language"
         }
       },
@@ -8200,7 +8200,7 @@
       "parameters": {
         "conference": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Conference"
         }
       },
@@ -8221,12 +8221,12 @@
       "parameters": {
         "member": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Member"
         },
         "conference": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Conference"
         }
       },
@@ -8248,12 +8248,12 @@
       "parameters": {
         "member": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Member"
         },
         "conference": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Conference"
         }
       },
@@ -8274,7 +8274,7 @@
       "parameters": {
         "member": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Member"
         }
       },
@@ -8296,7 +8296,7 @@
       "parameters": {
         "conference": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Conference"
         },
         "date_from": {
@@ -8332,12 +8332,12 @@
       "parameters": {
         "conference": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Conference"
         },
         "recording": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Recording file or ID"
         }
       },
@@ -8359,7 +8359,7 @@
       "parameters": {
         "member": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Member"
         }
       },
@@ -8380,92 +8380,92 @@
       "parameters": {
         "member": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Member"
         },
         "conference": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Conference"
         },
         "name": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Name"
         },
         "description": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Description or note"
         },
         "pin": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Pin"
         },
         "announce_join_leave": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Announce Join Leave"
         },
         "admin": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Admin"
         },
         "start_muted": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Start Muted"
         },
         "announce_user_count": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Announce User Count"
         },
         "announce_only_user": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Announce Only User"
         },
         "moh_when_empty": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Moh When Empty"
         },
         "quiet": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Quiet"
         },
         "announcement": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Announcement"
         },
         "drop_silence": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Drop Silence"
         },
         "talking_threshold": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Talking Threshold"
         },
         "silence_threshold": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Silence Threshold"
         },
         "talk_detection": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Talk Detection"
         },
         "jitter_buffer": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Jitter Buffer"
         }
       },
@@ -8486,107 +8486,107 @@
       "parameters": {
         "portType": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Porttype"
         },
         "numbers": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Numbers"
         },
         "isPartial": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Ispartial"
         },
         "locationType": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Locationtype"
         },
         "isMobile": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Ismobile"
         },
         "pin": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Pin"
         },
         "btn": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Btn"
         },
         "services": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Services"
         },
         "tfType": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Tftype"
         },
         "statementName": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Statementname"
         },
         "firstName": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Firstname"
         },
         "lastName": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Lastname"
         },
         "address1": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Address1"
         },
         "address2": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Address2"
         },
         "city": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "City"
         },
         "zip": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Zip"
         },
         "state": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "State"
         },
         "country": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Country"
         },
         "providerName": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Providername"
         },
         "providerAccount": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Provideraccount"
         },
         "notes": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Notes"
         }
       },
@@ -8615,7 +8615,7 @@
         },
         "file": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "File"
         }
       },
@@ -8708,17 +8708,17 @@
         },
         "portStatus": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Portstatus"
         },
         "startDate": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Startdate"
         },
         "endDate": {
           "type": "string",
-          "required": true,
+          "required": false,
           "description": "Enddate"
         }
       },
@@ -8788,7 +8788,7 @@
       "parameters": {
         "attachid": {
           "type": "integer",
-          "required": true,
+          "required": false,
           "description": "Attachid"
         }
       },
@@ -8961,7 +8961,7 @@
     }
   },
   "metadata": {
-    "generated_at": "2025-07-17T18:23:58.210340",
+    "generated_at": "2025-07-17T22:07:44.146706",
     "generator_version": "2.0",
     "documentation_source": "WSDL + HTML",
     "total_operations": 217,

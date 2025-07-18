@@ -93,11 +93,15 @@ class EnhancedVoIPMSJSONGenerator:
                 # Enhance parameter descriptions
                 for param_name, param_info in html_info.get('parameters', {}).items():
                     if param_name in operation['parameters']:
+                        # Update with HTML documentation info
                         operation['parameters'][param_name].update({
                             'description': param_info.get('description', ''),
                             'example': param_info.get('example'),
                             'validation': param_info.get('validation')
                         })
+                        # Use required info from HTML if available
+                        if 'required' in param_info:
+                            operation['parameters'][param_name]['required'] = param_info['required']
                         
                 # Add output example
                 if html_info.get('output_example'):

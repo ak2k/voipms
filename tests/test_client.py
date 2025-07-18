@@ -73,7 +73,7 @@ class TestVoIPMSClient:
             'VOIPMS_PASSWORD': 'testpass'
         }):
             client = VoIPMSClient()
-            result = client.getBalance()
+            result = client.getBalance(advanced=True)
             
             assert result['status'] == 'success'
             assert result['balance']['current_balance'] == '100.50'
@@ -138,5 +138,5 @@ class TestVoIPMSClientAsync:
             'VOIPMS_PASSWORD': 'testpass'
         }):
             async with VoIPMSClientAsync() as client:
-                result = await client.getBalance()
+                result = await client.getBalance(advanced=True)
                 assert result['status'] == 'success'
