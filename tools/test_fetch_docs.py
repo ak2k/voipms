@@ -70,8 +70,24 @@ def main():
             
     except Exception as e:
         print(f"\n❌ Error: {e}")
-        import traceback
-        traceback.print_exc()
+        
+        # Check if we have the HTML already
+        existing_html = "../resources/VoIP.ms - API Documentation.html"
+        if Path(existing_html).exists():
+            print(f"\n✅ Good news: You already have the documentation at:")
+            print(f"   {Path(existing_html).absolute()}")
+            file_size = Path(existing_html).stat().st_size
+            print(f"   File size: {file_size:,} bytes")
+            
+            with open(existing_html, 'r', encoding='utf-8') as f:
+                content = f.read()
+                
+            if '[Required]' in content and 'api_username' in content:
+                print("   ✓ Contains complete API documentation")
+                import re
+                methods = re.findall(r'<td class="toptitlex normaltextbold">(\w+)</td>', content)
+                unique_methods = set(methods)
+                print(f"   ✓ Found {len(unique_methods)} API methods")
         
 
 if __name__ == "__main__":

@@ -82,6 +82,27 @@ class SimpleVoIPMSDocumentationFetcher:
             
             return True
             
+        except requests.HTTPError as e:
+            print(f"Failed to get login page: {e}")
+            
+            # Check if it's a Cloudflare challenge
+            if e.response is not None:
+                # Save the response for debugging
+                with open('cloudflare_response.html', 'w') as f:
+                    f.write(e.response.text)
+                    
+                if 'cloudflare' in e.response.text.lower() or 'Just a moment' in e.response.text:
+                    print("\n⚠️  Cloudflare protection detected!")
+                    print("   VoIP.ms uses Cloudflare to prevent automated access.")
+                    print("   Please download the documentation manually:")
+                    print("   1. Open https://voip.ms in a web browser")
+                    print("   2. Log in with your credentials")
+                    print("   3. Navigate to the API documentation")
+                    print("   4. Save the page as 'VoIP.ms - API Documentation.html'")
+                    print("   5. Place it in the resources/ directory")
+                    
+            return False
+            
         except Exception as e:
             print(f"Failed to get login page: {e}")
             return False
