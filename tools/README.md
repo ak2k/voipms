@@ -60,25 +60,49 @@ This creates:
 
 When VoIP.ms updates their API:
 
-1. **Regenerate the API definition**:
+1. **Update the HTML documentation in resources/**:
+   
+   The generator fetches WSDL automatically, but you need to update the HTML documentation:
+   
+   **HTML Documentation** (Requires VoIP.ms login):
+   ```bash
+   # Option 1: Use the download tool (requires credentials)
+   export VOIPMS_USERNAME='your-email@example.com'
+   export VOIPMS_PASSWORD='your-website-password'
+   uv run tools/download_api_docs.py
+   cp api_docs_redirected.html resources/voipms_api_documentation.html
+   
+   # Option 2: Manual download
+   # 1. Login to https://voip.ms
+   # 2. Navigate to https://voip.ms/m/apidocs.php
+   # 3. Save the page as resources/voipms_api_documentation.html
+   ```
+
+2. **Regenerate the API definition**:
    ```bash
    uv run tools/generate_api_definition.py
    ```
+   
+   This will:
+   - Parse the WSDL from `resources/server.wsdl`
+   - Extract metadata from `resources/voipms_api_documentation.html`
+   - Generate `src/voipms/api_definition.json`
 
-2. **Regenerate type stubs**:
+3. **Regenerate type stubs**:
    ```bash
    uv run tools/generate_type_stubs.py
    ```
 
-3. **Test the changes**:
+4. **Test the changes**:
    ```bash
-   # Run any validation tests
-   uv run python -m pytest tests/
+   # Verify the client still works
+   uv run python -c "from src.voipms import VoIPMSClient; print(f'Loaded {len(VoIPMSClient().get_available_methods())} methods')"
    ```
 
 ## Notes
 
-- The API definition is automatically loaded by the client
-- WSDL is fetched directly from VoIP.ms (no authentication needed)
-- HTML documentation parsing uses the local copy in `resources/`
-- All tools use PEP 723 inline dependencies (uv handles installation)
+- The API definition is automatically loaded by the client from `src/voipms/api_definition.json`
+- WSDL is fetched automatically from https://voip.ms/api/v1/server.wsdl
+- HTML documentation must be manually updated in `resources/voipms_api_documentation.html`
+- HTML docs require VoIP.ms login to access (https://voip.ms/m/apidocs.php)
+- All tools use PEP 723 inline dependencies (uv handles installation automatically)
