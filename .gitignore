@@ -67,10 +67,10 @@ venv.bak/
 .DS_Store
 
 # Project specific
-*.html
-!VoIP.ms - API Documentation.html
 api_docs_*.html
 temp_*.json
+tools/*.html
+!resources/*.html
 
 # External files
 API/

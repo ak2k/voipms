@@ -19,7 +19,7 @@ from fetch_documentation_simple import SimpleVoIPMSDocumentationFetcher
 class EnhancedVoIPMSJSONGenerator:
     """Enhanced generator that combines WSDL and HTML documentation"""
     
-    def __init__(self, wsdl_path: str = "server.wsdl"):
+    def __init__(self, wsdl_path: str = "../resources/server.wsdl"):
         self.wsdl_path = wsdl_path
         self.base_generator = VoIPMSAPIJSONGenerator(wsdl_path)
         
@@ -197,7 +197,7 @@ if __name__ == "__main__":
     
     # Check for existing HTML file
     existing_html = None
-    for possible_file in ["VoIP.ms - API Documentation.html", "api_docs_fetched.html", "api_docs_enriched.html"]:
+    for possible_file in ["../resources/VoIP.ms - API Documentation.html", "VoIP.ms - API Documentation.html", "api_docs_fetched.html", "api_docs_enriched.html"]:
         if Path(possible_file).exists():
             existing_html = possible_file
             break

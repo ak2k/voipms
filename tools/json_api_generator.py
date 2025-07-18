@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 class VoIPMSAPIJSONGenerator:
     """Generates comprehensive JSON API definition from WSDL and HTML sources"""
     
-    def __init__(self, wsdl_path: str = "server.wsdl", html_path: Optional[str] = None):
+    def __init__(self, wsdl_path: str = "../resources/server.wsdl", html_path: Optional[str] = None):
         self.wsdl_path = wsdl_path
         self.html_path = html_path
         self.namespaces = {

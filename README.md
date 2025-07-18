@@ -71,6 +71,9 @@ voipms-python/
 │   ├── __init__.py
 │   ├── client.py        # Data-driven client implementation
 │   └── voipms_api_enriched.json  # API definition
+├── resources/           # Source files for API definition
+│   ├── server.wsdl      # VoIP.ms WSDL file
+│   └── VoIP.ms - API Documentation.html  # HTML docs
 ├── tools/               # Generation tools
 │   ├── enhanced_json_generator.py
 │   ├── json_api_generator.py
