@@ -5,11 +5,11 @@ Async example of using the VoIP.ms Python client
 
 import asyncio
 import os
-from voipms import AsyncVoIPMSClient
+from voipms import VoIPMSClientAsync
 
 async def main():
     # Create async client
-    async with AsyncVoIPMSClient() as client:
+    async with VoIPMSClientAsync() as client:
         # Run multiple requests concurrently
         print("Fetching data concurrently...")
         

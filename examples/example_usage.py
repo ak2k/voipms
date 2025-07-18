@@ -8,7 +8,7 @@ import sys
 import json
 import asyncio
 from typing import Dict, Any
-from voipms import VoIPMSClient, AsyncVoIPMSClient
+from voipms import VoIPMSClient, VoIPMSClientAsync
 
 
 def test_with_enriched_api():
@@ -113,7 +113,7 @@ async def test_async_client():
         return
         
     try:
-        async with AsyncVoIPMSClient(debug=True) as client:
+        async with VoIPMSClientAsync(debug=True) as client:
             
             print("\n1. Testing async getBalance()...")
             try:

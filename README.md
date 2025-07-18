@@ -52,11 +52,11 @@ print(f"Found {len(servers['servers'])} servers")
 
 3. **Async example:**
 ```python
-from voipms import AsyncVoIPMSClient
+from voipms import VoIPMSClientAsync
 import asyncio
 
 async def main():
-    async with AsyncVoIPMSClient() as client:
+    async with VoIPMSClientAsync() as client:
         balance = await client.getBalance()
         print(f"Balance: ${balance['balance']['current_balance']}")
 

@@ -28,12 +28,12 @@ class VoIPMSError(Exception):
         super().__init__(f"{code}: {message}")
 
 
-class DataDrivenVoIPMSClient:
+class VoIPMSClient:
     """
     Data-driven VoIP.ms client that dynamically creates methods from JSON definition
     
     Example:
-        >>> client = DataDrivenVoIPMSClient()
+        >>> client = VoIPMSClient()
         >>> balance = client.getBalance()
         >>> print(f"Balance: ${balance['balance']['current_balance']}")
     """
@@ -296,12 +296,12 @@ class DataDrivenVoIPMSClient:
         return self.api_definition.get('operations', {}).get(method_name)
 
 
-class AsyncDataDrivenVoIPMSClient(DataDrivenVoIPMSClient):
+class VoIPMSClientAsync(VoIPMSClient):
     """
     Asynchronous data-driven VoIP.ms client
     
     Example:
-        >>> async with AsyncDataDrivenVoIPMSClient() as client:
+        >>> async with VoIPMSClientAsync() as client:
         ...     balance = await client.getBalance()
         ...     print(f"Balance: ${balance['balance']['current_balance']}")
     """

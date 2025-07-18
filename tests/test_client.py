@@ -6,7 +6,7 @@ import pytest
 import json
 from pathlib import Path
 from unittest.mock import patch, MagicMock
-from voipms import VoIPMSClient, AsyncVoIPMSClient, VoIPMSError
+from voipms import VoIPMSClient, VoIPMSClientAsync, VoIPMSError
 
 
 class TestVoIPMSClient:
@@ -102,7 +102,7 @@ class TestVoIPMSClient:
             
 
 @pytest.mark.asyncio
-class TestAsyncVoIPMSClient:
+class TestVoIPMSClientAsync:
     """Test asynchronous client"""
     
     async def test_async_client_initialization(self):
@@ -111,7 +111,7 @@ class TestAsyncVoIPMSClient:
             'VOIPMS_USERNAME': 'test@example.com',
             'VOIPMS_PASSWORD': 'testpass'
         }):
-            async with AsyncVoIPMSClient() as client:
+            async with VoIPMSClientAsync() as client:
                 assert hasattr(client, 'getBalance')
                 assert callable(client.getBalance)
                 
@@ -137,6 +137,6 @@ class TestAsyncVoIPMSClient:
             'VOIPMS_USERNAME': 'test@example.com',
             'VOIPMS_PASSWORD': 'testpass'
         }):
-            async with AsyncVoIPMSClient() as client:
+            async with VoIPMSClientAsync() as client:
                 result = await client.getBalance()
                 assert result['status'] == 'success'
