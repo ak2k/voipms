@@ -1,22 +1,50 @@
 # API Source Files
 
-This directory contains the source files used to generate the API definition:
+This directory contains source documentation used to enhance the API definition.
 
 ## Files
 
-- **server.wsdl** - The official VoIP.ms SOAP/WSDL file that defines the API structure
-- **VoIP.ms - API Documentation.html** - The HTML documentation from VoIP.ms that contains detailed parameter descriptions and examples
+- **server.wsdl** - VoIP.ms WSDL file (kept for reference, but fetched automatically during generation)
+- **voipms_api_documentation.html** - HTML documentation with detailed parameter metadata
 
-## Updating
+## Updating Documentation
 
-To get the latest WSDL file:
-1. Download from VoIP.ms API documentation page
-2. Replace `server.wsdl` in this directory
+### WSDL (Automatic)
+The WSDL is automatically fetched from https://voip.ms/api/v1/server.wsdl when running the generator.
+No manual update needed.
 
-To get the latest HTML documentation:
-1. Use the fetch tool: `python ../tools/fetch_documentation_simple.py`
-2. Or manually save the HTML from the VoIP.ms customer portal API documentation page
+### HTML Documentation (Manual)
+The HTML documentation requires VoIP.ms login and must be updated manually:
+
+**Option 1: Using the download tool**
+```bash
+export VOIPMS_USERNAME='your-email@example.com'
+export VOIPMS_PASSWORD='your-website-password'
+uv run tools/download_api_docs.py
+cp api_docs_redirected.html resources/voipms_api_documentation.html
+```
+
+**Option 2: Manual download**
+1. Login to https://voip.ms
+2. Navigate to https://voip.ms/m/apidocs.php
+3. Save the complete page as `voipms_api_documentation.html` in this directory
+
+## Usage
+
+After updating the HTML documentation, regenerate the API definition:
+```bash
+uv run tools/generate_api_definition.py
+```
+
+This combines:
+- Fresh WSDL structure (fetched automatically)
+- Enhanced metadata from the HTML documentation (constraints, enums, error codes)
 
 ## Note
 
-These files are the source of truth for the API definition. The JSON file in `src/voipms/` is generated from these files.
+The HTML documentation is essential for:
+- Parameter constraints (min/max values, string lengths)
+- Enum values (valid options for parameters)
+- Error code descriptions
+- Default values and units
+- Required/optional parameter detection
