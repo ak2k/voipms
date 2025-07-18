@@ -1,0 +1,176 @@
+{
+  "test_cases": [
+    {
+      "file": "00.evaluate-response.php",
+      "method": "getLanguages",
+      "description": "Evaluate Response",
+      "parameters": {},
+      "response_checks": [],
+      "has_error_handling": false
+    },
+    {
+      "file": "01.registration-status.php",
+      "method": "getRegistrationStatus",
+      "description": "Registration Status",
+      "parameters": {
+        "account": "100001_VoIP"
+      },
+      "response_checks": [
+        {
+          "field": "status",
+          "expected": "success",
+          "type": "equality"
+        },
+        {
+          "field": "registered",
+          "type": "exists"
+        },
+        {
+          "field": "registrations",
+          "type": "exists"
+        }
+      ],
+      "has_error_handling": true
+    },
+    {
+      "file": "02.client-login.php",
+      "method": "getClients",
+      "description": "Client Login",
+      "parameters": {
+        "email": "Jane.doe@mydomain.com"
+      },
+      "response_checks": [
+        {
+          "field": "status",
+          "expected": "success",
+          "type": "equality"
+        },
+        {
+          "field": "clients",
+          "type": "exists"
+        }
+      ],
+      "has_error_handling": true
+    },
+    {
+      "file": "03.client-accounts.php",
+      "method": "getSubAccounts",
+      "description": "Client Accounts",
+      "parameters": {
+        "account": "500000"
+      },
+      "response_checks": [
+        {
+          "field": "status",
+          "expected": "success",
+          "type": "equality"
+        },
+        {
+          "field": "accounts",
+          "type": "exists"
+        }
+      ],
+      "has_error_handling": true
+    },
+    {
+      "file": "04.voicemails.php",
+      "method": "getVoicemails",
+      "description": "Voicemails",
+      "parameters": {
+        "mailbox": "900000"
+      },
+      "response_checks": [
+        {
+          "field": "status",
+          "expected": "success",
+          "type": "equality"
+        },
+        {
+          "field": "accounts",
+          "type": "exists"
+        },
+        {
+          "field": "voicemails",
+          "type": "exists"
+        }
+      ],
+      "has_error_handling": true
+    },
+    {
+      "file": "05.clients.php",
+      "method": "getClients",
+      "description": "Clients",
+      "parameters": {},
+      "response_checks": [
+        {
+          "field": "status",
+          "expected": "success",
+          "type": "equality"
+        },
+        {
+          "field": "clients",
+          "type": "exists"
+        }
+      ],
+      "has_error_handling": true
+    },
+    {
+      "file": "06.packages.php",
+      "method": "getPackages",
+      "description": "Packages",
+      "parameters": {},
+      "response_checks": [
+        {
+          "field": "status",
+          "expected": "success",
+          "type": "equality"
+        },
+        {
+          "field": "packages",
+          "type": "exists"
+        }
+      ],
+      "has_error_handling": true
+    },
+    {
+      "file": "07.CDR.php",
+      "method": "getCDR",
+      "description": "Cdr",
+      "parameters": {},
+      "response_checks": [
+        {
+          "field": "status",
+          "expected": "success",
+          "type": "equality"
+        },
+        {
+          "field": "cdr",
+          "type": "exists"
+        }
+      ],
+      "has_error_handling": true
+    },
+    {
+      "file": "08.CDR-Reseller.php",
+      "method": "getResellerCDR",
+      "description": "Cdr Reseller",
+      "parameters": {},
+      "response_checks": [
+        {
+          "field": "status",
+          "expected": "success",
+          "type": "equality"
+        },
+        {
+          "field": "cdr",
+          "type": "exists"
+        }
+      ],
+      "has_error_handling": true
+    }
+  ],
+  "metadata": {
+    "source": "VoIP.ms PHP REST examples",
+    "total_cases": 9
+  }
+}
