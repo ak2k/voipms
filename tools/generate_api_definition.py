@@ -22,8 +22,8 @@ from bs4 import BeautifulSoup
 import sys
 sys.path.append(str(Path(__file__).parent))
 
-# Import our final parser
-from parse_html_docs_final import FinalVoIPMSDocumentationParser
+# Import our HTML parser
+from parse_html_docs import FinalVoIPMSDocumentationParser
 
 class FinalVoIPMSJSONGenerator:
     """Final generator that creates comprehensive API definitions"""
@@ -192,7 +192,7 @@ class FinalVoIPMSJSONGenerator:
         self.base_api_def['operations'] = operations
         
         # Step 4: Write to file
-        output_file = Path("src/voipms/api_definition_final.json")
+        output_file = Path("src/voipms/api_definition.json")
         output_file.parent.mkdir(exist_ok=True)
         
         with open(output_file, 'w') as f:
