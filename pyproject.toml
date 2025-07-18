@@ -30,6 +30,9 @@ classifiers = [
 dependencies = [
     "httpx>=0.24.0",
     "pydantic>=2.0.0",
+    "rich-click>=1.7.0",
+    "rich>=13.0.0",
+    "python-dotenv>=1.0.0",
 ]
 
 [project.optional-dependencies]
@@ -50,6 +53,9 @@ generate = [
     "requests>=2.31.0",
 ]
 
+[project.scripts]
+voipms = "voipms.cli:main"
+
 [project.urls]
 Homepage = "https://github.com/yourusername/voipms-python"
 Documentation = "https://voipms-python.readthedocs.io"
@@ -60,7 +66,7 @@ Issues = "https://github.com/yourusername/voipms-python/issues"
 where = ["src"]
 
 [tool.setuptools.package-data]
-voipms = ["*.json"]
+voipms = ["*.json", "*.pyi", "py.typed"]
 
 [tool.black]
 line-length = 100

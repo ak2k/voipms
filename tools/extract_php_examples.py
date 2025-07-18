@@ -1,4 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/env uv run
+# /// script
+# requires-python = ">=3.11"
+# dependencies = []
+# ///
 """
 Extract test data from PHP examples to create Python test fixtures
 """

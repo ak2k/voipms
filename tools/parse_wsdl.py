@@ -1,7 +1,11 @@
-#!/usr/bin/env python3
+#!/usr/bin/env uv run
+# /// script
+# requires-python = ">=3.11"
+# dependencies = []
+# ///
 """
-VoIP.ms API JSON Generator
-Extracts comprehensive API definition from WSDL and HTML documentation
+VoIP.ms WSDL Parser
+Extracts API structure and operations from WSDL file
 """
 
 import xml.etree.ElementTree as ET
@@ -58,7 +62,7 @@ class VoIPMSAPIJSONGenerator:
             "error_codes": {}
         }
         
-    def generate(self, output_path: str = "voipms_api.json") -> Dict[str, Any]:
+    def generate(self, output_path: str = "../src/voipms/api_definition.json") -> Dict[str, Any]:
         """Generate comprehensive API definition JSON"""
         logger.info("Starting API definition generation...")
         

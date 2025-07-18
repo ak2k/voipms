@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "generated_at": "2025-07-18T16:57:13.758281",
+  "generated_at": "2025-07-18T18:09:37.708762",
   "base_url": "https://voip.ms/api/v1/rest.php",
   "authentication": {
     "type": "api_credentials",
@@ -744,9 +744,9 @@
           "multiple": true,
           "delimiter": ",",
           "examples": [
-            "device.mydomain.com",
-            "123",
             "10.255.12.0/22",
+            "123",
+            "device.mydomain.com",
             "123.45.3.21"
           ]
         },
@@ -1857,10 +1857,10 @@
           "description": "Parameter could have the following values: * Empty Value [Not Required] * Specific Reseller Client ID (Example: 561115) * Specific Reseller Client e-mail  (Example: 'john.doe@mydomain.com')",
           "format": "email",
           "examples": [
-            "561115",
+            "561115) * Specific Reseller Client e-mail  (Example: 'john",
             "john.doe@mydomain.com",
-            "'john.doe@mydomain.com'",
-            "561115) * Specific Reseller Client e-mail  (Example: 'john"
+            "561115",
+            "'john.doe@mydomain.com'"
           ]
         }
       },
@@ -2032,10 +2032,10 @@
           "required": false,
           "description": "Parameter could have the following values: * Empty Value [Not Required] * Specific Reseller Client ID (Example: 561115) * Specific Sub Account (Example: '100001_VoIP')",
           "examples": [
-            "561115",
-            "561115) * Specific Sub Account (Example: '100001_VoIP')",
             "'100001_VoIP'",
-            "100001_VoIP"
+            "100001_VoIP",
+            "561115",
+            "561115) * Specific Sub Account (Example: '100001_VoIP')"
           ]
         },
         "did": {
@@ -2941,10 +2941,10 @@
           "description": "Start Date for Filtering SMSs (Example: '2014-03-30') - Default value: Today",
           "default": "Today",
           "examples": [
-            "'2014-03-30') - Default value: Today",
-            "2014-03-30",
             "'2014-03-30')",
-            "'2014-03-30'"
+            "'2014-03-30'",
+            "'2014-03-30') - Default value: Today",
+            "2014-03-30"
           ]
         },
         "to": {
@@ -2987,8 +2987,8 @@
           "default": "50",
           "examples": [
             "20",
-            "20) - Default value: 50",
-            "20)"
+            "20)",
+            "20) - Default value: 50"
           ]
         },
         "timezone": {
@@ -3032,10 +3032,10 @@
           "description": "Start Date for Filtering SMSs (Example: '2014-03-30') - Default value: Today",
           "default": "Today",
           "examples": [
-            "'2014-03-30') - Default value: Today",
-            "2014-03-30",
             "'2014-03-30')",
-            "'2014-03-30'"
+            "'2014-03-30'",
+            "'2014-03-30') - Default value: Today",
+            "2014-03-30"
           ]
         },
         "to": {
@@ -3078,8 +3078,8 @@
           "default": "50",
           "examples": [
             "20",
-            "20) - Default value: 50",
-            "20)"
+            "20)",
+            "20) - Default value: 50"
           ]
         },
         "timezone": {
@@ -3228,10 +3228,10 @@
           "description": "Start Date for Filtering SMSs (Example: '2014-03-30') - Default value: Today",
           "default": "Today",
           "examples": [
-            "'2014-03-30') - Default value: Today",
-            "2014-03-30",
             "'2014-03-30')",
-            "'2014-03-30'"
+            "'2014-03-30'",
+            "'2014-03-30') - Default value: Today",
+            "2014-03-30"
           ]
         },
         "to": {
@@ -3240,10 +3240,10 @@
           "description": "End Date for Filtering SMSs (Example: '2014-03-30') - Default value: Today",
           "default": "Today",
           "examples": [
-            "'2014-03-30') - Default value: Today",
-            "2014-03-30",
             "'2014-03-30')",
-            "'2014-03-30'"
+            "'2014-03-30'",
+            "'2014-03-30') - Default value: Today",
+            "2014-03-30"
           ]
         },
         "type": {
@@ -3276,8 +3276,8 @@
           "default": "50",
           "examples": [
             "20",
-            "20) - Default value: 50",
-            "20)"
+            "20)",
+            "20) - Default value: 50"
           ]
         },
         "timezone": {
@@ -3320,10 +3320,10 @@
           "description": "Start Date for Filtering MMSs (Example: '2014-03-30') - Default value: Today",
           "default": "Today",
           "examples": [
-            "'2014-03-30') - Default value: Today",
-            "2014-03-30",
             "'2014-03-30')",
-            "'2014-03-30'"
+            "'2014-03-30'",
+            "'2014-03-30') - Default value: Today",
+            "2014-03-30"
           ]
         },
         "to": {
@@ -3332,10 +3332,10 @@
           "description": "End Date for Filtering MMSs (Example: '2014-03-30') - Default value: Today",
           "default": "Today",
           "examples": [
-            "'2014-03-30') - Default value: Today",
-            "2014-03-30",
             "'2014-03-30')",
-            "'2014-03-30'"
+            "'2014-03-30'",
+            "'2014-03-30') - Default value: Today",
+            "2014-03-30"
           ]
         },
         "type": {
@@ -3368,8 +3368,8 @@
           "default": "50",
           "examples": [
             "20",
-            "20) - Default value: 50",
-            "20)"
+            "20)",
+            "20) - Default value: 50"
           ]
         },
         "timezone": {
@@ -3450,8 +3450,8 @@
           "required": false,
           "description": "ID for a specific Static Member (Example: 163) - The Member must belong to the queue provided",
           "examples": [
-            "163) - The Member must belong to the queue provided",
             "163",
+            "163) - The Member must belong to the queue provided",
             "163)"
           ],
           "validation": {
@@ -3476,8 +3476,8 @@
           "description": "Parameter could have the following values: * Empty Value [Not Required] * Specific Sub Account (Example: '100000_VoIP') * Specific Reseller Client ID (Example: 561115)",
           "examples": [
             "'100000_VoIP') * Specific Reseller Client ID (Example: 561115)",
-            "'100000_VoIP'",
             "561115",
+            "'100000_VoIP'",
             "100000_VoIP"
           ]
         }
@@ -4854,9 +4854,9 @@
           "description": "Type of Vanity Number Values: '8**', '800', '833', '844', '855', '866', '877', '888'",
           "examples": [
             "844",
-            "855",
-            "833",
             "800",
+            "833",
+            "855",
             "8**"
           ]
         },
@@ -4866,8 +4866,8 @@
           "description": "Query for searching : 7 Chars Examples: '***JHON', '**555**', '**HELLO'",
           "examples": [
             "**555**",
-            "**HELLO",
-            "***JHON"
+            "***JHON",
+            "**HELLO"
           ]
         }
       },
@@ -4996,8 +4996,8 @@
           "required": false,
           "description": "ID for a specific Callback (Example: 2359 / Leave empty to create a new one)",
           "examples": [
-            "2359 / Leave empty to create a new one",
-            "2359 / Leave empty to create a new one)"
+            "2359 / Leave empty to create a new one)",
+            "2359 / Leave empty to create a new one"
           ]
         },
         "description": {
@@ -5491,8 +5491,8 @@
           "required": false,
           "description": "ID for a specific DISA (Example: 2114 / Leave empty to create a new one)",
           "examples": [
-            "2114 / Leave empty to create a new one)",
-            "2114 / Leave empty to create a new one"
+            "2114 / Leave empty to create a new one",
+            "2114 / Leave empty to create a new one)"
           ]
         },
         "name": {
@@ -5532,8 +5532,8 @@
           "required": false,
           "description": "ID for a specific Forwarding (Example: 19183 / Leave empty to create a new one)",
           "examples": [
-            "19183 / Leave empty to create a new one)",
-            "19183 / Leave empty to create a new one"
+            "19183 / Leave empty to create a new one",
+            "19183 / Leave empty to create a new one)"
           ]
         },
         "phone_number": {
@@ -5563,8 +5563,8 @@
           "description": "Pause (seconds) when call is answered before sending digits (Example: 1.5 / Values: 0 to 10 in increments of 0.5)",
           "units": "seconds",
           "examples": [
-            "1",
-            "1.5 / Values: 0 to 10 in increments of 0.5"
+            "1.5 / Values: 0 to 10 in increments of 0.5",
+            "1"
           ]
         },
         "diversion_header": {
@@ -5589,8 +5589,8 @@
           "required": false,
           "description": "ID for a specific IVR (Example: 4636 / Leave empty to create a new one)",
           "examples": [
-            "4636 / Leave empty to create a new one",
-            "4636 / Leave empty to create a new one)"
+            "4636 / Leave empty to create a new one)",
+            "4636 / Leave empty to create a new one"
           ]
         },
         "name": {
@@ -5850,9 +5850,9 @@
           "required": true,
           "description": "How caller leave the queue (Values 'yes'/'no'/'strict') Examples: yes     Callers are sent to failover when there are no members no      Callers will remain in the queue even if there are no members strict  Callers are sent to failover if there are members but none of them is available.",
           "examples": [
-            "no",
             "yes",
-            "strict"
+            "strict",
+            "no"
           ]
         },
         "ring_strategy": {
@@ -5937,9 +5937,9 @@
           "required": false,
           "description": " Include estimated hold time in position announcements (Values 'yes'/'no'/'once')",
           "examples": [
+            "yes",
             "once",
-            "no",
-            "yes"
+            "no"
           ]
         },
         "thankyou_for_your_patience": {
@@ -5947,9 +5947,9 @@
           "required": false,
           "description": "Yes to say \"Thank you for your patience\" immediatly after announcing Queue Position and Estimated hold time left (Values 'yes'/'no')",
           "examples": [
-            "no",
             "yes",
-            "Thank you for your patience"
+            "Thank you for your patience",
+            "no"
           ]
         },
         "music_on_hold": {
@@ -6006,8 +6006,8 @@
           "description": "ID for a specific Phonebook entry (Example: 33221 / Leave empty to create a new one)",
           "format": "phone",
           "examples": [
-            "33221 / Leave empty to create a new one",
-            "33221 / Leave empty to create a new one)"
+            "33221 / Leave empty to create a new one)",
+            "33221 / Leave empty to create a new one"
           ]
         },
         "file": {
@@ -6089,8 +6089,8 @@
           "values_from": "getLanguages",
           "examples": [
             "account:100001,25,0;fwd:16006,10,1",
-            "members",
-            "'account:100001"
+            "'account:100001",
+            "members"
           ]
         }
       },
@@ -6444,9 +6444,9 @@
           "multiple": true,
           "delimiter": ",",
           "examples": [
-            "device.mydomain.com",
-            "123",
             "10.255.12.0/22",
+            "123",
+            "device.mydomain.com",
             "123.45.3.21"
           ]
         },

@@ -1,6 +1,19 @@
-#!/usr/bin/env python3
+#!/usr/bin/env uv run
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "httpx>=0.24.0",
+#     "pydantic>=2.0.0",
+#     "python-dotenv>=1.0.0",
+# ]
+# ///
 """
-Simple example of using the VoIP.ms Python client
+Basic usage of the VoIP.ms Python client
+
+Shows the simplest way to:
+- Get account balance
+- Check registration status  
+- List available servers
 """
 
 import os

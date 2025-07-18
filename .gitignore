@@ -50,7 +50,6 @@ coverage.xml
 cover/
 
 # Virtual environments
-.env
 .venv
 env/
 venv/
@@ -81,6 +80,7 @@ VoIP.ms - Customer Portal_ API Documentation_files/
 .env
 .env.local
 .env.*.local
+.envrc
 
 # Documentation builds
 docs/_build/

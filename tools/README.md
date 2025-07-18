@@ -1,72 +1,67 @@
 # VoIP.ms API Tools
 
-This directory contains tools for generating and maintaining the VoIP.ms API definition.
+This directory contains tools for maintaining and updating the VoIP.ms API client.
 
-## Tools
+## Essential Tools
 
-### 1. enhanced_json_generator.py
-Main tool that combines WSDL structure with HTML documentation to create a comprehensive API definition.
-
-```bash
-# Generate API definition using existing HTML documentation
-python enhanced_json_generator.py
-
-# Output: voipms_api_enriched.json
-```
-
-### 2. fetch_documentation_simple.py
-Downloads the authenticated API documentation from VoIP.ms website.
+### 1. `download_api_docs.py`
+Downloads the latest API documentation from VoIP.ms using Playwright.
 
 ```bash
-# Set credentials
-export VOIPMS_USERNAME='your-email@example.com'
-export VOIPMS_PASSWORD='your-password'
+# Install Playwright browser first (one-time setup)
+uv run --with playwright playwright install chromium
 
-# Test fetching documentation
-python test_fetch_docs.py
+# Run the downloader (dependencies handled automatically)
+./download_api_docs.py
 ```
 
-**Note**: The fetcher performs these steps:
-1. Gets the login page
-2. Logs in with your credentials
-3. Fetches the API documentation page
-4. Saves it as HTML
+This will:
+- Open a browser window
+- Login to VoIP.ms automatically (using VOIPMS_USERNAME and VOIPMS_PASSWORD env vars)
+- Navigate to the API documentation
+- Save it as `api_docs_redirected.html`
 
-### 3. json_api_generator.py
-Base generator that parses WSDL to extract API structure.
+### 2. `generate_api_json.py`
+Generates the enriched API definition by combining WSDL and HTML documentation.
 
-### 4. html_documentation_parser.py
-Parses HTML documentation to extract parameter descriptions and requirements.
+```bash
+./generate_api_json.py
+```
 
-### 5. extract_test_data.py
-Extracts test cases from PHP example files.
+This creates `api_definition.json` with:
+- All API operations from the WSDL
+- Enhanced descriptions from HTML docs
+- Parameter requirements and types
+
+## Supporting Files
+
+- `parse_wsdl.py` - WSDL parser that extracts API structure
+- `parse_html_docs.py` - HTML documentation parser for descriptions
+- `extract_php_examples.py` - Extracts test data from PHP examples
 
 ## Workflow
 
-To update the API definition:
+When VoIP.ms updates their API:
 
-1. **Fetch latest documentation** (optional):
+1. **Download latest documentation**:
    ```bash
+   # Set credentials
    export VOIPMS_USERNAME='your-email@example.com'
-   export VOIPMS_PASSWORD='your-password'
-   python test_fetch_docs.py
+   export VOIPMS_PASSWORD='your-website-password'
+   
+   # Download docs
+   ./download_api_docs.py
+   
+   # Copy to resources
+   cp api_docs_redirected.html ../resources/voipms_api_documentation.html
    ```
 
-2. **Generate enriched API definition**:
+2. **Regenerate API definition**:
    ```bash
-   python enhanced_json_generator.py
+   ./generate_api_json.py
    ```
 
-3. **Copy to package**:
-   ```bash
-   cp voipms_api_enriched.json ../src/voipms/
-   ```
-
-4. **Run tests**:
-   ```bash
-   cd ..
-   uv run --with pytest --with pytest-asyncio pytest -v
-   ```
+3. **The client will automatically use the updated definition**
 
 ## Important Notes
 
