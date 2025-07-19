@@ -1,29 +1,31 @@
-# VoIP.ms Python Client
+# voipms
 
-A modern, data-driven Python client for the VoIP.ms API that dynamically creates methods from a JSON API definition.
+[![Python Version](https://img.shields.io/badge/python-3.11%2B-blue)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A modern, type-safe Python client for the VoIP.ms API with Pydantic validation, async support, and a rich CLI.
 
 ## Features
 
-- **Data-Driven Architecture**: All API details stored in JSON, no code generation needed
-- **Dynamic Method Creation**: Methods created at runtime from API definition
-- **Full Documentation**: Rich parameter descriptions from HTML documentation
-- **Type Validation**: Pydantic-based validation with automatic type coercion
-- **Async/Sync Support**: Both synchronous and asynchronous clients
-- **Auto-completion Friendly**: Supports both camelCase and snake_case method names
-- **Easy Updates**: Just regenerate the JSON when the API changes
-- **CLI Support**: Command-line interface for all API methods
+- 🚀 **Complete API Coverage**: All 200+ VoIP.ms API methods dynamically generated from the official WSDL
+- 🔍 **Full Type Safety**: Pydantic models with comprehensive type hints and validation
+- ⚡ **Async Support**: Both sync and async clients for optimal performance
+- 🎨 **Rich CLI**: Beautiful command-line interface with auto-completion and formatted output
+- 📝 **Smart Validation**: Automatic type coercion, date parsing, and constraint validation
+- 🔧 **IDE Friendly**: Generated .pyi stubs for perfect auto-completion
+- 📊 **Data-Driven**: All API metadata in a single JSON file - no manual maintenance
 
 ## Installation
 
 ```bash
-pip install voipms-python
+pip install voipms
 ```
 
 Or install from source:
 
 ```bash
-git clone https://github.com/yourusername/voipms-python.git
-cd voipms-python
+git clone https://github.com/your-username/voipms.git
+cd voipms
 pip install -e .
 ```
 
@@ -31,19 +33,14 @@ pip install -e .
 
 1. **Set your credentials:**
 
-Option A: Copy `.env.example` to `.env` and fill in your credentials:
 ```bash
-cp .env.example .env
-# Edit .env with your credentials
-```
-
-Option B: Export environment variables:
-```bash
+# Get your API credentials from https://voip.ms/m/api.php
 export VOIPMS_USERNAME='your-email@example.com'
 export VOIPMS_API_PASSWORD='your-api-password'
 ```
 
 2. **Use the client:**
+
 ```python
 from voipms import VoIPMSClient
 
@@ -54,12 +51,13 @@ client = VoIPMSClient()
 balance = client.getBalance()
 print(f"Balance: ${balance['balance']['current_balance']}")
 
-# Get server info
-servers = client.getServersInfo()
-print(f"Found {len(servers['servers'])} servers")
+# Get CDR (with automatic date range)
+cdr = client.getCDR(answered=True)
+print(f"Found {len(cdr['cdr'])} calls")
 ```
 
 3. **Async example:**
+
 ```python
 from voipms import VoIPMSClientAsync
 import asyncio
@@ -73,79 +71,123 @@ asyncio.run(main())
 ```
 
 4. **CLI usage:**
+
 ```bash
 # After installation
 voipms getBalance
 voipms getServersInfo
-voipms getDIDsInfo --did=5551234567
+voipms getCDR --answered=true --days=7
 
 # Get help
 voipms --help
 voipms list-methods
-voipms help getBalance
+voipms help getCDR
+```
+
+## Advanced Features
+
+### String-Numeric Validation
+
+The client properly validates string parameters that represent numeric values:
+
+```python
+# These all work correctly:
+client.setDIDInfo(did="5551234567", callerid_prefix="1")  # Valid: "1" is numeric
+client.setDIDInfo(did="5551234567", callerid_prefix=1)    # Also valid: converts to "1"
+
+# This raises ValidationError:
+client.setDIDInfo(did="5551234567", callerid_prefix="abc")  # Invalid: not numeric
+```
+
+### Date Parsing
+
+The client uses dateparser for flexible date inputs:
+
+```python
+# All of these work:
+client.getCDR(date_from="2025-01-01", date_to="2025-01-31")
+client.getCDR(date_from="yesterday", date_to="today")
+client.getCDR(date_from="1 week ago", date_to="now")
+```
+
+### Complete Type Hints
+
+Every method has full type hints with detailed parameter information:
+
+```python
+# Your IDE will show:
+def getCDR(
+    self,
+    date_from: Annotated[str, Field(description="Start date for CDR retrieval")],
+    date_to: Annotated[str, Field(description="End date for CDR retrieval")],
+    answered: Annotated[Literal["0", "1"], Field(description="Include answered calls")] = None,
+    # ... all parameters with descriptions and constraints
+) -> Dict[str, Any]:
 ```
 
 ## Project Structure
 
 ```
-voipms-python/
+voipms/
 ├── src/voipms/          # Main package
 │   ├── __init__.py
 │   ├── client.py        # Data-driven client implementation
-│   └── voipms_api_enriched.json  # API definition
+│   ├── cli.py           # Rich CLI interface
+│   ├── api_definition.json  # Complete API metadata
+│   └── *.pyi            # Generated type stubs
 ├── resources/           # Source files for API definition
 │   ├── server.wsdl      # VoIP.ms WSDL file
-│   └── VoIP.ms - API Documentation.html  # HTML docs
-├── tools/               # Generation tools
-│   ├── enhanced_json_generator.py
-│   ├── json_api_generator.py
-│   ├── html_documentation_parser.py
-│   └── fetch_documentation_simple.py
+│   └── voipms_api_documentation.html  # HTML docs
+├── tools/               # API definition generation tools
+│   ├── generate_api_definition.py
+│   ├── parse_html_docs.py
+│   └── generate_type_stubs.py
 ├── examples/            # Example scripts
-│   ├── simple_example.py
-│   ├── async_example.py
-│   └── example_usage.py
-├── tests/              # Unit tests
-│   └── test_client.py
-└── docs/               # Documentation
+│   ├── basic_usage.py
+│   ├── async_usage.py
+│   └── backup_account_complete.py
+└── tests/              # Test suite
 
 ## Updating the API Definition
 
 When VoIP.ms updates their API:
 
 ```bash
-cd tools
-# With existing HTML documentation
-python enhanced_json_generator.py
+# 1. Update resources with latest WSDL and HTML docs
+cp /path/to/server.wsdl resources/
+cp /path/to/voipms_api_documentation.html resources/
 
-# Copy updated definition to package
-cp voipms_api_enriched.json ../src/voipms/
+# 2. Regenerate API definition
+uv run python3 tools/generate_api_definition.py
+
+# 3. Update type stubs
+uv run python3 tools/generate_type_stubs.py
 ```
 
-## Architecture Benefits
+## Development
 
-1. **No Code Generation**: Methods are created dynamically at runtime
-2. **Single Source of Truth**: All API details in one JSON file
-3. **Easy Maintenance**: Update JSON without touching client code
-4. **Full Introspection**: Query available methods and their documentation
-5. **Type Safety**: Parameters validated against schema
+This project uses [uv](https://github.com/astral-sh/uv) for dependency management:
 
-## Technical Notes
+```bash
+# Install dependencies
+uv sync
 
-- VoIP.ms REST API uses GET requests with query parameters (not POST)
-- All 217+ API methods are dynamically available without code generation
-- Pydantic handles type coercion (e.g., string "123" → int 123 for CLI usage)
-- The API definition JSON contains parameter types, descriptions, and requirements
+# Run tests
+uv run pytest
 
-## Dependencies
+# Run linting
+uv run ruff check .
+uv run mypy src/
+```
 
-- httpx (for HTTP requests)
-- pydantic (for data validation and type coercion)
-- click (for CLI functionality)
-- python-dotenv (for environment variable support)
-- beautifulsoup4 (for HTML parsing, only needed for generation)
-- requests (for fetching docs, only needed for generation)
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This is a community project, not affiliated with VoIP.ms.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Disclaimer
+
+This is an independent project and is not affiliated with or endorsed by VoIP.ms.

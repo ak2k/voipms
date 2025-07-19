@@ -86,3 +86,17 @@ VoIP.ms - Customer Portal_ API Documentation_files/
 docs/_build/
 docs/_static/
 docs/_templates/
+
+# Backup and output files
+*.json
+!src/voipms/api_definition.json
+!examples/*.json
+account_state_*.json
+voipms_backup_*.json
+call_recordings_report.json
+
+# Downloaded recordings
+recordings/
+
+# uv
+.python-version
