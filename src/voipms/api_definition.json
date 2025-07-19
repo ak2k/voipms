@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "generated_at": "2025-07-18T21:07:43.425227",
+  "generated_at": "2025-07-18T21:35:56.967415",
   "base_url": "https://voip.ms/api/v1/rest.php",
   "authentication": {
     "type": "api_credentials",
@@ -182,7 +182,6 @@
           "type": "integer",
           "required": false,
           "description": "Voicemail for the DID (Example: 101)",
-          "format": "email",
           "examples": [
             "101"
           ]
@@ -298,7 +297,6 @@
           "type": "integer",
           "required": false,
           "description": "Voicemail for the DID (Example: 101)",
-          "format": "email",
           "examples": [
             "101"
           ]
@@ -422,7 +420,7 @@
           ]
         },
         "account": {
-          "type": "integer",
+          "type": "string",
           "required": true,
           "description": "Reseller Sub Account (Example: '100001_VoIP')",
           "examples": [
@@ -496,7 +494,7 @@
           ]
         },
         "account": {
-          "type": "integer",
+          "type": "string",
           "required": true,
           "description": "Reseller Sub Account (Example: '100001_VoIP')",
           "examples": [
@@ -562,7 +560,7 @@
       "description": "Create new sub account",
       "parameters": {
         "username": {
-          "type": "integer",
+          "type": "string",
           "required": true,
           "description": "Username for the Sub Account (Example: 'VoIP')",
           "examples": [
@@ -576,7 +574,7 @@
           "values_from": "getProtocols"
         },
         "description": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Sub Account Description (Example: 'VoIP Account')",
           "examples": [
@@ -641,7 +639,7 @@
           "values_from": "getLanguages"
         },
         "allowed_codecs": {
-          "type": "integer",
+          "type": "string",
           "required": true,
           "description": "List of Allowed Codecs (Values from getAllowedCodecs) Codecs separated by semicolon (Example: ulaw;g729;gsm)",
           "values_from": "getAllowedCodecs",
@@ -707,14 +705,13 @@
           "type": "string",
           "required": false,
           "description": "List of IP Addresses, IP Addresses/Netmask, or Fully Qualified Domain Names to allow outgoing calls separated by commas (Example: 123.45.3.21,10.255.12.0/22,device.mydomain.com)",
-          "format": "ip_address",
           "multiple": true,
           "delimiter": ",",
           "examples": [
+            "device.mydomain.com",
             "123",
             "10.255.12.0/22",
-            "123.45.3.21",
-            "device.mydomain.com"
+            "123.45.3.21"
           ]
         },
         "enable_ip_restriction": {
@@ -758,7 +755,6 @@
           "type": "integer",
           "required": false,
           "description": "Sub Account Internal Voicemail (Example: 101)",
-          "format": "email",
           "examples": [
             "101"
           ]
@@ -837,8 +833,7 @@
         "transcription_email": {
           "type": "string",
           "required": false,
-          "description": "Call Transcription Email",
-          "format": "email"
+          "description": "Call Transcription Email"
         },
         "transcription_start_delay": {
           "type": "string",
@@ -898,7 +893,6 @@
           "type": "string",
           "required": true,
           "description": "Digits used to create the voicemail (Example: 01) Minimum 1 digit, maximum 10 digits",
-          "format": "email",
           "minimum": 1,
           "maximum": 10,
           "examples": [
@@ -967,7 +961,7 @@
           "values_from": "getTimeZones"
         },
         "say_callerid": {
-          "type": "integer",
+          "type": "string",
           "required": true,
           "description": "Yes for Saying the Caller ID (Values: 'yes'/'no')",
           "examples": [
@@ -991,7 +985,6 @@
           "type": "integer",
           "required": false,
           "description": "Code for Email Attachment format (Values from getVoicemailAttachmentFormats)",
-          "format": "email",
           "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
           "values_from": "getVoicemailAttachmentFormats"
         },
@@ -1004,8 +997,7 @@
         "transcription": {
           "type": "string",
           "required": false,
-          "description": "Voicemail Transcription",
-          "format": "email"
+          "description": "Voicemail Transcription"
         },
         "transcription_locale": {
           "type": "integer",
@@ -1178,10 +1170,9 @@
           ]
         },
         "folder": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Name for specific Folder (Required if message id is passed, Example: 'INBOX', values from: getVoicemailFolders)",
-          "format": "email",
           "examples": [
             "INBOX"
           ],
@@ -1193,7 +1184,6 @@
           "type": "integer",
           "required": false,
           "description": "ID for specific Voicemail Message (Required if folder is passed, Example: 1)",
-          "format": "email",
           "examples": [
             "1"
           ],
@@ -1461,7 +1451,7 @@
       "description": "Retrieve allowed codecs information",
       "parameters": {
         "codec": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Code for a specific Codec (Example: 'ulaw')",
           "examples": [
@@ -1778,7 +1768,6 @@
           "type": "string",
           "required": false,
           "description": "Parameter could have the following values: * Empty Value [Not Required] * Specific Reseller Client ID (Example: 561115) * Specific Reseller Client e-mail  (Example: 'john.doe@mydomain.com')",
-          "format": "email",
           "examples": [
             "john.doe@mydomain.com",
             "561115"
@@ -1817,7 +1806,7 @@
       "description": "Retrieve countries information",
       "parameters": {
         "country": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Code for a specific Country (Example: 'CA')",
           "examples": [
@@ -1947,8 +1936,8 @@
           "required": false,
           "description": "Parameter could have the following values: * Empty Value [Not Required] * Specific Reseller Client ID (Example: 561115) * Specific Sub Account (Example: '100001_VoIP')",
           "examples": [
-            "100001_VoIP",
-            "561115"
+            "561115",
+            "100001_VoIP"
           ]
         },
         "did": {
@@ -2090,7 +2079,7 @@
       "description": "Retrieve dtmf modes information",
       "parameters": {
         "dtmf_mode": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Code for a specific DTMF Mode (Example: 'inband')",
           "examples": [
@@ -2130,7 +2119,7 @@
       "description": "Retrieve international types information",
       "parameters": {
         "type": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Code for a specific International Type (Example: 'NATIONAL')",
           "examples": [
@@ -2181,7 +2170,7 @@
       "description": "Retrieve join when empty types information",
       "parameters": {
         "type": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Code for a specific 'JoinWhenEmpty' Type (Example: 'yes')",
           "examples": [
@@ -2202,7 +2191,7 @@
       "description": "Retrieve languages information",
       "parameters": {
         "language": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Code for a specific Language (Example: 'en')",
           "examples": [
@@ -2222,7 +2211,7 @@
       "description": "Retrieve locales information",
       "parameters": {
         "locale": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Code for a specific Locale Code (Example: 'en-US')",
           "examples": [
@@ -2261,7 +2250,7 @@
       "description": "Retrieve music on hold information",
       "parameters": {
         "music_on_hold": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Code for a specific Music on Hold (Example: 'jazz')",
           "examples": [
@@ -2322,7 +2311,9 @@
           "multiple": true,
           "delimiter": ",",
           "examples": [
-            "(1234"
+            "1234",
+            "1235",
+            "1236"
           ]
         }
       },
@@ -2356,7 +2347,7 @@
       "description": "Retrieve nat information",
       "parameters": {
         "nat": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Code for a specific NAT Option (Example: 'route')",
           "examples": [
@@ -2459,7 +2450,7 @@
       "description": "Retrieve play instructions information",
       "parameters": {
         "play_instructions": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Code for a specific Play Instructions setting (Example: 'u')",
           "examples": [
@@ -2634,7 +2625,7 @@
       "description": "Retrieve registration status information",
       "parameters": {
         "account": {
-          "type": "integer",
+          "type": "string",
           "required": true,
           "description": "Specific Account (Example: '100001_VoIP')",
           "examples": [
@@ -2654,7 +2645,7 @@
       "description": "Retrieve report estimated hold time information",
       "parameters": {
         "type": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Code for a specific 'ReportEstimatedHoldTime' Type (Example: 'yes')",
           "examples": [
@@ -2977,7 +2968,7 @@
       "description": "Retrieve ring strategies information",
       "parameters": {
         "strategy": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "ID for a specific Ring Strategy (Example: 'rrmemory')",
           "examples": [
@@ -3358,7 +3349,7 @@
       "description": "Retrieve timezones information",
       "parameters": {
         "timezone": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Code for a specific Time Zone (Example: 'America/Buenos_Aires')",
           "examples": [
@@ -3406,7 +3397,7 @@
       "description": "Retrieve voicemail attachment formats information",
       "parameters": {
         "email_attachment_format": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "ID for a specific attachment format (Example: wav49)",
           "examples": [
@@ -3449,7 +3440,6 @@
           "type": "integer",
           "required": false,
           "description": "ID for a specific Voicemail Setup (Example: 2)",
-          "format": "email",
           "examples": [
             "2"
           ]
@@ -3509,7 +3499,6 @@
           "type": "integer",
           "required": false,
           "description": "Voicemail for the DID (Example: 101)",
-          "format": "email",
           "examples": [
             "101"
           ]
@@ -3561,7 +3550,7 @@
           "units": "minutes"
         },
         "account": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Reseller Sub Account (Example: '100001_VoIP')",
           "examples": [
@@ -3655,7 +3644,6 @@
           "type": "integer",
           "required": false,
           "description": "Voicemail for the DID (Example: 101)",
-          "format": "email",
           "examples": [
             "101"
           ]
@@ -3707,7 +3695,7 @@
           "description": "Note for the DID"
         },
         "account": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Reseller Sub Account (Example: '100001_VoIP')",
           "examples": [
@@ -3801,7 +3789,6 @@
           "type": "integer",
           "required": false,
           "description": "Voicemail for the DID (Example: 101)",
-          "format": "email",
           "examples": [
             "101"
           ]
@@ -3853,7 +3840,7 @@
           "description": "Note for the DID"
         },
         "account": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Reseller Sub Account (Example: '100001_VoIP')",
           "examples": [
@@ -3947,7 +3934,6 @@
           "type": "integer",
           "required": false,
           "description": "Voicemail for the DID (Example: 101)",
-          "format": "email",
           "examples": [
             "101"
           ]
@@ -3989,7 +3975,7 @@
           "description": "Note for the DID"
         },
         "account": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Reseller Sub Account (Example: '100001_VoIP')",
           "examples": [
@@ -4077,7 +4063,6 @@
           "type": "integer",
           "required": false,
           "description": "Voicemail for the DID (Example: 101)",
-          "format": "email",
           "examples": [
             "101"
           ]
@@ -4119,7 +4104,7 @@
           "description": "Note for the DID"
         },
         "account": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Reseller Sub Account (Example: '100001_VoIP')",
           "examples": [
@@ -4207,7 +4192,6 @@
           "type": "integer",
           "required": false,
           "description": "Voicemail for the DID (Example: 101)",
-          "format": "email",
           "examples": [
             "101"
           ]
@@ -4249,7 +4233,7 @@
           "description": "Note for the DID"
         },
         "account": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Reseller Sub Account (Example: '100001_VoIP')",
           "examples": [
@@ -4337,7 +4321,6 @@
           "type": "integer",
           "required": false,
           "description": "Voicemail for the DID (Example: 101)",
-          "format": "email",
           "examples": [
             "101"
           ]
@@ -4385,7 +4368,7 @@
           "values_from": "getCarriers"
         },
         "account": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Reseller Sub Account (Example: '100001_VoIP')",
           "examples": [
@@ -4611,11 +4594,11 @@
           "required": true,
           "description": "Type of Vanity Number Values: '8**', '800', '833', '844', '855', '866', '877', '888'",
           "examples": [
-            "844",
-            "800",
             "866",
-            "833",
-            "855"
+            "800",
+            "855",
+            "844",
+            "833"
           ]
         },
         "query": {
@@ -4705,7 +4688,7 @@
           ]
         },
         "media2": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "[Optional] Base 64 image encode (Example: data:image/png;base64,iVBORw0KGgoAAAANSUh...)",
           "format": "base64",
@@ -4737,7 +4720,7 @@
           "required": false,
           "description": "ID for a specific Callback (Example: 2359 / Leave empty to create a new one)",
           "examples": [
-            "2359 / Leave empty to create a new one"
+            "2359"
           ]
         },
         "description": {
@@ -4787,14 +4770,13 @@
           "required": false,
           "description": "ID for a specific Caller ID Filtering (Example: 18915 / Leave empty to create a new one)",
           "examples": [
-            "18915 / Leave empty to create a new one"
+            "18915"
           ]
         },
         "callerid": {
           "type": "integer",
           "required": true,
-          "description": "Caller ID that triggers the Filter (i = Not North American format, 0 = Anonymous, NPANXXXXXX, s or sb or sc = STIR/SHAKEN Attestation Level, p = All Phone Book, p:XXXX = Specific Phone Book Group)",
-          "format": "phone"
+          "description": "Caller ID that triggers the Filter (i = Not North American format, 0 = Anonymous, NPANXXXXXX, s or sb or sc = STIR/SHAKEN Attestation Level, p = All Phone Book, p:XXXX = Specific Phone Book Group)"
         },
         "did": {
           "type": "integer",
@@ -5014,11 +4996,10 @@
         "voicemail": {
           "type": "integer",
           "required": false,
-          "description": "Voicemail for the DID",
-          "format": "email"
+          "description": "Voicemail for the DID"
         },
         "pop": {
-          "type": "integer",
+          "type": "string",
           "required": true,
           "description": "Point of Presence for the DID (\"server_pop\" values from getServersInfo. Example: 3)",
           "values_from": "getServersInfo",
@@ -5097,8 +5078,7 @@
         "transcription_email": {
           "type": "string",
           "required": false,
-          "description": "Call Transcription Email",
-          "format": "email"
+          "description": "Call Transcription Email"
         },
         "transcription_start_delay": {
           "type": "string",
@@ -5115,7 +5095,6 @@
           "type": "string",
           "required": false,
           "description": "Voicemail Threshold Seconds between 0 and 60, Increments of 5 (Example: 10 -> seconds)",
-          "format": "email",
           "minimum": 0,
           "maximum": 60,
           "units": "seconds",
@@ -5144,7 +5123,7 @@
           ]
         },
         "pop": {
-          "type": "integer",
+          "type": "string",
           "required": true,
           "description": "Point of Presence for the DID (\"server_pop\" values from getServersInfo. Example: 3)",
           "values_from": "getServersInfo",
@@ -5220,7 +5199,7 @@
           "required": false,
           "description": "ID for a specific DISA (Example: 2114 / Leave empty to create a new one)",
           "examples": [
-            "2114 / Leave empty to create a new one"
+            "2114"
           ]
         },
         "name": {
@@ -5260,7 +5239,7 @@
           "required": false,
           "description": "ID for a specific Forwarding (Example: 19183 / Leave empty to create a new one)",
           "examples": [
-            "19183 / Leave empty to create a new one"
+            "19183"
           ]
         },
         "phone_number": {
@@ -5290,6 +5269,7 @@
           "description": "Pause (seconds) when call is answered before sending digits (Example: 1.5 / Values: 0 to 10 in increments of 0.5)",
           "units": "seconds",
           "examples": [
+            "1.5",
             "1"
           ]
         },
@@ -5315,7 +5295,7 @@
           "required": false,
           "description": "ID for a specific IVR (Example: 4636 / Leave empty to create a new one)",
           "examples": [
-            "4636 / Leave empty to create a new one"
+            "4636"
           ]
         },
         "name": {
@@ -5344,7 +5324,6 @@
           "type": "string",
           "required": true,
           "description": "Voicemail Setup for the IVR (values from getVoicemailSetups)",
-          "format": "email",
           "values_from": "getVoicemailSetups"
         },
         "choices": {
@@ -5374,7 +5353,7 @@
           "description": "ID for a specific Phonebook entry (Example: 32207 / Leave empty to create a new one)",
           "format": "phone",
           "examples": [
-            "32207 / Leave empty to create a new one"
+            "32207"
           ]
         },
         "speed_dial": {
@@ -5393,7 +5372,6 @@
           "type": "string",
           "required": true,
           "description": "Number or SIP for the Phonebook entry (Example: 'sip:2563' or '5552223333')",
-          "format": "phone",
           "examples": [
             "sip:2563' or '5552223333",
             "5552223333"
@@ -5439,7 +5417,7 @@
           "description": "ID for a specific Phonebook group (Example: 32207 / Leave empty to create a new one)",
           "format": "phone",
           "examples": [
-            "32207 / Leave empty to create a new one"
+            "32207"
           ]
         },
         "name": {
@@ -5473,7 +5451,7 @@
           "required": false,
           "description": "ID for a specific Queue entry (Example: 32208 / Leave empty to create a new one)",
           "examples": [
-            "32208 / Leave empty to create a new one"
+            "32208"
           ]
         },
         "queue_name": {
@@ -5503,7 +5481,7 @@
           "description": "Caller ID Prefix for queue"
         },
         "join_announcement": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Recording Code (Values from getRecordings or 'none')",
           "values_from": "getRecordings",
@@ -5517,7 +5495,7 @@
           "description": "weight/priority of queue (Values 1 to 60)"
         },
         "agent_announcement": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Recording Code (Values from getRecordings or 'none')",
           "values_from": "getRecordings",
@@ -5569,9 +5547,9 @@
           "required": true,
           "description": "How caller leave the queue (Values 'yes'/'no'/'strict') Examples: yes     Callers are sent to failover when there are no members no      Callers will remain in the queue even if there are no members strict  Callers are sent to failover if there are members but none of them is available.",
           "examples": [
-            "no",
+            "strict",
             "yes",
-            "strict"
+            "no"
           ]
         },
         "ring_strategy": {
@@ -5581,7 +5559,7 @@
           "values_from": "getRingStrategies"
         },
         "ring_inuse": {
-          "type": "integer",
+          "type": "string",
           "required": true,
           "description": "If you want the queue to avoid sending calls to members (Values 'yes'/'no')",
           "examples": [
@@ -5605,7 +5583,7 @@
           ]
         },
         "wrapup_time": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "After a successful call, the number of seconds to wait before sending a free agent another call (Values 1 to 60 seconds or 'none'= No Delay)",
           "units": "seconds",
@@ -5614,7 +5592,7 @@
           ]
         },
         "voice_announcement": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Code for Recording (Values from getRecordings or 'none')",
           "values_from": "getRecordings",
@@ -5656,9 +5634,9 @@
           "required": false,
           "description": " Include estimated hold time in position announcements (Values 'yes'/'no'/'once')",
           "examples": [
-            "no",
+            "once",
             "yes",
-            "once"
+            "no"
           ]
         },
         "thankyou_for_your_patience": {
@@ -5666,8 +5644,8 @@
           "required": false,
           "description": "Yes to say \"Thank you for your patience\" immediatly after announcing Queue Position and Estimated hold time left (Values 'yes'/'no')",
           "examples": [
-            "no",
-            "yes"
+            "yes",
+            "no"
           ]
         },
         "music_on_hold": {
@@ -5724,7 +5702,7 @@
           "description": "ID for a specific Phonebook entry (Example: 33221 / Leave empty to create a new one)",
           "format": "phone",
           "examples": [
-            "33221 / Leave empty to create a new one"
+            "33221"
           ]
         },
         "file": {
@@ -5758,7 +5736,7 @@
           "required": false,
           "description": "ID for a specific Ring Group (Example: 4768 / Leave empty to create a new one)",
           "examples": [
-            "4768 / Leave empty to create a new one"
+            "4768"
           ]
         },
         "name": {
@@ -5767,7 +5745,7 @@
           "description": "Name for the Ring Group"
         },
         "members": {
-          "type": "integer",
+          "type": "string",
           "required": true,
           "description": "Members for the Ring Group (Example: 'account:100001;fwd:16006')",
           "examples": [
@@ -5779,7 +5757,6 @@
           "type": "string",
           "required": true,
           "description": "Voicemail for the Ring Group (Values from getVoicemails)",
-          "format": "email",
           "values_from": "getVoicemails"
         },
         "caller_announcement": {
@@ -5795,7 +5772,7 @@
           "values_from": "getMusicOnHold"
         },
         "language": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Code for Language (Values from getLanguages) \"members\" can receive the following routing headers: account     Used to route the call to an Account or a Sub Account fwd         Used to route the call to a Forwarding entry sip         Used to route the call to a SIP URI Each member can a specific ring time and press1 values, you can add those to the routing header as follow: Example: 'account:100001,25,0;fwd:16006,10,1' 25 = Default ring time value (Values from 1 to 60 sec) 0  = Default press1 value (Values allowed 0 and 1)",
           "values_from": "getLanguages",
@@ -5821,7 +5798,7 @@
           "required": false,
           "description": "ID for a specific SIP URI (Example: 6199 / Leave empty to create a new one)",
           "examples": [
-            "6199 / Leave empty to create a new one"
+            "6199"
           ]
         },
         "uri": {
@@ -5911,7 +5888,7 @@
           "description": "If Enable, SMS Messages received by your DID will be send a GET request to the URL callback provided (Values:1=Enable / 0=Disable)"
         },
         "url_callback": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "SMS Messages received by your DID will be send a GET request to the URL callback provided Available Variables for your URL {FROM}    The phone number that sent you the message. {TO}      The DID number that received the message. {MESSAGE} The content of the message. Example: http://mysite.com/sms.php?to={TO}&from={FROM}&message={MESSAGE}",
           "format": "phone",
@@ -5955,7 +5932,7 @@
           "required": false,
           "description": "ID for a specific Member (Example: 619 / Leave empty to create a new one)",
           "examples": [
-            "619 / Leave empty to create a new one"
+            "619"
           ]
         },
         "queue": {
@@ -6002,7 +5979,7 @@
           ]
         },
         "description": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Sub Account Description (Example: 'VoIP Account')",
           "examples": [
@@ -6067,7 +6044,7 @@
           "values_from": "getLanguages"
         },
         "allowed_codecs": {
-          "type": "integer",
+          "type": "string",
           "required": true,
           "description": "List of Allowed Codecs (Values from getAllowedCodecs) Codecs separated by semicolon (Example: ulaw;g729;gsm)",
           "values_from": "getAllowedCodecs",
@@ -6136,10 +6113,10 @@
           "multiple": true,
           "delimiter": ",",
           "examples": [
+            "device.mydomain.com",
             "123",
             "10.255.12.0/22",
-            "123.45.3.21",
-            "device.mydomain.com"
+            "123.45.3.21"
           ]
         },
         "enable_ip_restriction": {
@@ -6183,7 +6160,6 @@
           "type": "integer",
           "required": false,
           "description": "Sub Account Internal Voicemail (Example: 101)",
-          "format": "email",
           "examples": [
             "101"
           ]
@@ -6313,7 +6289,7 @@
           "required": false,
           "description": "ID for a specific Time Condition (Example: 1830 / Leave empty to create a new one)",
           "examples": [
-            "1830 / Leave empty to create a new one"
+            "1830"
           ]
         },
         "name": {
@@ -6473,7 +6449,7 @@
           "values_from": "getTimeZones"
         },
         "say_callerid": {
-          "type": "integer",
+          "type": "string",
           "required": true,
           "description": "Yes for Saying the Caller ID (Values: 'yes'/'no')",
           "examples": [
@@ -6497,7 +6473,6 @@
           "type": "integer",
           "required": false,
           "description": "Code for Email Attachment format (Values from getVoicemailAttachmentFormats)",
-          "format": "email",
           "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
           "values_from": "getVoicemailAttachmentFormats"
         },
@@ -6510,8 +6485,7 @@
         "transcription": {
           "type": "string",
           "required": false,
-          "description": "Voicemail Transcription",
-          "format": "email"
+          "description": "Voicemail Transcription"
         },
         "transcription_locale": {
           "type": "integer",
@@ -6726,7 +6700,6 @@
           "type": "integer",
           "required": true,
           "description": "ID for a specific \"Email To Fax Configuration\" (Example: 923)",
-          "format": "email",
           "examples": [
             "923"
           ]
@@ -6738,8 +6711,7 @@
           "enum": [
             "true",
             "false"
-          ],
-          "format": "email"
+          ]
         }
       },
       "returns": {
@@ -6800,7 +6772,7 @@
       "description": "Retrieve fax provinces information",
       "parameters": {
         "province": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "CODE for a specific Province (Example: AB)",
           "examples": [
@@ -6820,7 +6792,7 @@
       "description": "Retrieve fax states information",
       "parameters": {
         "state": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "CODE for a specific State (Example: AL)",
           "examples": [
@@ -6840,7 +6812,7 @@
       "description": "Retrieve fax rate centers can information",
       "parameters": {
         "province": {
-          "type": "integer",
+          "type": "string",
           "required": true,
           "description": "Province two letters code (Example: AB)",
           "examples": [
@@ -6860,7 +6832,7 @@
       "description": "Retrieve fax rate centers usa information",
       "parameters": {
         "state": {
-          "type": "integer",
+          "type": "string",
           "required": true,
           "description": "Province two letters code (Example: AL)",
           "examples": [
@@ -7096,16 +7068,15 @@
           "description": "Email address where send notifications when receive Fax Messages - (Example: yourname@company.com)",
           "format": "email",
           "examples": [
-            "yourname@company",
-            "yourname@company.com"
+            "yourname@company.com",
+            "yourname@company"
           ]
         },
         "email_enable": {
           "type": "string",
           "required": false,
           "description": "Flag to enable the email notifications. - (Values: 1 = true, 0 = false) - Default: 0",
-          "default": "0",
-          "format": "email"
+          "default": "0"
         },
         "email_attach_file": {
           "type": "string",
@@ -7193,7 +7164,6 @@
           "type": "integer",
           "required": false,
           "description": "[Only for updates] ID of the \"Email to Fax\" to edit (Values from getEmailToFax)",
-          "format": "email",
           "values_from": "getEmailToFax"
         },
         "enabled": {
@@ -7203,8 +7173,7 @@
           "enum": [
             "0",
             "1"
-          ],
-          "format": "email"
+          ]
         },
         "auth_email": {
           "type": "string",
@@ -7230,8 +7199,7 @@
         "security_code": {
           "type": "integer",
           "required": true,
-          "description": "An alphanumeric code to identify your emails before send as Fax.",
-          "format": "email"
+          "description": "An alphanumeric code to identify your emails before send as Fax."
         },
         "test": {
           "type": "string",
@@ -7304,16 +7272,15 @@
           "description": "Email address where send notifications when receive Fax Messages - (Example: yourname@company.com)",
           "format": "email",
           "examples": [
-            "yourname@company",
-            "yourname@company.com"
+            "yourname@company.com",
+            "yourname@company"
           ]
         },
         "email_enable": {
           "type": "string",
           "required": false,
           "description": "Flag to enable the email notifications. - (Values: 1 = true, 0 = false) - Default: 0",
-          "default": "0",
-          "format": "email"
+          "default": "0"
         },
         "email_attach_file": {
           "type": "string",
@@ -7376,16 +7343,15 @@
           "description": "Email address where send notifications when receive Fax Messages - (Example: yourname@company.com)",
           "format": "email",
           "examples": [
-            "yourname@company",
-            "yourname@company.com"
+            "yourname@company.com",
+            "yourname@company"
           ]
         },
         "email_enable": {
           "type": "string",
           "required": false,
           "description": "Flag to enable the email notifications. - (Values: 1 = true, 0 = false) - Default: 0",
-          "default": "0",
-          "format": "email"
+          "default": "0"
         },
         "email_attach_file": {
           "type": "string",
@@ -7401,8 +7367,7 @@
           "enum": [
             "true",
             "false"
-          ],
-          "format": "email"
+          ]
         }
       },
       "returns": {
@@ -7489,8 +7454,7 @@
           "type": "string",
           "required": false,
           "description": "Flag to enable the send of a copy of your Fax via email. - (Values: 1 = true, 0 = false) - Default: 0",
-          "default": "0",
-          "format": "email"
+          "default": "0"
         },
         "send_email": {
           "type": "string",
@@ -7534,7 +7498,7 @@
       "description": "E address types",
       "parameters": {
         "type": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Code for a specific Address Type (Example: Apartment)",
           "examples": [
@@ -7911,7 +7875,6 @@
           "type": "string",
           "required": false,
           "description": "Name for specific Folder (Example: 'INBOX', values from: getVoicemailFolders)",
-          "format": "email",
           "examples": [
             "INBOX"
           ]
@@ -7920,7 +7883,6 @@
           "type": "string",
           "required": false,
           "description": "Start Date for Filtering Voicemail Messages (Example: '2016-01-30')",
-          "format": "email",
           "examples": [
             "2016-01-30"
           ]
@@ -7929,7 +7891,6 @@
           "type": "string",
           "required": false,
           "description": "End Date for Filtering Voicemail Messages (Example: '2016-01-30')",
-          "format": "email",
           "examples": [
             "2016-01-30"
           ]
@@ -7958,7 +7919,6 @@
           "type": "string",
           "required": true,
           "description": "Name for specific Folder (Example: 'INBOX', values from: getVoicemailFolders)",
-          "format": "email",
           "examples": [
             "INBOX"
           ]
@@ -7967,7 +7927,6 @@
           "type": "integer",
           "required": true,
           "description": "ID for specific Voicemail Message (Example: 1)",
-          "format": "email",
           "examples": [
             "1"
           ]
@@ -7996,7 +7955,6 @@
           "type": "string",
           "required": true,
           "description": "Name for specific Folder (Example: 'INBOX', values from: getVoicemailFolders)",
-          "format": "email",
           "examples": [
             "INBOX"
           ]
@@ -8005,7 +7963,6 @@
           "type": "integer",
           "required": true,
           "description": "ID for specific Voicemail Message (Example: 1)",
-          "format": "email",
           "examples": [
             "1"
           ]
@@ -8044,7 +8001,6 @@
           "type": "string",
           "required": true,
           "description": "Name for specific Folder (Example: 'INBOX', values from: getVoicemailFolders)",
-          "format": "email",
           "examples": [
             "INBOX"
           ]
@@ -8053,16 +8009,14 @@
           "type": "integer",
           "required": true,
           "description": "ID for specific Voicemail Message (Example: 1)",
-          "format": "email",
           "examples": [
             "1"
           ]
         },
         "listened": {
-          "type": "integer",
+          "type": "string",
           "required": true,
           "description": "Code for mark voicemail as listened or not-listened (Values: 'yes'/'no')",
-          "format": "email",
           "examples": [
             "yes",
             "no"
@@ -8092,7 +8046,6 @@
           "type": "string",
           "required": true,
           "description": "Name for specific Folder (Example: 'INBOX', values from: getVoicemailFolders)",
-          "format": "email",
           "examples": [
             "INBOX"
           ]
@@ -8101,16 +8054,14 @@
           "type": "integer",
           "required": true,
           "description": "ID for specific Voicemail Message (Example: 1)",
-          "format": "email",
           "examples": [
             "1"
           ]
         },
         "urgent": {
-          "type": "integer",
+          "type": "string",
           "required": true,
           "description": "Code for mark voicemail as urgent or not-urgent (Values: 'yes'/'no')",
-          "format": "email",
           "examples": [
             "yes",
             "no"
@@ -8140,7 +8091,6 @@
           "type": "string",
           "required": true,
           "description": "Name for specific Folder (Example: 'INBOX', values from: getVoicemailFolders)",
-          "format": "email",
           "examples": [
             "INBOX"
           ]
@@ -8149,7 +8099,6 @@
           "type": "integer",
           "required": true,
           "description": "ID for specific Voicemail Message (Example: 1)",
-          "format": "email",
           "examples": [
             "1"
           ]
@@ -8158,7 +8107,6 @@
           "type": "string",
           "required": true,
           "description": "Destination Folder (Example: 'Urgent', values from: getVoicemailFolders)",
-          "format": "email",
           "examples": [
             "Urgent"
           ]
@@ -8298,8 +8246,7 @@
         "email": {
           "type": "string",
           "required": true,
-          "description": "Email to send call recording",
-          "format": "email"
+          "description": "Email to send call recording"
         }
       },
       "returns": {
@@ -8358,7 +8305,7 @@
           "required": false,
           "description": "ID for a specific Call Parking (Example: 235 / Leave empty to create a new one)",
           "examples": [
-            "235 / Leave empty to create a new one"
+            "235"
           ]
         },
         "name": {
@@ -8417,7 +8364,7 @@
           "required": false,
           "description": "ID for a specific Call Hunting (Example: 235 / Leave empty to create a new one)",
           "examples": [
-            "235 / Leave empty to create a new one"
+            "235"
           ]
         },
         "description": {
@@ -9025,8 +8972,8 @@
           "description": "DID(s) to port into VoIP.ms network (Example: 5552341234,5552341233). If you are porting more than one number, please separate them with commas.",
           "units": "milliseconds",
           "examples": [
-            "5552341233",
-            "5552341234"
+            "5552341234",
+            "5552341233"
           ]
         },
         "isPartial": {
@@ -9135,7 +9082,7 @@
           "description": "This is the \"State or Province\" as it appears on the CSR (Customer Service Record) of the losing carrier."
         },
         "country": {
-          "type": "integer",
+          "type": "string",
           "required": true,
           "description": "This is the \"Country\" as it appears on the CSR (Customer Service Record) of the losing carrier.",
           "examples": [
@@ -9251,7 +9198,7 @@
           ]
         },
         "startDate": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Start Date for filtering Ports. (Example: '2014-03-30')",
           "examples": [
@@ -9259,7 +9206,7 @@
           ]
         },
         "endDate": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "End Date for filtering Ports. (Example: '2014-03-30')",
           "examples": [

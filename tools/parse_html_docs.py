@@ -442,17 +442,29 @@ class FinalVoIPMSDocumentationParser:
         if 'HH:MM:SS' in description or 'hh:mm:ss' in description.lower():
             return 'time'
 
-        # IP address formats
+        # IP address formats - but check it's not multi-type
         if any(pattern in description for pattern in ['192.168.1.0/24', 'IP Address', 'CIDR']):
-            return 'ip_address'
+            # Check if it also mentions domain names or other types
+            if not re.search(r'\b(?:domain|FQDN|hostname)\b', description, re.IGNORECASE):
+                return 'ip_address'
 
-        # Email format
-        if 'email' in description.lower() or '@' in description:
-            return 'email'
+        # Email format - be more specific to avoid false positives
+        # Check for patterns that indicate ONLY email is accepted
+        if re.search(r'\b(?:email address|e-mail address|valid email|email format)\b', description.lower()):
+            # But not if it also mentions other options like IDs
+            if not re.search(r'\b(?:or|ID|number|code)\b', description):
+                return 'email'
+        # Also check if @ is present but ensure it's in the context of an email example
+        elif '@' in description and 'example' in description.lower():
+            # Check if this is a multi-type field
+            if not re.search(r'\b(?:or|could have|following values)\b', description):
+                return 'email'
 
-        # Phone number formats
+        # Phone number formats - but check it's not multi-type
         if 'E.164' in description or 'phone' in description.lower():
-            return 'phone'
+            # Check if it also mentions SIP or other formats
+            if not re.search(r'\b(?:sip:|SIP|or|anonymous)\b', description, re.IGNORECASE):
+                return 'phone'
 
         # Base64
         if 'base64' in description.lower() or 'base 64' in description.lower():
@@ -635,6 +647,7 @@ class FinalVoIPMSDocumentationParser:
         example_patterns = [
             r'\(Example:\s*([^)]+)\)',
             r'Example:\s*([^,\n.;]+)',
+            r'\bexample:\s*\(([^)]+)\)',  # Handle "example: (value)"
             r'\(e\.g\.,?\s*([^)]+)\)',
             r'such as\s+([^,\n.;]+)',
             r'like\s+([^,\n.;]+)'
@@ -648,9 +661,17 @@ class FinalVoIPMSDocumentationParser:
                 if match.endswith(')') and match.count('(') < match.count(')'):
                     match = match[:-1].strip()
                 
+                # Handle descriptive text after forward slash (e.g., "2359 / Leave empty to create a new one")
+                if ' / ' in match:
+                    match = match.split(' / ')[0].strip()
+                
                 # Handle arrow notation (e.g., "60 -> in seconds" should become "60")
                 if ' ->' in match or ' →' in match:
                     match = re.split(r'\s*(?:->|→)\s*', match)[0].strip()
+                
+                # Handle leading parenthesis without closing (e.g., "(1234" should become "1234")
+                if match.startswith('(') and ')' not in match:
+                    match = match[1:].strip()
                 
                 # Split if multiple examples
                 if ',' in match:
@@ -659,6 +680,9 @@ class FinalVoIPMSDocumentationParser:
                         # Handle arrow notation in individual examples
                         if ' ->' in e or ' →' in e:
                             e = re.split(r'\s*(?:->|→)\s*', e)[0].strip()
+                        # Handle forward slash in individual examples
+                        if ' / ' in e:
+                            e = e.split(' / ')[0].strip()
                         # Remove quotes if they're part of the example format
                         if (e.startswith("'") and e.endswith("'")) or (e.startswith('"') and e.endswith('"')):
                             e = e[1:-1]
@@ -686,6 +710,10 @@ class FinalVoIPMSDocumentationParser:
             # Remove trailing parenthesis if unmatched
             if ex.endswith(')') and ex.count('(') < ex.count(')'):
                 ex = ex[:-1].strip()
+            
+            # Handle leading parenthesis without closing
+            if ex.startswith('(') and ')' not in ex:
+                ex = ex[1:].strip()
             
             # Skip patterns like "01) description" which are likely not examples
             if re.match(r'^\d+\)\s+\w+', ex):

@@ -106,7 +106,7 @@ class VoIPMSClient:
         city: str,
         zip: int,
         state: str,
-        country: int,
+        country: str,
         providerName: int,
         providerAccount: int,
         isPartial: Optional[int] = None,
@@ -354,7 +354,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         did: int,
-        account: int,
+        account: str,
         monthly: str,
         setup: str,
         minute: Annotated[str, "Units: minutes"],
@@ -385,7 +385,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         did: int,
-        account: int,
+        account: str,
         monthly: str,
         setup: str,
         minute: Annotated[str, "Units: minutes"],
@@ -415,17 +415,17 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        username: int,
+        username: str,
         protocol: int,
         auth_type: int,
         device_type: int,
         lock_international: int,
         international_route: int,
         music_on_hold: int,
-        allowed_codecs: int,
+        allowed_codecs: str,
         dtmf_mode: int,
         nat: int,
-        description: Optional[int] = None,
+        description: Optional[str] = None,
         password: Optional[int] = None,
         ip: Optional[int] = None,
         callerid_number: Optional[int] = None,
@@ -435,7 +435,7 @@ class VoIPMSClient:
         max_expiry: Optional[Annotated[str, "Range: 60-3600"]] = None,
         rtp_timeout: Optional[Annotated[str, "Range: 1-3600"]] = None,
         rtp_hold_timeout: Optional[Annotated[str, "Range: 1-3600"]] = None,
-        ip_restriction: Optional[Annotated[str, "Format: ip_address"]] = None,
+        ip_restriction: Optional[str] = None,
         enable_ip_restriction: Optional[Literal["0", "1"]] = None,
         pop_restriction: Optional[str] = None,
         enable_pop_restriction: Optional[Literal["0", "1"]] = None,
@@ -450,7 +450,7 @@ class VoIPMSClient:
         record_calls: Optional[Literal["0", "1"]] = None,
         transcribe: Optional[Literal["0", "1"]] = None,
         transcription_locale: Optional[str] = None,
-        transcription_email: Optional[Annotated[str, "Format: email"]] = None,
+        transcription_email: Optional[str] = None,
         transcription_start_delay: Optional[Annotated[str, "Range: 0-60; Units: seconds"]] = None,
         enable_internal_cnam: Optional[int] = None,
         internal_cnam: Optional[int] = None,
@@ -512,7 +512,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        digits: Annotated[str, "Range: 1-10; Format: email"],
+        digits: Annotated[str, "Range: 1-10"],
         name: str,
         password: str,
         skip_password: Literal["0", "1"],
@@ -520,13 +520,13 @@ class VoIPMSClient:
         delete_message: str,
         say_time: str,
         timezone: str,
-        say_callerid: int,
+        say_callerid: str,
         play_instructions: int,
         language: int,
         email: Optional[Annotated[str, "Format: email"]] = None,
         email_attachment_format: Optional[int] = None,
         unavailable_message_recording: Optional[str] = None,
-        transcription: Optional[Annotated[str, "Format: email"]] = None,
+        transcription: Optional[str] = None,
         transcription_locale: Optional[int] = None,
     ) -> Dict[str, Any]:
         """Create new voicemail
@@ -806,7 +806,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         mailbox: int,
-        folder: Optional[int] = None,
+        folder: Optional[str] = None,
         message_num: Optional[int] = None,
     ) -> Dict[str, Any]:
         """Delete messages
@@ -1068,7 +1068,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        type_: Optional[int] = None,
+        type_: Optional[str] = None,
     ) -> Dict[str, Any]:
         """E address types
 
@@ -1275,7 +1275,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        codec: Optional[int] = None,
+        codec: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve allowed codecs information
 
@@ -1621,7 +1621,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        client: Optional[Annotated[str, "Format: email"]] = None,
+        client: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve clients information
 
@@ -1712,7 +1712,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        country: Optional[int] = None,
+        country: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve countries information
 
@@ -1890,7 +1890,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        dtmf_mode: Optional[int] = None,
+        dtmf_mode: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve dtmf modes information
 
@@ -2049,7 +2049,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        province: Optional[int] = None,
+        province: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve fax provinces information
 
@@ -2066,7 +2066,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        province: int,
+        province: str,
     ) -> Dict[str, Any]:
         """Retrieve fax rate centers can information
 
@@ -2083,7 +2083,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        state: int,
+        state: str,
     ) -> Dict[str, Any]:
         """Retrieve fax rate centers usa information
 
@@ -2100,7 +2100,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        state: Optional[int] = None,
+        state: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve fax states information
 
@@ -2162,7 +2162,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        type_: Optional[int] = None,
+        type_: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve international types information
 
@@ -2179,7 +2179,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        type_: Optional[int] = None,
+        type_: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve join when empty types information
 
@@ -2249,8 +2249,8 @@ class VoIPMSClient:
         *,
         portid: int,
         portStatus: Optional[int] = None,
-        startDate: Optional[int] = None,
-        endDate: Optional[int] = None,
+        startDate: Optional[str] = None,
+        endDate: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve lnp list information
 
@@ -2315,7 +2315,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        language: Optional[int] = None,
+        language: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve languages information
 
@@ -2332,7 +2332,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        locale: Optional[int] = None,
+        locale: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve locales information
 
@@ -2421,7 +2421,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        music_on_hold: Optional[int] = None,
+        music_on_hold: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve music on hold information
 
@@ -2438,7 +2438,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        nat: Optional[int] = None,
+        nat: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve nat information
 
@@ -2514,7 +2514,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        play_instructions: Optional[int] = None,
+        play_instructions: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve play instructions information
 
@@ -2680,7 +2680,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        account: int,
+        account: str,
     ) -> Dict[str, Any]:
         """Retrieve registration status information
 
@@ -2697,7 +2697,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        type_: Optional[int] = None,
+        type_: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve report estimated hold time information
 
@@ -2855,7 +2855,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        strategy: Optional[int] = None,
+        strategy: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve ring strategies information
 
@@ -3042,7 +3042,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        timezone: Optional[int] = None,
+        timezone: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve timezones information
 
@@ -3089,7 +3089,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        email_attachment_format: Optional[int] = None,
+        email_attachment_format: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve voicemail attachment formats information
 
@@ -3124,7 +3124,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         mailbox: int,
-        folder: Annotated[str, "Format: email"],
+        folder: str,
         message_num: int,
     ) -> Dict[str, Any]:
         """Retrieve voicemail message file information
@@ -3145,9 +3145,9 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         mailbox: int,
-        folder: Optional[Annotated[str, "Format: email"]] = None,
-        date_from: Optional[Annotated[str, "Format: email"]] = None,
-        date_to: Optional[Annotated[str, "Format: email"]] = None,
+        folder: Optional[str] = None,
+        date_from: Optional[str] = None,
+        date_to: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve voicemail messages information
 
@@ -3221,9 +3221,9 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         mailbox: int,
-        folder: Annotated[str, "Format: email"],
+        folder: str,
         message_num: int,
-        listened: int,
+        listened: str,
     ) -> Dict[str, Any]:
         """Mark listened voicemail message
 
@@ -3244,9 +3244,9 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         mailbox: int,
-        folder: Annotated[str, "Format: email"],
+        folder: str,
         message_num: int,
-        urgent: int,
+        urgent: str,
     ) -> Dict[str, Any]:
         """Mark urgent voicemail message
 
@@ -3288,9 +3288,9 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         mailbox: int,
-        folder: Annotated[str, "Format: email"],
+        folder: str,
         message_num: int,
-        new_folder: Annotated[str, "Format: email"],
+        new_folder: str,
     ) -> Dict[str, Any]:
         """Move folder voicemail message
 
@@ -3322,7 +3322,7 @@ class VoIPMSClient:
         voicemail: Optional[int] = None,
         callerid_prefix: Optional[int] = None,
         note: Optional[int] = None,
-        account: Optional[int] = None,
+        account: Optional[str] = None,
         monthly: Optional[str] = None,
         setup: Optional[str] = None,
         minute: Optional[Annotated[str, "Units: minutes"]] = None,
@@ -3375,7 +3375,7 @@ class VoIPMSClient:
         voicemail: Optional[int] = None,
         callerid_prefix: Optional[int] = None,
         note: Optional[int] = None,
-        account: Optional[int] = None,
+        account: Optional[str] = None,
         monthly: Optional[str] = None,
         setup: Optional[str] = None,
         minute: Optional[Annotated[str, "Units: minutes"]] = None,
@@ -3426,7 +3426,7 @@ class VoIPMSClient:
         voicemail: Optional[int] = None,
         callerid_prefix: Optional[int] = None,
         note: Optional[int] = None,
-        account: Optional[int] = None,
+        account: Optional[str] = None,
         monthly: Optional[str] = None,
         setup: Optional[str] = None,
         minute: Optional[Annotated[str, "Units: minutes"]] = None,
@@ -3476,7 +3476,7 @@ class VoIPMSClient:
         voicemail: Optional[int] = None,
         callerid_prefix: Optional[int] = None,
         note: Optional[int] = None,
-        account: Optional[int] = None,
+        account: Optional[str] = None,
         monthly: Optional[str] = None,
         setup: Optional[str] = None,
         minute: Optional[Annotated[str, "Units: minutes"]] = None,
@@ -3524,7 +3524,7 @@ class VoIPMSClient:
         voicemail: Optional[int] = None,
         callerid_prefix: Optional[int] = None,
         note: Optional[int] = None,
-        account: Optional[int] = None,
+        account: Optional[str] = None,
         monthly: Optional[str] = None,
         setup: Optional[str] = None,
         minute: Optional[Annotated[str, "Units: minutes"]] = None,
@@ -3563,7 +3563,7 @@ class VoIPMSClient:
         location: int,
         quantity: str,
         email: Optional[Annotated[str, "Format: email"]] = None,
-        email_enable: Optional[Annotated[str, "Format: email"]] = None,
+        email_enable: Optional[str] = None,
         email_attach_file: Optional[Annotated[str, "Format: pdf"]] = None,
         url_callback: Optional[str] = None,
         url_callback_enable: Optional[str] = None,
@@ -3604,7 +3604,7 @@ class VoIPMSClient:
         voicemail: Optional[int] = None,
         callerid_prefix: Optional[int] = None,
         note: Optional[int] = None,
-        account: Optional[int] = None,
+        account: Optional[str] = None,
         monthly: Optional[str] = None,
         setup: Optional[str] = None,
         minute: Optional[Annotated[str, "Units: minutes"]] = None,
@@ -3652,7 +3652,7 @@ class VoIPMSClient:
         voicemail: Optional[int] = None,
         callerid_prefix: Optional[int] = None,
         note: Optional[int] = None,
-        account: Optional[int] = None,
+        account: Optional[str] = None,
         monthly: Optional[str] = None,
         setup: Optional[str] = None,
         minute: Optional[Annotated[str, "Units: minutes"]] = None,
@@ -3843,7 +3843,7 @@ class VoIPMSClient:
         *,
         callrecording: str,
         account: int,
-        email: Annotated[str, "Format: email"],
+        email: str,
     ) -> Dict[str, Any]:
         """Send call recording email
 
@@ -3866,7 +3866,7 @@ class VoIPMSClient:
         from_name: str,
         from_number: int,
         file: int,
-        send_email_enabled: Optional[Annotated[str, "Format: email"]] = None,
+        send_email_enabled: Optional[str] = None,
         send_email: Optional[Annotated[str, "Format: email"]] = None,
         station_id: Optional[int] = None,
         test: Optional[Literal["true", "false"]] = None,
@@ -3897,7 +3897,7 @@ class VoIPMSClient:
         dst: str,
         message: str,
         media1: Optional[Annotated[str, "Units: milliseconds"]] = None,
-        media2: Optional[int] = None,
+        media2: Optional[Annotated[str, "Format: base64"]] = None,
         media3: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Send mms
@@ -3942,7 +3942,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         mailbox: int,
-        folder: Annotated[str, "Format: email"],
+        folder: str,
         message_num: int,
         email_address: Annotated[str, "Format: email"],
     ) -> Dict[str, Any]:
@@ -4289,7 +4289,7 @@ class VoIPMSClient:
         *,
         did: int,
         routing: int,
-        pop: int,
+        pop: str,
         dialtime: int,
         cnam: Literal["0", "1"],
         billing_type: Literal["1", "2"],
@@ -4303,9 +4303,9 @@ class VoIPMSClient:
         record_calls: Optional[Literal["0", "1"]] = None,
         transcribe: Optional[Literal["0", "1"]] = None,
         transcription_locale: Optional[str] = None,
-        transcription_email: Optional[Annotated[str, "Format: email"]] = None,
+        transcription_email: Optional[str] = None,
         transcription_start_delay: Optional[Annotated[str, "Range: 0-60; Units: seconds"]] = None,
-        voicemail_threshold: Optional[Annotated[str, "Range: 0-60; Format: email; Units: seconds"]] = None,
+        voicemail_threshold: Optional[Annotated[str, "Range: 0-60; Units: seconds"]] = None,
     ) -> Dict[str, Any]:
         """Update did info settings
 
@@ -4341,7 +4341,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         did: int,
-        pop: int,
+        pop: str,
     ) -> Dict[str, Any]:
         """Update didpop settings
 
@@ -4474,7 +4474,7 @@ class VoIPMSClient:
         *,
         did: int,
         email: Optional[Annotated[str, "Format: email"]] = None,
-        email_enable: Optional[Annotated[str, "Format: email"]] = None,
+        email_enable: Optional[str] = None,
         email_attach_file: Optional[Annotated[str, "Format: pdf"]] = None,
         test: Optional[Literal["true", "false"]] = None,
     ) -> Dict[str, Any]:
@@ -4499,7 +4499,7 @@ class VoIPMSClient:
         *,
         did: int,
         email: Optional[Annotated[str, "Format: email"]] = None,
-        email_enable: Optional[Annotated[str, "Format: email"]] = None,
+        email_enable: Optional[str] = None,
         email_attach_file: Optional[Annotated[str, "Format: pdf"]] = None,
         url_callback: Optional[str] = None,
         url_callback_enable: Optional[str] = None,
@@ -4586,7 +4586,7 @@ class VoIPMSClient:
         recording: str,
         timeout: str,
         language: str,
-        voicemailsetup: Annotated[str, "Format: email"],
+        voicemailsetup: str,
         choices: str,
         ivr: Optional[int] = None,
     ) -> Dict[str, Any]:
@@ -4637,7 +4637,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         name: Annotated[str, "Format: phone"],
-        number: Annotated[str, "Format: phone"],
+        number: str,
         phonebook: Optional[int] = None,
         speed_dial: Optional[Annotated[str, "Format: phone"]] = None,
         callerid: Optional[int] = None,
@@ -4696,19 +4696,19 @@ class VoIPMSClient:
         join_when_empty: str,
         leave_when_empty: str,
         ring_strategy: str,
-        ring_inuse: int,
+        ring_inuse: str,
         queue: Optional[int] = None,
         queue_password: Optional[str] = None,
         callerid_prefix: Optional[int] = None,
-        join_announcement: Optional[int] = None,
-        agent_announcement: Optional[int] = None,
+        join_announcement: Optional[str] = None,
+        agent_announcement: Optional[str] = None,
         member_delay: Optional[Annotated[str, "Units: seconds"]] = None,
         maximum_wait_time: Optional[Annotated[str, "Units: seconds"]] = None,
         maximum_callers: Optional[str] = None,
         agent_ring_timeout: Optional[int] = None,
         retry_timer: Optional[Annotated[str, "Units: seconds"]] = None,
-        wrapup_time: Optional[int] = None,
-        voice_announcement: Optional[int] = None,
+        wrapup_time: Optional[Annotated[str, "Units: seconds"]] = None,
+        voice_announcement: Optional[str] = None,
         frequency_announcement: Optional[Annotated[str, "Units: seconds"]] = None,
         announce_position_frecuency: Optional[Annotated[str, "Units: seconds"]] = None,
         announce_round_seconds: Optional[Annotated[str, "Units: seconds"]] = None,
@@ -4795,12 +4795,12 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         name: str,
-        members: int,
-        voicemail: Annotated[str, "Format: email"],
+        members: str,
+        voicemail: str,
         ring_group: Optional[int] = None,
         caller_announcement: Optional[int] = None,
         music_on_hold: Optional[int] = None,
-        language: Optional[int] = None,
+        language: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Update ring group settings
 
@@ -4855,7 +4855,7 @@ class VoIPMSClient:
         sms_forward_enable: Optional[int] = None,
         sms_forward: Optional[int] = None,
         url_callback_enable: Optional[int] = None,
-        url_callback: Optional[int] = None,
+        url_callback: Optional[Annotated[str, "Format: phone"]] = None,
         url_callback_retry: Optional[Annotated[str, "Units: minutes"]] = None,
         sms_sipaccount: Optional[int] = None,
         sms_sipaccount_enabled: Optional[int] = None,
@@ -4916,13 +4916,13 @@ class VoIPMSClient:
         lock_international: int,
         international_route: int,
         music_on_hold: int,
-        allowed_codecs: int,
+        allowed_codecs: str,
         dtmf_mode: int,
         nat: int,
         transcribe: int,
         transcription_locale: str,
         transcription_email: str,
-        description: Optional[int] = None,
+        description: Optional[str] = None,
         password: Optional[int] = None,
         ip: Optional[int] = None,
         callerid_number: Optional[int] = None,
@@ -5046,13 +5046,13 @@ class VoIPMSClient:
         delete_message: str,
         say_time: str,
         timezone: str,
-        say_callerid: int,
+        say_callerid: str,
         play_instructions: int,
         language: int,
         email: Optional[Annotated[str, "Format: email"]] = None,
         email_attachment_format: Optional[int] = None,
         unavailable_message_recording: Optional[str] = None,
-        transcription: Optional[Annotated[str, "Format: email"]] = None,
+        transcription: Optional[str] = None,
         transcription_locale: Optional[int] = None,
     ) -> Dict[str, Any]:
         """Update voicemail settings
@@ -5229,7 +5229,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         city: str,
         zip: int,
         state: str,
-        country: int,
+        country: str,
         providerName: int,
         providerAccount: int,
         isPartial: Optional[int] = None,
@@ -5477,7 +5477,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         did: int,
-        account: int,
+        account: str,
         monthly: str,
         setup: str,
         minute: Annotated[str, "Units: minutes"],
@@ -5508,7 +5508,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         did: int,
-        account: int,
+        account: str,
         monthly: str,
         setup: str,
         minute: Annotated[str, "Units: minutes"],
@@ -5538,17 +5538,17 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        username: int,
+        username: str,
         protocol: int,
         auth_type: int,
         device_type: int,
         lock_international: int,
         international_route: int,
         music_on_hold: int,
-        allowed_codecs: int,
+        allowed_codecs: str,
         dtmf_mode: int,
         nat: int,
-        description: Optional[int] = None,
+        description: Optional[str] = None,
         password: Optional[int] = None,
         ip: Optional[int] = None,
         callerid_number: Optional[int] = None,
@@ -5558,7 +5558,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         max_expiry: Optional[Annotated[str, "Range: 60-3600"]] = None,
         rtp_timeout: Optional[Annotated[str, "Range: 1-3600"]] = None,
         rtp_hold_timeout: Optional[Annotated[str, "Range: 1-3600"]] = None,
-        ip_restriction: Optional[Annotated[str, "Format: ip_address"]] = None,
+        ip_restriction: Optional[str] = None,
         enable_ip_restriction: Optional[Literal["0", "1"]] = None,
         pop_restriction: Optional[str] = None,
         enable_pop_restriction: Optional[Literal["0", "1"]] = None,
@@ -5573,7 +5573,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         record_calls: Optional[Literal["0", "1"]] = None,
         transcribe: Optional[Literal["0", "1"]] = None,
         transcription_locale: Optional[str] = None,
-        transcription_email: Optional[Annotated[str, "Format: email"]] = None,
+        transcription_email: Optional[str] = None,
         transcription_start_delay: Optional[Annotated[str, "Range: 0-60; Units: seconds"]] = None,
         enable_internal_cnam: Optional[int] = None,
         internal_cnam: Optional[int] = None,
@@ -5635,7 +5635,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        digits: Annotated[str, "Range: 1-10; Format: email"],
+        digits: Annotated[str, "Range: 1-10"],
         name: str,
         password: str,
         skip_password: Literal["0", "1"],
@@ -5643,13 +5643,13 @@ class VoIPMSClientAsync(VoIPMSClient):
         delete_message: str,
         say_time: str,
         timezone: str,
-        say_callerid: int,
+        say_callerid: str,
         play_instructions: int,
         language: int,
         email: Optional[Annotated[str, "Format: email"]] = None,
         email_attachment_format: Optional[int] = None,
         unavailable_message_recording: Optional[str] = None,
-        transcription: Optional[Annotated[str, "Format: email"]] = None,
+        transcription: Optional[str] = None,
         transcription_locale: Optional[int] = None,
     ) -> Dict[str, Any]:
         """Create new voicemail
@@ -5929,7 +5929,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         mailbox: int,
-        folder: Optional[int] = None,
+        folder: Optional[str] = None,
         message_num: Optional[int] = None,
     ) -> Dict[str, Any]:
         """Delete messages
@@ -6191,7 +6191,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        type_: Optional[int] = None,
+        type_: Optional[str] = None,
     ) -> Dict[str, Any]:
         """E address types
 
@@ -6398,7 +6398,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        codec: Optional[int] = None,
+        codec: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve allowed codecs information
 
@@ -6744,7 +6744,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        client: Optional[Annotated[str, "Format: email"]] = None,
+        client: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve clients information
 
@@ -6835,7 +6835,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        country: Optional[int] = None,
+        country: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve countries information
 
@@ -7013,7 +7013,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        dtmf_mode: Optional[int] = None,
+        dtmf_mode: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve dtmf modes information
 
@@ -7172,7 +7172,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        province: Optional[int] = None,
+        province: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve fax provinces information
 
@@ -7189,7 +7189,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        province: int,
+        province: str,
     ) -> Dict[str, Any]:
         """Retrieve fax rate centers can information
 
@@ -7206,7 +7206,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        state: int,
+        state: str,
     ) -> Dict[str, Any]:
         """Retrieve fax rate centers usa information
 
@@ -7223,7 +7223,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        state: Optional[int] = None,
+        state: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve fax states information
 
@@ -7285,7 +7285,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        type_: Optional[int] = None,
+        type_: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve international types information
 
@@ -7302,7 +7302,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        type_: Optional[int] = None,
+        type_: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve join when empty types information
 
@@ -7372,8 +7372,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         portid: int,
         portStatus: Optional[int] = None,
-        startDate: Optional[int] = None,
-        endDate: Optional[int] = None,
+        startDate: Optional[str] = None,
+        endDate: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve lnp list information
 
@@ -7438,7 +7438,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        language: Optional[int] = None,
+        language: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve languages information
 
@@ -7455,7 +7455,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        locale: Optional[int] = None,
+        locale: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve locales information
 
@@ -7544,7 +7544,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        music_on_hold: Optional[int] = None,
+        music_on_hold: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve music on hold information
 
@@ -7561,7 +7561,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        nat: Optional[int] = None,
+        nat: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve nat information
 
@@ -7637,7 +7637,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        play_instructions: Optional[int] = None,
+        play_instructions: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve play instructions information
 
@@ -7803,7 +7803,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        account: int,
+        account: str,
     ) -> Dict[str, Any]:
         """Retrieve registration status information
 
@@ -7820,7 +7820,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        type_: Optional[int] = None,
+        type_: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve report estimated hold time information
 
@@ -7978,7 +7978,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        strategy: Optional[int] = None,
+        strategy: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve ring strategies information
 
@@ -8165,7 +8165,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        timezone: Optional[int] = None,
+        timezone: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve timezones information
 
@@ -8212,7 +8212,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        email_attachment_format: Optional[int] = None,
+        email_attachment_format: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve voicemail attachment formats information
 
@@ -8247,7 +8247,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         mailbox: int,
-        folder: Annotated[str, "Format: email"],
+        folder: str,
         message_num: int,
     ) -> Dict[str, Any]:
         """Retrieve voicemail message file information
@@ -8268,9 +8268,9 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         mailbox: int,
-        folder: Optional[Annotated[str, "Format: email"]] = None,
-        date_from: Optional[Annotated[str, "Format: email"]] = None,
-        date_to: Optional[Annotated[str, "Format: email"]] = None,
+        folder: Optional[str] = None,
+        date_from: Optional[str] = None,
+        date_to: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve voicemail messages information
 
@@ -8344,9 +8344,9 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         mailbox: int,
-        folder: Annotated[str, "Format: email"],
+        folder: str,
         message_num: int,
-        listened: int,
+        listened: str,
     ) -> Dict[str, Any]:
         """Mark listened voicemail message
 
@@ -8367,9 +8367,9 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         mailbox: int,
-        folder: Annotated[str, "Format: email"],
+        folder: str,
         message_num: int,
-        urgent: int,
+        urgent: str,
     ) -> Dict[str, Any]:
         """Mark urgent voicemail message
 
@@ -8411,9 +8411,9 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         mailbox: int,
-        folder: Annotated[str, "Format: email"],
+        folder: str,
         message_num: int,
-        new_folder: Annotated[str, "Format: email"],
+        new_folder: str,
     ) -> Dict[str, Any]:
         """Move folder voicemail message
 
@@ -8445,7 +8445,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         voicemail: Optional[int] = None,
         callerid_prefix: Optional[int] = None,
         note: Optional[int] = None,
-        account: Optional[int] = None,
+        account: Optional[str] = None,
         monthly: Optional[str] = None,
         setup: Optional[str] = None,
         minute: Optional[Annotated[str, "Units: minutes"]] = None,
@@ -8498,7 +8498,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         voicemail: Optional[int] = None,
         callerid_prefix: Optional[int] = None,
         note: Optional[int] = None,
-        account: Optional[int] = None,
+        account: Optional[str] = None,
         monthly: Optional[str] = None,
         setup: Optional[str] = None,
         minute: Optional[Annotated[str, "Units: minutes"]] = None,
@@ -8549,7 +8549,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         voicemail: Optional[int] = None,
         callerid_prefix: Optional[int] = None,
         note: Optional[int] = None,
-        account: Optional[int] = None,
+        account: Optional[str] = None,
         monthly: Optional[str] = None,
         setup: Optional[str] = None,
         minute: Optional[Annotated[str, "Units: minutes"]] = None,
@@ -8599,7 +8599,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         voicemail: Optional[int] = None,
         callerid_prefix: Optional[int] = None,
         note: Optional[int] = None,
-        account: Optional[int] = None,
+        account: Optional[str] = None,
         monthly: Optional[str] = None,
         setup: Optional[str] = None,
         minute: Optional[Annotated[str, "Units: minutes"]] = None,
@@ -8647,7 +8647,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         voicemail: Optional[int] = None,
         callerid_prefix: Optional[int] = None,
         note: Optional[int] = None,
-        account: Optional[int] = None,
+        account: Optional[str] = None,
         monthly: Optional[str] = None,
         setup: Optional[str] = None,
         minute: Optional[Annotated[str, "Units: minutes"]] = None,
@@ -8686,7 +8686,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         location: int,
         quantity: str,
         email: Optional[Annotated[str, "Format: email"]] = None,
-        email_enable: Optional[Annotated[str, "Format: email"]] = None,
+        email_enable: Optional[str] = None,
         email_attach_file: Optional[Annotated[str, "Format: pdf"]] = None,
         url_callback: Optional[str] = None,
         url_callback_enable: Optional[str] = None,
@@ -8727,7 +8727,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         voicemail: Optional[int] = None,
         callerid_prefix: Optional[int] = None,
         note: Optional[int] = None,
-        account: Optional[int] = None,
+        account: Optional[str] = None,
         monthly: Optional[str] = None,
         setup: Optional[str] = None,
         minute: Optional[Annotated[str, "Units: minutes"]] = None,
@@ -8775,7 +8775,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         voicemail: Optional[int] = None,
         callerid_prefix: Optional[int] = None,
         note: Optional[int] = None,
-        account: Optional[int] = None,
+        account: Optional[str] = None,
         monthly: Optional[str] = None,
         setup: Optional[str] = None,
         minute: Optional[Annotated[str, "Units: minutes"]] = None,
@@ -8966,7 +8966,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         callrecording: str,
         account: int,
-        email: Annotated[str, "Format: email"],
+        email: str,
     ) -> Dict[str, Any]:
         """Send call recording email
 
@@ -8989,7 +8989,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         from_name: str,
         from_number: int,
         file: int,
-        send_email_enabled: Optional[Annotated[str, "Format: email"]] = None,
+        send_email_enabled: Optional[str] = None,
         send_email: Optional[Annotated[str, "Format: email"]] = None,
         station_id: Optional[int] = None,
         test: Optional[Literal["true", "false"]] = None,
@@ -9020,7 +9020,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         dst: str,
         message: str,
         media1: Optional[Annotated[str, "Units: milliseconds"]] = None,
-        media2: Optional[int] = None,
+        media2: Optional[Annotated[str, "Format: base64"]] = None,
         media3: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Send mms
@@ -9065,7 +9065,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         mailbox: int,
-        folder: Annotated[str, "Format: email"],
+        folder: str,
         message_num: int,
         email_address: Annotated[str, "Format: email"],
     ) -> Dict[str, Any]:
@@ -9412,7 +9412,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         did: int,
         routing: int,
-        pop: int,
+        pop: str,
         dialtime: int,
         cnam: Literal["0", "1"],
         billing_type: Literal["1", "2"],
@@ -9426,9 +9426,9 @@ class VoIPMSClientAsync(VoIPMSClient):
         record_calls: Optional[Literal["0", "1"]] = None,
         transcribe: Optional[Literal["0", "1"]] = None,
         transcription_locale: Optional[str] = None,
-        transcription_email: Optional[Annotated[str, "Format: email"]] = None,
+        transcription_email: Optional[str] = None,
         transcription_start_delay: Optional[Annotated[str, "Range: 0-60; Units: seconds"]] = None,
-        voicemail_threshold: Optional[Annotated[str, "Range: 0-60; Format: email; Units: seconds"]] = None,
+        voicemail_threshold: Optional[Annotated[str, "Range: 0-60; Units: seconds"]] = None,
     ) -> Dict[str, Any]:
         """Update did info settings
 
@@ -9464,7 +9464,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         did: int,
-        pop: int,
+        pop: str,
     ) -> Dict[str, Any]:
         """Update didpop settings
 
@@ -9597,7 +9597,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         did: int,
         email: Optional[Annotated[str, "Format: email"]] = None,
-        email_enable: Optional[Annotated[str, "Format: email"]] = None,
+        email_enable: Optional[str] = None,
         email_attach_file: Optional[Annotated[str, "Format: pdf"]] = None,
         test: Optional[Literal["true", "false"]] = None,
     ) -> Dict[str, Any]:
@@ -9622,7 +9622,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         did: int,
         email: Optional[Annotated[str, "Format: email"]] = None,
-        email_enable: Optional[Annotated[str, "Format: email"]] = None,
+        email_enable: Optional[str] = None,
         email_attach_file: Optional[Annotated[str, "Format: pdf"]] = None,
         url_callback: Optional[str] = None,
         url_callback_enable: Optional[str] = None,
@@ -9709,7 +9709,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         recording: str,
         timeout: str,
         language: str,
-        voicemailsetup: Annotated[str, "Format: email"],
+        voicemailsetup: str,
         choices: str,
         ivr: Optional[int] = None,
     ) -> Dict[str, Any]:
@@ -9760,7 +9760,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         name: Annotated[str, "Format: phone"],
-        number: Annotated[str, "Format: phone"],
+        number: str,
         phonebook: Optional[int] = None,
         speed_dial: Optional[Annotated[str, "Format: phone"]] = None,
         callerid: Optional[int] = None,
@@ -9819,19 +9819,19 @@ class VoIPMSClientAsync(VoIPMSClient):
         join_when_empty: str,
         leave_when_empty: str,
         ring_strategy: str,
-        ring_inuse: int,
+        ring_inuse: str,
         queue: Optional[int] = None,
         queue_password: Optional[str] = None,
         callerid_prefix: Optional[int] = None,
-        join_announcement: Optional[int] = None,
-        agent_announcement: Optional[int] = None,
+        join_announcement: Optional[str] = None,
+        agent_announcement: Optional[str] = None,
         member_delay: Optional[Annotated[str, "Units: seconds"]] = None,
         maximum_wait_time: Optional[Annotated[str, "Units: seconds"]] = None,
         maximum_callers: Optional[str] = None,
         agent_ring_timeout: Optional[int] = None,
         retry_timer: Optional[Annotated[str, "Units: seconds"]] = None,
-        wrapup_time: Optional[int] = None,
-        voice_announcement: Optional[int] = None,
+        wrapup_time: Optional[Annotated[str, "Units: seconds"]] = None,
+        voice_announcement: Optional[str] = None,
         frequency_announcement: Optional[Annotated[str, "Units: seconds"]] = None,
         announce_position_frecuency: Optional[Annotated[str, "Units: seconds"]] = None,
         announce_round_seconds: Optional[Annotated[str, "Units: seconds"]] = None,
@@ -9918,12 +9918,12 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         name: str,
-        members: int,
-        voicemail: Annotated[str, "Format: email"],
+        members: str,
+        voicemail: str,
         ring_group: Optional[int] = None,
         caller_announcement: Optional[int] = None,
         music_on_hold: Optional[int] = None,
-        language: Optional[int] = None,
+        language: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Update ring group settings
 
@@ -9978,7 +9978,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         sms_forward_enable: Optional[int] = None,
         sms_forward: Optional[int] = None,
         url_callback_enable: Optional[int] = None,
-        url_callback: Optional[int] = None,
+        url_callback: Optional[Annotated[str, "Format: phone"]] = None,
         url_callback_retry: Optional[Annotated[str, "Units: minutes"]] = None,
         sms_sipaccount: Optional[int] = None,
         sms_sipaccount_enabled: Optional[int] = None,
@@ -10039,13 +10039,13 @@ class VoIPMSClientAsync(VoIPMSClient):
         lock_international: int,
         international_route: int,
         music_on_hold: int,
-        allowed_codecs: int,
+        allowed_codecs: str,
         dtmf_mode: int,
         nat: int,
         transcribe: int,
         transcription_locale: str,
         transcription_email: str,
-        description: Optional[int] = None,
+        description: Optional[str] = None,
         password: Optional[int] = None,
         ip: Optional[int] = None,
         callerid_number: Optional[int] = None,
@@ -10169,13 +10169,13 @@ class VoIPMSClientAsync(VoIPMSClient):
         delete_message: str,
         say_time: str,
         timezone: str,
-        say_callerid: int,
+        say_callerid: str,
         play_instructions: int,
         language: int,
         email: Optional[Annotated[str, "Format: email"]] = None,
         email_attachment_format: Optional[int] = None,
         unavailable_message_recording: Optional[str] = None,
-        transcription: Optional[Annotated[str, "Format: email"]] = None,
+        transcription: Optional[str] = None,
         transcription_locale: Optional[int] = None,
     ) -> Dict[str, Any]:
         """Update voicemail settings

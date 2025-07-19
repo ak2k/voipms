@@ -58,6 +58,15 @@ class FinalVoIPMSJSONGenerator:
             "global_notes": [],
             "rate_limits": {}
         }
+        
+        # Load type overrides
+        self.type_overrides = {}
+        override_file = Path(__file__).parent / "wsdl_type_overrides.json"
+        if override_file.exists():
+            with open(override_file, 'r') as f:
+                override_data = json.load(f)
+                self.type_overrides = override_data.get('type_overrides', {})
+                print(f"Loaded {len(self.type_overrides)} type overrides")
 
     def generate_with_documentation(self, html_file: Optional[str] = None) -> Dict[str, Any]:
         """Generate API definition with comprehensive documentation"""
@@ -176,9 +185,12 @@ class FinalVoIPMSJSONGenerator:
                         op_data['method_errors'] = method_doc['errors']
 
             print(f"\nEnriched {enriched_count} operations with documentation")
+        
+        # Apply type overrides to fix WSDL errors (must be done after HTML enrichment)
+        self._apply_type_overrides(operations)
 
-            # Add statistics
-            self.base_api_def['statistics'] = {
+        # Add statistics
+        self.base_api_def['statistics'] = {
                 'total_operations': len(operations),
                 'enriched_operations': enriched_count,
                 'coverage_percentage': round(enriched_count / len(operations) * 100, 2),
@@ -275,6 +287,31 @@ class FinalVoIPMSJSONGenerator:
 
         return operations
 
+    def _apply_type_overrides(self, operations: Dict[str, Any]) -> None:
+        """Apply type overrides to fix WSDL errors"""
+        if not self.type_overrides:
+            return
+            
+        override_count = 0
+        not_found = []
+        for override_key, correct_type in self.type_overrides.items():
+            op_name, param_name = override_key.split('.')
+            
+            if op_name in operations:
+                if param_name in operations[op_name]['parameters']:
+                    old_type = operations[op_name]['parameters'][param_name]['type']
+                    operations[op_name]['parameters'][param_name]['type'] = correct_type
+                    override_count += 1
+                else:
+                    not_found.append(f"{op_name}.{param_name}")
+            else:
+                not_found.append(f"{op_name} (operation not found)")
+                
+        if override_count > 0:
+            print(f"Applied {override_count} type overrides to fix WSDL errors")
+        if not_found:
+            print(f"Could not apply {len(not_found)} overrides: {', '.join(not_found[:5])}...")
+    
     def _has_constraints(self, param: Dict) -> bool:
         """Check if parameter has any constraints"""
         constraint_keys = ['minimum', 'maximum', 'minLength', 'maxLength', 'pattern',
