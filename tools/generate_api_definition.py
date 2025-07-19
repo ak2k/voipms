@@ -14,20 +14,23 @@ Uses the enhanced HTML parser to generate comprehensive API definitions
 
 import json
 import re
-from pathlib import Path
+import sys
 from datetime import datetime
-from typing import Dict, List, Any, Optional, Set, Tuple
+from pathlib import Path
+from typing import Any, Dict, Optional
+
 import requests
 from bs4 import BeautifulSoup
-import sys
+
 sys.path.append(str(Path(__file__).parent))
 
 # Import our HTML parser
 from parse_html_docs import FinalVoIPMSDocumentationParser
 
+
 class FinalVoIPMSJSONGenerator:
     """Final generator that creates comprehensive API definitions"""
-    
+
     def __init__(self):
         self.wsdl_url = "https://voip.ms/api/v1/server.wsdl"
         self.base_api_def = {
@@ -45,7 +48,7 @@ class FinalVoIPMSJSONGenerator:
                     "description": "API username (email address)"
                 },
                 "api_password": {
-                    "type": "string", 
+                    "type": "string",
                     "required": True,
                     "description": "API password"
                 }
@@ -55,10 +58,10 @@ class FinalVoIPMSJSONGenerator:
             "global_notes": [],
             "rate_limits": {}
         }
-    
+
     def generate_with_documentation(self, html_file: Optional[str] = None) -> Dict[str, Any]:
         """Generate API definition with comprehensive documentation"""
-        
+
         # Step 1: Parse WSDL to get basic structure
         print("Fetching WSDL from VoIP.ms...")
         try:
@@ -69,33 +72,33 @@ class FinalVoIPMSJSONGenerator:
         except Exception as e:
             print(f"Error fetching WSDL: {e}")
             return self.base_api_def
-        
+
         # Parse WSDL to get methods
         soup = BeautifulSoup(wsdl_content, 'xml')
         operations = self._parse_wsdl_operations(soup)
-        
+
         # Step 2: Use enhanced parser if HTML is available
         if html_file and Path(html_file).exists():
             print(f"\nUsing enhanced parser on: {html_file}")
             parser = FinalVoIPMSDocumentationParser(html_file)
             doc_data = parser.parse()
-            
+
             # Merge error codes
             self.base_api_def['error_codes'] = doc_data['error_codes']
             self.base_api_def['global_notes'] = doc_data['global_notes']
             self.base_api_def['rate_limits'] = doc_data['rate_limits']
-            
+
             # Enrich operations with documentation
             enriched_count = 0
             for op_name, op_data in operations.items():
                 if op_name in doc_data['methods']:
                     method_doc = doc_data['methods'][op_name]
                     enriched_count += 1
-                    
+
                     # Update operation description
                     if method_doc.get('description'):
                         op_data['description'] = method_doc['description']
-                    
+
                     # Add notes and warnings
                     if method_doc.get('notes'):
                         op_data['notes'] = method_doc['notes']
@@ -103,28 +106,28 @@ class FinalVoIPMSJSONGenerator:
                         op_data['warnings'] = method_doc['warnings']
                     if method_doc.get('requirements'):
                         op_data['requirements'] = method_doc['requirements']
-                    
+
                     # Enrich parameters
                     for param_name, param_info in method_doc.get('parameters', {}).items():
                         if param_name in op_data['parameters']:
                             # Merge parameter information
                             wsdl_param = op_data['parameters'][param_name]
-                            
+
                             # Update type if we have better info
                             if param_info.get('type'):
                                 wsdl_param['type'] = self._map_type(param_info['type'])
-                            
+
                             # Add all enhanced metadata
                             if param_info.get('enum'):
                                 wsdl_param['enum'] = param_info['enum']
                                 wsdl_param['type'] = 'string'  # Enums are always strings
-                                
+
                             if param_info.get('default'):
                                 wsdl_param['default'] = param_info['default']
-                                
+
                             if param_info.get('format'):
                                 wsdl_param['format'] = param_info['format']
-                                
+
                             if param_info.get('constraints'):
                                 # Map constraints to JSON Schema keywords
                                 constraints = param_info['constraints']
@@ -146,90 +149,90 @@ class FinalVoIPMSJSONGenerator:
                                     wsdl_param['multiple'] = constraints['multiple']
                                 if 'delimiter' in constraints:
                                     wsdl_param['delimiter'] = constraints['delimiter']
-                                    
+
                             if param_info.get('units'):
                                 wsdl_param['units'] = param_info['units']
-                                
+
                             if param_info.get('examples'):
                                 wsdl_param['examples'] = param_info['examples']
-                                
+
                             if param_info.get('validation'):
                                 wsdl_param['validation'] = param_info['validation']
-                            
+
                             # Use enhanced description if available
                             if param_info.get('description'):
                                 wsdl_param['description'] = param_info['description']
-                                
+
                             # Use required field from HTML docs (more accurate than WSDL)
                             if 'required' in param_info:
                                 wsdl_param['required'] = param_info['required']
-                    
+
                     # Add output example
                     if method_doc.get('output_example'):
                         op_data['example_response'] = method_doc['output_example']
-                    
+
                     # Add method-specific errors
                     if method_doc.get('errors'):
                         op_data['method_errors'] = method_doc['errors']
-            
+
             print(f"\nEnriched {enriched_count} operations with documentation")
-            
+
             # Add statistics
             self.base_api_def['statistics'] = {
                 'total_operations': len(operations),
                 'enriched_operations': enriched_count,
                 'coverage_percentage': round(enriched_count / len(operations) * 100, 2),
-                'operations_with_enums': sum(1 for op in operations.values() 
+                'operations_with_enums': sum(1 for op in operations.values()
                                            if any(p.get('enum') for p in op['parameters'].values())),
-                'operations_with_constraints': sum(1 for op in operations.values() 
+                'operations_with_constraints': sum(1 for op in operations.values()
                                                  if any(self._has_constraints(p) for p in op['parameters'].values())),
-                'operations_with_defaults': sum(1 for op in operations.values() 
+                'operations_with_defaults': sum(1 for op in operations.values()
                                               if any(p.get('default') for p in op['parameters'].values())),
                 'total_error_codes': len(self.base_api_def['error_codes'])
             }
-        
+
         # Step 3: Add operations to base definition
         self.base_api_def['operations'] = operations
-        
+
         # Step 4: Write to file
         output_file = Path("src/voipms/api_definition.json")
         output_file.parent.mkdir(exist_ok=True)
-        
+
         with open(output_file, 'w') as f:
             json.dump(self.base_api_def, f, indent=2)
-        
+
         print(f"\nGenerated comprehensive API definition: {output_file}")
-        
+
         return self.base_api_def
-    
+
     def _parse_wsdl_operations(self, soup: BeautifulSoup) -> Dict[str, Any]:
         """Parse operations from WSDL with complex type support"""
         operations = {}
-        
+
         # Find all operation elements
         for operation in soup.find_all('operation'):
             op_name = operation.get('name')
             if not op_name:
                 continue
-            
+
             # Get input message
             input_msg = operation.find('input')
             if not input_msg:
                 continue
-            
+
             msg_name = input_msg.get('message', '').split(':')[-1]
-            
+
             # Find message definition
             message_def = soup.find('message', {'name': msg_name})
             if not message_def:
                 continue
-            
+
             # Extract parameters
             parameters = {}
             for part in message_def.find_all('part'):
                 param_name = part.get('name')
                 param_type = part.get('type', 'string').split(':')[-1]
-                
+
                 # Check if this is a complex type reference (e.g., params: getCDRInput)
                 if param_name == 'params' and 'Input' in param_type:
                     # Find the complex type definition
@@ -242,7 +245,7 @@ class FinalVoIPMSJSONGenerator:
                                 elem_name = element.get('name')
                                 elem_type = element.get('type', 'string').split(':')[-1]
                                 min_occurs = element.get('minOccurs', '1')
-                                
+
                                 # Skip auth parameters
                                 if elem_name and elem_name not in ['api_username', 'api_password']:
                                     parameters[elem_name] = {
@@ -258,7 +261,7 @@ class FinalVoIPMSJSONGenerator:
                             'required': False,
                             'description': ''
                         }
-            
+
             operations[op_name] = {
                 'method': op_name,
                 'category': self._categorize_method(op_name),
@@ -269,15 +272,15 @@ class FinalVoIPMSJSONGenerator:
                     'description': f'Response from {op_name} operation'
                 }
             }
-        
+
         return operations
-    
+
     def _has_constraints(self, param: Dict) -> bool:
         """Check if parameter has any constraints"""
-        constraint_keys = ['minimum', 'maximum', 'minLength', 'maxLength', 'pattern', 
+        constraint_keys = ['minimum', 'maximum', 'minLength', 'maxLength', 'pattern',
                           'values_from', 'rate_limit', 'multiple']
         return any(key in param for key in constraint_keys)
-    
+
     def _map_type(self, wsdl_type: str) -> str:
         """Map WSDL types to JSON Schema types"""
         type_mapping = {
@@ -295,7 +298,7 @@ class FinalVoIPMSJSONGenerator:
             'List[str]': 'array'
         }
         return type_mapping.get(wsdl_type, 'string')
-    
+
     def _categorize_method(self, method_name: str) -> str:
         """Categorize method based on name patterns"""
         patterns = {
@@ -305,13 +308,13 @@ class FinalVoIPMSJSONGenerator:
             'delete': r'^(del|delete|cancel|remove)',
             'action': r'^(send|order|backOrder|connect|assign)'
         }
-        
+
         for category, pattern in patterns.items():
             if re.match(pattern, method_name, re.IGNORECASE):
                 return category
-        
+
         return 'other'
-    
+
     def _generate_description(self, method_name: str) -> str:
         """Generate method description from name"""
         patterns = {
@@ -330,7 +333,7 @@ class FinalVoIPMSJSONGenerator:
             r'^assign(.+)$': 'Assign {}',
             r'^connect(.+)$': 'Connect {}'
         }
-        
+
         for pattern, template in patterns.items():
             match = re.match(pattern, method_name)
             if match:
@@ -339,39 +342,39 @@ class FinalVoIPMSJSONGenerator:
                 words = re.findall(r'[A-Z]?[a-z]+|[A-Z]+(?=[A-Z]|$)', resource)
                 resource = ' '.join(words).lower()
                 return template.format(resource)
-        
+
         # Default: convert camelCase to sentence
         words = re.findall(r'[A-Z]?[a-z]+|[A-Z]+(?=[A-Z]|$)', method_name)
         return ' '.join(words).capitalize()
-    
+
     def show_enrichment_summary(self, api_def: Dict[str, Any]):
         """Display summary of enrichments"""
         print("\n" + "="*60)
         print("COMPREHENSIVE API DEFINITION SUMMARY")
         print("="*60)
-        
+
         if 'statistics' in api_def:
             stats = api_def['statistics']
-            print(f"\nOperations:")
+            print("\nOperations:")
             print(f"  Total: {stats['total_operations']}")
             print(f"  Enriched: {stats['enriched_operations']} ({stats['coverage_percentage']}%)")
             print(f"  With Enums: {stats['operations_with_enums']}")
             print(f"  With Constraints: {stats['operations_with_constraints']}")
             print(f"  With Defaults: {stats['operations_with_defaults']}")
-            
+
         print(f"\nError Codes: {len(api_def.get('error_codes', {}))}")
         print(f"Global Notes: {len(api_def.get('global_notes', []))}")
         print(f"Rate Limits: {api_def.get('rate_limits', {})}")
-        
+
         # Show sample enriched operation
         print("\n" + "-"*60)
         print("SAMPLE ENRICHED OPERATION")
         print("-"*60)
-        
+
         # Find the most enriched operation
         best_op = None
         best_score = 0
-        
+
         for op_name, op_data in api_def['operations'].items():
             score = 0
             for param in op_data['parameters'].values():
@@ -380,19 +383,19 @@ class FinalVoIPMSJSONGenerator:
                 if self._has_constraints(param): score += 3
                 if param.get('format'): score += 1
                 if param.get('units'): score += 1
-                
+
             if score > best_score:
                 best_score = score
                 best_op = (op_name, op_data)
-        
+
         if best_op:
             op_name, op_data = best_op
             print(f"\nOperation: {op_name}")
             print(f"Description: {op_data.get('description', 'N/A')}")
-            
+
             if op_data.get('notes'):
                 print(f"Notes: {op_data['notes']}")
-                
+
             print("\nEnriched Parameters:")
             for param_name, param_info in op_data['parameters'].items():
                 if any(param_info.get(k) for k in ['enum', 'default', 'format', 'units', 'minimum', 'maximum']):
@@ -415,14 +418,14 @@ class FinalVoIPMSJSONGenerator:
 
 if __name__ == "__main__":
     generator = FinalVoIPMSJSONGenerator()
-    
+
     # Check for existing HTML file
     html_file = None
     for possible_file in ["../resources/voipms_api_documentation.html", "voipms_api_documentation.html", "resources/voipms_api_documentation.html"]:
         if Path(possible_file).exists():
             html_file = possible_file
             break
-    
+
     if html_file:
         print(f"Using HTML documentation: {html_file}")
         api_def = generator.generate_with_documentation(html_file=html_file)

@@ -3,14 +3,16 @@ Tests based on VoIP.ms PHP API examples
 Auto-generated from PHP example files
 """
 
+from unittest.mock import MagicMock, patch
+
 import pytest
-from unittest.mock import patch, MagicMock
+
 from voipms import VoIPMSClient
 
 
 class TestAPIExamples:
     """Test cases derived from official PHP examples"""
-    
+
     @pytest.fixture(autouse=True)
     def setup(self):
         """Setup test client with mock credentials"""
@@ -20,7 +22,7 @@ class TestAPIExamples:
         }):
             self.client = VoIPMSClient()
 
-            
+
     @patch('httpx.Client.post')
     def test_getlanguages_0(self, mock_post):
         """Test getLanguages - Evaluate Response"""
@@ -31,14 +33,14 @@ class TestAPIExamples:
         }
         mock_response.raise_for_status = MagicMock()
         mock_post.return_value = mock_response
-        
+
         # Make API call
         result = self.client.getLanguages()
-        
+
         # Verify response
         assert result['status'] == 'success'
 
-            
+
     @patch('httpx.Client.post')
     def test_getregistrationstatus_1(self, mock_post):
         """Test getRegistrationStatus - Registration Status"""
@@ -51,16 +53,16 @@ class TestAPIExamples:
         }
         mock_response.raise_for_status = MagicMock()
         mock_post.return_value = mock_response
-        
+
         # Make API call
         result = self.client.getRegistrationStatus(account='100001_VoIP')
-        
+
         # Verify response
         assert result['status'] == 'success'
         assert 'registered' in result
         assert 'registrations' in result
 
-            
+
     @patch('httpx.Client.post')
     def test_getclients_2(self, mock_post):
         """Test getClients - Client Login"""
@@ -72,15 +74,15 @@ class TestAPIExamples:
         }
         mock_response.raise_for_status = MagicMock()
         mock_post.return_value = mock_response
-        
+
         # Make API call
         result = self.client.getClients(email='Jane.doe@mydomain.com')
-        
+
         # Verify response
         assert result['status'] == 'success'
         assert 'clients' in result
 
-            
+
     @patch('httpx.Client.post')
     def test_getsubaccounts_3(self, mock_post):
         """Test getSubAccounts - Client Accounts"""
@@ -92,15 +94,15 @@ class TestAPIExamples:
         }
         mock_response.raise_for_status = MagicMock()
         mock_post.return_value = mock_response
-        
+
         # Make API call
         result = self.client.getSubAccounts(account='500000')
-        
+
         # Verify response
         assert result['status'] == 'success'
         assert 'accounts' in result
 
-            
+
     @patch('httpx.Client.post')
     def test_getvoicemails_4(self, mock_post):
         """Test getVoicemails - Voicemails"""
@@ -113,16 +115,16 @@ class TestAPIExamples:
         }
         mock_response.raise_for_status = MagicMock()
         mock_post.return_value = mock_response
-        
+
         # Make API call
         result = self.client.getVoicemails(mailbox='900000')
-        
+
         # Verify response
         assert result['status'] == 'success'
         assert 'accounts' in result
         assert 'voicemails' in result
 
-            
+
     @patch('httpx.Client.post')
     def test_getclients_5(self, mock_post):
         """Test getClients - Clients"""
@@ -134,15 +136,15 @@ class TestAPIExamples:
         }
         mock_response.raise_for_status = MagicMock()
         mock_post.return_value = mock_response
-        
+
         # Make API call
         result = self.client.getClients()
-        
+
         # Verify response
         assert result['status'] == 'success'
         assert 'clients' in result
 
-            
+
     @patch('httpx.Client.post')
     def test_getpackages_6(self, mock_post):
         """Test getPackages - Packages"""
@@ -154,15 +156,15 @@ class TestAPIExamples:
         }
         mock_response.raise_for_status = MagicMock()
         mock_post.return_value = mock_response
-        
+
         # Make API call
         result = self.client.getPackages()
-        
+
         # Verify response
         assert result['status'] == 'success'
         assert 'packages' in result
 
-            
+
     @patch('httpx.Client.post')
     def test_getcdr_7(self, mock_post):
         """Test getCDR - Cdr"""
@@ -174,15 +176,15 @@ class TestAPIExamples:
         }
         mock_response.raise_for_status = MagicMock()
         mock_post.return_value = mock_response
-        
+
         # Make API call
         result = self.client.getCDR(date_from='2024-01-01', date_to='2024-01-31')
-        
+
         # Verify response
         assert result['status'] == 'success'
         assert 'cdr' in result
 
-            
+
     @patch('httpx.Client.post')
     def test_getresellercdr_8(self, mock_post):
         """Test getResellerCDR - Cdr Reseller"""
@@ -194,10 +196,10 @@ class TestAPIExamples:
         }
         mock_response.raise_for_status = MagicMock()
         mock_post.return_value = mock_response
-        
+
         # Make API call
         result = self.client.getResellerCDR(date_from='2024-01-01', date_to='2024-01-31')
-        
+
         # Verify response
         assert result['status'] == 'success'
         assert 'cdr' in result

@@ -21,12 +21,12 @@ Usage:
     uv run backup_account_simple.py
 """
 
-import sys
-import os
-import json
 import asyncio
+import json
+import os
+import sys
 from datetime import datetime
-from typing import Dict, Any, List, Tuple
+from typing import Any, Tuple
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
@@ -35,7 +35,7 @@ from voipms import VoIPMSClientAsync, VoIPMSError
 # Categories of methods to backup
 BACKUP_CATEGORIES = {
     'Account': [
-        'getBalance', 'getIP', 'getRegistrationStatus', 
+        'getBalance', 'getIP', 'getRegistrationStatus',
         'getClientThreshold', 'getBalanceManagement'
     ],
     'Configuration': [
@@ -45,8 +45,8 @@ BACKUP_CATEGORIES = {
     ],
     'Phone Features': [
         'getCallAccounts', 'getSubAccounts', 'getForwardings',
-        'getCallHuntings', 'getRingGroups', 'getQueues', 
-        'getIVRs', 'getTimeConditions', 'getDISAs', 
+        'getCallHuntings', 'getRingGroups', 'getQueues',
+        'getIVRs', 'getTimeConditions', 'getDISAs',
         'getCallbacks', 'getSIPURIs', 'getVoicemailSetups'
     ],
     'Settings': [
@@ -82,43 +82,43 @@ async def backup_account_simple():
     """Create a simple backup of account configuration"""
     print("VoIP.ms Simple Account Backup")
     print("=" * 40)
-    
+
     start_time = datetime.now()
     backup_data = {
         'backup_timestamp': datetime.now().isoformat(),
         'backup_type': 'simple',
         'categories': {}
     }
-    
+
     async with VoIPMSClientAsync() as client:
         total_methods = sum(len(methods) for methods in BACKUP_CATEGORIES.values())
         print(f"Backing up {total_methods} configuration items...\n")
-        
+
         successful = 0
         failed = 0
-        
+
         # Process each category
         for category, methods in BACKUP_CATEGORIES.items():
             print(f"{category}:")
             backup_data['categories'][category] = {}
-            
+
             # Call all methods in parallel for this category
             tasks = [call_method_safe(client, method) for method in methods]
             results = await asyncio.gather(*tasks)
-            
+
             # Process results
             for method_name, result in results:
                 backup_data['categories'][category][method_name] = result
-                
+
                 if result['status'] == 'success':
                     print(f"  ✓ {method_name}")
                     successful += 1
                 else:
                     print(f"  ✗ {method_name} ({result.get('code', 'error')})")
                     failed += 1
-            
+
             print()
-        
+
         # Add summary
         execution_time = (datetime.now() - start_time).total_seconds()
         backup_data['summary'] = {
@@ -127,22 +127,22 @@ async def backup_account_simple():
             'failed': failed,
             'execution_time_seconds': round(execution_time, 2)
         }
-        
+
         # Extract key information for quick summary
         if 'Account' in backup_data['categories']:
             balance_data = backup_data['categories']['Account'].get('getBalance', {})
             if balance_data.get('status') == 'success':
                 balance = balance_data['data'].get('balance', {}).get('current_balance')
                 backup_data['summary']['current_balance'] = balance
-        
+
         # Save backup
         date_str = datetime.now().strftime('%Y-%m-%d')
         filename = f'voipms_backup_simple_{date_str}.json'
-        
+
         print(f"Saving backup to {filename}...")
         with open(filename, 'w') as f:
             json.dump(backup_data, f, indent=2, sort_keys=True)
-        
+
         # Summary
         print("\n" + "=" * 40)
         print("Backup Complete!")
@@ -151,10 +151,10 @@ async def backup_account_simple():
         print(f"✓ Failed: {failed}")
         print(f"✓ Time: {execution_time:.1f} seconds")
         print(f"✓ File: {filename} ({os.path.getsize(filename) / 1024:.1f} KB)")
-        
+
         if 'current_balance' in backup_data['summary']:
             print(f"\n💰 Current balance: ${backup_data['summary']['current_balance']}")
-        
+
         return backup_data
 
 if __name__ == '__main__':

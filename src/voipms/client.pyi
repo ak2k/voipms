@@ -5,48 +5,46 @@ Generated from api_definition.json on 2025-07-18
 DO NOT EDIT MANUALLY - This file is auto-generated
 """
 
-from typing import Dict, Any, Optional, List, Union, Literal, Annotated
-from pathlib import Path
-
+from typing import Annotated, Any, Literal
 
 class VoIPMSError(Exception):
     """VoIP.ms API error"""
     code: str
     message: str
-    response: Optional[Dict[str, Any]]
-    def __init__(self, code: str, message: str, response: Optional[Dict[str, Any]] = None) -> None: ...
+    response: dict[str, Any] | None
+    def __init__(self, code: str, message: str, response: dict[str, Any] | None = None) -> None: ...
 
 
 class VoIPMSClient:
     """Data-driven VoIP.ms client that dynamically creates methods from JSON definition."""
-    
-    api_definition: Dict[str, Any]
-    username: Optional[str]
-    password: Optional[str]
+
+    api_definition: dict[str, Any]
+    username: str | None
+    password: str | None
     base_url: str
     timeout: float
     max_retries: int
     verify_ssl: bool
     debug: bool
-    
+
     def __init__(
         self,
         api_definition_path: str = "api_definition.json",
-        username: Optional[str] = None,
-        password: Optional[str] = None,
-        base_url: Optional[str] = None,
+        username: str | None = None,
+        password: str | None = None,
+        base_url: str | None = None,
         timeout: float = 30.0,
         max_retries: int = 3,
         verify_ssl: bool = True,
         debug: bool = False
     ) -> None: ...
-    
+
     def close(self) -> None: ...
-    def __enter__(self) -> "VoIPMSClient": ...
+    def __enter__(self) -> VoIPMSClient: ...
     def __exit__(self, exc_type: Any, exc_val: Any, exc_tb: Any) -> None: ...
-    
-    def get_available_methods(self) -> List[str]: ...
-    def get_method_info(self, method_name: str) -> Optional[Dict[str, Any]]: ...
+
+    def get_available_methods(self) -> list[str]: ...
+    def get_method_info(self, method_name: str) -> dict[str, Any] | None: ...
     def debug_method_params(self, op_name: str, **kwargs: Any) -> None: ...
 
     # API Methods
@@ -57,9 +55,9 @@ class VoIPMSClient:
         *,
         client: int,
         charge: str,
-        description: Optional[str] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        description: str | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Add new charge
 
         Args:
@@ -80,7 +78,7 @@ class VoIPMSClient:
         *,
         portid: int,
         file: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Add new lnp file
 
         Args:
@@ -109,16 +107,16 @@ class VoIPMSClient:
         country: int,
         providerName: int,
         providerAccount: int,
-        isPartial: Optional[int] = None,
-        locationType: Optional[Literal["1", "0"]] = None,
-        isMobile: Optional[Literal["1", "0"]] = None,
-        pin: Optional[str] = None,
-        btn: Optional[Annotated[str, "Format: phone"]] = None,
-        services: Optional[str] = None,
-        tfType: Optional[int] = None,
-        address2: Optional[str] = None,
-        notes: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        isPartial: int | None = None,
+        locationType: Literal["1", "0"] | None = None,
+        isMobile: Literal["1", "0"] | None = None,
+        pin: str | None = None,
+        btn: Annotated[str, "Format: phone"] | None = None,
+        services: str | None = None,
+        tfType: int | None = None,
+        address2: str | None = None,
+        notes: int | None = None,
+    ) -> dict[str, Any]:
         """Add new lnp port
 
         Args:
@@ -156,7 +154,7 @@ class VoIPMSClient:
         *,
         member: int,
         conference: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Add new member to conference
 
         Args:
@@ -175,9 +173,9 @@ class VoIPMSClient:
         *,
         client: int,
         payment: str,
-        description: Optional[str] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        description: str | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Add new payment
 
         Args:
@@ -198,7 +196,7 @@ class VoIPMSClient:
         *,
         vpri: int,
         did: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Assign di dv pri
 
         Args:
@@ -223,14 +221,14 @@ class VoIPMSClient:
         dialtime: int,
         cnam: Literal["0", "1"],
         billing_type: Literal["1", "2"],
-        failover_busy: Optional[int] = None,
-        failover_unreachable: Optional[int] = None,
-        failover_noanswer: Optional[int] = None,
-        voicemail: Optional[int] = None,
-        callerid_prefix: Optional[int] = None,
-        note: Optional[int] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        failover_busy: int | None = None,
+        failover_unreachable: int | None = None,
+        failover_noanswer: int | None = None,
+        voicemail: int | None = None,
+        callerid_prefix: int | None = None,
+        note: int | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Backorder didcan
 
         Args:
@@ -271,14 +269,14 @@ class VoIPMSClient:
         dialtime: int,
         cnam: Literal["0", "1"],
         billing_type: Literal["1", "2"],
-        failover_busy: Optional[int] = None,
-        failover_unreachable: Optional[int] = None,
-        failover_noanswer: Optional[int] = None,
-        voicemail: Optional[int] = None,
-        callerid_prefix: Optional[int] = None,
-        note: Optional[int] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        failover_busy: int | None = None,
+        failover_unreachable: int | None = None,
+        failover_noanswer: int | None = None,
+        voicemail: int | None = None,
+        callerid_prefix: int | None = None,
+        note: int | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Backorder didusa
 
         Args:
@@ -312,10 +310,10 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         did: int,
-        cancelcomment: Optional[int] = None,
-        portout: Optional[Literal["true", "false"]] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        cancelcomment: int | None = None,
+        portout: Literal["true", "false"] | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Cancel did
 
         Args:
@@ -335,8 +333,8 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         id_: int,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Cancel fax number
 
         Args:
@@ -358,10 +356,10 @@ class VoIPMSClient:
         monthly: str,
         setup: str,
         minute: Annotated[str, "Units: minutes"],
-        next_billing: Optional[str] = None,
-        dont_charge_setup: Optional[str] = None,
-        dont_charge_monthly: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        next_billing: str | None = None,
+        dont_charge_setup: str | None = None,
+        dont_charge_monthly: str | None = None,
+    ) -> dict[str, Any]:
         """Connect did
 
         Args:
@@ -389,10 +387,10 @@ class VoIPMSClient:
         monthly: str,
         setup: str,
         minute: Annotated[str, "Units: minutes"],
-        next_billing: Optional[str] = None,
-        dont_charge_setup: Optional[str] = None,
-        dont_charge_monthly: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        next_billing: str | None = None,
+        dont_charge_setup: str | None = None,
+        dont_charge_monthly: str | None = None,
+    ) -> dict[str, Any]:
         """Connect fax
 
         Args:
@@ -425,38 +423,38 @@ class VoIPMSClient:
         allowed_codecs: int,
         dtmf_mode: int,
         nat: int,
-        description: Optional[int] = None,
-        password: Optional[int] = None,
-        ip: Optional[int] = None,
-        callerid_number: Optional[int] = None,
-        canada_routing: Optional[int] = None,
-        language: Optional[int] = None,
-        sip_traffic: Optional[Literal["0", "1"]] = None,
-        max_expiry: Optional[Annotated[str, "Range: 60-3600"]] = None,
-        rtp_timeout: Optional[Annotated[str, "Range: 1-3600"]] = None,
-        rtp_hold_timeout: Optional[Annotated[str, "Range: 1-3600"]] = None,
-        ip_restriction: Optional[Annotated[str, "Format: ip_address"]] = None,
-        enable_ip_restriction: Optional[Literal["0", "1"]] = None,
-        pop_restriction: Optional[str] = None,
-        enable_pop_restriction: Optional[Literal["0", "1"]] = None,
-        internal_extension: Optional[int] = None,
-        internal_voicemail: Optional[int] = None,
-        internal_dialtime: Optional[int] = None,
-        reseller_client: Optional[int] = None,
-        reseller_package: Optional[str] = None,
-        reseller_nextbilling: Optional[str] = None,
-        reseller_chargesetup: Optional[str] = None,
-        send_bye: Optional[Literal["0", "1"]] = None,
-        record_calls: Optional[Literal["0", "1"]] = None,
-        transcribe: Optional[Literal["0", "1"]] = None,
-        transcription_locale: Optional[str] = None,
-        transcription_email: Optional[Annotated[str, "Format: email"]] = None,
-        transcription_start_delay: Optional[Annotated[str, "Range: 0-60; Units: seconds"]] = None,
-        enable_internal_cnam: Optional[int] = None,
-        internal_cnam: Optional[int] = None,
-        dialing_mode: Optional[Literal["0", "1", "2"]] = None,
-        tfcarrier: Optional[Literal["1", "0", "1", "2"]] = None,
-    ) -> Dict[str, Any]:
+        description: int | None = None,
+        password: int | None = None,
+        ip: int | None = None,
+        callerid_number: int | None = None,
+        canada_routing: int | None = None,
+        language: int | None = None,
+        sip_traffic: Literal["0", "1"] | None = None,
+        max_expiry: Annotated[str, "Range: 60-3600"] | None = None,
+        rtp_timeout: Annotated[str, "Range: 1-3600"] | None = None,
+        rtp_hold_timeout: Annotated[str, "Range: 1-3600"] | None = None,
+        ip_restriction: Annotated[str, "Format: ip_address"] | None = None,
+        enable_ip_restriction: Literal["0", "1"] | None = None,
+        pop_restriction: str | None = None,
+        enable_pop_restriction: Literal["0", "1"] | None = None,
+        internal_extension: int | None = None,
+        internal_voicemail: int | None = None,
+        internal_dialtime: int | None = None,
+        reseller_client: int | None = None,
+        reseller_package: str | None = None,
+        reseller_nextbilling: str | None = None,
+        reseller_chargesetup: str | None = None,
+        send_bye: Literal["0", "1"] | None = None,
+        record_calls: Literal["0", "1"] | None = None,
+        transcribe: Literal["0", "1"] | None = None,
+        transcription_locale: str | None = None,
+        transcription_email: Annotated[str, "Format: email"] | None = None,
+        transcription_start_delay: Annotated[str, "Range: 0-60; Units: seconds"] | None = None,
+        enable_internal_cnam: int | None = None,
+        internal_cnam: int | None = None,
+        dialing_mode: Literal["0", "1", "2"] | None = None,
+        tfcarrier: Literal["1", "0", "1", "2"] | None = None,
+    ) -> dict[str, Any]:
         """Create new sub account
 
         Args:
@@ -523,12 +521,12 @@ class VoIPMSClient:
         say_callerid: int,
         play_instructions: int,
         language: int,
-        email: Optional[Annotated[str, "Format: email"]] = None,
-        email_attachment_format: Optional[int] = None,
-        unavailable_message_recording: Optional[str] = None,
-        transcription: Optional[Annotated[str, "Format: email"]] = None,
-        transcription_locale: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        email: Annotated[str, "Format: email"] | None = None,
+        email_attachment_format: int | None = None,
+        unavailable_message_recording: str | None = None,
+        transcription: Annotated[str, "Format: email"] | None = None,
+        transcription_locale: int | None = None,
+    ) -> dict[str, Any]:
         """Create new voicemail
 
         Args:
@@ -560,7 +558,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         callhunting: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete call hunting
 
         Args:
@@ -577,7 +575,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         callparking: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete call parking
 
         Args:
@@ -595,7 +593,7 @@ class VoIPMSClient:
         *,
         callrecording: str,
         account: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete call recording
 
         Args:
@@ -613,7 +611,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         callback: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete callback
 
         Args:
@@ -630,7 +628,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         filtering: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete caller id filtering
 
         Args:
@@ -647,7 +645,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         client: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete client
 
         Args:
@@ -664,7 +662,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         conference: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete conference
 
         Args:
@@ -681,7 +679,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         member: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete conference member
 
         Args:
@@ -698,7 +696,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         disa: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete disa
 
         Args:
@@ -715,8 +713,8 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         id_: int,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Delete email to fax
 
         Args:
@@ -734,8 +732,8 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         id_: int,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Delete fax folder
 
         Args:
@@ -752,8 +750,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        forwarding: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        forwarding: int | None = None,
+    ) -> dict[str, Any]:
         """Delete forwarding
 
         Args:
@@ -770,7 +768,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         ivr: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete ivr
 
         Args:
@@ -787,8 +785,8 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         member: int,
-        conference: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        conference: int | None = None,
+    ) -> dict[str, Any]:
         """Delete member from conference
 
         Args:
@@ -806,9 +804,9 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         mailbox: int,
-        folder: Optional[int] = None,
-        message_num: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        folder: int | None = None,
+        message_num: int | None = None,
+    ) -> dict[str, Any]:
         """Delete messages
 
         Args:
@@ -827,7 +825,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         music_on_hold: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete music on hold
 
         Args:
@@ -844,7 +842,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         phonebook: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete phonebook
 
         Args:
@@ -861,7 +859,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         group: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete phonebook group
 
         Args:
@@ -878,7 +876,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         queue: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete queue
 
         Args:
@@ -895,7 +893,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         recording: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete recording
 
         Args:
@@ -912,7 +910,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         ringgroup: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete ring group
 
         Args:
@@ -929,7 +927,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         sipuri: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete sipuri
 
         Args:
@@ -947,7 +945,7 @@ class VoIPMSClient:
         *,
         member: int,
         queue: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete static member
 
         Args:
@@ -964,8 +962,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        id_: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        id_: int | None = None,
+    ) -> dict[str, Any]:
         """Delete sub account
 
         Args:
@@ -982,7 +980,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         timecondition: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete time condition
 
         Args:
@@ -999,7 +997,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         mailbox: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete voicemail
 
         Args:
@@ -1016,8 +1014,8 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         id_: int,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Delete ete fax message
 
         Args:
@@ -1035,7 +1033,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         id_: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete ete mms
 
         Args:
@@ -1052,7 +1050,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         id_: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete ete sms
 
         Args:
@@ -1068,8 +1066,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        type_: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        type_: int | None = None,
+    ) -> dict[str, Any]:
         """E address types
 
         Args:
@@ -1086,7 +1084,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         did: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """E cancel
 
         Args:
@@ -1103,7 +1101,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         did: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """E info
 
         Args:
@@ -1128,10 +1126,10 @@ class VoIPMSClient:
         country: int,
         zip: str,
         language: str,
-        address_type: Optional[str] = None,
-        address_number: Optional[str] = None,
-        other_info: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        address_type: str | None = None,
+        address_number: str | None = None,
+        other_info: str | None = None,
+    ) -> dict[str, Any]:
         """E provision
 
         Args:
@@ -1167,10 +1165,10 @@ class VoIPMSClient:
         country: int,
         zip: str,
         language: str,
-        address_type: Optional[str] = None,
-        address_number: Optional[str] = None,
-        other_info: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        address_type: str | None = None,
+        address_number: str | None = None,
+        other_info: str | None = None,
+    ) -> dict[str, Any]:
         """E provision manually
 
         Args:
@@ -1206,10 +1204,10 @@ class VoIPMSClient:
         country: int,
         zip: str,
         language: str,
-        address_type: Optional[str] = None,
-        address_number: Optional[str] = None,
-        other_info: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        address_type: str | None = None,
+        address_number: str | None = None,
+        other_info: str | None = None,
+    ) -> dict[str, Any]:
         """E update
 
         Args:
@@ -1244,11 +1242,11 @@ class VoIPMSClient:
         state: int,
         country: int,
         zip: str,
-        address_type: Optional[int] = None,
-        address_number: Optional[int] = None,
-        language: Optional[int] = None,
-        other_info: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        address_type: int | None = None,
+        address_number: int | None = None,
+        language: int | None = None,
+        other_info: int | None = None,
+    ) -> dict[str, Any]:
         """E validate
 
         Args:
@@ -1275,8 +1273,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        codec: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        codec: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve allowed codecs information
 
         Args:
@@ -1292,8 +1290,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        type_: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        type_: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve auth types information
 
         Args:
@@ -1309,8 +1307,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        id_: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        id_: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve back orders information
 
         Args:
@@ -1326,8 +1324,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        advanced: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        advanced: str | None = None,
+    ) -> dict[str, Any]:
         """Retrieve balance information
 
         Args:
@@ -1343,8 +1341,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        balance_management: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        balance_management: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve balance management information
 
         Args:
@@ -1363,14 +1361,14 @@ class VoIPMSClient:
         date_from: str,
         date_to: str,
         timezone: str,
-        answered: Optional[Literal["0", "1"]] = None,
-        noanswer: Optional[Literal["0", "1"]] = None,
-        busy: Optional[Literal["0", "1"]] = None,
-        failed: Optional[Literal["0", "1"]] = None,
-        calltype: Optional[str] = None,
-        callbilling: Optional[str] = None,
-        account: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        answered: Literal["0", "1"] | None = None,
+        noanswer: Literal["0", "1"] | None = None,
+        busy: Literal["0", "1"] | None = None,
+        failed: Literal["0", "1"] | None = None,
+        calltype: str | None = None,
+        callbilling: str | None = None,
+        account: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve cdr information
 
         Args:
@@ -1399,7 +1397,7 @@ class VoIPMSClient:
     def getCallAccounts(
         self,
         validate: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve call accounts information
 
         Returns:
@@ -1410,7 +1408,7 @@ class VoIPMSClient:
     def getCallBilling(
         self,
         validate: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve call billing information
 
         Returns:
@@ -1422,8 +1420,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        callhunting: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        callhunting: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve call huntings information
 
         Args:
@@ -1439,8 +1437,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        callparking: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        callparking: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve call parking information
 
         Args:
@@ -1458,7 +1456,7 @@ class VoIPMSClient:
         *,
         callrecording: str,
         account: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve call recording information
 
         Args:
@@ -1478,9 +1476,9 @@ class VoIPMSClient:
         account: int,
         date_from: str,
         date_to: str,
-        start: Optional[int] = None,
-        length: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        start: int | None = None,
+        length: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve call recordings information
 
         Args:
@@ -1500,8 +1498,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        client: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        client: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve call types information
 
         Args:
@@ -1517,8 +1515,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        callback: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        callback: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve callbacks information
 
         Args:
@@ -1534,9 +1532,9 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        filtering: Optional[int] = None,
-        did: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        filtering: int | None = None,
+        did: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve caller id filtering information
 
         Args:
@@ -1553,8 +1551,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        carrier: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        carrier: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve carriers information
 
         Args:
@@ -1571,7 +1569,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         client: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve charges information
 
         Args:
@@ -1588,7 +1586,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         client: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve client packages information
 
         Args:
@@ -1605,7 +1603,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         client: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve client threshold information
 
         Args:
@@ -1621,8 +1619,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        client: Optional[Annotated[str, "Format: email"]] = None,
-    ) -> Dict[str, Any]:
+        client: Annotated[str, "Format: email"] | None = None,
+    ) -> dict[str, Any]:
         """Retrieve clients information
 
         Args:
@@ -1638,8 +1636,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        conference: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        conference: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve conference information
 
         Args:
@@ -1655,8 +1653,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        member: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        member: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve conference members information
 
         Args:
@@ -1674,7 +1672,7 @@ class VoIPMSClient:
         *,
         conference: int,
         recording: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve conference recording file information
 
         Args:
@@ -1692,9 +1690,9 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         conference: int,
-        date_from: Optional[str] = None,
-        date_to: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        date_from: str | None = None,
+        date_to: str | None = None,
+    ) -> dict[str, Any]:
         """Retrieve conference recordings information
 
         Args:
@@ -1712,8 +1710,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        country: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        country: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve countries information
 
         Args:
@@ -1730,8 +1728,8 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         type_: int,
-        country_id: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        country_id: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve did countries information
 
         Args:
@@ -1749,8 +1747,8 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         province: str,
-        ratecenter: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        ratecenter: str | None = None,
+    ) -> dict[str, Any]:
         """Retrieve di ds can information
 
         Args:
@@ -1767,9 +1765,9 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        client: Optional[str] = None,
-        did: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        client: str | None = None,
+        did: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve di ds info information
 
         Args:
@@ -1787,7 +1785,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         country_id: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve di ds international geographic information
 
         Args:
@@ -1804,7 +1802,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         country_id: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve di ds international national information
 
         Args:
@@ -1821,7 +1819,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         country_id: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve di ds international toll free information
 
         Args:
@@ -1838,8 +1836,8 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         state: str,
-        ratecenter: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        ratecenter: str | None = None,
+    ) -> dict[str, Any]:
         """Retrieve di ds usa information
 
         Args:
@@ -1857,7 +1855,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         vpri: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve di dv pri information
 
         Args:
@@ -1873,8 +1871,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        disa: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        disa: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve dis as information
 
         Args:
@@ -1890,8 +1888,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        dtmf_mode: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        dtmf_mode: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve dtmf modes information
 
         Args:
@@ -1908,7 +1906,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         client: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve deposits information
 
         Args:
@@ -1924,8 +1922,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        device_type: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        device_type: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve device types information
 
         Args:
@@ -1942,7 +1940,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         id_: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve email to fax information
 
         Args:
@@ -1959,7 +1957,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         id_: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve fax folders information
 
         Args:
@@ -1976,7 +1974,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         id_: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve fax message pdf information
 
         Args:
@@ -1992,11 +1990,11 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        from_: Optional[str] = None,
-        to: Optional[str] = None,
-        folder: Optional[str] = None,
-        id_: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        from_: str | None = None,
+        to: str | None = None,
+        folder: str | None = None,
+        id_: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve fax messages information
 
         Args:
@@ -2015,8 +2013,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        did: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        did: str | None = None,
+    ) -> dict[str, Any]:
         """Retrieve fax numbers info information
 
         Args:
@@ -2033,7 +2031,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         did: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve fax numbers portability information
 
         Args:
@@ -2049,8 +2047,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        province: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        province: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve fax provinces information
 
         Args:
@@ -2067,7 +2065,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         province: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve fax rate centers can information
 
         Args:
@@ -2084,7 +2082,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         state: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve fax rate centers usa information
 
         Args:
@@ -2100,8 +2098,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        state: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        state: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve fax states information
 
         Args:
@@ -2117,8 +2115,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        forwarding: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        forwarding: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve forwardings information
 
         Args:
@@ -2133,7 +2131,7 @@ class VoIPMSClient:
     def getIP(
         self,
         validate: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve ip information
 
         Returns:
@@ -2145,8 +2143,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        ivr: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        ivr: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve iv rs information
 
         Args:
@@ -2162,8 +2160,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        type_: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        type_: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve international types information
 
         Args:
@@ -2179,8 +2177,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        type_: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        type_: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve join when empty types information
 
         Args:
@@ -2197,7 +2195,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         attachid: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve lnp attach information
 
         Args:
@@ -2214,7 +2212,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         portid: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve lnp attach list information
 
         Args:
@@ -2231,7 +2229,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         portid: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve lnp details information
 
         Args:
@@ -2248,10 +2246,10 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         portid: int,
-        portStatus: Optional[int] = None,
-        startDate: Optional[int] = None,
-        endDate: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        portStatus: int | None = None,
+        startDate: int | None = None,
+        endDate: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve lnp list information
 
         Args:
@@ -2269,7 +2267,7 @@ class VoIPMSClient:
     def getLNPListStatus(
         self,
         validate: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve lnp list status information
 
         Returns:
@@ -2282,7 +2280,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         portid: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve lnp notes information
 
         Args:
@@ -2299,7 +2297,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         portid: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve lnp status information
 
         Args:
@@ -2315,8 +2313,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        language: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        language: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve languages information
 
         Args:
@@ -2332,8 +2330,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        locale: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        locale: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve locales information
 
         Args:
@@ -2349,8 +2347,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        lock_international: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        lock_international: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve lock international information
 
         Args:
@@ -2366,16 +2364,16 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        mms: Optional[int] = None,
-        from_: Optional[str] = None,
-        to: Optional[str] = None,
-        type_: Optional[str] = None,
-        did: Optional[int] = None,
-        contact: Optional[str] = None,
-        limit: Optional[int] = None,
-        timezone: Optional[str] = None,
-        all_messages: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        mms: int | None = None,
+        from_: str | None = None,
+        to: str | None = None,
+        type_: str | None = None,
+        did: int | None = None,
+        contact: str | None = None,
+        limit: int | None = None,
+        timezone: str | None = None,
+        all_messages: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve mms information
 
         Args:
@@ -2402,9 +2400,9 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        id_: Optional[int] = None,
-        media_as_array: Optional[Annotated[str, "Format: json"]] = None,
-    ) -> Dict[str, Any]:
+        id_: int | None = None,
+        media_as_array: Annotated[str, "Format: json"] | None = None,
+    ) -> dict[str, Any]:
         """Retrieve media mms information
 
         Args:
@@ -2421,8 +2419,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        music_on_hold: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        music_on_hold: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve music on hold information
 
         Args:
@@ -2438,8 +2436,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        nat: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        nat: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve nat information
 
         Args:
@@ -2455,8 +2453,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        package: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        package: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve packages information
 
         Args:
@@ -2472,11 +2470,11 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        phonebook: Optional[int] = None,
-        name: Optional[str] = None,
-        group: Optional[int] = None,
-        group_name: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        phonebook: int | None = None,
+        name: str | None = None,
+        group: int | None = None,
+        group_name: str | None = None,
+    ) -> dict[str, Any]:
         """Retrieve phonebook information
 
         Args:
@@ -2495,9 +2493,9 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        name: Optional[str] = None,
-        group: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        name: str | None = None,
+        group: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve phonebook groups information
 
         Args:
@@ -2514,8 +2512,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        play_instructions: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        play_instructions: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve play instructions information
 
         Args:
@@ -2532,7 +2530,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         did: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve portability information
 
         Args:
@@ -2548,8 +2546,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        protocol: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        protocol: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve protocols information
 
         Args:
@@ -2564,7 +2562,7 @@ class VoIPMSClient:
     def getProvinces(
         self,
         validate: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve provinces information
 
         Returns:
@@ -2576,8 +2574,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        queue: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        queue: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve queues information
 
         Args:
@@ -2594,7 +2592,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         province: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve rate centers can information
 
         Args:
@@ -2611,7 +2609,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         state: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve rate centers usa information
 
         Args:
@@ -2629,7 +2627,7 @@ class VoIPMSClient:
         *,
         package: int,
         query: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve rates information
 
         Args:
@@ -2647,7 +2645,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         recording: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve recording file information
 
         Args:
@@ -2663,8 +2661,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        recording: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        recording: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve recordings information
 
         Args:
@@ -2681,7 +2679,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         account: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve registration status information
 
         Args:
@@ -2697,8 +2695,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        type_: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        type_: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve report estimated hold time information
 
         Args:
@@ -2715,7 +2713,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         client: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve reseller balance information
 
         Args:
@@ -2735,14 +2733,14 @@ class VoIPMSClient:
         date_to: str,
         client: int,
         timezone: str,
-        answered: Optional[Literal["0", "1"]] = None,
-        noanswer: Optional[Literal["0", "1"]] = None,
-        busy: Optional[Literal["0", "1"]] = None,
-        failed: Optional[Literal["0", "1"]] = None,
-        calltype: Optional[str] = None,
-        callbilling: Optional[str] = None,
-        account: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        answered: Literal["0", "1"] | None = None,
+        noanswer: Literal["0", "1"] | None = None,
+        busy: Literal["0", "1"] | None = None,
+        failed: Literal["0", "1"] | None = None,
+        calltype: str | None = None,
+        callbilling: str | None = None,
+        account: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve reseller cdr information
 
         Args:
@@ -2770,15 +2768,15 @@ class VoIPMSClient:
         *,
         mms: int,
         client: int,
-        from_: Optional[str] = None,
-        to: Optional[str] = None,
-        type_: Optional[str] = None,
-        did: Optional[int] = None,
-        contact: Optional[str] = None,
-        limit: Optional[int] = None,
-        timezone: Optional[str] = None,
-        all_messages: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        from_: str | None = None,
+        to: str | None = None,
+        type_: str | None = None,
+        did: int | None = None,
+        contact: str | None = None,
+        limit: int | None = None,
+        timezone: str | None = None,
+        all_messages: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve reseller mms information
 
         Args:
@@ -2804,16 +2802,16 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         client: int,
-        sms: Optional[int] = None,
-        from_: Optional[str] = None,
-        to: Optional[str] = None,
-        type_: Optional[str] = None,
-        did: Optional[int] = None,
-        contact: Optional[str] = None,
-        limit: Optional[int] = None,
-        timezone: Optional[str] = None,
-        all_messages: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        sms: int | None = None,
+        from_: str | None = None,
+        to: str | None = None,
+        type_: str | None = None,
+        did: int | None = None,
+        contact: str | None = None,
+        limit: int | None = None,
+        timezone: str | None = None,
+        all_messages: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve reseller sms information
 
         Args:
@@ -2838,8 +2836,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        ring_group: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        ring_group: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve ring groups information
 
         Args:
@@ -2855,8 +2853,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        strategy: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        strategy: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve ring strategies information
 
         Args:
@@ -2872,8 +2870,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        route: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        route: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve routes information
 
         Args:
@@ -2889,8 +2887,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        sipuri: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        sipuri: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve sipur is information
 
         Args:
@@ -2906,16 +2904,16 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        sms: Optional[int] = None,
-        from_: Optional[str] = None,
-        to: Optional[str] = None,
-        type_: Optional[str] = None,
-        did: Optional[int] = None,
-        contact: Optional[str] = None,
-        limit: Optional[int] = None,
-        timezone: Optional[str] = None,
-        all_messages: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        sms: int | None = None,
+        from_: str | None = None,
+        to: str | None = None,
+        type_: str | None = None,
+        did: int | None = None,
+        contact: str | None = None,
+        limit: int | None = None,
+        timezone: str | None = None,
+        all_messages: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve sms information
 
         Args:
@@ -2942,8 +2940,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        server_pop: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        server_pop: str | None = None,
+    ) -> dict[str, Any]:
         """Retrieve servers info information
 
         Args:
@@ -2958,7 +2956,7 @@ class VoIPMSClient:
     def getStates(
         self,
         validate: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve states information
 
         Returns:
@@ -2971,8 +2969,8 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         queue: int,
-        member: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        member: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve static members information
 
         Args:
@@ -2989,8 +2987,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        account: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        account: str | None = None,
+    ) -> dict[str, Any]:
         """Retrieve sub accounts information
 
         Args:
@@ -3008,7 +3006,7 @@ class VoIPMSClient:
         *,
         query: str,
         route: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve termination rates information
 
         Args:
@@ -3025,8 +3023,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        timecondition: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        timecondition: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve time conditions information
 
         Args:
@@ -3042,8 +3040,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        timezone: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        timezone: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve timezones information
 
         Args:
@@ -3061,7 +3059,7 @@ class VoIPMSClient:
         *,
         date_from: str,
         date_to: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve transaction history information
 
         Args:
@@ -3077,7 +3075,7 @@ class VoIPMSClient:
     def getVPRIs(
         self,
         validate: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve vpr is information
 
         Returns:
@@ -3089,8 +3087,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        email_attachment_format: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        email_attachment_format: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve voicemail attachment formats information
 
         Args:
@@ -3106,8 +3104,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        folder: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        folder: str | None = None,
+    ) -> dict[str, Any]:
         """Retrieve voicemail folders information
 
         Args:
@@ -3126,7 +3124,7 @@ class VoIPMSClient:
         mailbox: int,
         folder: Annotated[str, "Format: email"],
         message_num: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve voicemail message file information
 
         Args:
@@ -3145,10 +3143,10 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         mailbox: int,
-        folder: Optional[Annotated[str, "Format: email"]] = None,
-        date_from: Optional[Annotated[str, "Format: email"]] = None,
-        date_to: Optional[Annotated[str, "Format: email"]] = None,
-    ) -> Dict[str, Any]:
+        folder: Annotated[str, "Format: email"] | None = None,
+        date_from: Annotated[str, "Format: email"] | None = None,
+        date_to: Annotated[str, "Format: email"] | None = None,
+    ) -> dict[str, Any]:
         """Retrieve voicemail messages information
 
         Args:
@@ -3167,8 +3165,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        voicemailsetup: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        voicemailsetup: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve voicemail setups information
 
         Args:
@@ -3184,8 +3182,8 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        mailbox: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        mailbox: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve voicemails information
 
         Args:
@@ -3203,7 +3201,7 @@ class VoIPMSClient:
         *,
         id_: int,
         email: Annotated[str, "Format: email"],
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Mail fax message pdf
 
         Args:
@@ -3224,7 +3222,7 @@ class VoIPMSClient:
         folder: Annotated[str, "Format: email"],
         message_num: int,
         listened: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Mark listened voicemail message
 
         Args:
@@ -3247,7 +3245,7 @@ class VoIPMSClient:
         folder: Annotated[str, "Format: email"],
         message_num: int,
         urgent: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Mark urgent voicemail message
 
         Args:
@@ -3268,8 +3266,8 @@ class VoIPMSClient:
         *,
         fax_id: int,
         folder_id: int,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Move fax message
 
         Args:
@@ -3291,7 +3289,7 @@ class VoIPMSClient:
         folder: Annotated[str, "Format: email"],
         message_num: int,
         new_folder: Annotated[str, "Format: email"],
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Move folder voicemail message
 
         Args:
@@ -3316,18 +3314,18 @@ class VoIPMSClient:
         dialtime: int,
         cnam: Literal["0", "1"],
         billing_type: Literal["1", "2"],
-        failover_busy: Optional[int] = None,
-        failover_unreachable: Optional[int] = None,
-        failover_noanswer: Optional[int] = None,
-        voicemail: Optional[int] = None,
-        callerid_prefix: Optional[int] = None,
-        note: Optional[int] = None,
-        account: Optional[int] = None,
-        monthly: Optional[str] = None,
-        setup: Optional[str] = None,
-        minute: Optional[Annotated[str, "Units: minutes"]] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        failover_busy: int | None = None,
+        failover_unreachable: int | None = None,
+        failover_noanswer: int | None = None,
+        voicemail: int | None = None,
+        callerid_prefix: int | None = None,
+        note: int | None = None,
+        account: int | None = None,
+        monthly: str | None = None,
+        setup: str | None = None,
+        minute: Annotated[str, "Units: minutes"] | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Order did
 
         Args:
@@ -3369,18 +3367,18 @@ class VoIPMSClient:
         dialtime: int,
         cnam: Literal["0", "1"],
         billing_type: Literal["1", "2"],
-        failover_busy: Optional[int] = None,
-        failover_unreachable: Optional[int] = None,
-        failover_noanswer: Optional[int] = None,
-        voicemail: Optional[int] = None,
-        callerid_prefix: Optional[int] = None,
-        note: Optional[int] = None,
-        account: Optional[int] = None,
-        monthly: Optional[str] = None,
-        setup: Optional[str] = None,
-        minute: Optional[Annotated[str, "Units: minutes"]] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        failover_busy: int | None = None,
+        failover_unreachable: int | None = None,
+        failover_noanswer: int | None = None,
+        voicemail: int | None = None,
+        callerid_prefix: int | None = None,
+        note: int | None = None,
+        account: int | None = None,
+        monthly: str | None = None,
+        setup: str | None = None,
+        minute: Annotated[str, "Units: minutes"] | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Order did international geographic
 
         Args:
@@ -3420,18 +3418,18 @@ class VoIPMSClient:
         dialtime: int,
         cnam: Literal["0", "1"],
         billing_type: Literal["1", "2"],
-        failover_busy: Optional[int] = None,
-        failover_unreachable: Optional[int] = None,
-        failover_noanswer: Optional[int] = None,
-        voicemail: Optional[int] = None,
-        callerid_prefix: Optional[int] = None,
-        note: Optional[int] = None,
-        account: Optional[int] = None,
-        monthly: Optional[str] = None,
-        setup: Optional[str] = None,
-        minute: Optional[Annotated[str, "Units: minutes"]] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        failover_busy: int | None = None,
+        failover_unreachable: int | None = None,
+        failover_noanswer: int | None = None,
+        voicemail: int | None = None,
+        callerid_prefix: int | None = None,
+        note: int | None = None,
+        account: int | None = None,
+        monthly: str | None = None,
+        setup: str | None = None,
+        minute: Annotated[str, "Units: minutes"] | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Order did international national
 
         Args:
@@ -3470,18 +3468,18 @@ class VoIPMSClient:
         pop: int,
         dialtime: int,
         cnam: Literal["0", "1"],
-        failover_busy: Optional[int] = None,
-        failover_unreachable: Optional[int] = None,
-        failover_noanswer: Optional[int] = None,
-        voicemail: Optional[int] = None,
-        callerid_prefix: Optional[int] = None,
-        note: Optional[int] = None,
-        account: Optional[int] = None,
-        monthly: Optional[str] = None,
-        setup: Optional[str] = None,
-        minute: Optional[Annotated[str, "Units: minutes"]] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        failover_busy: int | None = None,
+        failover_unreachable: int | None = None,
+        failover_noanswer: int | None = None,
+        voicemail: int | None = None,
+        callerid_prefix: int | None = None,
+        note: int | None = None,
+        account: int | None = None,
+        monthly: str | None = None,
+        setup: str | None = None,
+        minute: Annotated[str, "Units: minutes"] | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Order did international toll free
 
         Args:
@@ -3518,18 +3516,18 @@ class VoIPMSClient:
         pop: int,
         dialtime: int,
         cnam: Literal["0", "1"],
-        failover_busy: Optional[int] = None,
-        failover_unreachable: Optional[int] = None,
-        failover_noanswer: Optional[int] = None,
-        voicemail: Optional[int] = None,
-        callerid_prefix: Optional[int] = None,
-        note: Optional[int] = None,
-        account: Optional[int] = None,
-        monthly: Optional[str] = None,
-        setup: Optional[str] = None,
-        minute: Optional[Annotated[str, "Units: minutes"]] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        failover_busy: int | None = None,
+        failover_unreachable: int | None = None,
+        failover_noanswer: int | None = None,
+        voicemail: int | None = None,
+        callerid_prefix: int | None = None,
+        note: int | None = None,
+        account: int | None = None,
+        monthly: str | None = None,
+        setup: str | None = None,
+        minute: Annotated[str, "Units: minutes"] | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Order did virtual
 
         Args:
@@ -3562,14 +3560,14 @@ class VoIPMSClient:
         *,
         location: int,
         quantity: str,
-        email: Optional[Annotated[str, "Format: email"]] = None,
-        email_enable: Optional[Annotated[str, "Format: email"]] = None,
-        email_attach_file: Optional[Annotated[str, "Format: pdf"]] = None,
-        url_callback: Optional[str] = None,
-        url_callback_enable: Optional[str] = None,
-        url_callback_retry: Optional[str] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        email: Annotated[str, "Format: email"] | None = None,
+        email_enable: Annotated[str, "Format: email"] | None = None,
+        email_attach_file: Annotated[str, "Format: pdf"] | None = None,
+        url_callback: str | None = None,
+        url_callback_enable: str | None = None,
+        url_callback_retry: str | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Order fax number
 
         Args:
@@ -3598,18 +3596,18 @@ class VoIPMSClient:
         pop: int,
         dialtime: int,
         cnam: Literal["0", "1"],
-        failover_busy: Optional[int] = None,
-        failover_unreachable: Optional[int] = None,
-        failover_noanswer: Optional[int] = None,
-        voicemail: Optional[int] = None,
-        callerid_prefix: Optional[int] = None,
-        note: Optional[int] = None,
-        account: Optional[int] = None,
-        monthly: Optional[str] = None,
-        setup: Optional[str] = None,
-        minute: Optional[Annotated[str, "Units: minutes"]] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        failover_busy: int | None = None,
+        failover_unreachable: int | None = None,
+        failover_noanswer: int | None = None,
+        voicemail: int | None = None,
+        callerid_prefix: int | None = None,
+        note: int | None = None,
+        account: int | None = None,
+        monthly: str | None = None,
+        setup: str | None = None,
+        minute: Annotated[str, "Units: minutes"] | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Order toll free
 
         Args:
@@ -3646,18 +3644,18 @@ class VoIPMSClient:
         dialtime: int,
         cnam: Literal["0", "1"],
         carrier: int,
-        failover_busy: Optional[int] = None,
-        failover_unreachable: Optional[int] = None,
-        failover_noanswer: Optional[int] = None,
-        voicemail: Optional[int] = None,
-        callerid_prefix: Optional[int] = None,
-        note: Optional[int] = None,
-        account: Optional[int] = None,
-        monthly: Optional[str] = None,
-        setup: Optional[str] = None,
-        minute: Optional[Annotated[str, "Units: minutes"]] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        failover_busy: int | None = None,
+        failover_unreachable: int | None = None,
+        failover_noanswer: int | None = None,
+        voicemail: int | None = None,
+        callerid_prefix: int | None = None,
+        note: int | None = None,
+        account: int | None = None,
+        monthly: str | None = None,
+        setup: str | None = None,
+        minute: Annotated[str, "Units: minutes"] | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Order vanity
 
         Args:
@@ -3690,8 +3688,8 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         did: int,
-        vpri: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        vpri: int | None = None,
+    ) -> dict[str, Any]:
         """Remove di dv pri
 
         Args:
@@ -3710,8 +3708,8 @@ class VoIPMSClient:
         *,
         type_: str,
         query: str,
-        province: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        province: str | None = None,
+    ) -> dict[str, Any]:
         """Search for di ds can
 
         Args:
@@ -3731,8 +3729,8 @@ class VoIPMSClient:
         *,
         type_: str,
         query: str,
-        state: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        state: str | None = None,
+    ) -> dict[str, Any]:
         """Search for di ds usa
 
         Args:
@@ -3751,7 +3749,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         area_code: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Search for fax area code can
 
         Args:
@@ -3768,7 +3766,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         area_code: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Search for fax area code usa
 
         Args:
@@ -3784,9 +3782,9 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        type_: Optional[str] = None,
-        query: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        type_: str | None = None,
+        query: str | None = None,
+    ) -> dict[str, Any]:
         """Search for toll free can us
 
         Args:
@@ -3803,9 +3801,9 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        type_: Optional[str] = None,
-        query: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        type_: str | None = None,
+        query: str | None = None,
+    ) -> dict[str, Any]:
         """Search for toll free usa
 
         Args:
@@ -3824,7 +3822,7 @@ class VoIPMSClient:
         *,
         type_: str,
         query: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Search for vanity
 
         Args:
@@ -3844,7 +3842,7 @@ class VoIPMSClient:
         callrecording: str,
         account: int,
         email: Annotated[str, "Format: email"],
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Send call recording email
 
         Args:
@@ -3866,11 +3864,11 @@ class VoIPMSClient:
         from_name: str,
         from_number: int,
         file: int,
-        send_email_enabled: Optional[Annotated[str, "Format: email"]] = None,
-        send_email: Optional[Annotated[str, "Format: email"]] = None,
-        station_id: Optional[int] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        send_email_enabled: Annotated[str, "Format: email"] | None = None,
+        send_email: Annotated[str, "Format: email"] | None = None,
+        station_id: int | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Send fax message
 
         Args:
@@ -3896,10 +3894,10 @@ class VoIPMSClient:
         did: int,
         dst: str,
         message: str,
-        media1: Optional[Annotated[str, "Units: milliseconds"]] = None,
-        media2: Optional[int] = None,
-        media3: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        media1: Annotated[str, "Units: milliseconds"] | None = None,
+        media2: int | None = None,
+        media3: str | None = None,
+    ) -> dict[str, Any]:
         """Send mms
 
         Args:
@@ -3923,7 +3921,7 @@ class VoIPMSClient:
         did: int,
         dst: str,
         message: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Send sms
 
         Args:
@@ -3945,7 +3943,7 @@ class VoIPMSClient:
         folder: Annotated[str, "Format: email"],
         message_num: int,
         email_address: Annotated[str, "Format: email"],
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Send voicemail email
 
         Args:
@@ -3972,8 +3970,8 @@ class VoIPMSClient:
         members: str,
         ring_time: str,
         press: str,
-        callhunting: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        callhunting: int | None = None,
+    ) -> dict[str, Any]:
         """Update call hunting settings
 
         Args:
@@ -4004,8 +4002,8 @@ class VoIPMSClient:
         language: str,
         destination: int,
         delay: int,
-        callparking: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        callparking: int | None = None,
+    ) -> dict[str, Any]:
         """Update call parking settings
 
         Args:
@@ -4033,9 +4031,9 @@ class VoIPMSClient:
         delay_before: str,
         response_timeout: str,
         digit_timeout: str,
-        callback: Optional[int] = None,
-        callerid_number: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        callback: int | None = None,
+        callerid_number: int | None = None,
+    ) -> dict[str, Any]:
         """Update callback settings
 
         Args:
@@ -4060,12 +4058,12 @@ class VoIPMSClient:
         callerid: int,
         did: int,
         routing: str,
-        filter: Optional[int] = None,
-        failover_unreachable: Optional[str] = None,
-        failover_busy: Optional[str] = None,
-        failover_noanswer: Optional[str] = None,
-        note: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        filter: int | None = None,
+        failover_unreachable: str | None = None,
+        failover_busy: str | None = None,
+        failover_noanswer: str | None = None,
+        note: int | None = None,
+    ) -> dict[str, Any]:
         """Update caller id filtering settings
 
         Args:
@@ -4094,14 +4092,14 @@ class VoIPMSClient:
         firstname: str,
         lastname: str,
         phone_number: Annotated[str, "Format: phone"],
-        company: Optional[str] = None,
-        address: Optional[str] = None,
-        city: Optional[str] = None,
-        state: Optional[str] = None,
-        country: Optional[int] = None,
-        zip: Optional[int] = None,
-        balance_management: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        company: str | None = None,
+        address: str | None = None,
+        city: str | None = None,
+        state: str | None = None,
+        country: int | None = None,
+        zip: int | None = None,
+        balance_management: str | None = None,
+    ) -> dict[str, Any]:
         """Update client settings
 
         Args:
@@ -4131,8 +4129,8 @@ class VoIPMSClient:
         *,
         client: int,
         threshold: Annotated[str, "Range: 1-250"],
-        email: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        email: str | None = None,
+    ) -> dict[str, Any]:
         """Update client threshold settings
 
         Args:
@@ -4154,29 +4152,29 @@ class VoIPMSClient:
         name: str,
         description: str,
         max_members: str,
-        members: Optional[str] = None,
-        sound_join: Optional[str] = None,
-        sound_leave: Optional[str] = None,
-        sound_has_joined: Optional[str] = None,
-        sound_has_left: Optional[str] = None,
-        sound_kicked: Optional[str] = None,
-        sound_muted: Optional[str] = None,
-        sound_unmuted: Optional[str] = None,
-        sound_only_person: Optional[str] = None,
-        sound_only_one: Optional[str] = None,
-        sound_there_are: Optional[str] = None,
-        sound_other_in_party: Optional[int] = None,
-        sound_place_into_conference: Optional[str] = None,
-        sound_get_pin: Optional[str] = None,
-        sound_invalid_pin: Optional[int] = None,
-        sound_locked: Optional[str] = None,
-        sound_locked_now: Optional[str] = None,
-        sound_unlocked_now: Optional[str] = None,
-        sound_error_menu: Optional[str] = None,
-        sound_participants_muted: Optional[str] = None,
-        sound_participants_unmuted: Optional[str] = None,
-        language: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        members: str | None = None,
+        sound_join: str | None = None,
+        sound_leave: str | None = None,
+        sound_has_joined: str | None = None,
+        sound_has_left: str | None = None,
+        sound_kicked: str | None = None,
+        sound_muted: str | None = None,
+        sound_unmuted: str | None = None,
+        sound_only_person: str | None = None,
+        sound_only_one: str | None = None,
+        sound_there_are: str | None = None,
+        sound_other_in_party: int | None = None,
+        sound_place_into_conference: str | None = None,
+        sound_get_pin: str | None = None,
+        sound_invalid_pin: int | None = None,
+        sound_locked: str | None = None,
+        sound_locked_now: str | None = None,
+        sound_unlocked_now: str | None = None,
+        sound_error_menu: str | None = None,
+        sound_participants_muted: str | None = None,
+        sound_participants_unmuted: str | None = None,
+        language: str | None = None,
+    ) -> dict[str, Any]:
         """Update conference settings
 
         Args:
@@ -4220,22 +4218,22 @@ class VoIPMSClient:
         member: int,
         conference: int,
         name: str,
-        description: Optional[str] = None,
-        pin: Optional[str] = None,
-        announce_join_leave: Optional[Literal["yes", "no"]] = None,
-        admin: Optional[Literal["yes", "no"]] = None,
-        start_muted: Optional[Literal["yes", "no"]] = None,
-        announce_user_count: Optional[Literal["yes", "no"]] = None,
-        announce_only_user: Optional[Literal["yes", "no"]] = None,
-        moh_when_empty: Optional[str] = None,
-        quiet: Optional[Literal["yes", "no"]] = None,
-        announcement: Optional[str] = None,
-        drop_silence: Optional[Literal["yes", "no"]] = None,
-        talking_threshold: Optional[Literal["100", "120", "140", "160", "180", "200", "220", "240"]] = None,
-        silence_threshold: Optional[Literal["2000", "2100", "2200", "2300", "2400", "2500", "2600", "2700", "2800", "2900"]] = None,
-        talk_detection: Optional[Literal["yes", "no"]] = None,
-        jitter_buffer: Optional[Literal["yes", "no"]] = None,
-    ) -> Dict[str, Any]:
+        description: str | None = None,
+        pin: str | None = None,
+        announce_join_leave: Literal["yes", "no"] | None = None,
+        admin: Literal["yes", "no"] | None = None,
+        start_muted: Literal["yes", "no"] | None = None,
+        announce_user_count: Literal["yes", "no"] | None = None,
+        announce_only_user: Literal["yes", "no"] | None = None,
+        moh_when_empty: str | None = None,
+        quiet: Literal["yes", "no"] | None = None,
+        announcement: str | None = None,
+        drop_silence: Literal["yes", "no"] | None = None,
+        talking_threshold: Literal["100", "120", "140", "160", "180", "200", "220", "240"] | None = None,
+        silence_threshold: Literal["2000", "2100", "2200", "2300", "2400", "2500", "2600", "2700", "2800", "2900"] | None = None,
+        talk_detection: Literal["yes", "no"] | None = None,
+        jitter_buffer: Literal["yes", "no"] | None = None,
+    ) -> dict[str, Any]:
         """Update conference member settings
 
         Args:
@@ -4270,7 +4268,7 @@ class VoIPMSClient:
         *,
         did: int,
         billing_type: Literal["1", "2"],
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Update did billing type settings
 
         Args:
@@ -4293,20 +4291,20 @@ class VoIPMSClient:
         dialtime: int,
         cnam: Literal["0", "1"],
         billing_type: Literal["1", "2"],
-        failover_busy: Optional[int] = None,
-        failover_unreachable: Optional[int] = None,
-        failover_noanswer: Optional[int] = None,
-        voicemail: Optional[int] = None,
-        callerid_prefix: Optional[int] = None,
-        note: Optional[int] = None,
-        port_out_pin: Optional[int] = None,
-        record_calls: Optional[Literal["0", "1"]] = None,
-        transcribe: Optional[Literal["0", "1"]] = None,
-        transcription_locale: Optional[str] = None,
-        transcription_email: Optional[Annotated[str, "Format: email"]] = None,
-        transcription_start_delay: Optional[Annotated[str, "Range: 0-60; Units: seconds"]] = None,
-        voicemail_threshold: Optional[Annotated[str, "Range: 0-60; Format: email; Units: seconds"]] = None,
-    ) -> Dict[str, Any]:
+        failover_busy: int | None = None,
+        failover_unreachable: int | None = None,
+        failover_noanswer: int | None = None,
+        voicemail: int | None = None,
+        callerid_prefix: int | None = None,
+        note: int | None = None,
+        port_out_pin: int | None = None,
+        record_calls: Literal["0", "1"] | None = None,
+        transcribe: Literal["0", "1"] | None = None,
+        transcription_locale: str | None = None,
+        transcription_email: Annotated[str, "Format: email"] | None = None,
+        transcription_start_delay: Annotated[str, "Range: 0-60; Units: seconds"] | None = None,
+        voicemail_threshold: Annotated[str, "Range: 0-60; Format: email; Units: seconds"] | None = None,
+    ) -> dict[str, Any]:
         """Update did info settings
 
         Args:
@@ -4342,7 +4340,7 @@ class VoIPMSClient:
         *,
         did: int,
         pop: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Update didpop settings
 
         Args:
@@ -4361,7 +4359,7 @@ class VoIPMSClient:
         *,
         did: int,
         routing: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Update did routing settings
 
         Args:
@@ -4379,8 +4377,8 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         did: int,
-        voicemail: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        voicemail: int | None = None,
+    ) -> dict[str, Any]:
         """Update did voicemail settings
 
         Args:
@@ -4400,9 +4398,9 @@ class VoIPMSClient:
         name: str,
         pin: str,
         digit_timeout: str,
-        disa: Optional[int] = None,
-        callerid_override: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        disa: int | None = None,
+        callerid_override: int | None = None,
+    ) -> dict[str, Any]:
         """Update disa settings
 
         Args:
@@ -4425,11 +4423,11 @@ class VoIPMSClient:
         auth_email: Annotated[str, "Format: email"],
         from_number_id: str,
         security_code: int,
-        id_: Optional[int] = None,
-        enabled: Optional[Literal["0", "1"]] = None,
-        security_code_enabled: Optional[Literal["0", "1"]] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        id_: int | None = None,
+        enabled: Literal["0", "1"] | None = None,
+        security_code_enabled: Literal["0", "1"] | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Update email to fax settings
 
         Args:
@@ -4452,9 +4450,9 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         name: str,
-        id_: Optional[int] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        id_: int | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Update fax folder settings
 
         Args:
@@ -4473,11 +4471,11 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         did: int,
-        email: Optional[Annotated[str, "Format: email"]] = None,
-        email_enable: Optional[Annotated[str, "Format: email"]] = None,
-        email_attach_file: Optional[Annotated[str, "Format: pdf"]] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        email: Annotated[str, "Format: email"] | None = None,
+        email_enable: Annotated[str, "Format: email"] | None = None,
+        email_attach_file: Annotated[str, "Format: pdf"] | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Update fax number email settings
 
         Args:
@@ -4498,14 +4496,14 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         did: int,
-        email: Optional[Annotated[str, "Format: email"]] = None,
-        email_enable: Optional[Annotated[str, "Format: email"]] = None,
-        email_attach_file: Optional[Annotated[str, "Format: pdf"]] = None,
-        url_callback: Optional[str] = None,
-        url_callback_enable: Optional[str] = None,
-        url_callback_retry: Optional[str] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        email: Annotated[str, "Format: email"] | None = None,
+        email_enable: Annotated[str, "Format: email"] | None = None,
+        email_attach_file: Annotated[str, "Format: pdf"] | None = None,
+        url_callback: str | None = None,
+        url_callback_enable: str | None = None,
+        url_callback_retry: str | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Update fax number info settings
 
         Args:
@@ -4529,11 +4527,11 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         did: int,
-        url_callback: Optional[str] = None,
-        url_callback_enable: Optional[str] = None,
-        url_callback_retry: Optional[str] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        url_callback: str | None = None,
+        url_callback_enable: str | None = None,
+        url_callback_retry: str | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Update fax number url callback settings
 
         Args:
@@ -4554,13 +4552,13 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         phone_number: Annotated[str, "Format: phone"],
-        forwarding: Optional[int] = None,
-        callerid_override: Optional[int] = None,
-        description: Optional[str] = None,
-        dtmf_digits: Optional[str] = None,
-        pause: Optional[Annotated[str, "Units: seconds"]] = None,
-        diversion_header: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        forwarding: int | None = None,
+        callerid_override: int | None = None,
+        description: str | None = None,
+        dtmf_digits: str | None = None,
+        pause: Annotated[str, "Units: seconds"] | None = None,
+        diversion_header: str | None = None,
+    ) -> dict[str, Any]:
         """Update forwarding settings
 
         Args:
@@ -4588,8 +4586,8 @@ class VoIPMSClient:
         language: str,
         voicemailsetup: Annotated[str, "Format: email"],
         choices: str,
-        ivr: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        ivr: int | None = None,
+    ) -> dict[str, Any]:
         """Update ivr settings
 
         Args:
@@ -4613,10 +4611,10 @@ class VoIPMSClient:
         *,
         description: str,
         recordings: Literal["1234", "1235", "1236"],
-        name: Optional[str] = None,
-        volume: Optional[Literal["0", "1"]] = None,
-        sort: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        name: str | None = None,
+        volume: Literal["0", "1"] | None = None,
+        sort: str | None = None,
+    ) -> dict[str, Any]:
         """Update music on hold settings
 
         Args:
@@ -4638,12 +4636,12 @@ class VoIPMSClient:
         *,
         name: Annotated[str, "Format: phone"],
         number: Annotated[str, "Format: phone"],
-        phonebook: Optional[int] = None,
-        speed_dial: Optional[Annotated[str, "Format: phone"]] = None,
-        callerid: Optional[int] = None,
-        note: Optional[Annotated[str, "Format: phone"]] = None,
-        group: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        phonebook: int | None = None,
+        speed_dial: Annotated[str, "Format: phone"] | None = None,
+        callerid: int | None = None,
+        note: Annotated[str, "Format: phone"] | None = None,
+        group: int | None = None,
+    ) -> dict[str, Any]:
         """Update phonebook settings
 
         Args:
@@ -4667,9 +4665,9 @@ class VoIPMSClient:
         *,
         phonebook: str,
         name: Annotated[str, "Format: phone"],
-        group: Optional[int] = None,
-        members: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        group: int | None = None,
+        members: int | None = None,
+    ) -> dict[str, Any]:
         """Update phonebook group settings
 
         Args:
@@ -4697,31 +4695,31 @@ class VoIPMSClient:
         leave_when_empty: str,
         ring_strategy: str,
         ring_inuse: int,
-        queue: Optional[int] = None,
-        queue_password: Optional[str] = None,
-        callerid_prefix: Optional[int] = None,
-        join_announcement: Optional[int] = None,
-        agent_announcement: Optional[int] = None,
-        member_delay: Optional[Annotated[str, "Units: seconds"]] = None,
-        maximum_wait_time: Optional[Annotated[str, "Units: seconds"]] = None,
-        maximum_callers: Optional[str] = None,
-        agent_ring_timeout: Optional[int] = None,
-        retry_timer: Optional[Annotated[str, "Units: seconds"]] = None,
-        wrapup_time: Optional[int] = None,
-        voice_announcement: Optional[int] = None,
-        frequency_announcement: Optional[Annotated[str, "Units: seconds"]] = None,
-        announce_position_frecuency: Optional[Annotated[str, "Units: seconds"]] = None,
-        announce_round_seconds: Optional[Annotated[str, "Units: seconds"]] = None,
-        if_announce_position_enabled_report_estimated_hold_time: Optional[str] = None,
-        thankyou_for_your_patience: Optional[str] = None,
-        music_on_hold: Optional[int] = None,
-        fail_over_routing_timeout: Optional[str] = None,
-        fail_over_routing_full: Optional[str] = None,
-        fail_over_routing_join_empty: Optional[str] = None,
-        fail_over_routing_leave_empty: Optional[str] = None,
-        fail_over_routing_join_unavail: Optional[str] = None,
-        fail_over_routing_leave_unavail: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        queue: int | None = None,
+        queue_password: str | None = None,
+        callerid_prefix: int | None = None,
+        join_announcement: int | None = None,
+        agent_announcement: int | None = None,
+        member_delay: Annotated[str, "Units: seconds"] | None = None,
+        maximum_wait_time: Annotated[str, "Units: seconds"] | None = None,
+        maximum_callers: str | None = None,
+        agent_ring_timeout: int | None = None,
+        retry_timer: Annotated[str, "Units: seconds"] | None = None,
+        wrapup_time: int | None = None,
+        voice_announcement: int | None = None,
+        frequency_announcement: Annotated[str, "Units: seconds"] | None = None,
+        announce_position_frecuency: Annotated[str, "Units: seconds"] | None = None,
+        announce_round_seconds: Annotated[str, "Units: seconds"] | None = None,
+        if_announce_position_enabled_report_estimated_hold_time: str | None = None,
+        thankyou_for_your_patience: str | None = None,
+        music_on_hold: int | None = None,
+        fail_over_routing_timeout: str | None = None,
+        fail_over_routing_full: str | None = None,
+        fail_over_routing_join_empty: str | None = None,
+        fail_over_routing_leave_empty: str | None = None,
+        fail_over_routing_join_unavail: str | None = None,
+        fail_over_routing_leave_unavail: str | None = None,
+    ) -> dict[str, Any]:
         """Update queue settings
 
         Args:
@@ -4775,8 +4773,8 @@ class VoIPMSClient:
         *,
         file: int,
         name: str,
-        recording: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        recording: int | None = None,
+    ) -> dict[str, Any]:
         """Update recording settings
 
         Args:
@@ -4797,11 +4795,11 @@ class VoIPMSClient:
         name: str,
         members: int,
         voicemail: Annotated[str, "Format: email"],
-        ring_group: Optional[int] = None,
-        caller_announcement: Optional[int] = None,
-        music_on_hold: Optional[int] = None,
-        language: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        ring_group: int | None = None,
+        caller_announcement: int | None = None,
+        music_on_hold: int | None = None,
+        language: int | None = None,
+    ) -> dict[str, Any]:
         """Update ring group settings
 
         Args:
@@ -4824,11 +4822,11 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         uri: Annotated[str, "Format: email; Units: milliseconds"],
-        sipuri: Optional[int] = None,
-        description: Optional[str] = None,
-        callerid_override: Optional[int] = None,
-        callerid_e164: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        sipuri: int | None = None,
+        description: str | None = None,
+        callerid_override: int | None = None,
+        callerid_e164: int | None = None,
+    ) -> dict[str, Any]:
         """Update sipuri settings
 
         Args:
@@ -4850,16 +4848,16 @@ class VoIPMSClient:
         *,
         did: int,
         enable: Literal["0", "1"],
-        email_enabled: Optional[int] = None,
-        email_address: Optional[int] = None,
-        sms_forward_enable: Optional[int] = None,
-        sms_forward: Optional[int] = None,
-        url_callback_enable: Optional[int] = None,
-        url_callback: Optional[int] = None,
-        url_callback_retry: Optional[Annotated[str, "Units: minutes"]] = None,
-        sms_sipaccount: Optional[int] = None,
-        sms_sipaccount_enabled: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        email_enabled: int | None = None,
+        email_address: int | None = None,
+        sms_forward_enable: int | None = None,
+        sms_forward: int | None = None,
+        url_callback_enable: int | None = None,
+        url_callback: int | None = None,
+        url_callback_retry: Annotated[str, "Units: minutes"] | None = None,
+        sms_sipaccount: int | None = None,
+        sms_sipaccount_enabled: int | None = None,
+    ) -> dict[str, Any]:
         """Update sms settings
 
         Args:
@@ -4888,9 +4886,9 @@ class VoIPMSClient:
         queue: int,
         member_name: str,
         priority: str,
-        member: Optional[int] = None,
-        account: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        member: int | None = None,
+        account: str | None = None,
+    ) -> dict[str, Any]:
         """Update static member settings
 
         Args:
@@ -4922,34 +4920,34 @@ class VoIPMSClient:
         transcribe: int,
         transcription_locale: str,
         transcription_email: str,
-        description: Optional[int] = None,
-        password: Optional[int] = None,
-        ip: Optional[int] = None,
-        callerid_number: Optional[int] = None,
-        canada_routing: Optional[int] = None,
-        language: Optional[int] = None,
-        sip_traffic: Optional[Literal["0", "1"]] = None,
-        max_expiry: Optional[Annotated[str, "Range: 60-3600"]] = None,
-        rtp_timeout: Optional[Annotated[str, "Range: 1-3600"]] = None,
-        rtp_hold_timeout: Optional[Annotated[str, "Range: 1-3600"]] = None,
-        ip_restriction: Optional[str] = None,
-        enable_ip_restriction: Optional[Literal["0", "1"]] = None,
-        pop_restriction: Optional[str] = None,
-        enable_pop_restriction: Optional[Literal["0", "1"]] = None,
-        internal_extension: Optional[int] = None,
-        internal_voicemail: Optional[int] = None,
-        internal_dialtime: Optional[int] = None,
-        reseller_client: Optional[int] = None,
-        reseller_package: Optional[str] = None,
-        reseller_nextbilling: Optional[str] = None,
-        reseller_chargesetup: Optional[str] = None,
-        send_bye: Optional[Literal["0", "1"]] = None,
-        record_calls: Optional[Literal["0", "1"]] = None,
-        transcription_start_delay: Optional[Annotated[str, "Range: 0-60; Units: seconds"]] = None,
-        dialing_mode: Optional[Literal["0", "1", "2"]] = None,
-        tfcarrier: Optional[Literal["1", "0", "1", "2"]] = None,
-        default_e911: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        description: int | None = None,
+        password: int | None = None,
+        ip: int | None = None,
+        callerid_number: int | None = None,
+        canada_routing: int | None = None,
+        language: int | None = None,
+        sip_traffic: Literal["0", "1"] | None = None,
+        max_expiry: Annotated[str, "Range: 60-3600"] | None = None,
+        rtp_timeout: Annotated[str, "Range: 1-3600"] | None = None,
+        rtp_hold_timeout: Annotated[str, "Range: 1-3600"] | None = None,
+        ip_restriction: str | None = None,
+        enable_ip_restriction: Literal["0", "1"] | None = None,
+        pop_restriction: str | None = None,
+        enable_pop_restriction: Literal["0", "1"] | None = None,
+        internal_extension: int | None = None,
+        internal_voicemail: int | None = None,
+        internal_dialtime: int | None = None,
+        reseller_client: int | None = None,
+        reseller_package: str | None = None,
+        reseller_nextbilling: str | None = None,
+        reseller_chargesetup: str | None = None,
+        send_bye: Literal["0", "1"] | None = None,
+        record_calls: Literal["0", "1"] | None = None,
+        transcription_start_delay: Annotated[str, "Range: 0-60; Units: seconds"] | None = None,
+        dialing_mode: Literal["0", "1", "2"] | None = None,
+        tfcarrier: Literal["1", "0", "1", "2"] | None = None,
+        default_e911: int | None = None,
+    ) -> dict[str, Any]:
         """Update sub account settings
 
         Args:
@@ -5012,8 +5010,8 @@ class VoIPMSClient:
         endminute: Annotated[str, "Units: minutes"],
         weekdaystart: Annotated[str, "Units: days"],
         weekdayend: Annotated[str, "Units: days"],
-        timecondition: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        timecondition: int | None = None,
+    ) -> dict[str, Any]:
         """Update time condition settings
 
         Args:
@@ -5049,12 +5047,12 @@ class VoIPMSClient:
         say_callerid: int,
         play_instructions: int,
         language: int,
-        email: Optional[Annotated[str, "Format: email"]] = None,
-        email_attachment_format: Optional[int] = None,
-        unavailable_message_recording: Optional[str] = None,
-        transcription: Optional[Annotated[str, "Format: email"]] = None,
-        transcription_locale: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        email: Annotated[str, "Format: email"] | None = None,
+        email_attachment_format: int | None = None,
+        unavailable_message_recording: str | None = None,
+        transcription: Annotated[str, "Format: email"] | None = None,
+        transcription_locale: int | None = None,
+    ) -> dict[str, Any]:
         """Update voicemail settings
 
         Args:
@@ -5101,10 +5099,10 @@ class VoIPMSClient:
         confirm_email: str,
         password: str,
         confirm_password: str,
-        company: Optional[str] = None,
-        activate: Optional[Literal["0", "1"]] = None,
-        balance_management: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        company: str | None = None,
+        activate: Literal["0", "1"] | None = None,
+        balance_management: str | None = None,
+    ) -> dict[str, Any]:
         """Sign up client
 
         Args:
@@ -5135,7 +5133,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         did: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Unconnect did
 
         Args:
@@ -5152,7 +5150,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         did: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Unconnect fax
 
         Args:
@@ -5167,8 +5165,8 @@ class VoIPMSClient:
 
 class VoIPMSClientAsync(VoIPMSClient):
     """Asynchronous data-driven VoIP.ms client."""
-    
-    async def __aenter__(self) -> "VoIPMSClientAsync": ...
+
+    async def __aenter__(self) -> VoIPMSClientAsync: ...
     async def __aexit__(self, exc_type: Any, exc_val: Any, exc_tb: Any) -> None: ...
     async def close(self) -> None: ...
 
@@ -5180,9 +5178,9 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         client: int,
         charge: str,
-        description: Optional[str] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        description: str | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Add new charge
 
         Args:
@@ -5203,7 +5201,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         portid: int,
         file: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Add new lnp file
 
         Args:
@@ -5232,16 +5230,16 @@ class VoIPMSClientAsync(VoIPMSClient):
         country: int,
         providerName: int,
         providerAccount: int,
-        isPartial: Optional[int] = None,
-        locationType: Optional[Literal["1", "0"]] = None,
-        isMobile: Optional[Literal["1", "0"]] = None,
-        pin: Optional[str] = None,
-        btn: Optional[Annotated[str, "Format: phone"]] = None,
-        services: Optional[str] = None,
-        tfType: Optional[int] = None,
-        address2: Optional[str] = None,
-        notes: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        isPartial: int | None = None,
+        locationType: Literal["1", "0"] | None = None,
+        isMobile: Literal["1", "0"] | None = None,
+        pin: str | None = None,
+        btn: Annotated[str, "Format: phone"] | None = None,
+        services: str | None = None,
+        tfType: int | None = None,
+        address2: str | None = None,
+        notes: int | None = None,
+    ) -> dict[str, Any]:
         """Add new lnp port
 
         Args:
@@ -5279,7 +5277,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         member: int,
         conference: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Add new member to conference
 
         Args:
@@ -5298,9 +5296,9 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         client: int,
         payment: str,
-        description: Optional[str] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        description: str | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Add new payment
 
         Args:
@@ -5321,7 +5319,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         vpri: int,
         did: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Assign di dv pri
 
         Args:
@@ -5346,14 +5344,14 @@ class VoIPMSClientAsync(VoIPMSClient):
         dialtime: int,
         cnam: Literal["0", "1"],
         billing_type: Literal["1", "2"],
-        failover_busy: Optional[int] = None,
-        failover_unreachable: Optional[int] = None,
-        failover_noanswer: Optional[int] = None,
-        voicemail: Optional[int] = None,
-        callerid_prefix: Optional[int] = None,
-        note: Optional[int] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        failover_busy: int | None = None,
+        failover_unreachable: int | None = None,
+        failover_noanswer: int | None = None,
+        voicemail: int | None = None,
+        callerid_prefix: int | None = None,
+        note: int | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Backorder didcan
 
         Args:
@@ -5394,14 +5392,14 @@ class VoIPMSClientAsync(VoIPMSClient):
         dialtime: int,
         cnam: Literal["0", "1"],
         billing_type: Literal["1", "2"],
-        failover_busy: Optional[int] = None,
-        failover_unreachable: Optional[int] = None,
-        failover_noanswer: Optional[int] = None,
-        voicemail: Optional[int] = None,
-        callerid_prefix: Optional[int] = None,
-        note: Optional[int] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        failover_busy: int | None = None,
+        failover_unreachable: int | None = None,
+        failover_noanswer: int | None = None,
+        voicemail: int | None = None,
+        callerid_prefix: int | None = None,
+        note: int | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Backorder didusa
 
         Args:
@@ -5435,10 +5433,10 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         did: int,
-        cancelcomment: Optional[int] = None,
-        portout: Optional[Literal["true", "false"]] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        cancelcomment: int | None = None,
+        portout: Literal["true", "false"] | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Cancel did
 
         Args:
@@ -5458,8 +5456,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         id_: int,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Cancel fax number
 
         Args:
@@ -5481,10 +5479,10 @@ class VoIPMSClientAsync(VoIPMSClient):
         monthly: str,
         setup: str,
         minute: Annotated[str, "Units: minutes"],
-        next_billing: Optional[str] = None,
-        dont_charge_setup: Optional[str] = None,
-        dont_charge_monthly: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        next_billing: str | None = None,
+        dont_charge_setup: str | None = None,
+        dont_charge_monthly: str | None = None,
+    ) -> dict[str, Any]:
         """Connect did
 
         Args:
@@ -5512,10 +5510,10 @@ class VoIPMSClientAsync(VoIPMSClient):
         monthly: str,
         setup: str,
         minute: Annotated[str, "Units: minutes"],
-        next_billing: Optional[str] = None,
-        dont_charge_setup: Optional[str] = None,
-        dont_charge_monthly: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        next_billing: str | None = None,
+        dont_charge_setup: str | None = None,
+        dont_charge_monthly: str | None = None,
+    ) -> dict[str, Any]:
         """Connect fax
 
         Args:
@@ -5548,38 +5546,38 @@ class VoIPMSClientAsync(VoIPMSClient):
         allowed_codecs: int,
         dtmf_mode: int,
         nat: int,
-        description: Optional[int] = None,
-        password: Optional[int] = None,
-        ip: Optional[int] = None,
-        callerid_number: Optional[int] = None,
-        canada_routing: Optional[int] = None,
-        language: Optional[int] = None,
-        sip_traffic: Optional[Literal["0", "1"]] = None,
-        max_expiry: Optional[Annotated[str, "Range: 60-3600"]] = None,
-        rtp_timeout: Optional[Annotated[str, "Range: 1-3600"]] = None,
-        rtp_hold_timeout: Optional[Annotated[str, "Range: 1-3600"]] = None,
-        ip_restriction: Optional[Annotated[str, "Format: ip_address"]] = None,
-        enable_ip_restriction: Optional[Literal["0", "1"]] = None,
-        pop_restriction: Optional[str] = None,
-        enable_pop_restriction: Optional[Literal["0", "1"]] = None,
-        internal_extension: Optional[int] = None,
-        internal_voicemail: Optional[int] = None,
-        internal_dialtime: Optional[int] = None,
-        reseller_client: Optional[int] = None,
-        reseller_package: Optional[str] = None,
-        reseller_nextbilling: Optional[str] = None,
-        reseller_chargesetup: Optional[str] = None,
-        send_bye: Optional[Literal["0", "1"]] = None,
-        record_calls: Optional[Literal["0", "1"]] = None,
-        transcribe: Optional[Literal["0", "1"]] = None,
-        transcription_locale: Optional[str] = None,
-        transcription_email: Optional[Annotated[str, "Format: email"]] = None,
-        transcription_start_delay: Optional[Annotated[str, "Range: 0-60; Units: seconds"]] = None,
-        enable_internal_cnam: Optional[int] = None,
-        internal_cnam: Optional[int] = None,
-        dialing_mode: Optional[Literal["0", "1", "2"]] = None,
-        tfcarrier: Optional[Literal["1", "0", "1", "2"]] = None,
-    ) -> Dict[str, Any]:
+        description: int | None = None,
+        password: int | None = None,
+        ip: int | None = None,
+        callerid_number: int | None = None,
+        canada_routing: int | None = None,
+        language: int | None = None,
+        sip_traffic: Literal["0", "1"] | None = None,
+        max_expiry: Annotated[str, "Range: 60-3600"] | None = None,
+        rtp_timeout: Annotated[str, "Range: 1-3600"] | None = None,
+        rtp_hold_timeout: Annotated[str, "Range: 1-3600"] | None = None,
+        ip_restriction: Annotated[str, "Format: ip_address"] | None = None,
+        enable_ip_restriction: Literal["0", "1"] | None = None,
+        pop_restriction: str | None = None,
+        enable_pop_restriction: Literal["0", "1"] | None = None,
+        internal_extension: int | None = None,
+        internal_voicemail: int | None = None,
+        internal_dialtime: int | None = None,
+        reseller_client: int | None = None,
+        reseller_package: str | None = None,
+        reseller_nextbilling: str | None = None,
+        reseller_chargesetup: str | None = None,
+        send_bye: Literal["0", "1"] | None = None,
+        record_calls: Literal["0", "1"] | None = None,
+        transcribe: Literal["0", "1"] | None = None,
+        transcription_locale: str | None = None,
+        transcription_email: Annotated[str, "Format: email"] | None = None,
+        transcription_start_delay: Annotated[str, "Range: 0-60; Units: seconds"] | None = None,
+        enable_internal_cnam: int | None = None,
+        internal_cnam: int | None = None,
+        dialing_mode: Literal["0", "1", "2"] | None = None,
+        tfcarrier: Literal["1", "0", "1", "2"] | None = None,
+    ) -> dict[str, Any]:
         """Create new sub account
 
         Args:
@@ -5646,12 +5644,12 @@ class VoIPMSClientAsync(VoIPMSClient):
         say_callerid: int,
         play_instructions: int,
         language: int,
-        email: Optional[Annotated[str, "Format: email"]] = None,
-        email_attachment_format: Optional[int] = None,
-        unavailable_message_recording: Optional[str] = None,
-        transcription: Optional[Annotated[str, "Format: email"]] = None,
-        transcription_locale: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        email: Annotated[str, "Format: email"] | None = None,
+        email_attachment_format: int | None = None,
+        unavailable_message_recording: str | None = None,
+        transcription: Annotated[str, "Format: email"] | None = None,
+        transcription_locale: int | None = None,
+    ) -> dict[str, Any]:
         """Create new voicemail
 
         Args:
@@ -5683,7 +5681,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         callhunting: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete call hunting
 
         Args:
@@ -5700,7 +5698,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         callparking: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete call parking
 
         Args:
@@ -5718,7 +5716,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         callrecording: str,
         account: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete call recording
 
         Args:
@@ -5736,7 +5734,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         callback: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete callback
 
         Args:
@@ -5753,7 +5751,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         filtering: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete caller id filtering
 
         Args:
@@ -5770,7 +5768,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         client: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete client
 
         Args:
@@ -5787,7 +5785,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         conference: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete conference
 
         Args:
@@ -5804,7 +5802,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         member: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete conference member
 
         Args:
@@ -5821,7 +5819,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         disa: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete disa
 
         Args:
@@ -5838,8 +5836,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         id_: int,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Delete email to fax
 
         Args:
@@ -5857,8 +5855,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         id_: int,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Delete fax folder
 
         Args:
@@ -5875,8 +5873,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        forwarding: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        forwarding: int | None = None,
+    ) -> dict[str, Any]:
         """Delete forwarding
 
         Args:
@@ -5893,7 +5891,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         ivr: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete ivr
 
         Args:
@@ -5910,8 +5908,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         member: int,
-        conference: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        conference: int | None = None,
+    ) -> dict[str, Any]:
         """Delete member from conference
 
         Args:
@@ -5929,9 +5927,9 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         mailbox: int,
-        folder: Optional[int] = None,
-        message_num: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        folder: int | None = None,
+        message_num: int | None = None,
+    ) -> dict[str, Any]:
         """Delete messages
 
         Args:
@@ -5950,7 +5948,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         music_on_hold: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete music on hold
 
         Args:
@@ -5967,7 +5965,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         phonebook: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete phonebook
 
         Args:
@@ -5984,7 +5982,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         group: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete phonebook group
 
         Args:
@@ -6001,7 +5999,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         queue: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete queue
 
         Args:
@@ -6018,7 +6016,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         recording: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete recording
 
         Args:
@@ -6035,7 +6033,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         ringgroup: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete ring group
 
         Args:
@@ -6052,7 +6050,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         sipuri: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete sipuri
 
         Args:
@@ -6070,7 +6068,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         member: int,
         queue: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete static member
 
         Args:
@@ -6087,8 +6085,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        id_: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        id_: int | None = None,
+    ) -> dict[str, Any]:
         """Delete sub account
 
         Args:
@@ -6105,7 +6103,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         timecondition: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete time condition
 
         Args:
@@ -6122,7 +6120,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         mailbox: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete voicemail
 
         Args:
@@ -6139,8 +6137,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         id_: int,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Delete ete fax message
 
         Args:
@@ -6158,7 +6156,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         id_: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete ete mms
 
         Args:
@@ -6175,7 +6173,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         id_: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Delete ete sms
 
         Args:
@@ -6191,8 +6189,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        type_: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        type_: int | None = None,
+    ) -> dict[str, Any]:
         """E address types
 
         Args:
@@ -6209,7 +6207,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         did: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """E cancel
 
         Args:
@@ -6226,7 +6224,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         did: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """E info
 
         Args:
@@ -6251,10 +6249,10 @@ class VoIPMSClientAsync(VoIPMSClient):
         country: int,
         zip: str,
         language: str,
-        address_type: Optional[str] = None,
-        address_number: Optional[str] = None,
-        other_info: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        address_type: str | None = None,
+        address_number: str | None = None,
+        other_info: str | None = None,
+    ) -> dict[str, Any]:
         """E provision
 
         Args:
@@ -6290,10 +6288,10 @@ class VoIPMSClientAsync(VoIPMSClient):
         country: int,
         zip: str,
         language: str,
-        address_type: Optional[str] = None,
-        address_number: Optional[str] = None,
-        other_info: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        address_type: str | None = None,
+        address_number: str | None = None,
+        other_info: str | None = None,
+    ) -> dict[str, Any]:
         """E provision manually
 
         Args:
@@ -6329,10 +6327,10 @@ class VoIPMSClientAsync(VoIPMSClient):
         country: int,
         zip: str,
         language: str,
-        address_type: Optional[str] = None,
-        address_number: Optional[str] = None,
-        other_info: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        address_type: str | None = None,
+        address_number: str | None = None,
+        other_info: str | None = None,
+    ) -> dict[str, Any]:
         """E update
 
         Args:
@@ -6367,11 +6365,11 @@ class VoIPMSClientAsync(VoIPMSClient):
         state: int,
         country: int,
         zip: str,
-        address_type: Optional[int] = None,
-        address_number: Optional[int] = None,
-        language: Optional[int] = None,
-        other_info: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        address_type: int | None = None,
+        address_number: int | None = None,
+        language: int | None = None,
+        other_info: int | None = None,
+    ) -> dict[str, Any]:
         """E validate
 
         Args:
@@ -6398,8 +6396,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        codec: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        codec: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve allowed codecs information
 
         Args:
@@ -6415,8 +6413,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        type_: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        type_: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve auth types information
 
         Args:
@@ -6432,8 +6430,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        id_: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        id_: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve back orders information
 
         Args:
@@ -6449,8 +6447,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        advanced: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        advanced: str | None = None,
+    ) -> dict[str, Any]:
         """Retrieve balance information
 
         Args:
@@ -6466,8 +6464,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        balance_management: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        balance_management: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve balance management information
 
         Args:
@@ -6486,14 +6484,14 @@ class VoIPMSClientAsync(VoIPMSClient):
         date_from: str,
         date_to: str,
         timezone: str,
-        answered: Optional[Literal["0", "1"]] = None,
-        noanswer: Optional[Literal["0", "1"]] = None,
-        busy: Optional[Literal["0", "1"]] = None,
-        failed: Optional[Literal["0", "1"]] = None,
-        calltype: Optional[str] = None,
-        callbilling: Optional[str] = None,
-        account: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        answered: Literal["0", "1"] | None = None,
+        noanswer: Literal["0", "1"] | None = None,
+        busy: Literal["0", "1"] | None = None,
+        failed: Literal["0", "1"] | None = None,
+        calltype: str | None = None,
+        callbilling: str | None = None,
+        account: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve cdr information
 
         Args:
@@ -6522,7 +6520,7 @@ class VoIPMSClientAsync(VoIPMSClient):
     async def getCallAccounts(
         self,
         validate: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve call accounts information
 
         Returns:
@@ -6533,7 +6531,7 @@ class VoIPMSClientAsync(VoIPMSClient):
     async def getCallBilling(
         self,
         validate: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve call billing information
 
         Returns:
@@ -6545,8 +6543,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        callhunting: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        callhunting: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve call huntings information
 
         Args:
@@ -6562,8 +6560,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        callparking: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        callparking: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve call parking information
 
         Args:
@@ -6581,7 +6579,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         callrecording: str,
         account: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve call recording information
 
         Args:
@@ -6601,9 +6599,9 @@ class VoIPMSClientAsync(VoIPMSClient):
         account: int,
         date_from: str,
         date_to: str,
-        start: Optional[int] = None,
-        length: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        start: int | None = None,
+        length: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve call recordings information
 
         Args:
@@ -6623,8 +6621,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        client: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        client: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve call types information
 
         Args:
@@ -6640,8 +6638,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        callback: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        callback: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve callbacks information
 
         Args:
@@ -6657,9 +6655,9 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        filtering: Optional[int] = None,
-        did: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        filtering: int | None = None,
+        did: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve caller id filtering information
 
         Args:
@@ -6676,8 +6674,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        carrier: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        carrier: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve carriers information
 
         Args:
@@ -6694,7 +6692,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         client: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve charges information
 
         Args:
@@ -6711,7 +6709,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         client: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve client packages information
 
         Args:
@@ -6728,7 +6726,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         client: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve client threshold information
 
         Args:
@@ -6744,8 +6742,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        client: Optional[Annotated[str, "Format: email"]] = None,
-    ) -> Dict[str, Any]:
+        client: Annotated[str, "Format: email"] | None = None,
+    ) -> dict[str, Any]:
         """Retrieve clients information
 
         Args:
@@ -6761,8 +6759,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        conference: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        conference: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve conference information
 
         Args:
@@ -6778,8 +6776,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        member: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        member: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve conference members information
 
         Args:
@@ -6797,7 +6795,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         conference: int,
         recording: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve conference recording file information
 
         Args:
@@ -6815,9 +6813,9 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         conference: int,
-        date_from: Optional[str] = None,
-        date_to: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        date_from: str | None = None,
+        date_to: str | None = None,
+    ) -> dict[str, Any]:
         """Retrieve conference recordings information
 
         Args:
@@ -6835,8 +6833,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        country: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        country: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve countries information
 
         Args:
@@ -6853,8 +6851,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         type_: int,
-        country_id: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        country_id: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve did countries information
 
         Args:
@@ -6872,8 +6870,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         province: str,
-        ratecenter: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        ratecenter: str | None = None,
+    ) -> dict[str, Any]:
         """Retrieve di ds can information
 
         Args:
@@ -6890,9 +6888,9 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        client: Optional[str] = None,
-        did: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        client: str | None = None,
+        did: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve di ds info information
 
         Args:
@@ -6910,7 +6908,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         country_id: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve di ds international geographic information
 
         Args:
@@ -6927,7 +6925,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         country_id: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve di ds international national information
 
         Args:
@@ -6944,7 +6942,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         country_id: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve di ds international toll free information
 
         Args:
@@ -6961,8 +6959,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         state: str,
-        ratecenter: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        ratecenter: str | None = None,
+    ) -> dict[str, Any]:
         """Retrieve di ds usa information
 
         Args:
@@ -6980,7 +6978,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         vpri: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve di dv pri information
 
         Args:
@@ -6996,8 +6994,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        disa: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        disa: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve dis as information
 
         Args:
@@ -7013,8 +7011,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        dtmf_mode: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        dtmf_mode: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve dtmf modes information
 
         Args:
@@ -7031,7 +7029,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         client: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve deposits information
 
         Args:
@@ -7047,8 +7045,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        device_type: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        device_type: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve device types information
 
         Args:
@@ -7065,7 +7063,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         id_: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve email to fax information
 
         Args:
@@ -7082,7 +7080,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         id_: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve fax folders information
 
         Args:
@@ -7099,7 +7097,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         id_: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve fax message pdf information
 
         Args:
@@ -7115,11 +7113,11 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        from_: Optional[str] = None,
-        to: Optional[str] = None,
-        folder: Optional[str] = None,
-        id_: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        from_: str | None = None,
+        to: str | None = None,
+        folder: str | None = None,
+        id_: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve fax messages information
 
         Args:
@@ -7138,8 +7136,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        did: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        did: str | None = None,
+    ) -> dict[str, Any]:
         """Retrieve fax numbers info information
 
         Args:
@@ -7156,7 +7154,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         did: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve fax numbers portability information
 
         Args:
@@ -7172,8 +7170,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        province: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        province: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve fax provinces information
 
         Args:
@@ -7190,7 +7188,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         province: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve fax rate centers can information
 
         Args:
@@ -7207,7 +7205,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         state: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve fax rate centers usa information
 
         Args:
@@ -7223,8 +7221,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        state: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        state: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve fax states information
 
         Args:
@@ -7240,8 +7238,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        forwarding: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        forwarding: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve forwardings information
 
         Args:
@@ -7256,7 +7254,7 @@ class VoIPMSClientAsync(VoIPMSClient):
     async def getIP(
         self,
         validate: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve ip information
 
         Returns:
@@ -7268,8 +7266,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        ivr: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        ivr: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve iv rs information
 
         Args:
@@ -7285,8 +7283,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        type_: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        type_: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve international types information
 
         Args:
@@ -7302,8 +7300,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        type_: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        type_: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve join when empty types information
 
         Args:
@@ -7320,7 +7318,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         attachid: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve lnp attach information
 
         Args:
@@ -7337,7 +7335,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         portid: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve lnp attach list information
 
         Args:
@@ -7354,7 +7352,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         portid: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve lnp details information
 
         Args:
@@ -7371,10 +7369,10 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         portid: int,
-        portStatus: Optional[int] = None,
-        startDate: Optional[int] = None,
-        endDate: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        portStatus: int | None = None,
+        startDate: int | None = None,
+        endDate: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve lnp list information
 
         Args:
@@ -7392,7 +7390,7 @@ class VoIPMSClientAsync(VoIPMSClient):
     async def getLNPListStatus(
         self,
         validate: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve lnp list status information
 
         Returns:
@@ -7405,7 +7403,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         portid: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve lnp notes information
 
         Args:
@@ -7422,7 +7420,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         portid: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve lnp status information
 
         Args:
@@ -7438,8 +7436,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        language: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        language: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve languages information
 
         Args:
@@ -7455,8 +7453,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        locale: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        locale: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve locales information
 
         Args:
@@ -7472,8 +7470,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        lock_international: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        lock_international: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve lock international information
 
         Args:
@@ -7489,16 +7487,16 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        mms: Optional[int] = None,
-        from_: Optional[str] = None,
-        to: Optional[str] = None,
-        type_: Optional[str] = None,
-        did: Optional[int] = None,
-        contact: Optional[str] = None,
-        limit: Optional[int] = None,
-        timezone: Optional[str] = None,
-        all_messages: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        mms: int | None = None,
+        from_: str | None = None,
+        to: str | None = None,
+        type_: str | None = None,
+        did: int | None = None,
+        contact: str | None = None,
+        limit: int | None = None,
+        timezone: str | None = None,
+        all_messages: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve mms information
 
         Args:
@@ -7525,9 +7523,9 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        id_: Optional[int] = None,
-        media_as_array: Optional[Annotated[str, "Format: json"]] = None,
-    ) -> Dict[str, Any]:
+        id_: int | None = None,
+        media_as_array: Annotated[str, "Format: json"] | None = None,
+    ) -> dict[str, Any]:
         """Retrieve media mms information
 
         Args:
@@ -7544,8 +7542,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        music_on_hold: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        music_on_hold: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve music on hold information
 
         Args:
@@ -7561,8 +7559,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        nat: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        nat: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve nat information
 
         Args:
@@ -7578,8 +7576,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        package: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        package: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve packages information
 
         Args:
@@ -7595,11 +7593,11 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        phonebook: Optional[int] = None,
-        name: Optional[str] = None,
-        group: Optional[int] = None,
-        group_name: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        phonebook: int | None = None,
+        name: str | None = None,
+        group: int | None = None,
+        group_name: str | None = None,
+    ) -> dict[str, Any]:
         """Retrieve phonebook information
 
         Args:
@@ -7618,9 +7616,9 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        name: Optional[str] = None,
-        group: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        name: str | None = None,
+        group: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve phonebook groups information
 
         Args:
@@ -7637,8 +7635,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        play_instructions: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        play_instructions: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve play instructions information
 
         Args:
@@ -7655,7 +7653,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         did: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve portability information
 
         Args:
@@ -7671,8 +7669,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        protocol: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        protocol: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve protocols information
 
         Args:
@@ -7687,7 +7685,7 @@ class VoIPMSClientAsync(VoIPMSClient):
     async def getProvinces(
         self,
         validate: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve provinces information
 
         Returns:
@@ -7699,8 +7697,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        queue: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        queue: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve queues information
 
         Args:
@@ -7717,7 +7715,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         province: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve rate centers can information
 
         Args:
@@ -7734,7 +7732,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         state: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve rate centers usa information
 
         Args:
@@ -7752,7 +7750,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         package: int,
         query: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve rates information
 
         Args:
@@ -7770,7 +7768,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         recording: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve recording file information
 
         Args:
@@ -7786,8 +7784,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        recording: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        recording: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve recordings information
 
         Args:
@@ -7804,7 +7802,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         account: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve registration status information
 
         Args:
@@ -7820,8 +7818,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        type_: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        type_: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve report estimated hold time information
 
         Args:
@@ -7838,7 +7836,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         client: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve reseller balance information
 
         Args:
@@ -7858,14 +7856,14 @@ class VoIPMSClientAsync(VoIPMSClient):
         date_to: str,
         client: int,
         timezone: str,
-        answered: Optional[Literal["0", "1"]] = None,
-        noanswer: Optional[Literal["0", "1"]] = None,
-        busy: Optional[Literal["0", "1"]] = None,
-        failed: Optional[Literal["0", "1"]] = None,
-        calltype: Optional[str] = None,
-        callbilling: Optional[str] = None,
-        account: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        answered: Literal["0", "1"] | None = None,
+        noanswer: Literal["0", "1"] | None = None,
+        busy: Literal["0", "1"] | None = None,
+        failed: Literal["0", "1"] | None = None,
+        calltype: str | None = None,
+        callbilling: str | None = None,
+        account: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve reseller cdr information
 
         Args:
@@ -7893,15 +7891,15 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         mms: int,
         client: int,
-        from_: Optional[str] = None,
-        to: Optional[str] = None,
-        type_: Optional[str] = None,
-        did: Optional[int] = None,
-        contact: Optional[str] = None,
-        limit: Optional[int] = None,
-        timezone: Optional[str] = None,
-        all_messages: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        from_: str | None = None,
+        to: str | None = None,
+        type_: str | None = None,
+        did: int | None = None,
+        contact: str | None = None,
+        limit: int | None = None,
+        timezone: str | None = None,
+        all_messages: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve reseller mms information
 
         Args:
@@ -7927,16 +7925,16 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         client: int,
-        sms: Optional[int] = None,
-        from_: Optional[str] = None,
-        to: Optional[str] = None,
-        type_: Optional[str] = None,
-        did: Optional[int] = None,
-        contact: Optional[str] = None,
-        limit: Optional[int] = None,
-        timezone: Optional[str] = None,
-        all_messages: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        sms: int | None = None,
+        from_: str | None = None,
+        to: str | None = None,
+        type_: str | None = None,
+        did: int | None = None,
+        contact: str | None = None,
+        limit: int | None = None,
+        timezone: str | None = None,
+        all_messages: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve reseller sms information
 
         Args:
@@ -7961,8 +7959,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        ring_group: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        ring_group: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve ring groups information
 
         Args:
@@ -7978,8 +7976,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        strategy: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        strategy: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve ring strategies information
 
         Args:
@@ -7995,8 +7993,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        route: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        route: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve routes information
 
         Args:
@@ -8012,8 +8010,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        sipuri: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        sipuri: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve sipur is information
 
         Args:
@@ -8029,16 +8027,16 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        sms: Optional[int] = None,
-        from_: Optional[str] = None,
-        to: Optional[str] = None,
-        type_: Optional[str] = None,
-        did: Optional[int] = None,
-        contact: Optional[str] = None,
-        limit: Optional[int] = None,
-        timezone: Optional[str] = None,
-        all_messages: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        sms: int | None = None,
+        from_: str | None = None,
+        to: str | None = None,
+        type_: str | None = None,
+        did: int | None = None,
+        contact: str | None = None,
+        limit: int | None = None,
+        timezone: str | None = None,
+        all_messages: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve sms information
 
         Args:
@@ -8065,8 +8063,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        server_pop: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        server_pop: str | None = None,
+    ) -> dict[str, Any]:
         """Retrieve servers info information
 
         Args:
@@ -8081,7 +8079,7 @@ class VoIPMSClientAsync(VoIPMSClient):
     async def getStates(
         self,
         validate: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve states information
 
         Returns:
@@ -8094,8 +8092,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         queue: int,
-        member: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        member: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve static members information
 
         Args:
@@ -8112,8 +8110,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        account: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        account: str | None = None,
+    ) -> dict[str, Any]:
         """Retrieve sub accounts information
 
         Args:
@@ -8131,7 +8129,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         query: str,
         route: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve termination rates information
 
         Args:
@@ -8148,8 +8146,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        timecondition: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        timecondition: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve time conditions information
 
         Args:
@@ -8165,8 +8163,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        timezone: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        timezone: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve timezones information
 
         Args:
@@ -8184,7 +8182,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         date_from: str,
         date_to: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve transaction history information
 
         Args:
@@ -8200,7 +8198,7 @@ class VoIPMSClientAsync(VoIPMSClient):
     async def getVPRIs(
         self,
         validate: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve vpr is information
 
         Returns:
@@ -8212,8 +8210,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        email_attachment_format: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        email_attachment_format: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve voicemail attachment formats information
 
         Args:
@@ -8229,8 +8227,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        folder: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        folder: str | None = None,
+    ) -> dict[str, Any]:
         """Retrieve voicemail folders information
 
         Args:
@@ -8249,7 +8247,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         mailbox: int,
         folder: Annotated[str, "Format: email"],
         message_num: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve voicemail message file information
 
         Args:
@@ -8268,10 +8266,10 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         mailbox: int,
-        folder: Optional[Annotated[str, "Format: email"]] = None,
-        date_from: Optional[Annotated[str, "Format: email"]] = None,
-        date_to: Optional[Annotated[str, "Format: email"]] = None,
-    ) -> Dict[str, Any]:
+        folder: Annotated[str, "Format: email"] | None = None,
+        date_from: Annotated[str, "Format: email"] | None = None,
+        date_to: Annotated[str, "Format: email"] | None = None,
+    ) -> dict[str, Any]:
         """Retrieve voicemail messages information
 
         Args:
@@ -8290,8 +8288,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        voicemailsetup: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        voicemailsetup: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve voicemail setups information
 
         Args:
@@ -8307,8 +8305,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        mailbox: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        mailbox: int | None = None,
+    ) -> dict[str, Any]:
         """Retrieve voicemails information
 
         Args:
@@ -8326,7 +8324,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         id_: int,
         email: Annotated[str, "Format: email"],
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Mail fax message pdf
 
         Args:
@@ -8347,7 +8345,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         folder: Annotated[str, "Format: email"],
         message_num: int,
         listened: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Mark listened voicemail message
 
         Args:
@@ -8370,7 +8368,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         folder: Annotated[str, "Format: email"],
         message_num: int,
         urgent: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Mark urgent voicemail message
 
         Args:
@@ -8391,8 +8389,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         fax_id: int,
         folder_id: int,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Move fax message
 
         Args:
@@ -8414,7 +8412,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         folder: Annotated[str, "Format: email"],
         message_num: int,
         new_folder: Annotated[str, "Format: email"],
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Move folder voicemail message
 
         Args:
@@ -8439,18 +8437,18 @@ class VoIPMSClientAsync(VoIPMSClient):
         dialtime: int,
         cnam: Literal["0", "1"],
         billing_type: Literal["1", "2"],
-        failover_busy: Optional[int] = None,
-        failover_unreachable: Optional[int] = None,
-        failover_noanswer: Optional[int] = None,
-        voicemail: Optional[int] = None,
-        callerid_prefix: Optional[int] = None,
-        note: Optional[int] = None,
-        account: Optional[int] = None,
-        monthly: Optional[str] = None,
-        setup: Optional[str] = None,
-        minute: Optional[Annotated[str, "Units: minutes"]] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        failover_busy: int | None = None,
+        failover_unreachable: int | None = None,
+        failover_noanswer: int | None = None,
+        voicemail: int | None = None,
+        callerid_prefix: int | None = None,
+        note: int | None = None,
+        account: int | None = None,
+        monthly: str | None = None,
+        setup: str | None = None,
+        minute: Annotated[str, "Units: minutes"] | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Order did
 
         Args:
@@ -8492,18 +8490,18 @@ class VoIPMSClientAsync(VoIPMSClient):
         dialtime: int,
         cnam: Literal["0", "1"],
         billing_type: Literal["1", "2"],
-        failover_busy: Optional[int] = None,
-        failover_unreachable: Optional[int] = None,
-        failover_noanswer: Optional[int] = None,
-        voicemail: Optional[int] = None,
-        callerid_prefix: Optional[int] = None,
-        note: Optional[int] = None,
-        account: Optional[int] = None,
-        monthly: Optional[str] = None,
-        setup: Optional[str] = None,
-        minute: Optional[Annotated[str, "Units: minutes"]] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        failover_busy: int | None = None,
+        failover_unreachable: int | None = None,
+        failover_noanswer: int | None = None,
+        voicemail: int | None = None,
+        callerid_prefix: int | None = None,
+        note: int | None = None,
+        account: int | None = None,
+        monthly: str | None = None,
+        setup: str | None = None,
+        minute: Annotated[str, "Units: minutes"] | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Order did international geographic
 
         Args:
@@ -8543,18 +8541,18 @@ class VoIPMSClientAsync(VoIPMSClient):
         dialtime: int,
         cnam: Literal["0", "1"],
         billing_type: Literal["1", "2"],
-        failover_busy: Optional[int] = None,
-        failover_unreachable: Optional[int] = None,
-        failover_noanswer: Optional[int] = None,
-        voicemail: Optional[int] = None,
-        callerid_prefix: Optional[int] = None,
-        note: Optional[int] = None,
-        account: Optional[int] = None,
-        monthly: Optional[str] = None,
-        setup: Optional[str] = None,
-        minute: Optional[Annotated[str, "Units: minutes"]] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        failover_busy: int | None = None,
+        failover_unreachable: int | None = None,
+        failover_noanswer: int | None = None,
+        voicemail: int | None = None,
+        callerid_prefix: int | None = None,
+        note: int | None = None,
+        account: int | None = None,
+        monthly: str | None = None,
+        setup: str | None = None,
+        minute: Annotated[str, "Units: minutes"] | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Order did international national
 
         Args:
@@ -8593,18 +8591,18 @@ class VoIPMSClientAsync(VoIPMSClient):
         pop: int,
         dialtime: int,
         cnam: Literal["0", "1"],
-        failover_busy: Optional[int] = None,
-        failover_unreachable: Optional[int] = None,
-        failover_noanswer: Optional[int] = None,
-        voicemail: Optional[int] = None,
-        callerid_prefix: Optional[int] = None,
-        note: Optional[int] = None,
-        account: Optional[int] = None,
-        monthly: Optional[str] = None,
-        setup: Optional[str] = None,
-        minute: Optional[Annotated[str, "Units: minutes"]] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        failover_busy: int | None = None,
+        failover_unreachable: int | None = None,
+        failover_noanswer: int | None = None,
+        voicemail: int | None = None,
+        callerid_prefix: int | None = None,
+        note: int | None = None,
+        account: int | None = None,
+        monthly: str | None = None,
+        setup: str | None = None,
+        minute: Annotated[str, "Units: minutes"] | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Order did international toll free
 
         Args:
@@ -8641,18 +8639,18 @@ class VoIPMSClientAsync(VoIPMSClient):
         pop: int,
         dialtime: int,
         cnam: Literal["0", "1"],
-        failover_busy: Optional[int] = None,
-        failover_unreachable: Optional[int] = None,
-        failover_noanswer: Optional[int] = None,
-        voicemail: Optional[int] = None,
-        callerid_prefix: Optional[int] = None,
-        note: Optional[int] = None,
-        account: Optional[int] = None,
-        monthly: Optional[str] = None,
-        setup: Optional[str] = None,
-        minute: Optional[Annotated[str, "Units: minutes"]] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        failover_busy: int | None = None,
+        failover_unreachable: int | None = None,
+        failover_noanswer: int | None = None,
+        voicemail: int | None = None,
+        callerid_prefix: int | None = None,
+        note: int | None = None,
+        account: int | None = None,
+        monthly: str | None = None,
+        setup: str | None = None,
+        minute: Annotated[str, "Units: minutes"] | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Order did virtual
 
         Args:
@@ -8685,14 +8683,14 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         location: int,
         quantity: str,
-        email: Optional[Annotated[str, "Format: email"]] = None,
-        email_enable: Optional[Annotated[str, "Format: email"]] = None,
-        email_attach_file: Optional[Annotated[str, "Format: pdf"]] = None,
-        url_callback: Optional[str] = None,
-        url_callback_enable: Optional[str] = None,
-        url_callback_retry: Optional[str] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        email: Annotated[str, "Format: email"] | None = None,
+        email_enable: Annotated[str, "Format: email"] | None = None,
+        email_attach_file: Annotated[str, "Format: pdf"] | None = None,
+        url_callback: str | None = None,
+        url_callback_enable: str | None = None,
+        url_callback_retry: str | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Order fax number
 
         Args:
@@ -8721,18 +8719,18 @@ class VoIPMSClientAsync(VoIPMSClient):
         pop: int,
         dialtime: int,
         cnam: Literal["0", "1"],
-        failover_busy: Optional[int] = None,
-        failover_unreachable: Optional[int] = None,
-        failover_noanswer: Optional[int] = None,
-        voicemail: Optional[int] = None,
-        callerid_prefix: Optional[int] = None,
-        note: Optional[int] = None,
-        account: Optional[int] = None,
-        monthly: Optional[str] = None,
-        setup: Optional[str] = None,
-        minute: Optional[Annotated[str, "Units: minutes"]] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        failover_busy: int | None = None,
+        failover_unreachable: int | None = None,
+        failover_noanswer: int | None = None,
+        voicemail: int | None = None,
+        callerid_prefix: int | None = None,
+        note: int | None = None,
+        account: int | None = None,
+        monthly: str | None = None,
+        setup: str | None = None,
+        minute: Annotated[str, "Units: minutes"] | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Order toll free
 
         Args:
@@ -8769,18 +8767,18 @@ class VoIPMSClientAsync(VoIPMSClient):
         dialtime: int,
         cnam: Literal["0", "1"],
         carrier: int,
-        failover_busy: Optional[int] = None,
-        failover_unreachable: Optional[int] = None,
-        failover_noanswer: Optional[int] = None,
-        voicemail: Optional[int] = None,
-        callerid_prefix: Optional[int] = None,
-        note: Optional[int] = None,
-        account: Optional[int] = None,
-        monthly: Optional[str] = None,
-        setup: Optional[str] = None,
-        minute: Optional[Annotated[str, "Units: minutes"]] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        failover_busy: int | None = None,
+        failover_unreachable: int | None = None,
+        failover_noanswer: int | None = None,
+        voicemail: int | None = None,
+        callerid_prefix: int | None = None,
+        note: int | None = None,
+        account: int | None = None,
+        monthly: str | None = None,
+        setup: str | None = None,
+        minute: Annotated[str, "Units: minutes"] | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Order vanity
 
         Args:
@@ -8813,8 +8811,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         did: int,
-        vpri: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        vpri: int | None = None,
+    ) -> dict[str, Any]:
         """Remove di dv pri
 
         Args:
@@ -8833,8 +8831,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         type_: str,
         query: str,
-        province: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        province: str | None = None,
+    ) -> dict[str, Any]:
         """Search for di ds can
 
         Args:
@@ -8854,8 +8852,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         type_: str,
         query: str,
-        state: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        state: str | None = None,
+    ) -> dict[str, Any]:
         """Search for di ds usa
 
         Args:
@@ -8874,7 +8872,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         area_code: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Search for fax area code can
 
         Args:
@@ -8891,7 +8889,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         area_code: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Search for fax area code usa
 
         Args:
@@ -8907,9 +8905,9 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        type_: Optional[str] = None,
-        query: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        type_: str | None = None,
+        query: str | None = None,
+    ) -> dict[str, Any]:
         """Search for toll free can us
 
         Args:
@@ -8926,9 +8924,9 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        type_: Optional[str] = None,
-        query: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        type_: str | None = None,
+        query: str | None = None,
+    ) -> dict[str, Any]:
         """Search for toll free usa
 
         Args:
@@ -8947,7 +8945,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         type_: str,
         query: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Search for vanity
 
         Args:
@@ -8967,7 +8965,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         callrecording: str,
         account: int,
         email: Annotated[str, "Format: email"],
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Send call recording email
 
         Args:
@@ -8989,11 +8987,11 @@ class VoIPMSClientAsync(VoIPMSClient):
         from_name: str,
         from_number: int,
         file: int,
-        send_email_enabled: Optional[Annotated[str, "Format: email"]] = None,
-        send_email: Optional[Annotated[str, "Format: email"]] = None,
-        station_id: Optional[int] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        send_email_enabled: Annotated[str, "Format: email"] | None = None,
+        send_email: Annotated[str, "Format: email"] | None = None,
+        station_id: int | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Send fax message
 
         Args:
@@ -9019,10 +9017,10 @@ class VoIPMSClientAsync(VoIPMSClient):
         did: int,
         dst: str,
         message: str,
-        media1: Optional[Annotated[str, "Units: milliseconds"]] = None,
-        media2: Optional[int] = None,
-        media3: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        media1: Annotated[str, "Units: milliseconds"] | None = None,
+        media2: int | None = None,
+        media3: str | None = None,
+    ) -> dict[str, Any]:
         """Send mms
 
         Args:
@@ -9046,7 +9044,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         did: int,
         dst: str,
         message: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Send sms
 
         Args:
@@ -9068,7 +9066,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         folder: Annotated[str, "Format: email"],
         message_num: int,
         email_address: Annotated[str, "Format: email"],
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Send voicemail email
 
         Args:
@@ -9095,8 +9093,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         members: str,
         ring_time: str,
         press: str,
-        callhunting: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        callhunting: int | None = None,
+    ) -> dict[str, Any]:
         """Update call hunting settings
 
         Args:
@@ -9127,8 +9125,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         language: str,
         destination: int,
         delay: int,
-        callparking: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        callparking: int | None = None,
+    ) -> dict[str, Any]:
         """Update call parking settings
 
         Args:
@@ -9156,9 +9154,9 @@ class VoIPMSClientAsync(VoIPMSClient):
         delay_before: str,
         response_timeout: str,
         digit_timeout: str,
-        callback: Optional[int] = None,
-        callerid_number: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        callback: int | None = None,
+        callerid_number: int | None = None,
+    ) -> dict[str, Any]:
         """Update callback settings
 
         Args:
@@ -9183,12 +9181,12 @@ class VoIPMSClientAsync(VoIPMSClient):
         callerid: int,
         did: int,
         routing: str,
-        filter: Optional[int] = None,
-        failover_unreachable: Optional[str] = None,
-        failover_busy: Optional[str] = None,
-        failover_noanswer: Optional[str] = None,
-        note: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        filter: int | None = None,
+        failover_unreachable: str | None = None,
+        failover_busy: str | None = None,
+        failover_noanswer: str | None = None,
+        note: int | None = None,
+    ) -> dict[str, Any]:
         """Update caller id filtering settings
 
         Args:
@@ -9217,14 +9215,14 @@ class VoIPMSClientAsync(VoIPMSClient):
         firstname: str,
         lastname: str,
         phone_number: Annotated[str, "Format: phone"],
-        company: Optional[str] = None,
-        address: Optional[str] = None,
-        city: Optional[str] = None,
-        state: Optional[str] = None,
-        country: Optional[int] = None,
-        zip: Optional[int] = None,
-        balance_management: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        company: str | None = None,
+        address: str | None = None,
+        city: str | None = None,
+        state: str | None = None,
+        country: int | None = None,
+        zip: int | None = None,
+        balance_management: str | None = None,
+    ) -> dict[str, Any]:
         """Update client settings
 
         Args:
@@ -9254,8 +9252,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         client: int,
         threshold: Annotated[str, "Range: 1-250"],
-        email: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        email: str | None = None,
+    ) -> dict[str, Any]:
         """Update client threshold settings
 
         Args:
@@ -9277,29 +9275,29 @@ class VoIPMSClientAsync(VoIPMSClient):
         name: str,
         description: str,
         max_members: str,
-        members: Optional[str] = None,
-        sound_join: Optional[str] = None,
-        sound_leave: Optional[str] = None,
-        sound_has_joined: Optional[str] = None,
-        sound_has_left: Optional[str] = None,
-        sound_kicked: Optional[str] = None,
-        sound_muted: Optional[str] = None,
-        sound_unmuted: Optional[str] = None,
-        sound_only_person: Optional[str] = None,
-        sound_only_one: Optional[str] = None,
-        sound_there_are: Optional[str] = None,
-        sound_other_in_party: Optional[int] = None,
-        sound_place_into_conference: Optional[str] = None,
-        sound_get_pin: Optional[str] = None,
-        sound_invalid_pin: Optional[int] = None,
-        sound_locked: Optional[str] = None,
-        sound_locked_now: Optional[str] = None,
-        sound_unlocked_now: Optional[str] = None,
-        sound_error_menu: Optional[str] = None,
-        sound_participants_muted: Optional[str] = None,
-        sound_participants_unmuted: Optional[str] = None,
-        language: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        members: str | None = None,
+        sound_join: str | None = None,
+        sound_leave: str | None = None,
+        sound_has_joined: str | None = None,
+        sound_has_left: str | None = None,
+        sound_kicked: str | None = None,
+        sound_muted: str | None = None,
+        sound_unmuted: str | None = None,
+        sound_only_person: str | None = None,
+        sound_only_one: str | None = None,
+        sound_there_are: str | None = None,
+        sound_other_in_party: int | None = None,
+        sound_place_into_conference: str | None = None,
+        sound_get_pin: str | None = None,
+        sound_invalid_pin: int | None = None,
+        sound_locked: str | None = None,
+        sound_locked_now: str | None = None,
+        sound_unlocked_now: str | None = None,
+        sound_error_menu: str | None = None,
+        sound_participants_muted: str | None = None,
+        sound_participants_unmuted: str | None = None,
+        language: str | None = None,
+    ) -> dict[str, Any]:
         """Update conference settings
 
         Args:
@@ -9343,22 +9341,22 @@ class VoIPMSClientAsync(VoIPMSClient):
         member: int,
         conference: int,
         name: str,
-        description: Optional[str] = None,
-        pin: Optional[str] = None,
-        announce_join_leave: Optional[Literal["yes", "no"]] = None,
-        admin: Optional[Literal["yes", "no"]] = None,
-        start_muted: Optional[Literal["yes", "no"]] = None,
-        announce_user_count: Optional[Literal["yes", "no"]] = None,
-        announce_only_user: Optional[Literal["yes", "no"]] = None,
-        moh_when_empty: Optional[str] = None,
-        quiet: Optional[Literal["yes", "no"]] = None,
-        announcement: Optional[str] = None,
-        drop_silence: Optional[Literal["yes", "no"]] = None,
-        talking_threshold: Optional[Literal["100", "120", "140", "160", "180", "200", "220", "240"]] = None,
-        silence_threshold: Optional[Literal["2000", "2100", "2200", "2300", "2400", "2500", "2600", "2700", "2800", "2900"]] = None,
-        talk_detection: Optional[Literal["yes", "no"]] = None,
-        jitter_buffer: Optional[Literal["yes", "no"]] = None,
-    ) -> Dict[str, Any]:
+        description: str | None = None,
+        pin: str | None = None,
+        announce_join_leave: Literal["yes", "no"] | None = None,
+        admin: Literal["yes", "no"] | None = None,
+        start_muted: Literal["yes", "no"] | None = None,
+        announce_user_count: Literal["yes", "no"] | None = None,
+        announce_only_user: Literal["yes", "no"] | None = None,
+        moh_when_empty: str | None = None,
+        quiet: Literal["yes", "no"] | None = None,
+        announcement: str | None = None,
+        drop_silence: Literal["yes", "no"] | None = None,
+        talking_threshold: Literal["100", "120", "140", "160", "180", "200", "220", "240"] | None = None,
+        silence_threshold: Literal["2000", "2100", "2200", "2300", "2400", "2500", "2600", "2700", "2800", "2900"] | None = None,
+        talk_detection: Literal["yes", "no"] | None = None,
+        jitter_buffer: Literal["yes", "no"] | None = None,
+    ) -> dict[str, Any]:
         """Update conference member settings
 
         Args:
@@ -9393,7 +9391,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         did: int,
         billing_type: Literal["1", "2"],
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Update did billing type settings
 
         Args:
@@ -9416,20 +9414,20 @@ class VoIPMSClientAsync(VoIPMSClient):
         dialtime: int,
         cnam: Literal["0", "1"],
         billing_type: Literal["1", "2"],
-        failover_busy: Optional[int] = None,
-        failover_unreachable: Optional[int] = None,
-        failover_noanswer: Optional[int] = None,
-        voicemail: Optional[int] = None,
-        callerid_prefix: Optional[int] = None,
-        note: Optional[int] = None,
-        port_out_pin: Optional[int] = None,
-        record_calls: Optional[Literal["0", "1"]] = None,
-        transcribe: Optional[Literal["0", "1"]] = None,
-        transcription_locale: Optional[str] = None,
-        transcription_email: Optional[Annotated[str, "Format: email"]] = None,
-        transcription_start_delay: Optional[Annotated[str, "Range: 0-60; Units: seconds"]] = None,
-        voicemail_threshold: Optional[Annotated[str, "Range: 0-60; Format: email; Units: seconds"]] = None,
-    ) -> Dict[str, Any]:
+        failover_busy: int | None = None,
+        failover_unreachable: int | None = None,
+        failover_noanswer: int | None = None,
+        voicemail: int | None = None,
+        callerid_prefix: int | None = None,
+        note: int | None = None,
+        port_out_pin: int | None = None,
+        record_calls: Literal["0", "1"] | None = None,
+        transcribe: Literal["0", "1"] | None = None,
+        transcription_locale: str | None = None,
+        transcription_email: Annotated[str, "Format: email"] | None = None,
+        transcription_start_delay: Annotated[str, "Range: 0-60; Units: seconds"] | None = None,
+        voicemail_threshold: Annotated[str, "Range: 0-60; Format: email; Units: seconds"] | None = None,
+    ) -> dict[str, Any]:
         """Update did info settings
 
         Args:
@@ -9465,7 +9463,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         did: int,
         pop: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Update didpop settings
 
         Args:
@@ -9484,7 +9482,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         did: int,
         routing: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Update did routing settings
 
         Args:
@@ -9502,8 +9500,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         did: int,
-        voicemail: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        voicemail: int | None = None,
+    ) -> dict[str, Any]:
         """Update did voicemail settings
 
         Args:
@@ -9523,9 +9521,9 @@ class VoIPMSClientAsync(VoIPMSClient):
         name: str,
         pin: str,
         digit_timeout: str,
-        disa: Optional[int] = None,
-        callerid_override: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        disa: int | None = None,
+        callerid_override: int | None = None,
+    ) -> dict[str, Any]:
         """Update disa settings
 
         Args:
@@ -9548,11 +9546,11 @@ class VoIPMSClientAsync(VoIPMSClient):
         auth_email: Annotated[str, "Format: email"],
         from_number_id: str,
         security_code: int,
-        id_: Optional[int] = None,
-        enabled: Optional[Literal["0", "1"]] = None,
-        security_code_enabled: Optional[Literal["0", "1"]] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        id_: int | None = None,
+        enabled: Literal["0", "1"] | None = None,
+        security_code_enabled: Literal["0", "1"] | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Update email to fax settings
 
         Args:
@@ -9575,9 +9573,9 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         name: str,
-        id_: Optional[int] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        id_: int | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Update fax folder settings
 
         Args:
@@ -9596,11 +9594,11 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         did: int,
-        email: Optional[Annotated[str, "Format: email"]] = None,
-        email_enable: Optional[Annotated[str, "Format: email"]] = None,
-        email_attach_file: Optional[Annotated[str, "Format: pdf"]] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        email: Annotated[str, "Format: email"] | None = None,
+        email_enable: Annotated[str, "Format: email"] | None = None,
+        email_attach_file: Annotated[str, "Format: pdf"] | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Update fax number email settings
 
         Args:
@@ -9621,14 +9619,14 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         did: int,
-        email: Optional[Annotated[str, "Format: email"]] = None,
-        email_enable: Optional[Annotated[str, "Format: email"]] = None,
-        email_attach_file: Optional[Annotated[str, "Format: pdf"]] = None,
-        url_callback: Optional[str] = None,
-        url_callback_enable: Optional[str] = None,
-        url_callback_retry: Optional[str] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        email: Annotated[str, "Format: email"] | None = None,
+        email_enable: Annotated[str, "Format: email"] | None = None,
+        email_attach_file: Annotated[str, "Format: pdf"] | None = None,
+        url_callback: str | None = None,
+        url_callback_enable: str | None = None,
+        url_callback_retry: str | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Update fax number info settings
 
         Args:
@@ -9652,11 +9650,11 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         did: int,
-        url_callback: Optional[str] = None,
-        url_callback_enable: Optional[str] = None,
-        url_callback_retry: Optional[str] = None,
-        test: Optional[Literal["true", "false"]] = None,
-    ) -> Dict[str, Any]:
+        url_callback: str | None = None,
+        url_callback_enable: str | None = None,
+        url_callback_retry: str | None = None,
+        test: Literal["true", "false"] | None = None,
+    ) -> dict[str, Any]:
         """Update fax number url callback settings
 
         Args:
@@ -9677,13 +9675,13 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         phone_number: Annotated[str, "Format: phone"],
-        forwarding: Optional[int] = None,
-        callerid_override: Optional[int] = None,
-        description: Optional[str] = None,
-        dtmf_digits: Optional[str] = None,
-        pause: Optional[Annotated[str, "Units: seconds"]] = None,
-        diversion_header: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        forwarding: int | None = None,
+        callerid_override: int | None = None,
+        description: str | None = None,
+        dtmf_digits: str | None = None,
+        pause: Annotated[str, "Units: seconds"] | None = None,
+        diversion_header: str | None = None,
+    ) -> dict[str, Any]:
         """Update forwarding settings
 
         Args:
@@ -9711,8 +9709,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         language: str,
         voicemailsetup: Annotated[str, "Format: email"],
         choices: str,
-        ivr: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        ivr: int | None = None,
+    ) -> dict[str, Any]:
         """Update ivr settings
 
         Args:
@@ -9736,10 +9734,10 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         description: str,
         recordings: Literal["1234", "1235", "1236"],
-        name: Optional[str] = None,
-        volume: Optional[Literal["0", "1"]] = None,
-        sort: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        name: str | None = None,
+        volume: Literal["0", "1"] | None = None,
+        sort: str | None = None,
+    ) -> dict[str, Any]:
         """Update music on hold settings
 
         Args:
@@ -9761,12 +9759,12 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         name: Annotated[str, "Format: phone"],
         number: Annotated[str, "Format: phone"],
-        phonebook: Optional[int] = None,
-        speed_dial: Optional[Annotated[str, "Format: phone"]] = None,
-        callerid: Optional[int] = None,
-        note: Optional[Annotated[str, "Format: phone"]] = None,
-        group: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        phonebook: int | None = None,
+        speed_dial: Annotated[str, "Format: phone"] | None = None,
+        callerid: int | None = None,
+        note: Annotated[str, "Format: phone"] | None = None,
+        group: int | None = None,
+    ) -> dict[str, Any]:
         """Update phonebook settings
 
         Args:
@@ -9790,9 +9788,9 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         phonebook: str,
         name: Annotated[str, "Format: phone"],
-        group: Optional[int] = None,
-        members: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        group: int | None = None,
+        members: int | None = None,
+    ) -> dict[str, Any]:
         """Update phonebook group settings
 
         Args:
@@ -9820,31 +9818,31 @@ class VoIPMSClientAsync(VoIPMSClient):
         leave_when_empty: str,
         ring_strategy: str,
         ring_inuse: int,
-        queue: Optional[int] = None,
-        queue_password: Optional[str] = None,
-        callerid_prefix: Optional[int] = None,
-        join_announcement: Optional[int] = None,
-        agent_announcement: Optional[int] = None,
-        member_delay: Optional[Annotated[str, "Units: seconds"]] = None,
-        maximum_wait_time: Optional[Annotated[str, "Units: seconds"]] = None,
-        maximum_callers: Optional[str] = None,
-        agent_ring_timeout: Optional[int] = None,
-        retry_timer: Optional[Annotated[str, "Units: seconds"]] = None,
-        wrapup_time: Optional[int] = None,
-        voice_announcement: Optional[int] = None,
-        frequency_announcement: Optional[Annotated[str, "Units: seconds"]] = None,
-        announce_position_frecuency: Optional[Annotated[str, "Units: seconds"]] = None,
-        announce_round_seconds: Optional[Annotated[str, "Units: seconds"]] = None,
-        if_announce_position_enabled_report_estimated_hold_time: Optional[str] = None,
-        thankyou_for_your_patience: Optional[str] = None,
-        music_on_hold: Optional[int] = None,
-        fail_over_routing_timeout: Optional[str] = None,
-        fail_over_routing_full: Optional[str] = None,
-        fail_over_routing_join_empty: Optional[str] = None,
-        fail_over_routing_leave_empty: Optional[str] = None,
-        fail_over_routing_join_unavail: Optional[str] = None,
-        fail_over_routing_leave_unavail: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        queue: int | None = None,
+        queue_password: str | None = None,
+        callerid_prefix: int | None = None,
+        join_announcement: int | None = None,
+        agent_announcement: int | None = None,
+        member_delay: Annotated[str, "Units: seconds"] | None = None,
+        maximum_wait_time: Annotated[str, "Units: seconds"] | None = None,
+        maximum_callers: str | None = None,
+        agent_ring_timeout: int | None = None,
+        retry_timer: Annotated[str, "Units: seconds"] | None = None,
+        wrapup_time: int | None = None,
+        voice_announcement: int | None = None,
+        frequency_announcement: Annotated[str, "Units: seconds"] | None = None,
+        announce_position_frecuency: Annotated[str, "Units: seconds"] | None = None,
+        announce_round_seconds: Annotated[str, "Units: seconds"] | None = None,
+        if_announce_position_enabled_report_estimated_hold_time: str | None = None,
+        thankyou_for_your_patience: str | None = None,
+        music_on_hold: int | None = None,
+        fail_over_routing_timeout: str | None = None,
+        fail_over_routing_full: str | None = None,
+        fail_over_routing_join_empty: str | None = None,
+        fail_over_routing_leave_empty: str | None = None,
+        fail_over_routing_join_unavail: str | None = None,
+        fail_over_routing_leave_unavail: str | None = None,
+    ) -> dict[str, Any]:
         """Update queue settings
 
         Args:
@@ -9898,8 +9896,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         file: int,
         name: str,
-        recording: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        recording: int | None = None,
+    ) -> dict[str, Any]:
         """Update recording settings
 
         Args:
@@ -9920,11 +9918,11 @@ class VoIPMSClientAsync(VoIPMSClient):
         name: str,
         members: int,
         voicemail: Annotated[str, "Format: email"],
-        ring_group: Optional[int] = None,
-        caller_announcement: Optional[int] = None,
-        music_on_hold: Optional[int] = None,
-        language: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        ring_group: int | None = None,
+        caller_announcement: int | None = None,
+        music_on_hold: int | None = None,
+        language: int | None = None,
+    ) -> dict[str, Any]:
         """Update ring group settings
 
         Args:
@@ -9947,11 +9945,11 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         uri: Annotated[str, "Format: email; Units: milliseconds"],
-        sipuri: Optional[int] = None,
-        description: Optional[str] = None,
-        callerid_override: Optional[int] = None,
-        callerid_e164: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        sipuri: int | None = None,
+        description: str | None = None,
+        callerid_override: int | None = None,
+        callerid_e164: int | None = None,
+    ) -> dict[str, Any]:
         """Update sipuri settings
 
         Args:
@@ -9973,16 +9971,16 @@ class VoIPMSClientAsync(VoIPMSClient):
         *,
         did: int,
         enable: Literal["0", "1"],
-        email_enabled: Optional[int] = None,
-        email_address: Optional[int] = None,
-        sms_forward_enable: Optional[int] = None,
-        sms_forward: Optional[int] = None,
-        url_callback_enable: Optional[int] = None,
-        url_callback: Optional[int] = None,
-        url_callback_retry: Optional[Annotated[str, "Units: minutes"]] = None,
-        sms_sipaccount: Optional[int] = None,
-        sms_sipaccount_enabled: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        email_enabled: int | None = None,
+        email_address: int | None = None,
+        sms_forward_enable: int | None = None,
+        sms_forward: int | None = None,
+        url_callback_enable: int | None = None,
+        url_callback: int | None = None,
+        url_callback_retry: Annotated[str, "Units: minutes"] | None = None,
+        sms_sipaccount: int | None = None,
+        sms_sipaccount_enabled: int | None = None,
+    ) -> dict[str, Any]:
         """Update sms settings
 
         Args:
@@ -10011,9 +10009,9 @@ class VoIPMSClientAsync(VoIPMSClient):
         queue: int,
         member_name: str,
         priority: str,
-        member: Optional[int] = None,
-        account: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        member: int | None = None,
+        account: str | None = None,
+    ) -> dict[str, Any]:
         """Update static member settings
 
         Args:
@@ -10045,34 +10043,34 @@ class VoIPMSClientAsync(VoIPMSClient):
         transcribe: int,
         transcription_locale: str,
         transcription_email: str,
-        description: Optional[int] = None,
-        password: Optional[int] = None,
-        ip: Optional[int] = None,
-        callerid_number: Optional[int] = None,
-        canada_routing: Optional[int] = None,
-        language: Optional[int] = None,
-        sip_traffic: Optional[Literal["0", "1"]] = None,
-        max_expiry: Optional[Annotated[str, "Range: 60-3600"]] = None,
-        rtp_timeout: Optional[Annotated[str, "Range: 1-3600"]] = None,
-        rtp_hold_timeout: Optional[Annotated[str, "Range: 1-3600"]] = None,
-        ip_restriction: Optional[str] = None,
-        enable_ip_restriction: Optional[Literal["0", "1"]] = None,
-        pop_restriction: Optional[str] = None,
-        enable_pop_restriction: Optional[Literal["0", "1"]] = None,
-        internal_extension: Optional[int] = None,
-        internal_voicemail: Optional[int] = None,
-        internal_dialtime: Optional[int] = None,
-        reseller_client: Optional[int] = None,
-        reseller_package: Optional[str] = None,
-        reseller_nextbilling: Optional[str] = None,
-        reseller_chargesetup: Optional[str] = None,
-        send_bye: Optional[Literal["0", "1"]] = None,
-        record_calls: Optional[Literal["0", "1"]] = None,
-        transcription_start_delay: Optional[Annotated[str, "Range: 0-60; Units: seconds"]] = None,
-        dialing_mode: Optional[Literal["0", "1", "2"]] = None,
-        tfcarrier: Optional[Literal["1", "0", "1", "2"]] = None,
-        default_e911: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        description: int | None = None,
+        password: int | None = None,
+        ip: int | None = None,
+        callerid_number: int | None = None,
+        canada_routing: int | None = None,
+        language: int | None = None,
+        sip_traffic: Literal["0", "1"] | None = None,
+        max_expiry: Annotated[str, "Range: 60-3600"] | None = None,
+        rtp_timeout: Annotated[str, "Range: 1-3600"] | None = None,
+        rtp_hold_timeout: Annotated[str, "Range: 1-3600"] | None = None,
+        ip_restriction: str | None = None,
+        enable_ip_restriction: Literal["0", "1"] | None = None,
+        pop_restriction: str | None = None,
+        enable_pop_restriction: Literal["0", "1"] | None = None,
+        internal_extension: int | None = None,
+        internal_voicemail: int | None = None,
+        internal_dialtime: int | None = None,
+        reseller_client: int | None = None,
+        reseller_package: str | None = None,
+        reseller_nextbilling: str | None = None,
+        reseller_chargesetup: str | None = None,
+        send_bye: Literal["0", "1"] | None = None,
+        record_calls: Literal["0", "1"] | None = None,
+        transcription_start_delay: Annotated[str, "Range: 0-60; Units: seconds"] | None = None,
+        dialing_mode: Literal["0", "1", "2"] | None = None,
+        tfcarrier: Literal["1", "0", "1", "2"] | None = None,
+        default_e911: int | None = None,
+    ) -> dict[str, Any]:
         """Update sub account settings
 
         Args:
@@ -10135,8 +10133,8 @@ class VoIPMSClientAsync(VoIPMSClient):
         endminute: Annotated[str, "Units: minutes"],
         weekdaystart: Annotated[str, "Units: days"],
         weekdayend: Annotated[str, "Units: days"],
-        timecondition: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        timecondition: int | None = None,
+    ) -> dict[str, Any]:
         """Update time condition settings
 
         Args:
@@ -10172,12 +10170,12 @@ class VoIPMSClientAsync(VoIPMSClient):
         say_callerid: int,
         play_instructions: int,
         language: int,
-        email: Optional[Annotated[str, "Format: email"]] = None,
-        email_attachment_format: Optional[int] = None,
-        unavailable_message_recording: Optional[str] = None,
-        transcription: Optional[Annotated[str, "Format: email"]] = None,
-        transcription_locale: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        email: Annotated[str, "Format: email"] | None = None,
+        email_attachment_format: int | None = None,
+        unavailable_message_recording: str | None = None,
+        transcription: Annotated[str, "Format: email"] | None = None,
+        transcription_locale: int | None = None,
+    ) -> dict[str, Any]:
         """Update voicemail settings
 
         Args:
@@ -10224,10 +10222,10 @@ class VoIPMSClientAsync(VoIPMSClient):
         confirm_email: str,
         password: str,
         confirm_password: str,
-        company: Optional[str] = None,
-        activate: Optional[Literal["0", "1"]] = None,
-        balance_management: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        company: str | None = None,
+        activate: Literal["0", "1"] | None = None,
+        balance_management: str | None = None,
+    ) -> dict[str, Any]:
         """Sign up client
 
         Args:
@@ -10258,7 +10256,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         did: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Unconnect did
 
         Args:
@@ -10275,7 +10273,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         did: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Unconnect fax
 
         Args:

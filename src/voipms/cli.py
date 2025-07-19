@@ -14,12 +14,18 @@
 Data-Driven VoIP.ms CLI - Dynamically generates commands from API definition
 """
 
+import json
+import sys
+from datetime import datetime, timedelta
+from pathlib import Path
+from typing import Any, Dict, Optional
+
 import rich_click as click
 from rich.console import Console
-from rich.table import Table
 from rich.json import JSON
 from rich.panel import Panel
 from rich.syntax import Syntax
+from rich.table import Table
 
 # Configure rich-click
 click.rich_click.USE_RICH_MARKUP = True
@@ -29,11 +35,6 @@ click.rich_click.GROUP_ARGUMENTS_OPTIONS = True
 click.rich_click.STYLE_OPTION = "cyan"
 click.rich_click.STYLE_SWITCH = "green"
 click.rich_click.STYLE_ARGUMENT = "magenta"
-import json
-import sys
-from typing import Optional, Any, Dict
-from pathlib import Path
-import os
 
 # Try to load .env file
 try:
@@ -42,23 +43,20 @@ try:
 except ImportError:
     pass
 
-import sys
-from pathlib import Path
 # Add parent directory to path so we can import voipms
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from voipms import VoIPMSClient, VoIPMSError
-from datetime import datetime, timedelta
+from voipms import VoIPMSClient, VoIPMSError  # noqa: E402
 
 
 class VoIPMSCLI:
     """Data-driven CLI that generates commands from API definition."""
-    
+
     def __init__(self):
         self.client = None
         self.api_definition = None
         self.console = Console()
-        
+
     def init_client(self, username: Optional[str] = None, password: Optional[str] = None):
         """Initialize the VoIP.ms client."""
         try:
@@ -68,28 +66,28 @@ class VoIPMSCLI:
         except Exception as e:
             click.echo(click.style(f"Error: Failed to initialize client: {e}", fg='red'), err=True)
             sys.exit(1)
-    
+
     def format_json(self, data: Any, pretty: bool = True) -> str:
         """Format data as JSON."""
         if pretty:
             return json.dumps(data, indent=2, sort_keys=True)
         return json.dumps(data)
-    
+
     def print_error(self, message: str):
         """Print error message to stderr."""
         self.console.print(f"[bold red]Error:[/bold red] {message}", style="red")
-    
+
     def print_success(self, message: str):
         """Print success message."""
         self.console.print(message, style="bold green")
-    
+
     def get_method_info(self, method_name: str) -> Optional[Dict[str, Any]]:
         """Get method information from API definition."""
         if not self.api_definition:
             return None
         operations = self.api_definition.get('operations', {})
         return operations.get(method_name)
-    
+
     def call_method(self, method_name: str, params: Dict[str, Any], pretty: bool = True):
         """Call an API method with given parameters."""
         try:
@@ -98,76 +96,76 @@ class VoIPMSCLI:
                 self.print_error(f"Unknown method: {method_name}")
                 self.show_similar_methods(method_name)
                 sys.exit(1)
-            
+
             # Call the method - let it use validation
             method = getattr(self.client, method_name)
             result = method(**params)
-            
+
             # Format output
             if pretty:
                 self.console.print(JSON(json.dumps(result)))
             else:
                 click.echo(json.dumps(result))
-            
+
         except VoIPMSError as e:
             self.print_error(f"API error: {e}")
             sys.exit(1)
         except Exception as e:
             self.print_error(str(e))
             sys.exit(1)
-    
+
     def show_similar_methods(self, method_name: str):
         """Show methods with similar names."""
         if not self.api_definition:
             return
-            
+
         operations = self.api_definition.get('operations', {})
         similar = []
-        
+
         method_lower = method_name.lower()
         for op_name in operations:
             if method_lower in op_name.lower() or op_name.lower() in method_lower:
                 similar.append(op_name)
-        
+
         if similar:
             click.echo("\nDid you mean one of these?", err=True)
             for method in similar[:10]:
                 click.echo(f"  - {method}", err=True)
-    
+
     def list_methods(self, filter_text: Optional[str] = None):
         """List all available methods."""
         if not self.api_definition:
             self.print_error("No API definition loaded")
             return
-            
+
         operations = self.api_definition.get('operations', {})
-        
+
         # Filter if requested
         if filter_text:
             operations = {
                 name: info for name, info in operations.items()
-                if filter_text.lower() in name.lower() or 
+                if filter_text.lower() in name.lower() or
                    filter_text.lower() in info.get('description', '').lower()
             }
-        
+
         # Create a rich table
         table = Table(title=f"[bold]VoIP.ms API Methods[/bold] ({len(operations)} found)")
         table.add_column("Method", style="cyan", no_wrap=True, width=30)
         table.add_column("Description", style="white")
         table.add_column("Category", style="green", width=12)
-        
+
         # Group and add methods
         for name, info in sorted(operations.items()):
             prefix = name.split(next(c for c in name if c.isupper()))[0] if any(c.isupper() for c in name) else 'other'
             desc = info.get('description', 'No description')
             table.add_row(name, desc, prefix.upper())
-        
+
         self.console.print(table)
-    
+
     def apply_smart_defaults(self, method_name: str, params: Dict[str, Any]) -> Dict[str, Any]:
         """Apply smart defaults based on method context."""
         result = params.copy()
-        
+
         # Date-based method defaults
         date_methods = ['getCDR', 'getSMS', 'getMMS', 'getCallRecordings', 'getFaxMessages']
         if method_name in date_methods:
@@ -178,97 +176,97 @@ class VoIPMSCLI:
                     result['from'] = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
                 else:
                     result['date_from'] = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
-            
+
             if 'date_to' not in result and 'to_date' not in result and 'to' not in result:
                 if method_name in ['getSMS', 'getMMS']:
                     result['to'] = datetime.now().strftime('%Y-%m-%d')
                 else:
                     result['date_to'] = datetime.now().strftime('%Y-%m-%d')
-            
+
             # CDR specific: add timezone if not provided
             if method_name == 'getCDR' and 'timezone' not in result:
                 result['timezone'] = '1'
                 self.console.print("[yellow]ℹ Added default timezone=1 (EST)[/yellow]")
-        
+
         # DID ordering defaults
         order_methods = ['orderDID', 'backOrderDIDUSA', 'backOrderDIDCAN', 'orderTollFree', 'orderVanity', 'orderDIDVirtual']
         if method_name in order_methods:
             if 'pop' not in result:
                 result['pop'] = 1
                 self.console.print("[yellow]ℹ Added default pop=1 (server location)[/yellow]")
-            
+
             if 'dialtime' not in result:
                 result['dialtime'] = 60
                 self.console.print("[yellow]ℹ Added default dialtime=60 seconds[/yellow]")
-            
+
             if 'billing_type' not in result:
                 result['billing_type'] = 1  # Per minute billing
                 self.console.print("[yellow]ℹ Added default billing_type=1 (per minute)[/yellow]")
-        
+
         # Voicemail defaults for better UX
         if method_name == 'setVoicemail':
             if 'attach_message' not in result:
                 result['attach_message'] = True
                 self.console.print("[yellow]ℹ Added default attach_message=true[/yellow]")
-            
+
             if 'delete_message' not in result:
                 result['delete_message'] = False
                 self.console.print("[yellow]ℹ Added default delete_message=false[/yellow]")
-        
+
         # Queue defaults
         if method_name == 'setQueue':
             if 'agent_ring_timeout' not in result:
                 result['agent_ring_timeout'] = 15
                 self.console.print("[yellow]ℹ Added default agent_ring_timeout=15 seconds[/yellow]")
-            
+
             if 'retry_timer' not in result:
                 result['retry_timer'] = 30
                 self.console.print("[yellow]ℹ Added default retry_timer=30 seconds[/yellow]")
-        
+
         # SMS/MMS defaults
         if method_name in ['setSMS', 'setMMS']:
             if 'enable' not in result:
                 result['enable'] = True
                 self.console.print("[yellow]ℹ Added default enable=true[/yellow]")
-        
+
         return result
-    
+
     def show_method_help(self, method_name: str):
         """Show detailed help for a method."""
         method_info = self.get_method_info(method_name)
-        
+
         if not method_info:
             self.print_error(f"Unknown method: {method_name}")
             self.show_similar_methods(method_name)
             return
-        
+
         # Create a panel for the method
         self.console.print(Panel(
             f"[bold cyan]{method_name}[/bold cyan]\n\n{method_info.get('description', 'No description available')}",
             title="[bold]API Method[/bold]",
             border_style="cyan"
         ))
-        
+
         parameters = method_info.get('parameters', {})
         if parameters:
             # Create parameter tables
             required = [(name, info) for name, info in parameters.items() if info.get('required', False)]
             optional = [(name, info) for name, info in parameters.items() if not info.get('required', False)]
-            
+
             if required:
                 req_table = Table(title="[yellow]Required Parameters[/yellow]", show_header=True)
                 req_table.add_column("Parameter", style="yellow", width=20)
                 req_table.add_column("Type", style="cyan", width=10)
                 req_table.add_column("Description", style="white")
-                
+
                 for name, info in required:
                     param_type = info.get('type', 'string')
                     desc = info.get('description', 'No description')
-                    
+
                     # Add enum values
                     if enum_values := info.get('enum'):
                         desc += f"\n[cyan]Options: {', '.join(enum_values)}[/cyan]"
-                    
+
                     # Add constraint information
                     constraints = []
                     if 'minimum' in info and 'maximum' in info:
@@ -277,45 +275,45 @@ class VoIPMSCLI:
                         constraints.append(f"Min: {info['minimum']}")
                     elif 'maximum' in info:
                         constraints.append(f"Max: {info['maximum']}")
-                    
+
                     if 'minLength' in info:
                         constraints.append(f"MinLen: {info['minLength']}")
                     if 'maxLength' in info:
                         constraints.append(f"MaxLen: {info['maxLength']}")
-                    
+
                     if constraints:
                         desc += f"\n[yellow]{' | '.join(constraints)}[/yellow]"
-                    
+
                     # Add format information
                     if format_info := info.get('format'):
                         desc += f"\n[green]Format: {format_info}[/green]"
-                    
+
                     # Add units
                     if units := info.get('units'):
                         desc += f"\n[blue]Units: {units}[/blue]"
-                    
+
                     # Add example
                     if 'example' in info:
                         desc += f"\n[dim]Example: {info['example']}[/dim]"
-                    
+
                     req_table.add_row(f"--{name}", param_type, desc)
-                
+
                 self.console.print(req_table)
-            
+
             if optional:
                 opt_table = Table(title="[green]Optional Parameters[/green]", show_header=True)
                 opt_table.add_column("Parameter", style="green", width=20)
                 opt_table.add_column("Type", style="cyan", width=10)
                 opt_table.add_column("Description", style="white")
-                
+
                 for name, info in optional:
                     param_type = info.get('type', 'string')
                     desc = info.get('description', 'No description')
-                    
+
                     # Add enum values
                     if enum_values := info.get('enum'):
                         desc += f"\n[cyan]Options: {', '.join(enum_values)}[/cyan]"
-                    
+
                     # Add constraint information
                     constraints = []
                     if 'minimum' in info and 'maximum' in info:
@@ -324,35 +322,35 @@ class VoIPMSCLI:
                         constraints.append(f"Min: {info['minimum']}")
                     elif 'maximum' in info:
                         constraints.append(f"Max: {info['maximum']}")
-                    
+
                     if 'minLength' in info:
                         constraints.append(f"MinLen: {info['minLength']}")
                     if 'maxLength' in info:
                         constraints.append(f"MaxLen: {info['maxLength']}")
-                    
+
                     if constraints:
                         desc += f"\n[yellow]{' | '.join(constraints)}[/yellow]"
-                    
+
                     # Add format information
                     if format_info := info.get('format'):
                         desc += f"\n[green]Format: {format_info}[/green]"
-                    
+
                     # Add units
                     if units := info.get('units'):
                         desc += f"\n[blue]Units: {units}[/blue]"
-                    
+
                     # Add default values
                     if default := info.get('default'):
                         desc += f"\n[magenta]Default: {default}[/magenta]"
-                    
+
                     # Add example
                     if 'example' in info:
                         desc += f"\n[dim]Example: {info['example']}[/dim]"
-                    
+
                     opt_table.add_row(f"--{name}", param_type, desc)
-                
+
                 self.console.print(opt_table)
-        
+
         # Show smart defaults if applicable
         smart_default_methods = {
             'getCDR': 'Date range defaults to last 7 days, timezone defaults to 1',
@@ -371,14 +369,14 @@ class VoIPMSCLI:
             'setSMS': 'enable=true',
             'setMMS': 'enable=true'
         }
-        
+
         if method_name in smart_default_methods:
             self.console.print(Panel(
                 f"[green]{smart_default_methods[method_name]}[/green]",
                 title="[bold green]Smart Defaults[/bold green]",
                 border_style="green"
             ))
-        
+
         # Show example
         if parameters:
             required_params = [f"--{name}=<value>" for name, info in parameters.items() if info.get('required', False)]
@@ -419,11 +417,11 @@ def cli(ctx, username: Optional[str], password: Optional[str], pretty: bool):
     """
     # Initialize client
     cli_instance.init_client(username, password)
-    
+
     # Store context
     ctx.ensure_object(dict)
     ctx.obj['pretty'] = pretty
-    
+
     # If no command given, show help
     if ctx.invoked_subcommand is None:
         click.echo(ctx.get_help())
@@ -449,32 +447,32 @@ def api_info_cmd():
     if not cli_instance.api_definition:
         cli_instance.print_error("No API definition loaded")
         return
-    
+
     metadata = cli_instance.api_definition.get('metadata', {})
     operations = cli_instance.api_definition.get('operations', {})
-    
+
     click.echo(click.style("VoIP.ms API Information", bold=True))
     click.echo(f"\nTotal operations: {len(operations)}")
     click.echo(f"Generated: {metadata.get('generated_at', 'Unknown')}")
     click.echo(f"Generator version: {metadata.get('generator_version', 'Unknown')}")
     click.echo(f"Documentation source: {metadata.get('documentation_source', 'Unknown')}")
-    
+
     # Count by prefix
     prefixes = {}
     for name in operations:
         prefix = name.split(next(c for c in name if c.isupper()))[0] if any(c.isupper() for c in name) else 'other'
         prefixes[prefix] = prefixes.get(prefix, 0) + 1
-    
+
     click.echo("\nMethods by category:")
     for prefix, count in sorted(prefixes.items()):
         click.echo(f"  {prefix:<15} : {count:>3} methods")
 
 
 # Dynamic command handler
-@cli.command(context_settings=dict(
-    ignore_unknown_options=True,
-    allow_extra_args=True,
-))
+@cli.command(context_settings={
+    "ignore_unknown_options": True,
+    "allow_extra_args": True,
+})
 @click.argument('method')
 @click.pass_context
 def method_handler(ctx, method: str):
@@ -491,7 +489,7 @@ def custom_invoke(self, ctx):
     # Get the full command line args
     import sys
     full_args = sys.argv[1:]  # Skip script name
-    
+
     # Extract command name
     cmd_name = None
     cmd_args = []
@@ -500,17 +498,17 @@ def custom_invoke(self, ctx):
             cmd_name = arg
             cmd_args = full_args[i+1:]
             break
-    
+
     # If it's a registered command, use normal Click handling
     if cmd_name in self.commands:
         return original_invoke(ctx)
-    
+
     # Otherwise, treat it as an API method call
     if cmd_name:
         # Make sure client is initialized
         if not cli_instance.api_definition:
             cli_instance.init_client()
-            
+
         method_info = cli_instance.get_method_info(cmd_name)
         if method_info:
             # Parse parameters from remaining arguments
@@ -522,7 +520,7 @@ def custom_invoke(self, ctx):
                         # Convert types based on API definition
                         param_info = method_info.get('parameters', {}).get(key, {})
                         param_type = param_info.get('type', 'string')
-                        
+
                         if param_type == 'integer':
                             try:
                                 value = int(value)
@@ -549,7 +547,7 @@ def custom_invoke(self, ctx):
                                 except (ImportError, Exception):
                                     # Keep original value if dateparser unavailable or parsing fails
                                     pass
-                            
+
                             # Check for boolean-like string enums (e.g., ["0", "1"])
                             enum_values = param_info.get('enum', [])
                             if enum_values == ['0', '1'] or enum_values == ['1', '0']:
@@ -578,16 +576,16 @@ def custom_invoke(self, ctx):
                                     cli_instance.print_error(f"Parameter {key} must be one of: {', '.join(enum_values)}")
                                     cli_instance.print_error(f"You provided: {value}")
                                     sys.exit(1)
-                        
+
                         params[key] = value
                     else:
                         cli_instance.print_error(f"Invalid parameter format: {arg}")
                         cli_instance.print_error("Use --param=value format")
                         sys.exit(1)
-            
+
             # Apply smart defaults
             params = cli_instance.apply_smart_defaults(cmd_name, params)
-            
+
             # Show HTML defaults that would be applied
             if cli_instance.api_definition:
                 op_spec = cli_instance.api_definition.get('operations', {}).get(cmd_name, {})
@@ -600,10 +598,10 @@ def custom_invoke(self, ctx):
                             from datetime import datetime
                             default_val = datetime.now().strftime('%Y-%m-%d')
                         html_defaults.append(f"{param_name}={default_val}")
-                
+
                 if html_defaults:
                     cli_instance.console.print(f"[cyan]ℹ HTML defaults will be applied: {', '.join(html_defaults)}[/cyan]")
-            
+
             # Check required parameters (after applying defaults)
             required_params = [
                 name for name, info in method_info.get('parameters', {}).items()
@@ -614,12 +612,12 @@ def custom_invoke(self, ctx):
                 cli_instance.print_error(f"Missing required parameters: {', '.join(missing)}")
                 click.echo(f"\nUse 'voipms help {cmd_name}' for more information.")
                 sys.exit(1)
-            
+
             # Call the method
             pretty = ctx.obj.get('pretty', True) if ctx.obj else True
             cli_instance.call_method(cmd_name, params, pretty)
             return
-    
+
     # If we get here, it's an unknown command
     if cmd_name:
         cli_instance.print_error(f"Unknown command: {cmd_name}")

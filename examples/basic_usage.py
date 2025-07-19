@@ -16,7 +16,6 @@ Shows the simplest way to:
 - List available servers
 """
 
-import os
 from voipms import VoIPMSClient
 
 # Set credentials via environment variables
@@ -26,20 +25,20 @@ from voipms import VoIPMSClient
 def main():
     # Create client (uses environment variables for credentials)
     client = VoIPMSClient()
-    
+
     try:
         # Get account balance
         print("Getting account balance...")
         balance = client.getBalance()
         print(f"Current balance: ${balance['balance']['current_balance']}")
         print(f"Spent today: ${balance['balance']['spent_today']}")
-        
+
         # Get registration status
         print("\nGetting registration status...")
         status = client.getRegistrationStatus()
         registered = status.get('registered', [])
         print(f"Registered accounts: {len(registered)}")
-        
+
         # Get server information
         print("\nGetting server information...")
         servers = client.getServersInfo()
@@ -47,10 +46,10 @@ def main():
         print(f"Available servers: {len(server_list)}")
         for server in server_list[:3]:  # Show first 3
             print(f"  - {server['server_name']} ({server['server_hostname']})")
-            
+
     except Exception as e:
         print(f"Error: {e}")
-        
+
 
 if __name__ == "__main__":
     main()

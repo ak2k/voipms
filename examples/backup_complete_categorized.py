@@ -22,12 +22,12 @@ Usage:
     uv run dump_account_categorized_async.py --output my_backup.json
 """
 
-import sys
-import os
-import json
 import asyncio
+import json
+import os
+import sys
 from datetime import datetime
-from typing import Dict, Any, List, Tuple
+from typing import Any, Dict, Tuple
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
@@ -53,7 +53,7 @@ METHOD_CATEGORIES = {
     ],
     'Phone Numbers': [
         'getDIDsInternationalGeographic',
-        'getDIDsInternationalNational', 
+        'getDIDsInternationalNational',
         'getDIDsInternationalTollFree',
         'getDIDCountries',
     ],
@@ -123,30 +123,30 @@ async def call_method_safely(client: VoIPMSClientAsync, method_name: str) -> Tup
 
 async def dump_account_categorized_async(output_file: str = 'account_state_categorized_async.json'):
     """Dump account state organized by category using async for speed"""
-    
+
     print("Async VoIP.ms Account Dumper")
     print("=" * 50)
-    
+
     start_time = datetime.now()
-    
+
     async with VoIPMSClientAsync() as client:
         # Get all safe methods
         all_methods = client.get_available_methods()  # Not async
         safe_methods = []
-        
+
         for method_name in all_methods:
             if method_name.startswith('get'):
                 method_info = client.get_method_info(method_name)  # Not async
                 required_params = [
-                    name for name, info in method_info.get('parameters', {}).items() 
+                    name for name, info in method_info.get('parameters', {}).items()
                     if info.get('required', False)
                 ]
                 if not required_params:
                     safe_methods.append(method_name)
-        
+
         print(f"Found {len(safe_methods)} safe methods to call")
         print("Using async/await for parallel execution...\n")
-        
+
         # Organize output
         account_state = {
             'dump_timestamp': datetime.now().isoformat(),
@@ -154,41 +154,41 @@ async def dump_account_categorized_async(output_file: str = 'account_state_categ
             'categories': {},
             'errors': []
         }
-        
+
         # Create all tasks at once for maximum parallelism
         all_tasks = []
         method_to_category = {}
-        
+
         # Prepare tasks by category
         for category, methods in METHOD_CATEGORIES.items():
             for method_name in methods:
                 if method_name in safe_methods:
                     all_tasks.append(call_method_safely(client, method_name))
                     method_to_category[method_name] = category
-        
+
         # Add uncategorized methods
         other_methods = [m for m in safe_methods if all(m not in methods for methods in METHOD_CATEGORIES.values())]
         for method_name in other_methods:
             all_tasks.append(call_method_safely(client, method_name))
             method_to_category[method_name] = 'Other'
-        
+
         # Execute all tasks in parallel
         print(f"Executing {len(all_tasks)} API calls in parallel...")
         results = await asyncio.gather(*all_tasks)
-        
+
         # Process results
         successful_calls = 0
         for method_name, result in results:
             category = method_to_category[method_name]
-            
+
             if category not in account_state['categories']:
                 account_state['categories'][category] = {}
-            
+
             account_state['categories'][category][method_name] = result
-            
+
             if result['status'] == 'success':
                 successful_calls += 1
-                
+
                 # Extract summary info
                 if method_name == 'getBalance' and 'response' in result:
                     balance_data = result['response']
@@ -209,42 +209,42 @@ async def dump_account_categorized_async(output_file: str = 'account_state_categ
                     'code': result.get('code'),
                     'type': result.get('type', 'api_error')
                 })
-        
+
         # Update summary
         account_state['summary']['methods_called'] = len(all_tasks)
         account_state['summary']['successful_calls'] = successful_calls
         account_state['summary']['errors'] = len(account_state['errors'])
-        
+
         # Calculate execution time
         execution_time = (datetime.now() - start_time).total_seconds()
         account_state['summary']['execution_time_seconds'] = round(execution_time, 2)
-        
+
         # Save to file
         print(f"\n\nSaving to {output_file}...")
         with open(output_file, 'w') as f:
             json.dump(account_state, f, indent=2, sort_keys=True)
-        
+
         # Print summary
-        print(f"\n✅ Complete!")
-        print(f"\nSummary:")
+        print("\n✅ Complete!")
+        print("\nSummary:")
         for key, value in account_state['summary'].items():
             print(f"  • {key}: {value}")
-        
+
         print(f"\n⚡ Async advantage: {len(all_tasks)} calls in {execution_time:.1f} seconds")
         print(f"   (Would take ~{len(all_tasks) * 0.5:.0f} seconds sequentially)")
-        
+
         print(f"\n📄 Full account state saved to: {output_file}")
-        
+
         return account_state
 
 async def main():
     """Main async entry point"""
     import argparse
-    
+
     parser = argparse.ArgumentParser(description='Async categorized VoIP.ms account state dump')
     parser.add_argument('--output', '-o', default='account_state_categorized_async.json',
                       help='Output file (default: account_state_categorized_async.json)')
-    
+
     args = parser.parse_args()
     await dump_account_categorized_async(args.output)
 

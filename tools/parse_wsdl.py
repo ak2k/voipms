@@ -8,13 +8,13 @@ VoIP.ms WSDL Parser
 Extracts API structure and operations from WSDL file
 """
 
-import xml.etree.ElementTree as ET
-from typing import Dict, List, Any, Optional
-from pathlib import Path
 import json
-import re
-from datetime import datetime
 import logging
+import re
+import xml.etree.ElementTree as ET
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 try:
     from bs4 import BeautifulSoup
@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 
 class VoIPMSAPIJSONGenerator:
     """Generates comprehensive JSON API definition from WSDL and HTML sources"""
-    
+
     def __init__(self, wsdl_path: str = "../resources/server.wsdl", html_path: Optional[str] = None):
         self.wsdl_path = wsdl_path
         self.html_path = html_path
@@ -52,7 +52,7 @@ class VoIPMSAPIJSONGenerator:
                     "description": "API username (email address)"
                 },
                 "api_password": {
-                    "type": "string", 
+                    "type": "string",
                     "required": True,
                     "description": "API password"
                 }
@@ -61,37 +61,37 @@ class VoIPMSAPIJSONGenerator:
             "types": {},
             "error_codes": {}
         }
-        
+
     def generate(self, output_path: str = "../src/voipms/api_definition.json") -> Dict[str, Any]:
         """Generate comprehensive API definition JSON"""
         logger.info("Starting API definition generation...")
-        
+
         # Extract from WSDL
         self._parse_wsdl()
-        
+
         # Extract from HTML if available
         if self.html_path and Path(self.html_path).exists():
             self._parse_html_documentation()
-        
+
         # Add type definitions
         self._add_type_definitions()
-        
+
         # Add error codes
         self._add_error_codes()
-        
+
         # Write JSON
         with open(output_path, 'w') as f:
             json.dump(self.api_definition, f, indent=2)
-            
+
         logger.info(f"Generated API definition with {len(self.api_definition['operations'])} operations")
         return self.api_definition
-        
+
     def _parse_wsdl(self):
         """Parse WSDL to extract operations and structure"""
         logger.info(f"Parsing WSDL from {self.wsdl_path}")
         tree = ET.parse(self.wsdl_path)
         root = tree.getroot()
-        
+
         types = root.find('.//xsd:schema', self.namespaces)
         if types:
             for complex_type in types.findall('.//xsd:complexType', self.namespaces):
@@ -99,12 +99,12 @@ class VoIPMSAPIJSONGenerator:
                 if name and name.endswith('Input'):
                     op_name = name.replace('Input', '')
                     self._parse_operation(complex_type, op_name)
-                    
+
     def _parse_operation(self, complex_type, op_name: str):
         """Parse a single operation from WSDL"""
         parameters = {}
         sequence = complex_type.find('.//xsd:sequence', self.namespaces)
-        
+
         if sequence:
             for element in sequence.findall('.//xsd:element', self.namespaces):
                 param_name = element.get('name')
@@ -115,7 +115,7 @@ class VoIPMSAPIJSONGenerator:
                         "required": self._is_parameter_required(op_name, param_name),
                         "description": self._generate_param_description(op_name, param_name)
                     }
-                    
+
         self.api_definition['operations'][op_name] = {
             "method": op_name,
             "category": self._categorize_operation(op_name),
@@ -127,33 +127,33 @@ class VoIPMSAPIJSONGenerator:
             },
             "errors": self._get_possible_errors(op_name)
         }
-        
+
     def _parse_html_documentation(self):
         """Parse HTML documentation to enhance API definition"""
         logger.info(f"Parsing HTML documentation from {self.html_path}")
-        
-        with open(self.html_path, 'r', encoding='utf-8') as f:
+
+        with open(self.html_path, encoding='utf-8') as f:
             soup = BeautifulSoup(f.read(), 'html.parser')
-            
+
         # Find method documentation sections
         method_sections = soup.find_all('div', class_='method-section')
-        
+
         for section in method_sections:
             method_name = section.find('h3', class_='method-name')
             if method_name:
                 op_name = method_name.text.strip()
                 if op_name in self.api_definition['operations']:
                     self._enhance_operation_from_html(section, op_name)
-                    
+
     def _enhance_operation_from_html(self, section, op_name: str):
         """Enhance operation definition with HTML documentation"""
         operation = self.api_definition['operations'][op_name]
-        
+
         # Extract detailed description
         desc_elem = section.find('div', class_='description')
         if desc_elem:
             operation['description'] = desc_elem.text.strip()
-            
+
         # Extract parameter details
         param_table = section.find('table', class_='parameters')
         if param_table:
@@ -161,17 +161,17 @@ class VoIPMSAPIJSONGenerator:
                 cells = row.find_all('td')
                 if len(cells) >= 3:
                     param_name = cells[0].text.strip()
-                    param_type = cells[1].text.strip()
+                    cells[1].text.strip()
                     param_desc = cells[2].text.strip()
-                    
+
                     if param_name in operation['parameters']:
                         operation['parameters'][param_name]['description'] = param_desc
-                        
+
         # Extract example
         example_elem = section.find('pre', class_='example')
         if example_elem:
             operation['example'] = example_elem.text.strip()
-            
+
     def _add_type_definitions(self):
         """Add common type definitions"""
         self.api_definition['types'] = {
@@ -247,7 +247,7 @@ class VoIPMSAPIJSONGenerator:
                 "description": "Money amount in dollars"
             }
         }
-        
+
     def _add_error_codes(self):
         """Add comprehensive error code definitions"""
         self.api_definition['error_codes'] = {
@@ -292,7 +292,7 @@ class VoIPMSAPIJSONGenerator:
                 "http_status": 500
             }
         }
-        
+
     def _is_parameter_required(self, op_name: str, param_name: str) -> bool:
         """
         Determine if a parameter is required based on operation and parameter name.
@@ -314,14 +314,14 @@ class VoIPMSAPIJSONGenerator:
             'sendCallRecordingEmail': ['account', 'recording', 'email'],
             'sendFaxMessage': ['fax_number', 'destination', 'file']
         }
-        
+
         # Check if this operation/parameter combo is known to be required
         if op_name in required_params:
             return param_name in required_params[op_name]
-            
+
         # Most VoIP.ms API parameters are optional
         return False
-        
+
     def _map_xsd_to_json_type(self, xsd_type: str) -> str:
         """Map XSD types to JSON schema types"""
         mapping = {
@@ -332,7 +332,7 @@ class VoIPMSAPIJSONGenerator:
             'xsd:dateTime': 'string'
         }
         return mapping.get(xsd_type, 'string')
-        
+
     def _categorize_operation(self, op_name: str) -> str:
         """Categorize operation based on name"""
         categories = {
@@ -343,11 +343,11 @@ class VoIPMSAPIJSONGenerator:
             'send': 'action',
             'cancel': 'action'
         }
-        
+
         for prefix, category in categories.items():
             if op_name.lower().startswith(prefix):
                 return category
-                
+
         # Specific categorizations
         if 'balance' in op_name.lower():
             return 'billing'
@@ -361,15 +361,15 @@ class VoIPMSAPIJSONGenerator:
             return 'cdr'
         elif 'account' in op_name.lower() or 'client' in op_name.lower():
             return 'account'
-            
+
         return 'general'
-        
+
     def _generate_operation_description(self, op_name: str) -> str:
         """Generate human-readable operation description"""
         # Convert camelCase to words
         words = re.findall(r'[A-Z]?[a-z]+|[A-Z]+(?=[A-Z]|$)', op_name)
         return ' '.join(words).capitalize()
-        
+
     def _generate_param_description(self, op_name: str, param_name: str) -> str:
         """Generate parameter description based on context"""
         # Common parameter descriptions
@@ -387,10 +387,10 @@ class VoIPMSAPIJSONGenerator:
             'priority': 'Priority level',
             'recording': 'Recording file or ID'
         }
-        
+
         if param_name in common_params:
             return common_params[param_name]
-            
+
         # Generate based on name patterns
         if param_name.endswith('_id'):
             return f"{param_name.replace('_id', '').title()} identifier"
@@ -398,13 +398,13 @@ class VoIPMSAPIJSONGenerator:
             return f"Whether {param_name.replace('is_', '').replace('_', ' ')}"
         elif param_name.endswith('_type'):
             return f"Type of {param_name.replace('_type', '').replace('_', ' ')}"
-            
+
         return f"{param_name.replace('_', ' ').title()}"
-        
+
     def _get_possible_errors(self, op_name: str) -> List[str]:
         """Get possible error codes for an operation"""
         errors = ["invalid_credentials", "missing_required_parameter"]
-        
+
         if 'get' in op_name.lower():
             errors.append("not_found")
         elif 'add' in op_name.lower() or 'create' in op_name.lower():
@@ -413,14 +413,14 @@ class VoIPMSAPIJSONGenerator:
             errors.append("insufficient_funds")
         elif 'sms' in op_name.lower():
             errors.extend(["sms_not_enabled", "invalid_sms_destination"])
-            
+
         return errors
 
 
 if __name__ == "__main__":
     generator = VoIPMSAPIJSONGenerator()
     api_def = generator.generate()
-    print(f"\nGenerated API definition: voipms_api.json")
+    print("\nGenerated API definition: voipms_api.json")
     print(f"Total operations: {len(api_def['operations'])}")
     print(f"Total types: {len(api_def['types'])}")
     print(f"Total error codes: {len(api_def['error_codes'])}")

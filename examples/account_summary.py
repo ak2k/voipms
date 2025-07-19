@@ -21,18 +21,20 @@ More comprehensive than basic_usage.py - shows:
 Also includes option to dump complete account state to JSON.
 """
 
-from voipms import VoIPMSClient, VoIPMSError
 import json
+
+from voipms import VoIPMSClient, VoIPMSError
+
 
 def get_account_summary():
     """Get essential account information"""
-    
+
     client = VoIPMSClient()
     summary = {}
-    
+
     print("VoIP.ms Account Summary")
     print("=" * 40)
-    
+
     # 1. Balance
     try:
         result = client.getBalance()
@@ -41,14 +43,14 @@ def get_account_summary():
         print(f"Balance: ${balance}")
     except VoIPMSError as e:
         print(f"Balance: Error - {e}")
-    
+
     # 2. Sub-accounts
     try:
         result = client.getSubAccounts()
         accounts = result.get('accounts', [])
         summary['sub_accounts'] = len(accounts)
         print(f"Sub-accounts: {len(accounts)}")
-        
+
         # Show account details
         for acc in accounts[:3]:  # First 3 only
             print(f"  - {acc['account']} ({acc['description']})")
@@ -56,7 +58,7 @@ def get_account_summary():
             print(f"  ... and {len(accounts) - 3} more")
     except VoIPMSError as e:
         print(f"Sub-accounts: Error - {e}")
-    
+
     # 3. Registration Status
     try:
         result = client.getRegistrationStatus()
@@ -66,7 +68,7 @@ def get_account_summary():
         print(f"Registrations: {len(registered)}/{len(registrations)} online")
     except VoIPMSError as e:
         print(f"Registrations: Error - {e}")
-    
+
     # 4. Voicemail boxes
     try:
         result = client.getVoicemailSetups()
@@ -75,7 +77,7 @@ def get_account_summary():
         print(f"Voicemail boxes: {len(voicemails)}")
     except VoIPMSError as e:
         print(f"Voicemail: Error - {e}")
-    
+
     # 5. Your IP
     try:
         result = client.getIP()
@@ -84,7 +86,7 @@ def get_account_summary():
             print(f"Your IP: {result['ip']}")
     except VoIPMSError as e:
         print(f"IP: Error - {e}")
-    
+
     # 6. Server Info
     try:
         result = client.getServersInfo()
@@ -93,7 +95,7 @@ def get_account_summary():
         print(f"Available servers: {len(servers)}")
     except VoIPMSError as e:
         print(f"Servers: Error - {e}")
-    
+
     return summary
 
 def dump_full_state(filename='account_state.json'):
@@ -102,35 +104,35 @@ def dump_full_state(filename='account_state.json'):
     This calls ALL safe read-only methods.
     """
     client = VoIPMSClient()
-    
+
     print(f"\nDumping full account state to {filename}...")
     print("This will call many API methods and may take a minute...\n")
-    
+
     # Get all methods that start with 'get' and don't require parameters
     all_methods = client.get_available_methods()
     safe_methods = []
-    
+
     for method_name in all_methods:
         if method_name.startswith('get'):
             method_info = client.get_method_info(method_name)
             params = method_info.get('parameters', {})
             required = [p for p, info in params.items() if info.get('required', False)]
-            
+
             if not required:  # No required parameters
                 safe_methods.append(method_name)
-    
+
     print(f"Found {len(safe_methods)} safe methods to call")
-    
+
     # Call each method and collect results
     state = {
         'timestamp': str(datetime.now()),
         'data': {},
         'errors': []
     }
-    
+
     for i, method_name in enumerate(safe_methods, 1):
         print(f"[{i}/{len(safe_methods)}] {method_name}...", end='', flush=True)
-        
+
         try:
             result = getattr(client, method_name)()
             state['data'][method_name] = result
@@ -141,23 +143,23 @@ def dump_full_state(filename='account_state.json'):
                 'error': str(e)
             })
             print(f" ✗ {str(e)}")
-    
+
     # Save to file
     with open(filename, 'w') as f:
         json.dump(state, f, indent=2)
-    
+
     print(f"\n✅ Saved to {filename}")
     print(f"   - Successful calls: {len(state['data'])}")
     print(f"   - Errors: {len(state['errors'])}")
-    
+
     return state
 
 if __name__ == '__main__':
     from datetime import datetime
-    
+
     # Quick summary
     summary = get_account_summary()
-    
+
     # Optionally dump full state
     print("\n" + "=" * 40)
     try:
