@@ -648,10 +648,17 @@ class FinalVoIPMSDocumentationParser:
                 if match.endswith(')') and match.count('(') < match.count(')'):
                     match = match[:-1].strip()
                 
+                # Handle arrow notation (e.g., "60 -> in seconds" should become "60")
+                if ' ->' in match or ' →' in match:
+                    match = re.split(r'\s*(?:->|→)\s*', match)[0].strip()
+                
                 # Split if multiple examples
                 if ',' in match:
                     for e in match.split(','):
                         e = e.strip()
+                        # Handle arrow notation in individual examples
+                        if ' ->' in e or ' →' in e:
+                            e = re.split(r'\s*(?:->|→)\s*', e)[0].strip()
                         # Remove quotes if they're part of the example format
                         if (e.startswith("'") and e.endswith("'")) or (e.startswith('"') and e.endswith('"')):
                             e = e[1:-1]
@@ -680,10 +687,14 @@ class FinalVoIPMSDocumentationParser:
             if ex.endswith(')') and ex.count('(') < ex.count(')'):
                 ex = ex[:-1].strip()
             
+            # Skip patterns like "01) description" which are likely not examples
+            if re.match(r'^\d+\)\s+\w+', ex):
+                continue
+                
             # Skip if it's a duplicate or looks like descriptive text
             if ex and ex not in seen and len(ex) < 50:
                 # Don't add examples that are clearly descriptive text
-                if not any(word in ex.lower() for word in ['example', 'format', 'value', 'specific']):
+                if not any(word in ex.lower() for word in ['example', 'format', 'value', 'specific', 'minimum', 'maximum', 'digit']):
                     seen.add(ex)
                     clean_examples.append(ex)
 

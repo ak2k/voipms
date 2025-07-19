@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "generated_at": "2025-07-18T20:59:48.128261",
+  "generated_at": "2025-07-18T21:07:43.425227",
   "base_url": "https://voip.ms/api/v1/rest.php",
   "authentication": {
     "type": "api_credentials",
@@ -201,7 +201,7 @@
           "description": "Dial Time Out for the DID (Example: 60 -> in seconds)",
           "units": "seconds",
           "examples": [
-            "60 -> in seconds"
+            "60"
           ]
         },
         "cnam": {
@@ -317,7 +317,7 @@
           "description": "Dial Time Out for the DID (Example: 60 -> in seconds)",
           "units": "seconds",
           "examples": [
-            "60 -> in seconds"
+            "60"
           ]
         },
         "cnam": {
@@ -711,10 +711,10 @@
           "multiple": true,
           "delimiter": ",",
           "examples": [
+            "123",
             "10.255.12.0/22",
-            "device.mydomain.com",
             "123.45.3.21",
-            "123"
+            "device.mydomain.com"
           ]
         },
         "enable_ip_restriction": {
@@ -751,7 +751,7 @@
           "required": false,
           "description": "Sub Account Internal Extension (Example: 1 -> Creates 101)",
           "examples": [
-            "1 -> Creates 101"
+            "1"
           ]
         },
         "internal_voicemail": {
@@ -769,7 +769,7 @@
           "description": "Sub Account Internal Dialtime (Example: 60 -> seconds)",
           "units": "seconds",
           "examples": [
-            "60 -> seconds"
+            "60"
           ]
         },
         "reseller_client": {
@@ -848,7 +848,7 @@
           "maximum": 60,
           "units": "seconds",
           "examples": [
-            "10 -> seconds"
+            "10"
           ]
         },
         "enable_internal_cnam": {
@@ -902,8 +902,7 @@
           "minimum": 1,
           "maximum": 10,
           "examples": [
-            "01",
-            "01) Minimum 1 digit"
+            "01"
           ]
         },
         "name": {
@@ -3529,7 +3528,7 @@
           "description": "Dial Time Out for the DID (Example: 60 -> in seconds)",
           "units": "seconds",
           "examples": [
-            "60 -> in seconds"
+            "60"
           ]
         },
         "cnam": {
@@ -3675,7 +3674,7 @@
           "description": "Dial Time Out for the DID (Example: 60 -> in seconds)",
           "units": "seconds",
           "examples": [
-            "60 -> in seconds"
+            "60"
           ]
         },
         "cnam": {
@@ -3821,7 +3820,7 @@
           "description": "Dial Time Out for the DID (Example: 60 -> in seconds)",
           "units": "seconds",
           "examples": [
-            "60 -> in seconds"
+            "60"
           ]
         },
         "cnam": {
@@ -3967,7 +3966,7 @@
           "description": "Dial Time Out for the DID (Example: 60 -> in seconds)",
           "units": "seconds",
           "examples": [
-            "60 -> in seconds"
+            "60"
           ]
         },
         "cnam": {
@@ -4097,7 +4096,7 @@
           "description": "Dial Time Out for the DID (Example: 60 -> in seconds)",
           "units": "seconds",
           "examples": [
-            "60 -> in seconds"
+            "60"
           ]
         },
         "cnam": {
@@ -4227,7 +4226,7 @@
           "description": "Dial Time Out for the DID (Example: 60 -> in seconds)",
           "units": "seconds",
           "examples": [
-            "60 -> in seconds"
+            "60"
           ]
         },
         "cnam": {
@@ -4357,7 +4356,7 @@
           "description": "Dial Time Out for the DID (Example: 60 -> in seconds)",
           "units": "seconds",
           "examples": [
-            "60 -> in seconds"
+            "60"
           ]
         },
         "cnam": {
@@ -4612,11 +4611,11 @@
           "required": true,
           "description": "Type of Vanity Number Values: '8**', '800', '833', '844', '855', '866', '877', '888'",
           "examples": [
+            "844",
             "800",
-            "833",
-            "855",
             "866",
-            "844"
+            "833",
+            "855"
           ]
         },
         "query": {
@@ -5024,8 +5023,8 @@
           "description": "Point of Presence for the DID (\"server_pop\" values from getServersInfo. Example: 3)",
           "values_from": "getServersInfo",
           "examples": [
-            "server_pop",
-            "3"
+            "3",
+            "server_pop"
           ]
         },
         "dialtime": {
@@ -5034,7 +5033,7 @@
           "description": "Dial Time Out for the DID (Example: 60 -> in seconds)",
           "units": "seconds",
           "examples": [
-            "60 -> in seconds"
+            "60"
           ]
         },
         "cnam": {
@@ -5109,7 +5108,7 @@
           "maximum": 60,
           "units": "seconds",
           "examples": [
-            "10 -> seconds"
+            "10"
           ]
         },
         "voicemail_threshold": {
@@ -5121,7 +5120,7 @@
           "maximum": 60,
           "units": "seconds",
           "examples": [
-            "10 -> seconds"
+            "10"
           ]
         }
       },
@@ -5570,9 +5569,9 @@
           "required": true,
           "description": "How caller leave the queue (Values 'yes'/'no'/'strict') Examples: yes     Callers are sent to failover when there are no members no      Callers will remain in the queue even if there are no members strict  Callers are sent to failover if there are members but none of them is available.",
           "examples": [
-            "strict",
+            "no",
             "yes",
-            "no"
+            "strict"
           ]
         },
         "ring_strategy": {
@@ -5657,9 +5656,9 @@
           "required": false,
           "description": " Include estimated hold time in position announcements (Values 'yes'/'no'/'once')",
           "examples": [
-            "once",
+            "no",
             "yes",
-            "no"
+            "once"
           ]
         },
         "thankyou_for_your_patience": {
@@ -5667,8 +5666,8 @@
           "required": false,
           "description": "Yes to say \"Thank you for your patience\" immediatly after announcing Queue Position and Estimated hold time left (Values 'yes'/'no')",
           "examples": [
-            "yes",
-            "no"
+            "no",
+            "yes"
           ]
         },
         "music_on_hold": {
@@ -6137,10 +6136,10 @@
           "multiple": true,
           "delimiter": ",",
           "examples": [
+            "123",
             "10.255.12.0/22",
-            "device.mydomain.com",
             "123.45.3.21",
-            "123"
+            "device.mydomain.com"
           ]
         },
         "enable_ip_restriction": {
@@ -6177,7 +6176,7 @@
           "required": false,
           "description": "Sub Account Internal Extension (Example: 1 -> Creates 101)",
           "examples": [
-            "1 -> Creates 101"
+            "1"
           ]
         },
         "internal_voicemail": {
@@ -6195,7 +6194,7 @@
           "description": "Sub Account Internal Dialtime (Example: 60 -> seconds)",
           "units": "seconds",
           "examples": [
-            "60 -> seconds"
+            "60"
           ]
         },
         "reseller_client": {
@@ -6268,7 +6267,7 @@
           "maximum": 60,
           "units": "seconds",
           "examples": [
-            "10 -> seconds"
+            "10"
           ]
         },
         "dialing_mode": {
