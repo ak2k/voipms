@@ -35,42 +35,23 @@ uv run backup_account_complete.py --days 90  # Last 90 days of history
 uv run backup_account_complete.py --days 7   # Last week only
 ```
 
-## Account State Dumps
-
-### Synchronous Versions
-
-#### `dump_account_full.py`
-Calls ALL 70+ read-only API methods to create a complete backup of your account state.
-Takes ~30-40 seconds. Output can be several MB.
+### `backup_complete_categorized.py`
+Same data as backup_account_complete but organized by category (Account Info, Phone Numbers, Billing, etc.)
+for better readability. Uses async for 6-8x faster execution (~5 seconds vs 30-40 seconds).
 
 ```bash
-uv run dump_account_full.py --list  # See what would be called
-uv run dump_account_full.py         # Run the full dump
+uv run backup_complete_categorized.py
 ```
 
-#### `dump_account_categorized.py`
-Same data as full dump but organized by category (Account Info, Phone Numbers, Billing, etc.)
-for better readability.
+## Advanced Examples
+
+### `inspect_call_recordings.py`
+Analyzes call recordings metadata and compares with CDR (Call Detail Records).
+Can optionally download actual recording files.
 
 ```bash
-uv run dump_account_categorized.py
-```
-
-### Async Versions (6-8x Faster!)
-
-#### `dump_account_full_async.py`
-Same as full dump but uses async/await to call all methods in parallel.
-Completes in ~5 seconds instead of 30-40 seconds!
-
-```bash
-uv run dump_account_full_async.py
-```
-
-#### `dump_account_categorized_async.py`
-Categorized dump using async. Much faster execution.
-
-```bash
-uv run dump_account_categorized_async.py
+uv run inspect_call_recordings.py --days 30
+uv run inspect_call_recordings.py --download  # Downloads audio files
 ```
 
 ## Running Examples
