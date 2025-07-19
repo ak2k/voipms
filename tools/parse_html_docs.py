@@ -356,11 +356,11 @@ class FinalVoIPMSDocumentationParser:
         elif 'yes/no' in description_lower or 'yes or no' in description_lower:
             result = {'type': 'string', 'enum': ['yes', 'no']}
 
-        # Extract explicit enums with patterns like "0 = value1, 1 = value2"
-        elif enum_match := re.search(r'(\d+)\s*=\s*[\w\s]+(?:\s*[,;]\s*\d+\s*=\s*[\w\s]+)+', description):
-            # Extract all enum values
-            enum_values = re.findall(r'(\d+)\s*=\s*[^,;]+', description)
-            result = {'type': 'string', 'enum': [re.match(r'(\d+)', val).group(1) for val in enum_values]}
+        # Extract explicit enums with patterns like "0 = value1, 1 = value2" or "-1 = value1"
+        elif enum_match := re.search(r'(-?\d+)\s*=\s*[\w\s]+(?:\s*[,;]\s*-?\d+\s*=\s*[\w\s]+)+', description):
+            # Extract all enum values (including negative numbers)
+            enum_values = re.findall(r'(-?\d+)\s*=\s*[^,;]+', description)
+            result = {'type': 'string', 'enum': enum_values}
 
         # Extract allowed values patterns like "Allowed values: 1, 2, 3"
         elif allowed_match := re.search(r'[Aa]llowed values?:\s*([^.]+)', description):
@@ -643,25 +643,49 @@ class FinalVoIPMSDocumentationParser:
         for pattern in example_patterns:
             matches = re.findall(pattern, description, re.IGNORECASE)
             for match in matches:
+                # Clean the match - remove trailing parentheses if unmatched
+                match = match.strip()
+                if match.endswith(')') and match.count('(') < match.count(')'):
+                    match = match[:-1].strip()
+                
                 # Split if multiple examples
                 if ',' in match:
-                    examples.extend([e.strip() for e in match.split(',')])
+                    for e in match.split(','):
+                        e = e.strip()
+                        # Remove quotes if they're part of the example format
+                        if (e.startswith("'") and e.endswith("'")) or (e.startswith('"') and e.endswith('"')):
+                            e = e[1:-1]
+                        examples.append(e)
                 else:
-                    examples.append(match.strip())
+                    # Remove quotes if they're part of the example format
+                    if (match.startswith("'") and match.endswith("'")) or (match.startswith('"') and match.endswith('"')):
+                        match = match[1:-1]
+                    examples.append(match)
 
         # Also extract quoted values as potential examples
         quoted_values = re.findall(r"'([^']+)'", description) + re.findall(r'"([^"]+)"', description)
         for value in quoted_values:
             # Filter out non-example quotes
-            if len(value) < 50 and not any(skip in value.lower() for skip in ['the', 'this', 'that', 'which']):
-                examples.append(value)
+            if len(value) < 50 and not any(skip in value.lower() for skip in ['the', 'this', 'that', 'which', 'must', 'should', 'will']):
+                # Only add if it looks like an actual example value
+                if re.match(r'^[\w\-\.@]+$', value) or re.match(r'^\d{4}-\d{2}-\d{2}$', value):
+                    examples.append(value)
 
         # Clean and deduplicate
         clean_examples = []
+        seen = set()
         for ex in examples:
-            ex = ex.strip().rstrip('.')
-            if ex and ex not in clean_examples:
-                clean_examples.append(ex)
+            ex = ex.strip().rstrip('.').strip()
+            # Remove trailing parenthesis if unmatched
+            if ex.endswith(')') and ex.count('(') < ex.count(')'):
+                ex = ex[:-1].strip()
+            
+            # Skip if it's a duplicate or looks like descriptive text
+            if ex and ex not in seen and len(ex) < 50:
+                # Don't add examples that are clearly descriptive text
+                if not any(word in ex.lower() for word in ['example', 'format', 'value', 'specific']):
+                    seen.add(ex)
+                    clean_examples.append(ex)
 
         return clean_examples[:5]  # Limit to 5 examples
 
