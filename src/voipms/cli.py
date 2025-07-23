@@ -78,9 +78,12 @@ class VoIPMSCLI:
     def init_client(self, username: Optional[str] = None, password: Optional[str] = None):
         """Initialize the VoIP.ms client."""
         try:
-            self.client = VoIPMSClient(username=username, password=password)
-            # Get API definition from client
-            self.api_definition = self.client.api_definition
+            # Create a temporary context manager to load API definition
+            with VoIPMSClient(username=username, password=password) as temp_client:
+                self.api_definition = temp_client.api_definition
+                # Store credentials for later use
+                self.username = username
+                self.password = password
         except Exception as e:
             click.echo(click.style(f"Error: Failed to initialize client: {e}", fg="red"), err=True)
             sys.exit(1)
@@ -109,21 +112,23 @@ class VoIPMSCLI:
     def call_method(self, method_name: str, params: Dict[str, Any], pretty: bool = True):
         """Call an API method with given parameters."""
         try:
-            # Check if method exists
-            if not hasattr(self.client, method_name):
-                self.print_error(f"Unknown method: {method_name}")
-                self.show_similar_methods(method_name)
-                sys.exit(1)
+            # Create a new client context for this method call
+            with VoIPMSClient(username=self.username, password=self.password) as client:
+                # Check if method exists
+                if not hasattr(client, method_name):
+                    self.print_error(f"Unknown method: {method_name}")
+                    self.show_similar_methods(method_name)
+                    sys.exit(1)
 
-            # Call the method - let it use validation
-            method = getattr(self.client, method_name)
-            result = method(**params)
+                # Call the method - let it use validation
+                method = getattr(client, method_name)
+                result = method(**params)
 
-            # Format output
-            if pretty:
-                self.console.print(JSON(json.dumps(result)))
-            else:
-                click.echo(json.dumps(result))
+                # Format output
+                if pretty:
+                    self.console.print(JSON(json.dumps(result)))
+                else:
+                    click.echo(json.dumps(result))
 
         except VoIPMSError as e:
             self.print_error(f"API error: {e}")
@@ -624,12 +629,17 @@ def custom_invoke(self, ctx):
         click.echo(ctx.get_help())
 
 
-cli.invoke = custom_invoke.__get__(cli, click.Group)
+# Monkey patch the invoke method
+# pylint: disable=no-value-for-parameter
+cli.invoke = custom_invoke.__get__(cli)
+# pylint: enable=no-value-for-parameter
 
 
 def main():
     """Main entry point."""
+    # pylint: disable=no-value-for-parameter
     cli()
+    # pylint: enable=no-value-for-parameter
 
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@ import json
 import logging
 import os
 import re
-from abc import ABC
+from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 
@@ -285,6 +285,11 @@ class BaseVoIPMSClient(ABC):
     def get_method_info(self, method_name: str) -> Optional[Dict[str, Any]]:
         """Get information about a specific method"""
         return self.api_definition.get("operations", {}).get(method_name)
+
+    @abstractmethod
+    def _execute(self, method: str, **params: Any) -> Dict[str, Any]:
+        """Execute API method. Must be implemented by subclasses."""
+        pass
 
     def is_healthy(self) -> bool:
         """

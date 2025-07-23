@@ -14,10 +14,12 @@ from typing import Any, Dict
 try:
     # Python 3.9+ with files() API
     from importlib.resources import files
+    resources = None
 except ImportError:
     try:
         # Backport for older Python versions
         from importlib_resources import files
+        resources = None
     except ImportError:
         # Fallback for even older versions
         files = None
@@ -54,9 +56,14 @@ class APIQuirksHandler:
                 return json.loads(resource_path.read_text())
             else:
                 # Legacy API (Python 3.7-3.8)
-                with resources.path(voipms, quirks_path) as resource_path:
-                    with open(resource_path) as f:
-                        return json.load(f)
+                if resources is not None:
+                    with resources.path(voipms, quirks_path) as resource_path:
+                        with open(resource_path) as f:
+                            return json.load(f)
+                else:
+                    # Should not reach here, but handle gracefully
+                    logger.warning("No importlib resources available")
+                    return {"quirks": {}, "error_code_additions": {}}
         except Exception as e:
             logger.warning(f"Could not load quirks configuration from {quirks_path}: {e}")
             # Return empty config if file not found
