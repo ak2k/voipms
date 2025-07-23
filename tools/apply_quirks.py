@@ -149,12 +149,13 @@ def merge_corrections(api_def: dict, corrections: dict) -> dict:
 def main():
     """Main entry point."""
     # Paths
-    src_dir = Path(__file__).parent.parent / "src" / "voipms"
     tools_dir = Path(__file__).parent
+    src_dir = tools_dir.parent / "src" / "voipms"
     config_dir = tools_dir / "config"
+    generated_dir = tools_dir / "generated"
 
     # Input files
-    api_def_path = src_dir / "api_definition_source.json"
+    api_def_path = generated_dir / "api_definition_source.json"
     corrections_path = config_dir / "api_corrections.json"
 
     # Output file

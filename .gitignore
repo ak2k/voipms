@@ -70,6 +70,7 @@ api_docs_*.html
 temp_*.json
 tools/*.html
 !resources/*.html
+tools/generated/
 
 # External files
 API/
@@ -90,11 +91,8 @@ docs/_templates/
 # Backup and output files
 *.json
 !src/voipms/api_definition.json
-!src/voipms/api_definition_source.json
-!src/voipms/api_quirks.json
 !src/voipms/cli_smart_defaults.json
 !examples/*.json
-!tools/wsdl_type_overrides.json
 !tools/config/*.json
 account_state_*.json
 voipms_backup_*.json

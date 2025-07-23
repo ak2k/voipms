@@ -104,7 +104,8 @@ def generate(stage, wsdl_url, skip_html, verbose):
             from apply_quirks import merge_corrections, load_json, save_json
 
         # Paths
-        api_def_path = src_dir / "api_definition_source.json"
+        generated_dir = tools_dir / "generated"
+        api_def_path = generated_dir / "api_definition_source.json"
         corrections_path = tools_dir / "config" / "api_corrections.json"
         enhanced_path = src_dir / "api_definition.json"
 

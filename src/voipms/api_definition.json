@@ -480,7 +480,7 @@
     "used_username": "You already have a subaccount using this Username.",
     "weak_password": "This Password is too weak or too common"
   },
-  "generated_at": "2025-07-23T16:21:01.884008",
+  "generated_at": "2025-07-23T16:36:51.390906",
   "global_notes": [
     "VoIP.ms also supports Application-to-Person (A2P) delivery for business text messaging. However, requirements and fees vary due to industry regulations. The default limit is 100 SMS per day, which can be raised upon request. Contact us at messaging@voip.ms to start your verification process.",
     "The VoIP.ms API is not enabled by default, you have to allow the API Access from within your account following these steps:   Log-in to your VoIP.ms account Go to \"Main Menu\" -> \"SOAP & REST/JSON API\" Click on button [Enable/Disable API] to Enable / Disable the API Access"
@@ -786,8 +786,8 @@
           },
           "description": "DID(s) to port into VoIP.ms network (Example: 5552341234,5552341233). If you are porting more than one number, please separate them with commas.",
           "examples": [
-            "5552341233",
-            "5552341234"
+            "5552341234",
+            "5552341233"
           ],
           "required": true,
           "type": "string",
@@ -2185,10 +2185,10 @@
           "delimiter": ",",
           "description": "List of IP Addresses, IP Addresses/Netmask, or Fully Qualified Domain Names to allow outgoing calls separated by commas (Example: 123.45.3.21,10.255.12.0/22,device.mydomain.com)",
           "examples": [
-            "10.255.12.0/22",
             "123",
-            "device.mydomain.com",
-            "123.45.3.21"
+            "123.45.3.21",
+            "10.255.12.0/22",
+            "device.mydomain.com"
           ],
           "multiple": true,
           "required": false,
@@ -5190,8 +5190,8 @@
           },
           "description": "Parameter could have the following values: * Empty Value [Not Required] * Specific Reseller Client ID (Example: 561115) * Specific Reseller Client e-mail  (Example: 'john.doe@mydomain.com')",
           "examples": [
-            "561115",
-            "john.doe@mydomain.com"
+            "john.doe@mydomain.com",
+            "561115"
           ],
           "required": false,
           "type": "string"
@@ -5492,8 +5492,8 @@
           },
           "description": "Parameter could have the following values: * Empty Value [Not Required] * Specific Reseller Client ID (Example: 561115) * Specific Sub Account (Example: '100001_VoIP')",
           "examples": [
-            "100001_VoIP",
-            "561115"
+            "561115",
+            "100001_VoIP"
           ],
           "required": false,
           "type": "string"
@@ -11170,11 +11170,11 @@
           },
           "description": "Type of Vanity Number Values: '8**', '800', '833', '844', '855', '866', '877', '888'",
           "examples": [
-            "800",
-            "855",
             "844",
             "833",
-            "866"
+            "866",
+            "800",
+            "855"
           ],
           "required": true,
           "type": "string"
@@ -13136,8 +13136,8 @@
           },
           "description": "Point of Presence for the DID (\"server_pop\" values from getServersInfo. Example: 3)",
           "examples": [
-            "3",
-            "server_pop"
+            "server_pop",
+            "3"
           ],
           "required": true,
           "type": "string",
@@ -14638,8 +14638,8 @@
           },
           "description": " Include estimated hold time in position announcements (Values 'yes'/'no'/'once')",
           "examples": [
-            "yes",
             "once",
+            "yes",
             "no"
           ],
           "required": false,
@@ -14714,9 +14714,9 @@
           },
           "description": "How caller leave the queue (Values 'yes'/'no'/'strict') Examples: yes     Callers are sent to failover when there are no members no      Callers will remain in the queue even if there are no members strict  Callers are sent to failover if there are members but none of them is available.",
           "examples": [
-            "strict",
             "yes",
-            "no"
+            "no",
+            "strict"
           ],
           "required": true,
           "type": "string"
@@ -15092,8 +15092,8 @@
           },
           "description": "Code for Language (Values from getLanguages) \"members\" can receive the following routing headers: account     Used to route the call to an Account or a Sub Account fwd         Used to route the call to a Forwarding entry sip         Used to route the call to a SIP URI Each member can a specific ring time and press1 values, you can add those to the routing header as follow: Example: 'account:100001,25,0;fwd:16006,10,1' 25 = Default ring time value (Values from 1 to 60 sec) 0  = Default press1 value (Values allowed 0 and 1)",
           "examples": [
-            "'account:100001",
-            "members"
+            "members",
+            "'account:100001"
           ],
           "required": false,
           "type": "string",
@@ -15777,10 +15777,10 @@
           "delimiter": ",",
           "description": "List of IP/Netmask to allow outgoing calls separated by commas (Example: 123.45.3.21,10.255.12.0/22,device.mydomain.com)",
           "examples": [
-            "10.255.12.0/22",
             "123",
-            "device.mydomain.com",
-            "123.45.3.21"
+            "123.45.3.21",
+            "10.255.12.0/22",
+            "device.mydomain.com"
           ],
           "multiple": true,
           "required": false,

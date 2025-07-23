@@ -229,13 +229,13 @@ class FinalVoIPMSJSONGenerator:
         self.base_api_def["operations"] = operations
 
         # Step 4: Write to file
-        output_file = Path("src/voipms/api_definition_source.json")
+        output_file = Path(__file__).parent / "generated" / "api_definition_source.json"
         output_file.parent.mkdir(exist_ok=True)
 
         with open(output_file, "w") as f:
             json.dump(self.base_api_def, f, indent=2)
 
-        print(f"\nGenerated source API definition: {output_file}")
+        print(f"\nGenerated source API definition: {output_file.relative_to(Path.cwd())}")
 
         return self.base_api_def
 
