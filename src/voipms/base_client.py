@@ -6,7 +6,7 @@ import json
 import logging
 import os
 import re
-from abc import ABC, abstractmethod
+from abc import ABC
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 
@@ -35,15 +35,15 @@ logger = logging.getLogger(__name__)
 
 def load_api_definition(path: str) -> Dict[str, Any]:
     """Load API definition from JSON file.
-    
+
     Module-level function used by factory functions to load API definition.
-    
+
     Args:
         path: Path to API definition JSON file
-        
+
     Returns:
         Loaded API definition dictionary
-        
+
     Raises:
         FileNotFoundError: If API definition cannot be found
     """
@@ -289,32 +289,31 @@ class BaseVoIPMSClient(ABC):
     def is_healthy(self) -> bool:
         """
         Check if the client is healthy (HTTP client is open and operational).
-        
+
         This is a lightweight check that doesn't make API calls.
         For actual API connectivity testing, use test_connectivity().
-        
+
         Returns:
             bool: True if client is healthy, False otherwise
         """
         return self._client is not None and not self._client.is_closed
-    
+
     def test_connectivity(self) -> bool:
         """
         Test actual API connectivity with a lightweight call.
-        
+
         This makes a real API call to verify the service is reachable
         and credentials are working.
-        
+
         Returns:
             bool: True if API is reachable and responding, False otherwise
         """
         if not self.is_healthy():
             return False
-            
+
         try:
             result = self._execute("getBalance")
             return result.get("status") == "success"
         except Exception as e:
             logger.debug(f"Connectivity test failed: {e}")
             return False
-

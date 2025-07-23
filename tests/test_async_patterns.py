@@ -47,8 +47,8 @@ class TestAsyncPatterns:
                 result = await client.getBalance()
                 assert result["status"] == "success"
                 assert client.config.timeout == 60.0
-                assert client.config.debug == True
-                assert client.config.enable_retries == False
+                assert client.config.debug
+                assert not client.config.enable_retries
 
     async def test_factory_configuration_helpers(self):
         """Test using configuration factory methods"""
@@ -63,8 +63,8 @@ class TestAsyncPatterns:
         # Test for_testing factory
         test_config = VoIPMSConfig.for_testing(username="test", password="test")
         assert test_config.username == "test"
-        assert test_config.debug == True
-        assert test_config.enable_retries == False
+        assert test_config.debug
+        assert not test_config.enable_retries
 
     async def test_context_manager_cleanup_pattern(self):
         """Test that context manager properly cleans up resources"""
@@ -87,10 +87,10 @@ class TestAsyncPatterns:
         with patch("httpx.AsyncClient", return_value=mock_client):
             async with VoIPMSAsyncClient(config) as client:
                 # Client should be healthy during usage
-                assert client.is_healthy() == True
+                assert client.is_healthy()
 
             # Cleanup should have been called after context exit
-            assert cleanup_called == True
+            assert cleanup_called
 
     async def test_concurrent_usage_pattern(self):
         """Test multiple concurrent clients don't interfere"""
@@ -148,18 +148,18 @@ class TestAsyncPatterns:
 
             async with VoIPMSAsyncClient(config) as client:
                 # Test lightweight health check (no API call)
-                assert client.is_healthy() == True
+                assert client.is_healthy()
 
                 # Test connectivity check (makes API call)
                 mock_response = self._create_mock_response({"status": "success"})
                 mock_client.get.return_value = mock_response
 
                 connectivity = await client.test_connectivity()
-                assert connectivity == True
+                assert connectivity
 
                 # Test health check with closed client
                 mock_client.is_closed = True
-                assert client.is_healthy() == False
+                assert not client.is_healthy()
 
     async def test_error_handling_pattern(self):
         """Test proper error handling patterns"""
@@ -190,12 +190,12 @@ class TestAsyncPatterns:
             async with VoIPMSAsyncClient(config_with_retries) as client1:
                 result = await client1.getBalance()
                 assert result["status"] == "success"
-                assert client1.config.enable_retries == True
+                assert client1.config.enable_retries
 
             async with VoIPMSAsyncClient(config_no_retries) as client2:
                 result = await client2.getBalance()
                 assert result["status"] == "success"
-                assert client2.config.enable_retries == False
+                assert not client2.config.enable_retries
 
     async def test_testing_helper_pattern(self):
         """Test patterns specifically designed for testing"""
@@ -203,8 +203,8 @@ class TestAsyncPatterns:
         test_config = VoIPMSConfig.for_testing()
 
         # Should have testing-friendly defaults
-        assert test_config.debug == True
-        assert test_config.enable_retries == False  # Faster tests
+        assert test_config.debug
+        assert not test_config.enable_retries  # Faster tests
 
         mock_response = self._create_mock_response({"status": "success"})
 

@@ -243,56 +243,44 @@ class TypeStubGenerator:
 
         return notes
 
-    def generate_stub_file(self) -> str:
-        """Generate the complete stub file content."""
+    def generate_client_stub(self) -> str:
+        """Generate client.pyi stub file content."""
         lines = [
             '"""',
             "Type stubs for VoIP.ms Client",
             "",
-            f'Generated from api_definition.json on {datetime.now().strftime("%Y-%m-%d")}',
+            f'Generated on {datetime.now().strftime("%Y-%m-%d")}',
             "DO NOT EDIT MANUALLY - This file is auto-generated",
             '"""',
             "",
-            "from typing import Any, Union, Literal, Annotated",
-            "from pathlib import Path",
+            "from contextlib import contextmanager",
+            "from typing import Any, Generator, Union, Literal, Annotated",
+            "from .config import VoIPMSConfig",
             "",
             "",
-            "class VoIPMSError(Exception):",
-            '    """VoIP.ms API error"""',
-            "    code: str",
-            "    message: str",
-            "    response: dict[str, Any] | None",
-            "    def __init__(self, code: str, message: str, response: dict[str, Any] | None = None) -> None: ...",
-            "",
-            "",
-            "class VoIPMSClient:",
-            '    """Data-driven VoIP.ms client that dynamically creates methods from JSON definition."""',
+            "class VoIPMSService:",
+            '    """Synchronous VoIP.ms service that creates methods from JSON API definition."""',
             "    ",
             "    api_definition: dict[str, Any]",
-            "    username: str | None",
-            "    password: str | None",
+            "    config: VoIPMSConfig",
+            "    username: str",
+            "    password: str",
             "    base_url: str",
             "    timeout: float",
             "    max_retries: int",
             "    verify_ssl: bool",
             "    debug: bool",
+            "    enable_retries: bool",
             "    ",
             "    def __init__(",
             "        self,",
-            '        api_definition_path: str = "api_definition.json",',
-            "        username: str | None = None,",
-            "        password: str | None = None,",
-            "        base_url: str | None = None,",
-            "        timeout: float = 30.0,",
-            "        max_retries: int = 3,",
-            "        verify_ssl: bool = True,",
-            "        debug: bool = False",
+            "        http_client: Any,",  # Using Any to avoid httpx import
+            "        config: VoIPMSConfig,",
+            "        api_definition: dict[str, Any]",
             "    ) -> None: ...",
             "    ",
-            "    def close(self) -> None: ...",
-            '    def __enter__(self) -> "VoIPMSClient": ...',
-            "    def __exit__(self, exc_type: Any, exc_val: Any, exc_tb: Any) -> None: ...",
-            "    ",
+            "    def is_healthy(self) -> bool: ...",
+            "    def test_connectivity(self) -> bool: ...",
             "    def get_available_methods(self) -> list[str]: ...",
             "    def get_method_info(self, method_name: str) -> dict[str, Any] | None: ...",
             "    def debug_method_params(self, op_name: str, **kwargs: Any) -> None: ...",
@@ -307,23 +295,61 @@ class TypeStubGenerator:
             lines.append("")
             lines.append(signature)
 
-        # Add async client
+        # Add the factory function
         lines.extend(
             [
                 "",
                 "",
-                "class VoIPMSClientAsync(VoIPMSClient):",
-                '    """Asynchronous data-driven VoIP.ms client."""',
-                "    ",
-                '    async def __aenter__(self) -> "VoIPMSClientAsync": ...',
-                "    async def __aexit__(self, exc_type: Any, exc_val: Any, exc_tb: Any) -> None: ...",
-                "    async def close(self) -> None: ...",
+                "@contextmanager",
+                "def VoIPMSClient(",
+                "    config: VoIPMSConfig | None = None,",
+                "    **kwargs: Any",
+                ") -> Generator[VoIPMSService, None, None]: ...",
                 "",
-                "    # Async API Methods",
             ]
         )
 
-        # Generate async method signatures
+        return "\n".join(lines)
+
+    def generate_async_client_stub(self) -> str:
+        """Generate async_client.pyi stub file content."""
+        lines = [
+            '"""',
+            "Type stubs for VoIP.ms Async Client",
+            "",
+            f'Generated on {datetime.now().strftime("%Y-%m-%d")}',
+            "DO NOT EDIT MANUALLY - This file is auto-generated",
+            '"""',
+            "",
+            "from contextlib import asynccontextmanager",
+            "from typing import Any, AsyncGenerator, Union, Literal, Annotated",
+            "from .config import VoIPMSConfig",
+            "",
+            "",
+            "class VoIPMSAsyncService:",
+            '    """Pure async service for VoIP.ms API calls."""',
+            "    ",
+            "    api_definition: dict[str, Any]",
+            "    config: VoIPMSConfig",
+            "    username: str",
+            "    password: str",
+            "    base_url: str",
+            "    timeout: float",
+            "    max_retries: int",
+            "    verify_ssl: bool",
+            "    debug: bool",
+            "    enable_retries: bool",
+            "    ",
+            "    def is_healthy(self) -> bool: ...",
+            "    async def test_connectivity(self) -> bool: ...",
+            "    def get_available_methods(self) -> list[str]: ...",
+            "    def get_method_info(self, method_name: str) -> dict[str, Any] | None: ...",
+            "    def debug_method_params(self, op_name: str, **kwargs: Any) -> None: ...",
+            "    ",
+            "    # API Methods (async versions)",
+        ]
+
+        # Generate all async method signatures
         for method_name in sorted(self.operations.keys()):
             method_info = self.operations[method_name]
             # Generate async version
@@ -333,17 +359,37 @@ class TypeStubGenerator:
             lines.append("")
             lines.append(signature)
 
-        lines.append("")
+        # Add the factory function
+        lines.extend(
+            [
+                "",
+                "",
+                "@asynccontextmanager",
+                "async def VoIPMSAsyncClient(",
+                "    config: VoIPMSConfig | None = None,",
+                "    **kwargs: Any",
+                ") -> AsyncGenerator[VoIPMSAsyncService, None]: ...",
+                "",
+            ]
+        )
+
         return "\n".join(lines)
 
     def generate_init_stub(self) -> str:
         """Generate __init__.pyi stub."""
-        return '''"""VoIP.ms API Client Library"""
+        return '''"""
+VoIP.ms Python Client
 
-from .client import VoIPMSClient, VoIPMSClientAsync, VoIPMSError
+Type stubs for the VoIP.ms API client package.
+"""
 
-__all__ = ["VoIPMSClient", "VoIPMSClientAsync", "VoIPMSError"]
-__version__ = "1.0.0"
+from .async_client import VoIPMSAsyncClient as VoIPMSAsyncClient, VoIPMSAsyncService as VoIPMSAsyncService
+from .client import VoIPMSClient as VoIPMSClient, VoIPMSService as VoIPMSService
+from .config import VoIPMSConfig as VoIPMSConfig
+from .exceptions import VoIPMSError as VoIPMSError
+
+__version__: str
+__all__: list[str]
 '''
 
 
@@ -356,11 +402,18 @@ def generate_stubs(api_def_path: str, output_dir: str):
     output_dir = Path(output_dir)
 
     # Generate client.pyi
-    client_stub = generator.generate_stub_file()
+    client_stub = generator.generate_client_stub()
     client_stub_path = output_dir / "client.pyi"
     with open(client_stub_path, "w") as f:
         f.write(client_stub)
     print(f"Generated {client_stub_path}")
+
+    # Generate async_client.pyi
+    async_client_stub = generator.generate_async_client_stub()
+    async_client_stub_path = output_dir / "async_client.pyi"
+    with open(async_client_stub_path, "w") as f:
+        f.write(async_client_stub)
+    print(f"Generated {async_client_stub_path}")
 
     # Generate __init__.pyi
     init_stub = generator.generate_init_stub()

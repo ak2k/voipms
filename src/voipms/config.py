@@ -54,10 +54,10 @@ class VoIPMSConfig:
     @classmethod
     def from_env(cls, **kwargs) -> "VoIPMSConfig":
         """Create configuration from environment variables with optional overrides.
-        
+
         Args:
             **kwargs: Optional parameters to override defaults
-            
+
         Returns:
             VoIPMSConfig instance with credentials from environment and any overrides
         """

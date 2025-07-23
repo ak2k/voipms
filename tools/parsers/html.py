@@ -372,7 +372,7 @@ class FinalVoIPMSDocumentationParser:
         # Pattern for "true"/"false" string booleans
         elif any(pattern in description for pattern in ["Set to true if", "true if", "false if"]):
             result = {"type": "string", "enum": ["true", "false"]}
-        
+
         # Pattern for "True for/to X" which indicates a boolean that uses "0"/"1"
         elif re.search(r"\bTrue\s+(?:for|to)\b", description):
             result = {"type": "string", "enum": ["0", "1"]}

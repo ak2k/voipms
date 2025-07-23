@@ -6,7 +6,7 @@ Dynamically creates methods from JSON API definition
 
 import logging
 from contextlib import contextmanager
-from typing import Any, Dict, Generator, Optional, Union
+from typing import Any, Dict, Generator, Optional
 
 import httpx
 
@@ -20,11 +20,13 @@ logger = logging.getLogger(__name__)
 class VoIPMSService(BaseVoIPMSClient):
     """
     Synchronous VoIP.ms service that creates methods from JSON API definition.
-    
+
     This is a pure service class similar to VoIPMSAsyncService.
     """
 
-    def __init__(self, http_client: httpx.Client, config: VoIPMSConfig, api_definition: Dict[str, Any]):
+    def __init__(
+        self, http_client: httpx.Client, config: VoIPMSConfig, api_definition: Dict[str, Any]
+    ):
         """Initialize VoIP.ms service with provided HTTP client and config."""
         # Don't call super().__init__() since we're doing custom initialization
         # Set up the attributes that BaseVoIPMSClient methods expect
@@ -33,7 +35,7 @@ class VoIPMSService(BaseVoIPMSClient):
         self.api_definition = api_definition
         self.debug = config.debug
         self.enable_retries = config.enable_retries
-        
+
         # Set up attributes for base class compatibility
         self.username = config.username
         self.password = config.password
@@ -45,6 +47,7 @@ class VoIPMSService(BaseVoIPMSClient):
         # Create retry decorator if enabled
         if config.enable_retries:
             from .retry_config import create_api_retry_decorator
+
             self._retry_decorator = create_api_retry_decorator(
                 max_attempts=config.max_retries, base_delay=1.0, max_delay=60.0
             )
@@ -69,8 +72,6 @@ class VoIPMSService(BaseVoIPMSClient):
 
         data = response.json()
         return self._handle_response(data, method)
-
-
 
 
 @contextmanager

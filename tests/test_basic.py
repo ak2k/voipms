@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from voipms import VoIPMSClient, VoIPMSAsyncClient, VoIPMSError
+from voipms import VoIPMSAsyncClient, VoIPMSClient, VoIPMSError
 
 
 class TestBasicClient:

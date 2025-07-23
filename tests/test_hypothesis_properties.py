@@ -5,7 +5,6 @@ These tests are completely data-driven from the API definition
 and automatically scale without manual maintenance.
 """
 
-
 import pytest
 from hypothesis import HealthCheck, assume, given, settings
 from hypothesis import strategies as st

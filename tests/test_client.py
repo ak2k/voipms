@@ -16,7 +16,7 @@ class TestVoIPMSClient:
         """Test that client raises error without credentials"""
         with patch.dict("os.environ", {}, clear=True):
             with pytest.raises(ValueError, match="VoIP.ms credentials required"):
-                with VoIPMSClient() as client:
+                with VoIPMSClient():
                     pass
 
     def test_client_initialization_with_credentials(self):
@@ -101,7 +101,7 @@ class TestVoIPMSClient:
                 # Verify snake_case version also works
                 result2 = client.get_balance()
                 assert result2["status"] == "success"
-                
+
                 # Verify both are the same function object
                 assert client.getBalance is client.get_balance
 
@@ -155,11 +155,11 @@ class TestVoIPMSClient:
     def test_direct_parameters_with_advanced_options(self):
         """Test sync client with direct parameters including advanced options"""
         with VoIPMSClient(
-            username="advanced@example.com", 
+            username="advanced@example.com",
             password="advancedpass",
             debug=True,
             timeout=45.0,
-            enable_retries=False
+            enable_retries=False,
         ) as client:
             assert client.username == "advanced@example.com"
             assert client.password == "advancedpass"
@@ -170,8 +170,10 @@ class TestVoIPMSClient:
     def test_config_and_kwargs_error(self):
         """Test that providing both config and kwargs raises an error"""
         config = VoIPMSConfig.for_testing(username="test@example.com", password="testpass")
-        with pytest.raises(ValueError, match="Cannot provide both config object and direct parameters"):
-            with VoIPMSClient(config, username="conflict@example.com") as client:
+        with pytest.raises(
+            ValueError, match="Cannot provide both config object and direct parameters"
+        ):
+            with VoIPMSClient(config, username="conflict@example.com"):
                 pass
 
     def test_partial_parameters_with_env_fallback(self):
@@ -186,7 +188,7 @@ class TestVoIPMSClient:
                 assert client.password == "envpass"
                 # Explicit parameters should be used
                 assert client.config.debug
-                assert client.config.timeout == 45.0  
+                assert client.config.timeout == 45.0
                 assert not client.config.enable_retries
 
 
@@ -263,7 +265,7 @@ class TestVoIPMSAsyncClient:
                     # Verify snake_case version also works
                     result2 = await client.get_balance()
                     assert result2["status"] == "success"
-                    
+
                     # Verify both are the same function object
                     assert client.getBalance is client.get_balance
 
@@ -313,18 +315,20 @@ class TestVoIPMSAsyncClient:
 
     async def test_direct_parameters(self):
         """Test async client with direct parameters"""
-        async with VoIPMSAsyncClient(username="direct@example.com", password="directpass") as client:
+        async with VoIPMSAsyncClient(
+            username="direct@example.com", password="directpass"
+        ) as client:
             assert client.username == "direct@example.com"
             assert client.password == "directpass"
 
     async def test_direct_parameters_with_advanced_options(self):
         """Test async client with direct parameters including advanced options"""
         async with VoIPMSAsyncClient(
-            username="advanced@example.com", 
+            username="advanced@example.com",
             password="advancedpass",
             debug=True,
             timeout=45.0,
-            enable_retries=False
+            enable_retries=False,
         ) as client:
             assert client.username == "advanced@example.com"
             assert client.password == "advancedpass"
@@ -335,8 +339,10 @@ class TestVoIPMSAsyncClient:
     async def test_config_and_kwargs_error(self):
         """Test that providing both config and kwargs raises an error"""
         config = VoIPMSConfig.for_testing(username="test@example.com", password="testpass")
-        with pytest.raises(ValueError, match="Cannot provide both config object and direct parameters"):
-            async with VoIPMSAsyncClient(config, username="conflict@example.com") as client:
+        with pytest.raises(
+            ValueError, match="Cannot provide both config object and direct parameters"
+        ):
+            async with VoIPMSAsyncClient(config, username="conflict@example.com"):
                 pass
 
     async def test_partial_parameters_with_env_fallback(self):
@@ -351,5 +357,5 @@ class TestVoIPMSAsyncClient:
                 assert client.password == "envpass"
                 # Explicit parameters should be used
                 assert client.config.debug
-                assert client.config.timeout == 45.0  
+                assert client.config.timeout == 45.0
                 assert not client.config.enable_retries

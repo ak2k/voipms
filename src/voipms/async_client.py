@@ -17,7 +17,6 @@ import httpx
 
 from .base_client import BaseVoIPMSClient, load_api_definition
 from .config import VoIPMSConfig
-from .exceptions import VoIPMSError
 from .method_factory import MethodFactory
 from .retry_config import create_api_retry_decorator
 
@@ -43,7 +42,7 @@ class VoIPMSAsyncService(BaseVoIPMSClient):
         self.api_definition = api_definition
         self.debug = config.debug
         self.enable_retries = config.enable_retries
-        
+
         # Set up attributes for base class compatibility
         self.username = config.username
         self.password = config.password
@@ -91,23 +90,19 @@ class VoIPMSAsyncService(BaseVoIPMSClient):
         data = response.json()
         return self._handle_response(data, method)
 
-
     # is_healthy() method is now inherited from BaseVoIPMSClient
 
     async def test_connectivity(self) -> bool:
         """Test actual API connectivity with a lightweight call"""
         if not self.is_healthy():
             return False
-            
+
         try:
             result = await self._execute("getBalance")
             return result.get("status") == "success"
         except Exception as e:
             logger.debug(f"Connectivity test failed: {e}")
             return False
-
-
-
 
 
 @asynccontextmanager

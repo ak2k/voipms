@@ -60,7 +60,7 @@ def get_account_summary():
             print(f"Sub-accounts: Error - {e}")
 
         # 3. Registration Status
-        # Note: getRegistrationStatus requires account parameter, 
+        # Note: getRegistrationStatus requires account parameter,
         # so we'll skip it in this general summary
         summary["registrations"] = "N/A (requires account parameter)"
         print("Registrations: N/A (requires account parameter)")

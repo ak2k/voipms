@@ -50,7 +50,7 @@ def all_operations(api_definition) -> List[str]:
 def operations_by_category(api_definition) -> Dict[str, List[str]]:
     """Group operations by category for targeted testing."""
     categories = {}
-    for op_name, op_spec in api_definition["operations"].items():
+    for op_name, _op_spec in api_definition["operations"].items():
         # Extract category from operation name or use first part
         if op_name.startswith("get"):
             category = "read"

@@ -5,7 +5,6 @@ This test suite automatically scales with the API definition
 and requires no manual maintenance when methods are added/removed.
 """
 
-
 import pytest
 
 
