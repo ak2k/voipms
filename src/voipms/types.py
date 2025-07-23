@@ -6,7 +6,7 @@ to match the API's expected string representations.
 """
 
 import logging
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -83,3 +83,71 @@ def numeric_string_validator(v: Any) -> str:
         logger.debug(f"Numeric conversion: {v!r} ({type(v).__name__}) -> {result!r}")
     
     return result
+
+
+def create_numeric_string_validator(
+    minimum: Optional[float] = None, 
+    maximum: Optional[float] = None,
+    integer_only: bool = False
+) -> Callable[[Any], str]:
+    """
+    Create a validator for string parameters that should be numeric within constraints.
+    
+    Args:
+        minimum: Minimum allowed value (inclusive)
+        maximum: Maximum allowed value (inclusive)
+        integer_only: If True, only accept integer values
+        
+    Returns:
+        A validator function that validates numeric strings within constraints
+    """
+    def validate_numeric_string(value: Any) -> str:
+        """Validate that a value is numeric and within constraints."""
+        if value is None:
+            return value
+
+        # Convert to string if not already
+        str_value = str(value)
+
+        # Try to parse as number for validation
+        try:
+            if integer_only:
+                numeric_value = int(float(str_value))  # Allow "60.0" -> 60
+                if float(str_value) != numeric_value:
+                    # Warn if decimal part is being truncated
+                    logger.debug(f"Converting {str_value} to integer {numeric_value}")
+            else:
+                numeric_value = float(str_value)
+        except ValueError:
+            value_type = "an integer" if integer_only else "numeric"
+            raise ValueError(f"Value must be {value_type}, got: {str_value}") from None
+
+        # Check constraints
+        if minimum is not None and numeric_value < minimum:
+            raise ValueError(f"Value must be >= {minimum}, got: {numeric_value}")
+        if maximum is not None and numeric_value > maximum:
+            raise ValueError(f"Value must be <= {maximum}, got: {numeric_value}")
+
+        # Return as string (as API expects)
+        return str(int(numeric_value)) if integer_only else str_value
+
+    # Set a helpful name for debugging
+    type_name = "integer" if integer_only else "numeric"
+    validate_numeric_string.__name__ = f"{type_name}_string_{minimum}_{maximum}_validator"
+    return validate_numeric_string
+
+
+def create_integer_string_validator(minimum: Optional[int] = None, maximum: Optional[int] = None) -> Callable[[Any], str]:
+    """
+    Create a validator for string parameters that should be integers within constraints.
+    
+    This is a convenience wrapper around create_numeric_string_validator with integer_only=True.
+    
+    Args:
+        minimum: Minimum allowed value (inclusive)
+        maximum: Maximum allowed value (inclusive)
+        
+    Returns:
+        A validator function that validates integer strings within constraints
+    """
+    return create_numeric_string_validator(minimum, maximum, integer_only=True)

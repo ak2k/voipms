@@ -1,0 +1,59 @@
+{
+  "date_methods": {
+    "methods": ["getCDR", "getSMS", "getMMS", "getCallRecordings", "getFaxMessages"],
+    "defaults": {
+      "date_range_days": 7,
+      "timezone": "1"
+    },
+    "parameter_mapping": {
+      "getSMS": {"from": "date_from", "to": "date_to"},
+      "getMMS": {"from": "date_from", "to": "date_to"},
+      "default": {"date_from": "date_from", "date_to": "date_to"}
+    }
+  },
+  "order_methods": {
+    "methods": ["orderDID", "backOrderDIDUSA", "backOrderDIDCAN", "orderTollFree", "orderVanity", "orderDIDVirtual"],
+    "defaults": {
+      "pop": 1,
+      "dialtime": 60,
+      "billing_type": 1
+    }
+  },
+  "voicemail_methods": {
+    "methods": ["setVoicemail"],
+    "defaults": {
+      "attach_message": true,
+      "delete_message": false
+    }
+  },
+  "queue_methods": {
+    "methods": ["setQueue"],
+    "defaults": {
+      "agent_ring_timeout": 15,
+      "retry_timer": 30
+    }
+  },
+  "messaging_methods": {
+    "methods": ["setSMS", "setMMS"],
+    "defaults": {
+      "enable": true
+    }
+  },
+  "method_descriptions": {
+    "getCDR": "Date range defaults to last 7 days, timezone defaults to 1",
+    "getSMS": "Date range defaults to last 7 days",
+    "getMMS": "Date range defaults to last 7 days",
+    "getCallRecordings": "Date range defaults to last 7 days",
+    "getFaxMessages": "Date range defaults to last 7 days",
+    "orderDID": "pop=1, dialtime=60, billing_type=1 (per minute)",
+    "backOrderDIDUSA": "pop=1, dialtime=60, billing_type=1 (per minute)",
+    "backOrderDIDCAN": "pop=1, dialtime=60, billing_type=1 (per minute)",
+    "orderTollFree": "pop=1, dialtime=60, billing_type=1 (per minute)",
+    "orderVanity": "pop=1, dialtime=60, billing_type=1 (per minute)",
+    "orderDIDVirtual": "pop=1, dialtime=60, billing_type=1 (per minute)",
+    "setVoicemail": "attach_message=true, delete_message=false",
+    "setQueue": "agent_ring_timeout=15, retry_timer=30",
+    "setSMS": "enable=true",
+    "setMMS": "enable=true"
+  }
+}

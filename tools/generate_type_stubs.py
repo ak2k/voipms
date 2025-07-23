@@ -347,15 +347,13 @@ __version__ = "1.0.0"
 '''
 
 
-def main():
-    """Generate type stubs."""
-    # Paths
-    project_root = Path(__file__).parent.parent
-    api_def_path = project_root / "src" / "voipms" / "api_definition.json"
-    output_dir = project_root / "src" / "voipms"
-
+def generate_stubs(api_def_path: str, output_dir: str):
+    """Generate type stubs from API definition."""
     # Create generator
-    generator = TypeStubGenerator(str(api_def_path))
+    generator = TypeStubGenerator(api_def_path)
+    
+    # Convert to Path objects
+    output_dir = Path(output_dir)
 
     # Generate client.pyi
     client_stub = generator.generate_stub_file()
@@ -379,6 +377,16 @@ def main():
     # Summary
     print(f"\nGenerated type stubs for {len(generator.operations)} methods")
     print("Type checking is now enabled for the VoIP.ms client!")
+
+
+def main():
+    """Generate type stubs."""
+    # Paths
+    project_root = Path(__file__).parent.parent
+    api_def_path = project_root / "src" / "voipms" / "api_definition.json"
+    output_dir = project_root / "src" / "voipms"
+    
+    generate_stubs(str(api_def_path), str(output_dir))
 
 
 if __name__ == "__main__":

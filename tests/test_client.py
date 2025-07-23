@@ -54,8 +54,8 @@ class TestVoIPMSClient:
                 # Assuming addCharge requires parameters
                 client.addCharge()
 
-    @patch('httpx.Client.post')
-    def test_successful_api_call(self, mock_post):
+    @patch('httpx.Client.get')
+    def test_successful_api_call(self, mock_get):
         """Test successful API call"""
         mock_response = MagicMock()
         mock_response.json.return_value = {
@@ -66,7 +66,7 @@ class TestVoIPMSClient:
             }
         }
         mock_response.raise_for_status = MagicMock()
-        mock_post.return_value = mock_response
+        mock_get.return_value = mock_response
 
         with patch.dict('os.environ', {
             'VOIPMS_USERNAME': 'test@example.com',
@@ -78,8 +78,8 @@ class TestVoIPMSClient:
             assert result['status'] == 'success'
             assert result['balance']['current_balance'] == '100.50'
 
-    @patch('httpx.Client.post')
-    def test_api_error_handling(self, mock_post):
+    @patch('httpx.Client.get')
+    def test_api_error_handling(self, mock_get):
         """Test API error handling"""
         mock_response = MagicMock()
         mock_response.json.return_value = {
@@ -87,7 +87,7 @@ class TestVoIPMSClient:
             'message': 'Invalid username or password'
         }
         mock_response.raise_for_status = MagicMock()
-        mock_post.return_value = mock_response
+        mock_get.return_value = mock_response
 
         with patch.dict('os.environ', {
             'VOIPMS_USERNAME': 'test@example.com',
@@ -115,8 +115,8 @@ class TestVoIPMSClientAsync:
                 assert hasattr(client, 'getBalance')
                 assert callable(client.getBalance)
 
-    @patch('httpx.AsyncClient.post')
-    async def test_async_api_call(self, mock_post):
+    @patch('httpx.AsyncClient.get')
+    async def test_async_api_call(self, mock_get):
         """Test async API call"""
         mock_response = MagicMock()
         mock_response.json.return_value = {
@@ -127,11 +127,11 @@ class TestVoIPMSClientAsync:
         }
         mock_response.raise_for_status = MagicMock()
 
-        # Make mock_post return an awaitable
+        # Make mock_get return an awaitable
         async def async_return(*args, **kwargs):
             return mock_response
 
-        mock_post.side_effect = async_return
+        mock_get.side_effect = async_return
 
         with patch.dict('os.environ', {
             'VOIPMS_USERNAME': 'test@example.com',

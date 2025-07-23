@@ -56,6 +56,22 @@ class VoIPMSCLI:
         self.client = None
         self.api_definition = None
         self.console = Console()
+        self.smart_defaults = self._load_smart_defaults()
+
+    def _load_smart_defaults(self) -> Dict[str, Any]:
+        """Load smart defaults configuration."""
+        try:
+            # Try to load from package resources
+            import voipms
+            config_path = Path(voipms.__file__).parent / 'cli_smart_defaults.json'
+            if config_path.exists():
+                with open(config_path) as f:
+                    return json.load(f)
+        except Exception:
+            pass
+        
+        # Return empty config if not found
+        return {}
 
     def init_client(self, username: Optional[str] = None, password: Optional[str] = None):
         """Initialize the VoIP.ms client."""
@@ -132,6 +148,50 @@ class VoIPMSCLI:
             for method in similar[:10]:
                 click.echo(f"  - {method}", err=True)
 
+    def _format_parameter_info(self, name: str, info: Dict[str, Any], show_defaults: bool = False) -> tuple:
+        """Format parameter information for display."""
+        param_type = info.get('type', 'string')
+        desc = info.get('description', 'No description')
+
+        # Add enum values
+        if enum_values := info.get('enum'):
+            desc += f"\n[cyan]Options: {', '.join(enum_values)}[/cyan]"
+
+        # Add constraint information
+        constraints = []
+        if 'minimum' in info and 'maximum' in info:
+            constraints.append(f"Range: {info['minimum']}-{info['maximum']}")
+        elif 'minimum' in info:
+            constraints.append(f"Min: {info['minimum']}")
+        elif 'maximum' in info:
+            constraints.append(f"Max: {info['maximum']}")
+
+        if 'minLength' in info:
+            constraints.append(f"MinLen: {info['minLength']}")
+        if 'maxLength' in info:
+            constraints.append(f"MaxLen: {info['maxLength']}")
+
+        if constraints:
+            desc += f"\n[yellow]{' | '.join(constraints)}[/yellow]"
+
+        # Add format information
+        if format_info := info.get('format'):
+            desc += f"\n[green]Format: {format_info}[/green]"
+
+        # Add units
+        if units := info.get('units'):
+            desc += f"\n[blue]Units: {units}[/blue]"
+
+        # Add default values (only for optional parameters)
+        if show_defaults and (default := info.get('default')):
+            desc += f"\n[magenta]Default: {default}[/magenta]"
+
+        # Add example
+        if 'example' in info:
+            desc += f"\n[dim]Example: {info['example']}[/dim]"
+
+        return param_type, desc
+
     def list_methods(self, filter_text: Optional[str] = None):
         """List all available methods."""
         if not self.api_definition:
@@ -166,68 +226,54 @@ class VoIPMSCLI:
         """Apply smart defaults based on method context."""
         result = params.copy()
 
-        # Date-based method defaults
-        date_methods = ['getCDR', 'getSMS', 'getMMS', 'getCallRecordings', 'getFaxMessages']
-        if method_name in date_methods:
-            # Default to last 7 days if no dates provided
-            if 'date_from' not in result and 'from_date' not in result and 'from' not in result:
-                # Check which parameter name this method uses
-                if method_name in ['getSMS', 'getMMS']:
-                    result['from'] = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
+        # Check each category of defaults
+        for category, config in self.smart_defaults.items():
+            if category == 'method_descriptions':
+                continue  # Skip descriptions
+                
+            if 'methods' in config and method_name in config['methods']:
+                defaults = config.get('defaults', {})
+                
+                # Apply date-specific logic
+                if category == 'date_methods':
+                    # Handle date parameter mapping
+                    param_mapping = config.get('parameter_mapping', {})
+                    mapping = param_mapping.get(method_name, param_mapping.get('default', {}))
+                    
+                    # Default to last N days if no dates provided
+                    date_range_days = defaults.get('date_range_days', 7)
+                    
+                    # Check for date_from
+                    from_param = mapping.get('from', 'date_from')
+                    if from_param not in result and not any(p in result for p in ['from_date', 'from']):
+                        result[from_param] = (datetime.now() - timedelta(days=date_range_days)).strftime('%Y-%m-%d')
+                        self.console.print(f"[yellow]ℹ Added default {from_param}={result[from_param]}[/yellow]")
+                    
+                    # Check for date_to
+                    to_param = mapping.get('to', 'date_to')
+                    if to_param not in result and not any(p in result for p in ['to_date', 'to']):
+                        result[to_param] = datetime.now().strftime('%Y-%m-%d')
+                        self.console.print(f"[yellow]ℹ Added default {to_param}={result[to_param]}[/yellow]")
+                    
+                    # Apply other defaults (like timezone)
+                    for param, value in defaults.items():
+                        if param not in ['date_range_days'] and param not in result:
+                            result[param] = value
+                            self.console.print(f"[yellow]ℹ Added default {param}={value}[/yellow]")
                 else:
-                    result['date_from'] = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
-
-            if 'date_to' not in result and 'to_date' not in result and 'to' not in result:
-                if method_name in ['getSMS', 'getMMS']:
-                    result['to'] = datetime.now().strftime('%Y-%m-%d')
-                else:
-                    result['date_to'] = datetime.now().strftime('%Y-%m-%d')
-
-            # CDR specific: add timezone if not provided
-            if method_name == 'getCDR' and 'timezone' not in result:
-                result['timezone'] = '1'
-                self.console.print("[yellow]ℹ Added default timezone=1 (EST)[/yellow]")
-
-        # DID ordering defaults
-        order_methods = ['orderDID', 'backOrderDIDUSA', 'backOrderDIDCAN', 'orderTollFree', 'orderVanity', 'orderDIDVirtual']
-        if method_name in order_methods:
-            if 'pop' not in result:
-                result['pop'] = 1
-                self.console.print("[yellow]ℹ Added default pop=1 (server location)[/yellow]")
-
-            if 'dialtime' not in result:
-                result['dialtime'] = 60
-                self.console.print("[yellow]ℹ Added default dialtime=60 seconds[/yellow]")
-
-            if 'billing_type' not in result:
-                result['billing_type'] = 1  # Per minute billing
-                self.console.print("[yellow]ℹ Added default billing_type=1 (per minute)[/yellow]")
-
-        # Voicemail defaults for better UX
-        if method_name == 'setVoicemail':
-            if 'attach_message' not in result:
-                result['attach_message'] = True
-                self.console.print("[yellow]ℹ Added default attach_message=true[/yellow]")
-
-            if 'delete_message' not in result:
-                result['delete_message'] = False
-                self.console.print("[yellow]ℹ Added default delete_message=false[/yellow]")
-
-        # Queue defaults
-        if method_name == 'setQueue':
-            if 'agent_ring_timeout' not in result:
-                result['agent_ring_timeout'] = 15
-                self.console.print("[yellow]ℹ Added default agent_ring_timeout=15 seconds[/yellow]")
-
-            if 'retry_timer' not in result:
-                result['retry_timer'] = 30
-                self.console.print("[yellow]ℹ Added default retry_timer=30 seconds[/yellow]")
-
-        # SMS/MMS defaults
-        if method_name in ['setSMS', 'setMMS']:
-            if 'enable' not in result:
-                result['enable'] = True
-                self.console.print("[yellow]ℹ Added default enable=true[/yellow]")
+                    # Apply all defaults for non-date methods
+                    for param, value in defaults.items():
+                        if param not in result:
+                            result[param] = value
+                            # Add description for certain defaults
+                            desc = ""
+                            if param == 'billing_type' and value == 1:
+                                desc = " (per minute)"
+                            elif param == 'pop':
+                                desc = " (server location)"
+                            elif param.endswith('_timeout') or param == 'dialtime':
+                                desc = " seconds"
+                            self.console.print(f"[yellow]ℹ Added default {param}={value}{desc}[/yellow]")
 
         return result
 
@@ -260,42 +306,7 @@ class VoIPMSCLI:
                 req_table.add_column("Description", style="white")
 
                 for name, info in required:
-                    param_type = info.get('type', 'string')
-                    desc = info.get('description', 'No description')
-
-                    # Add enum values
-                    if enum_values := info.get('enum'):
-                        desc += f"\n[cyan]Options: {', '.join(enum_values)}[/cyan]"
-
-                    # Add constraint information
-                    constraints = []
-                    if 'minimum' in info and 'maximum' in info:
-                        constraints.append(f"Range: {info['minimum']}-{info['maximum']}")
-                    elif 'minimum' in info:
-                        constraints.append(f"Min: {info['minimum']}")
-                    elif 'maximum' in info:
-                        constraints.append(f"Max: {info['maximum']}")
-
-                    if 'minLength' in info:
-                        constraints.append(f"MinLen: {info['minLength']}")
-                    if 'maxLength' in info:
-                        constraints.append(f"MaxLen: {info['maxLength']}")
-
-                    if constraints:
-                        desc += f"\n[yellow]{' | '.join(constraints)}[/yellow]"
-
-                    # Add format information
-                    if format_info := info.get('format'):
-                        desc += f"\n[green]Format: {format_info}[/green]"
-
-                    # Add units
-                    if units := info.get('units'):
-                        desc += f"\n[blue]Units: {units}[/blue]"
-
-                    # Add example
-                    if 'example' in info:
-                        desc += f"\n[dim]Example: {info['example']}[/dim]"
-
+                    param_type, desc = self._format_parameter_info(name, info)
                     req_table.add_row(f"--{name}", param_type, desc)
 
                 self.console.print(req_table)
@@ -307,72 +318,16 @@ class VoIPMSCLI:
                 opt_table.add_column("Description", style="white")
 
                 for name, info in optional:
-                    param_type = info.get('type', 'string')
-                    desc = info.get('description', 'No description')
-
-                    # Add enum values
-                    if enum_values := info.get('enum'):
-                        desc += f"\n[cyan]Options: {', '.join(enum_values)}[/cyan]"
-
-                    # Add constraint information
-                    constraints = []
-                    if 'minimum' in info and 'maximum' in info:
-                        constraints.append(f"Range: {info['minimum']}-{info['maximum']}")
-                    elif 'minimum' in info:
-                        constraints.append(f"Min: {info['minimum']}")
-                    elif 'maximum' in info:
-                        constraints.append(f"Max: {info['maximum']}")
-
-                    if 'minLength' in info:
-                        constraints.append(f"MinLen: {info['minLength']}")
-                    if 'maxLength' in info:
-                        constraints.append(f"MaxLen: {info['maxLength']}")
-
-                    if constraints:
-                        desc += f"\n[yellow]{' | '.join(constraints)}[/yellow]"
-
-                    # Add format information
-                    if format_info := info.get('format'):
-                        desc += f"\n[green]Format: {format_info}[/green]"
-
-                    # Add units
-                    if units := info.get('units'):
-                        desc += f"\n[blue]Units: {units}[/blue]"
-
-                    # Add default values
-                    if default := info.get('default'):
-                        desc += f"\n[magenta]Default: {default}[/magenta]"
-
-                    # Add example
-                    if 'example' in info:
-                        desc += f"\n[dim]Example: {info['example']}[/dim]"
-
+                    param_type, desc = self._format_parameter_info(name, info, show_defaults=True)
                     opt_table.add_row(f"--{name}", param_type, desc)
 
                 self.console.print(opt_table)
 
         # Show smart defaults if applicable
-        smart_default_methods = {
-            'getCDR': 'Date range defaults to last 7 days, timezone defaults to 1',
-            'getSMS': 'Date range defaults to last 7 days',
-            'getMMS': 'Date range defaults to last 7 days',
-            'getCallRecordings': 'Date range defaults to last 7 days',
-            'getFaxMessages': 'Date range defaults to last 7 days',
-            'orderDID': 'pop=1, dialtime=60, billing_type=1 (per minute)',
-            'backOrderDIDUSA': 'pop=1, dialtime=60, billing_type=1 (per minute)',
-            'backOrderDIDCAN': 'pop=1, dialtime=60, billing_type=1 (per minute)',
-            'orderTollFree': 'pop=1, dialtime=60, billing_type=1 (per minute)',
-            'orderVanity': 'pop=1, dialtime=60, billing_type=1 (per minute)',
-            'orderDIDVirtual': 'pop=1, dialtime=60, billing_type=1 (per minute)',
-            'setVoicemail': 'attach_message=true, delete_message=false',
-            'setQueue': 'agent_ring_timeout=15, retry_timer=30',
-            'setSMS': 'enable=true',
-            'setMMS': 'enable=true'
-        }
-
-        if method_name in smart_default_methods:
+        method_descriptions = self.smart_defaults.get('method_descriptions', {})
+        if method_name in method_descriptions:
             self.console.print(Panel(
-                f"[green]{smart_default_methods[method_name]}[/green]",
+                f"[green]{method_descriptions[method_name]}[/green]",
                 title="[bold green]Smart Defaults[/bold green]",
                 border_style="green"
             ))

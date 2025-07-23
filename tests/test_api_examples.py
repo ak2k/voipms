@@ -23,8 +23,8 @@ class TestAPIExamples:
             self.client = VoIPMSClient()
 
 
-    @patch('httpx.Client.post')
-    def test_getlanguages_0(self, mock_post):
+    @patch('httpx.Client.get')
+    def test_getlanguages_0(self, mock_get):
         """Test getLanguages - Evaluate Response"""
         # Setup mock response
         mock_response = MagicMock()
@@ -32,7 +32,7 @@ class TestAPIExamples:
             'status': 'success',
         }
         mock_response.raise_for_status = MagicMock()
-        mock_post.return_value = mock_response
+        mock_get.return_value = mock_response
 
         # Make API call
         result = self.client.getLanguages()
@@ -41,8 +41,8 @@ class TestAPIExamples:
         assert result['status'] == 'success'
 
 
-    @patch('httpx.Client.post')
-    def test_getregistrationstatus_1(self, mock_post):
+    @patch('httpx.Client.get')
+    def test_getregistrationstatus_1(self, mock_get):
         """Test getRegistrationStatus - Registration Status"""
         # Setup mock response
         mock_response = MagicMock()
@@ -52,7 +52,7 @@ class TestAPIExamples:
             'registrations': 'test_value',
         }
         mock_response.raise_for_status = MagicMock()
-        mock_post.return_value = mock_response
+        mock_get.return_value = mock_response
 
         # Make API call
         result = self.client.getRegistrationStatus(account='100001_VoIP')
@@ -63,8 +63,8 @@ class TestAPIExamples:
         assert 'registrations' in result
 
 
-    @patch('httpx.Client.post')
-    def test_getclients_2(self, mock_post):
+    @patch('httpx.Client.get')
+    def test_getclients_2(self, mock_get):
         """Test getClients - Client Login"""
         # Setup mock response
         mock_response = MagicMock()
@@ -73,7 +73,7 @@ class TestAPIExamples:
             'clients': 'test_value',
         }
         mock_response.raise_for_status = MagicMock()
-        mock_post.return_value = mock_response
+        mock_get.return_value = mock_response
 
         # Make API call
         result = self.client.getClients(email='Jane.doe@mydomain.com')
@@ -83,8 +83,8 @@ class TestAPIExamples:
         assert 'clients' in result
 
 
-    @patch('httpx.Client.post')
-    def test_getsubaccounts_3(self, mock_post):
+    @patch('httpx.Client.get')
+    def test_getsubaccounts_3(self, mock_get):
         """Test getSubAccounts - Client Accounts"""
         # Setup mock response
         mock_response = MagicMock()
@@ -93,7 +93,7 @@ class TestAPIExamples:
             'accounts': 'test_value',
         }
         mock_response.raise_for_status = MagicMock()
-        mock_post.return_value = mock_response
+        mock_get.return_value = mock_response
 
         # Make API call
         result = self.client.getSubAccounts(account='500000')
@@ -103,8 +103,8 @@ class TestAPIExamples:
         assert 'accounts' in result
 
 
-    @patch('httpx.Client.post')
-    def test_getvoicemails_4(self, mock_post):
+    @patch('httpx.Client.get')
+    def test_getvoicemails_4(self, mock_get):
         """Test getVoicemails - Voicemails"""
         # Setup mock response
         mock_response = MagicMock()
@@ -114,7 +114,7 @@ class TestAPIExamples:
             'voicemails': 'test_value',
         }
         mock_response.raise_for_status = MagicMock()
-        mock_post.return_value = mock_response
+        mock_get.return_value = mock_response
 
         # Make API call
         result = self.client.getVoicemails(mailbox='900000')
@@ -125,8 +125,8 @@ class TestAPIExamples:
         assert 'voicemails' in result
 
 
-    @patch('httpx.Client.post')
-    def test_getclients_5(self, mock_post):
+    @patch('httpx.Client.get')
+    def test_getclients_5(self, mock_get):
         """Test getClients - Clients"""
         # Setup mock response
         mock_response = MagicMock()
@@ -135,7 +135,7 @@ class TestAPIExamples:
             'clients': 'test_value',
         }
         mock_response.raise_for_status = MagicMock()
-        mock_post.return_value = mock_response
+        mock_get.return_value = mock_response
 
         # Make API call
         result = self.client.getClients()
@@ -145,8 +145,8 @@ class TestAPIExamples:
         assert 'clients' in result
 
 
-    @patch('httpx.Client.post')
-    def test_getpackages_6(self, mock_post):
+    @patch('httpx.Client.get')
+    def test_getpackages_6(self, mock_get):
         """Test getPackages - Packages"""
         # Setup mock response
         mock_response = MagicMock()
@@ -155,7 +155,7 @@ class TestAPIExamples:
             'packages': 'test_value',
         }
         mock_response.raise_for_status = MagicMock()
-        mock_post.return_value = mock_response
+        mock_get.return_value = mock_response
 
         # Make API call
         result = self.client.getPackages()
@@ -165,8 +165,8 @@ class TestAPIExamples:
         assert 'packages' in result
 
 
-    @patch('httpx.Client.post')
-    def test_getcdr_7(self, mock_post):
+    @patch('httpx.Client.get')
+    def test_getcdr_7(self, mock_get):
         """Test getCDR - Cdr"""
         # Setup mock response
         mock_response = MagicMock()
@@ -175,7 +175,7 @@ class TestAPIExamples:
             'cdr': 'test_value',
         }
         mock_response.raise_for_status = MagicMock()
-        mock_post.return_value = mock_response
+        mock_get.return_value = mock_response
 
         # Make API call
         result = self.client.getCDR(date_from='2024-01-01', date_to='2024-01-31')
@@ -185,8 +185,8 @@ class TestAPIExamples:
         assert 'cdr' in result
 
 
-    @patch('httpx.Client.post')
-    def test_getresellercdr_8(self, mock_post):
+    @patch('httpx.Client.get')
+    def test_getresellercdr_8(self, mock_get):
         """Test getResellerCDR - Cdr Reseller"""
         # Setup mock response
         mock_response = MagicMock()
@@ -195,7 +195,7 @@ class TestAPIExamples:
             'cdr': 'test_value',
         }
         mock_response.raise_for_status = MagicMock()
-        mock_post.return_value = mock_response
+        mock_get.return_value = mock_response
 
         # Make API call
         result = self.client.getResellerCDR(date_from='2024-01-01', date_to='2024-01-31')
