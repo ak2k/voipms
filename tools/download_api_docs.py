@@ -23,8 +23,8 @@ load_dotenv()
 def login_with_redirect():
     """Login using redirect URL to go straight to API docs"""
 
-    email = os.getenv('VOIPMS_USERNAME')
-    password = os.getenv('VOIPMS_PASSWORD')
+    email = os.getenv("VOIPMS_USERNAME")
+    password = os.getenv("VOIPMS_PASSWORD")
 
     if not email or not password:
         print("❌ Missing credentials!")
@@ -42,7 +42,10 @@ def login_with_redirect():
         try:
             # Navigate to login WITH redirect parameter
             print("Opening VoIP.ms login with API redirect...")
-            page.goto('https://voip.ms/signin/index.php?redirect=/m/apidocs.php', wait_until='domcontentloaded')
+            page.goto(
+                "https://voip.ms/signin/index.php?redirect=/m/apidocs.php",
+                wait_until="domcontentloaded",
+            )
             page.wait_for_timeout(3000)
 
             # Handle cookie popup
@@ -50,23 +53,23 @@ def login_with_redirect():
             if page.is_visible('button:has-text("Accept All")'):
                 page.click('button:has-text("Accept All")')
                 print("✓ Clicked Accept All")
-            page.keyboard.press('Escape')
+            page.keyboard.press("Escape")
             page.wait_for_timeout(1000)
 
             # Fill login form
             print("\nFilling login form...")
-            page.fill('#col_email', email)
+            page.fill("#col_email", email)
             print(f"✓ Email: {email}")
 
-            page.fill('#col_password', password)
+            page.fill("#col_password", password)
             print("✓ Password: ********")
 
             # Screenshot before login
-            page.screenshot(path='before_redirect_login.png')
+            page.screenshot(path="before_redirect_login.png")
 
             # Click login button
             print("\nClicking login...")
-            page.click('#login-btn')
+            page.click("#login-btn")
             print("✓ Clicked LOG IN")
 
             # Wait for redirect to API page
@@ -81,39 +84,39 @@ def login_with_redirect():
             content = page.content()
 
             # Save the content
-            if 'api' in current_url.lower():
+            if "api" in current_url.lower():
                 print("✓ We're on an API page!")
 
-                if 'api_username' in content or 'getBalance' in content:
-                    with open('api_docs_redirected.html', 'w', encoding='utf-8') as f:
+                if "api_username" in content or "getBalance" in content:
+                    with open("api_docs_redirected.html", "w", encoding="utf-8") as f:
                         f.write(content)
                     print(f"✅ API documentation saved! ({len(content):,} bytes)")
 
-                    print("\n" + "="*60)
+                    print("\n" + "=" * 60)
                     print("✨ SUCCESS! API documentation captured!")
                     print("\nFile saved: api_docs_redirected.html")
                     print("\nNext steps:")
                     print("1. cp api_docs_redirected.html ../resources/")
                     print("2. cd ..")
                     print("3. uv run python3 enhanced_json_generator.py")
-                    print("="*60)
+                    print("=" * 60)
 
                     return True
                 else:
                     # Save it anyway
-                    with open('api_page_content.html', 'w', encoding='utf-8') as f:
+                    with open("api_page_content.html", "w", encoding="utf-8") as f:
                         f.write(content)
                     print("⚠️  On API page but no familiar content. Saved to api_page_content.html")
                     print("Check if this file contains the API documentation")
 
                     # Take screenshot
-                    page.screenshot(path='api_page.png')
+                    page.screenshot(path="api_page.png")
                     print("Screenshot saved: api_page.png")
             else:
                 print(f"⚠️  Not on API page. Current URL: {current_url}")
-                with open('redirect_result.html', 'w', encoding='utf-8') as f:
+                with open("redirect_result.html", "w", encoding="utf-8") as f:
                     f.write(content)
-                page.screenshot(path='redirect_result.png')
+                page.screenshot(path="redirect_result.png")
                 print("Saved redirect_result.html and .png")
 
             # Keep browser open
@@ -130,6 +133,7 @@ def login_with_redirect():
         except Exception as e:
             print(f"\n❌ Error: {e}")
             import traceback
+
             traceback.print_exc()
         finally:
             try:

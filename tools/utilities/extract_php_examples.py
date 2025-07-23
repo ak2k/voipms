@@ -32,7 +32,7 @@ class PHPExampleExtractor:
 
     def extract_from_file(self, file_path: Path) -> Optional[Dict[str, Any]]:
         """Extract test case from a single PHP file"""
-        with open(file_path, encoding='utf-8', errors='ignore') as f:
+        with open(file_path, encoding="utf-8", errors="ignore") as f:
             content = f.read()
 
         # Extract method name
@@ -50,9 +50,9 @@ class PHPExampleExtractor:
         if url_match:
             query_string = url_match.group(1)
             # Parse parameters from query string
-            param_matches = re.findall(r'&(\w+)=\{?\$?(\w+)\}?', query_string)
+            param_matches = re.findall(r"&(\w+)=\{?\$?(\w+)\}?", query_string)
             for param_name, var_name in param_matches:
-                if param_name not in ['api_username', 'api_password', 'method']:
+                if param_name not in ["api_username", "api_password", "method"]:
                     # Try to find the variable value
                     var_match = re.search(rf'\${var_name}\s*=\s*"([^"]+)"', content)
                     if var_match:
@@ -62,48 +62,43 @@ class PHPExampleExtractor:
         response_checks = []
 
         # Look for status checks
-        if 'status' in content:
-            response_checks.append({
-                'field': 'status',
-                'expected': 'success',
-                'type': 'equality'
-            })
+        if "status" in content:
+            response_checks.append({"field": "status", "expected": "success", "type": "equality"})
 
         # Look for array access patterns
-        array_accesses = re.findall(r'\$response\[([^\]]+)\]', content)
+        array_accesses = re.findall(r"\$response\[([^\]]+)\]", content)
         for field in array_accesses:
-            field = field.strip('"\'')
-            if field not in ['status']:
-                response_checks.append({
-                    'field': field,
-                    'type': 'exists'
-                })
+            field = field.strip("\"'")
+            if field not in ["status"]:
+                response_checks.append({"field": field, "type": "exists"})
 
         # Extract description from filename
-        description = file_path.stem.replace('-', ' ').replace('_', ' ')
-        if description.startswith(('00.', '01.', '02.', '03.', '04.', '05.', '06.', '07.', '08.', '09.')):
+        description = file_path.stem.replace("-", " ").replace("_", " ")
+        if description.startswith(
+            ("00.", "01.", "02.", "03.", "04.", "05.", "06.", "07.", "08.", "09.")
+        ):
             description = description[3:]
 
         return {
-            'file': file_path.name,
-            'method': method,
-            'description': description.title(),
-            'parameters': params,
-            'response_checks': response_checks,
-            'has_error_handling': 'status' in content and 'success' in content
+            "file": file_path.name,
+            "method": method,
+            "description": description.title(),
+            "parameters": params,
+            "response_checks": response_checks,
+            "has_error_handling": "status" in content and "success" in content,
         }
 
     def generate_test_fixtures(self, output_path: str = "test_fixtures.json"):
         """Generate test fixtures file"""
         fixtures = {
-            'test_cases': self.test_cases,
-            'metadata': {
-                'source': 'VoIP.ms PHP REST examples',
-                'total_cases': len(self.test_cases)
-            }
+            "test_cases": self.test_cases,
+            "metadata": {
+                "source": "VoIP.ms PHP REST examples",
+                "total_cases": len(self.test_cases),
+            },
         }
 
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             json.dump(fixtures, f, indent=2)
 
         print(f"\nGenerated {output_path} with {len(self.test_cases)} test cases")
@@ -136,7 +131,7 @@ class TestAPIExamples:
 
         # Generate test methods
         for i, test_case in enumerate(self.test_cases):
-            method_name = test_case['method']
+            method_name = test_case["method"]
             test_name = f"test_{method_name.lower()}_{i}"
 
             test_code += f'''
@@ -151,35 +146,35 @@ class TestAPIExamples:
 '''
 
             # Add expected response fields
-            for check in test_case['response_checks']:
-                if check['field'] != 'status':
+            for check in test_case["response_checks"]:
+                if check["field"] != "status":
                     test_code += f"            '{check['field']}': 'test_value',\n"
 
-            test_code += '''        }
+            test_code += """        }
         mock_response.raise_for_status = MagicMock()
         mock_post.return_value = mock_response
         
         # Make API call
-'''
+"""
 
             # Generate method call
-            if test_case['parameters']:
-                param_str = ', '.join(f"{k}='{v}'" for k, v in test_case['parameters'].items())
+            if test_case["parameters"]:
+                param_str = ", ".join(f"{k}='{v}'" for k, v in test_case["parameters"].items())
                 test_code += f"        result = self.client.{method_name}({param_str})\n"
             else:
                 test_code += f"        result = self.client.{method_name}()\n"
 
-            test_code += '''        
+            test_code += """        
         # Verify response
         assert result['status'] == 'success'
-'''
+"""
 
             # Add field existence checks
-            for check in test_case['response_checks']:
-                if check['field'] != 'status':
+            for check in test_case["response_checks"]:
+                if check["field"] != "status":
                     test_code += f"        assert '{check['field']}' in result\n"
 
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             f.write(test_code)
 
         print(f"Generated {output_path}")
@@ -195,7 +190,7 @@ def main():
     print(f"\nFound {len(test_cases)} test cases:")
     for case in test_cases:
         print(f"  - {case['method']}: {case['description']}")
-        if case['parameters']:
+        if case["parameters"]:
             print(f"    Parameters: {case['parameters']}")
 
     # Generate outputs
