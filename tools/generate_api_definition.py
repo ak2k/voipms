@@ -63,7 +63,7 @@ class FinalVoIPMSJSONGenerator:
         self.type_overrides = {}
         override_file = Path(__file__).parent / "wsdl_type_overrides.json"
         if override_file.exists():
-            with open(override_file, "r") as f:
+            with open(override_file) as f:
                 override_data = json.load(f)
                 self.type_overrides = override_data.get("type_overrides", {})
                 print(f"Loaded {len(self.type_overrides)} type overrides")
@@ -305,7 +305,6 @@ class FinalVoIPMSJSONGenerator:
 
             if op_name in operations:
                 if param_name in operations[op_name]["parameters"]:
-                    old_type = operations[op_name]["parameters"][param_name]["type"]
                     operations[op_name]["parameters"][param_name]["type"] = correct_type
                     override_count += 1
                 else:

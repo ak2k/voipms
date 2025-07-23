@@ -378,7 +378,7 @@ class FinalVoIPMSDocumentationParser:
             result = {"type": "string", "enum": ["yes", "no"]}
 
         # Extract explicit enums with patterns like "0 = value1, 1 = value2" or "-1 = value1"
-        elif enum_match := re.search(
+        elif re.search(
             r"(-?\d+)\s*=\s*[\w\s]+(?:\s*[,;]\s*-?\d+\s*=\s*[\w\s]+)+", description
         ):
             # Extract all enum values (including negative numbers)

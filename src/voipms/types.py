@@ -14,14 +14,15 @@ logger = logging.getLogger(__name__)
 def boolean_string_validator(true_val: str, false_val: str) -> Callable[[Any], str]:
     """
     Create a validator that converts boolean-like values to specified strings.
-    
+
     Args:
         true_val: String to return for truthy values
         false_val: String to return for falsy values
-        
+
     Returns:
         A validator function that converts inputs to the specified strings
     """
+
     def validator(v: Any) -> str:
         """Convert boolean-like values to specified strings."""
         if isinstance(v, bool):
@@ -44,12 +45,12 @@ def boolean_string_validator(true_val: str, false_val: str) -> Callable[[Any], s
         else:
             # For other types, convert to string and let Pydantic validate
             result = str(v)
-        
+
         if logger.isEnabledFor(logging.DEBUG) and result != str(v):
             logger.debug(f"Boolean conversion ({true_val}/{false_val}): {v!r} -> {result!r}")
-        
+
         return result
-    
+
     # Set a helpful name for debugging
     validator.__name__ = f"boolean_{true_val}_{false_val}_validator"
     return validator
@@ -64,7 +65,7 @@ boolean_yes_no_validator = boolean_string_validator("yes", "no")
 def numeric_string_validator(v: Any) -> str:
     """
     Convert numeric values to strings for enum validation.
-    
+
     Handles special cases:
     - Booleans (True -> "1", False -> "0")
     - Integers and floats -> string representation
@@ -78,29 +79,28 @@ def numeric_string_validator(v: Any) -> str:
     else:
         # For strings and other types, convert to string
         result = str(v)
-    
+
     if logger.isEnabledFor(logging.DEBUG) and result != str(v):
         logger.debug(f"Numeric conversion: {v!r} ({type(v).__name__}) -> {result!r}")
-    
+
     return result
 
 
 def create_numeric_string_validator(
-    minimum: Optional[float] = None, 
-    maximum: Optional[float] = None,
-    integer_only: bool = False
+    minimum: Optional[float] = None, maximum: Optional[float] = None, integer_only: bool = False
 ) -> Callable[[Any], str]:
     """
     Create a validator for string parameters that should be numeric within constraints.
-    
+
     Args:
         minimum: Minimum allowed value (inclusive)
         maximum: Maximum allowed value (inclusive)
         integer_only: If True, only accept integer values
-        
+
     Returns:
         A validator function that validates numeric strings within constraints
     """
+
     def validate_numeric_string(value: Any) -> str:
         """Validate that a value is numeric and within constraints."""
         if value is None:
@@ -137,16 +137,18 @@ def create_numeric_string_validator(
     return validate_numeric_string
 
 
-def create_integer_string_validator(minimum: Optional[int] = None, maximum: Optional[int] = None) -> Callable[[Any], str]:
+def create_integer_string_validator(
+    minimum: Optional[int] = None, maximum: Optional[int] = None
+) -> Callable[[Any], str]:
     """
     Create a validator for string parameters that should be integers within constraints.
-    
+
     This is a convenience wrapper around create_numeric_string_validator with integer_only=True.
-    
+
     Args:
         minimum: Minimum allowed value (inclusive)
         maximum: Maximum allowed value (inclusive)
-        
+
     Returns:
         A validator function that validates integer strings within constraints
     """

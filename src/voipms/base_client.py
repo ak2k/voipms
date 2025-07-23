@@ -22,6 +22,7 @@ except ImportError:
 # Try to load .env file if python-dotenv is available
 try:
     from dotenv import load_dotenv
+
     load_dotenv()
 except ImportError:
     # python-dotenv not installed, that's okay
@@ -32,6 +33,7 @@ logger = logging.getLogger(__name__)
 
 class VoIPMSError(Exception):
     """VoIP.ms API error"""
+
     def __init__(self, code: str, message: str, response: Optional[Dict[str, Any]] = None):
         self.code = code
         self.message = message
@@ -53,11 +55,11 @@ class BaseVoIPMSClient(ABC):
         max_retries: int = 3,
         verify_ssl: bool = True,
         debug: bool = False,
-        api_definition_path: str = 'api_definition.json'
+        api_definition_path: str = "api_definition.json",
     ):
         """
         Initialize base VoIP.ms client
-        
+
         Args:
             username: VoIP.ms API username (or use VOIPMS_USERNAME env var)
             password: VoIP.ms API password (or use VOIPMS_API_PASSWORD env var)
@@ -70,14 +72,16 @@ class BaseVoIPMSClient(ABC):
         """
         # Set debug early for use in _load_api_definition
         self.debug = debug
-        
+
         # Load API definition
         self._load_api_definition(api_definition_path)
 
         # Configuration
         self.username = username or os.getenv("VOIPMS_USERNAME")
         self.password = password or os.getenv("VOIPMS_API_PASSWORD")
-        self.base_url = base_url or self.api_definition.get("base_url", "https://voip.ms/api/v1/rest.php")
+        self.base_url = base_url or self.api_definition.get(
+            "base_url", "https://voip.ms/api/v1/rest.php"
+        )
         self.timeout = timeout
         self.max_retries = max_retries
         self.verify_ssl = verify_ssl
@@ -104,11 +108,12 @@ class BaseVoIPMSClient(ABC):
             try:
                 # Try to load from package resources
                 import voipms
-                if hasattr(resources, 'files'):
+
+                if hasattr(resources, "files"):
                     # Python 3.9+
                     package_files = resources.files(voipms)
                     resource_path = package_files / path
-                    with resource_path.open('r') as f:
+                    with resource_path.open("r") as f:
                         self.api_definition = json.load(f)
                 else:
                     # Python 3.7-3.8
@@ -118,11 +123,11 @@ class BaseVoIPMSClient(ABC):
             except Exception:
                 # Try with default name
                 try:
-                    default_name = 'api_definition.json'
-                    if hasattr(resources, 'files'):
+                    default_name = "api_definition.json"
+                    if hasattr(resources, "files"):
                         package_files = resources.files(voipms)
                         resource_path = package_files / default_name
-                        with resource_path.open('r') as f:
+                        with resource_path.open("r") as f:
                             self.api_definition = json.load(f)
                     else:
                         with resources.path(voipms, default_name) as resource_path:
@@ -133,20 +138,24 @@ class BaseVoIPMSClient(ABC):
 
         # Load quirks handler (temporarily) to get additional error codes
         quirks_handler = APIQuirksHandler(debug=self.debug)
-        if error_additions := quirks_handler.quirks_config.get('error_code_additions', {}):
+        if error_additions := quirks_handler.quirks_config.get("error_code_additions", {}):
             # Merge additional error codes into API definition
             for error_id, error_info in error_additions.items():
-                self.api_definition.setdefault('error_codes', {})[error_id] = error_info['message']
+                self.api_definition.setdefault("error_codes", {})[error_id] = error_info["message"]
 
-        logger.info(f"Loaded API definition with {len(self.api_definition.get('operations', {}))} operations and {len(self.api_definition.get('error_codes', {}))} error codes")
+        logger.info(
+            f"Loaded API definition with {len(self.api_definition.get('operations', {}))} operations and {len(self.api_definition.get('error_codes', {}))} error codes"
+        )
 
-    def _create_http_client(self, client_class: type, user_agent: str) -> Union[httpx.Client, httpx.AsyncClient]:
+    def _create_http_client(
+        self, client_class: type, user_agent: str
+    ) -> Union[httpx.Client, httpx.AsyncClient]:
         """Create HTTP client with common configuration"""
         return client_class(
             base_url=self.base_url,
             timeout=self.timeout,
             verify=self.verify_ssl,
-            headers={"User-Agent": user_agent}
+            headers={"User-Agent": user_agent},
         )
 
     def _build_payload(self, method: str, **params) -> Dict[str, Any]:
@@ -155,7 +164,7 @@ class BaseVoIPMSClient(ABC):
             "api_username": self.username,
             "api_password": self.password,
             "method": method,
-            **params
+            **params,
         }
 
     def _handle_response(self, data: Dict[str, Any], method: str) -> Dict[str, Any]:
@@ -172,9 +181,9 @@ class BaseVoIPMSClient(ABC):
         error_messages = []
 
         # Get base error message
-        if error_code in self.api_definition.get('error_codes', {}):
+        if error_code in self.api_definition.get("error_codes", {}):
             # Error codes are stored as strings in the API definition
-            base_message = self.api_definition['error_codes'][error_code]
+            base_message = self.api_definition["error_codes"][error_code]
             error_messages.append(base_message)
         else:
             error_messages.append(f"Unknown error code: {error_code}")
@@ -184,12 +193,12 @@ class BaseVoIPMSClient(ABC):
 
     def _to_snake_case(self, name: str) -> str:
         """Convert camelCase to snake_case"""
-        s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
-        return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+        s1 = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", name)
+        return re.sub("([a-z0-9])([A-Z])", r"\1_\2", s1).lower()
 
     def _create_methods_from_definition(self):
         """Create methods from API definition"""
-        operations = self.api_definition.get('operations', {})
+        operations = self.api_definition.get("operations", {})
 
         for op_name, op_spec in operations.items():
             # Create method name (camelCase to snake_case)
@@ -206,18 +215,18 @@ class BaseVoIPMSClient(ABC):
 
     def debug_method_params(self, op_name: str, **kwargs) -> None:
         """Debug helper: show what parameters a method expects vs what you're providing"""
-        if op_name not in self.api_definition.get('operations', {}):
+        if op_name not in self.api_definition.get("operations", {}):
             print(f"❌ Method '{op_name}' not found in API definition")
             return
 
-        op_spec = self.api_definition['operations'][op_name]
-        expected_params = op_spec.get('parameters', {})
+        op_spec = self.api_definition["operations"][op_name]
+        expected_params = op_spec.get("parameters", {})
 
         print(f"\n🔍 Debug info for {op_name}:")
         print(f"   Expected parameters ({len(expected_params)}):")
         for param_name, param_spec in expected_params.items():
-            required = "✓" if param_spec.get('required') else " "
-            param_type = param_spec.get('type', 'unknown')
+            required = "✓" if param_spec.get("required") else " "
+            param_type = param_spec.get("type", "unknown")
             print(f"   {required} {param_name}: {param_type}")
 
         print(f"\n   Your parameters ({len(kwargs)}):")
@@ -230,7 +239,7 @@ class BaseVoIPMSClient(ABC):
         print("\n   Missing required parameters:")
         missing = []
         for param_name, param_spec in expected_params.items():
-            if param_spec.get('required') and param_name not in kwargs:
+            if param_spec.get("required") and param_name not in kwargs:
                 missing.append(param_name)
 
         if missing:
@@ -246,16 +255,16 @@ class BaseVoIPMSClient(ABC):
             print("\n   API quirks would transform:")
             for key, value in after_quirks.items():
                 if key not in kwargs or kwargs[key] != value:
-                    original = kwargs.get(key, '<added>')
+                    original = kwargs.get(key, "<added>")
                     print(f"   {key}: {original} -> {value}")
 
     def get_available_methods(self) -> List[str]:
         """Get list of available API methods"""
-        return list(self.api_definition.get('operations', {}).keys())
+        return list(self.api_definition.get("operations", {}).keys())
 
     def get_method_info(self, method_name: str) -> Optional[Dict[str, Any]]:
         """Get information about a specific method"""
-        return self.api_definition.get('operations', {}).get(method_name)
+        return self.api_definition.get("operations", {}).get(method_name)
 
     @abstractmethod
     def close(self):

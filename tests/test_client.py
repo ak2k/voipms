@@ -14,39 +14,36 @@ class TestVoIPMSClient:
 
     def test_client_initialization_without_credentials(self):
         """Test that client raises error without credentials"""
-        with patch.dict('os.environ', {}, clear=True):
+        with patch.dict("os.environ", {}, clear=True):
             with pytest.raises(ValueError, match="VoIP.ms credentials required"):
                 VoIPMSClient()
 
     def test_client_initialization_with_credentials(self):
         """Test successful client initialization"""
-        with patch.dict('os.environ', {
-            'VOIPMS_USERNAME': 'test@example.com',
-            'VOIPMS_PASSWORD': 'testpass'
-        }):
+        with patch.dict(
+            "os.environ", {"VOIPMS_USERNAME": "test@example.com", "VOIPMS_PASSWORD": "testpass"}
+        ):
             client = VoIPMSClient()
-            assert client.username == 'test@example.com'
-            assert client.password == 'testpass'
+            assert client.username == "test@example.com"
+            assert client.password == "testpass"
 
     def test_dynamic_method_creation(self):
         """Test that methods are created from API definition"""
-        with patch.dict('os.environ', {
-            'VOIPMS_USERNAME': 'test@example.com',
-            'VOIPMS_PASSWORD': 'testpass'
-        }):
+        with patch.dict(
+            "os.environ", {"VOIPMS_USERNAME": "test@example.com", "VOIPMS_PASSWORD": "testpass"}
+        ):
             client = VoIPMSClient()
 
             # Check that methods exist
-            assert hasattr(client, 'getBalance')
-            assert hasattr(client, 'get_balance')  # snake_case version
+            assert hasattr(client, "getBalance")
+            assert hasattr(client, "get_balance")  # snake_case version
             assert callable(client.getBalance)
 
     def test_parameter_validation(self):
         """Test parameter validation"""
-        with patch.dict('os.environ', {
-            'VOIPMS_USERNAME': 'test@example.com',
-            'VOIPMS_PASSWORD': 'testpass'
-        }):
+        with patch.dict(
+            "os.environ", {"VOIPMS_USERNAME": "test@example.com", "VOIPMS_PASSWORD": "testpass"}
+        ):
             client = VoIPMSClient()
 
             # Test with missing required parameter
@@ -54,51 +51,46 @@ class TestVoIPMSClient:
                 # Assuming addCharge requires parameters
                 client.addCharge()
 
-    @patch('httpx.Client.get')
+    @patch("httpx.Client.get")
     def test_successful_api_call(self, mock_get):
         """Test successful API call"""
         mock_response = MagicMock()
         mock_response.json.return_value = {
-            'status': 'success',
-            'balance': {
-                'current_balance': '100.50',
-                'spent_today': '5.25'
-            }
+            "status": "success",
+            "balance": {"current_balance": "100.50", "spent_today": "5.25"},
         }
         mock_response.raise_for_status = MagicMock()
         mock_get.return_value = mock_response
 
-        with patch.dict('os.environ', {
-            'VOIPMS_USERNAME': 'test@example.com',
-            'VOIPMS_PASSWORD': 'testpass'
-        }):
+        with patch.dict(
+            "os.environ", {"VOIPMS_USERNAME": "test@example.com", "VOIPMS_PASSWORD": "testpass"}
+        ):
             client = VoIPMSClient()
             result = client.getBalance(advanced=True)
 
-            assert result['status'] == 'success'
-            assert result['balance']['current_balance'] == '100.50'
+            assert result["status"] == "success"
+            assert result["balance"]["current_balance"] == "100.50"
 
-    @patch('httpx.Client.get')
+    @patch("httpx.Client.get")
     def test_api_error_handling(self, mock_get):
         """Test API error handling"""
         mock_response = MagicMock()
         mock_response.json.return_value = {
-            'status': 'invalid_credentials',
-            'message': 'Invalid username or password'
+            "status": "invalid_credentials",
+            "message": "Invalid username or password",
         }
         mock_response.raise_for_status = MagicMock()
         mock_get.return_value = mock_response
 
-        with patch.dict('os.environ', {
-            'VOIPMS_USERNAME': 'test@example.com',
-            'VOIPMS_PASSWORD': 'testpass'
-        }):
+        with patch.dict(
+            "os.environ", {"VOIPMS_USERNAME": "test@example.com", "VOIPMS_PASSWORD": "testpass"}
+        ):
             client = VoIPMSClient()
 
             with pytest.raises(VoIPMSError) as exc_info:
                 client.getBalance()
 
-            assert exc_info.value.code == 'invalid_credentials'
+            assert exc_info.value.code == "invalid_credentials"
 
 
 @pytest.mark.asyncio
@@ -107,23 +99,20 @@ class TestVoIPMSClientAsync:
 
     async def test_async_client_initialization(self):
         """Test async client initialization"""
-        with patch.dict('os.environ', {
-            'VOIPMS_USERNAME': 'test@example.com',
-            'VOIPMS_PASSWORD': 'testpass'
-        }):
+        with patch.dict(
+            "os.environ", {"VOIPMS_USERNAME": "test@example.com", "VOIPMS_PASSWORD": "testpass"}
+        ):
             async with VoIPMSClientAsync() as client:
-                assert hasattr(client, 'getBalance')
+                assert hasattr(client, "getBalance")
                 assert callable(client.getBalance)
 
-    @patch('httpx.AsyncClient.get')
+    @patch("httpx.AsyncClient.get")
     async def test_async_api_call(self, mock_get):
         """Test async API call"""
         mock_response = MagicMock()
         mock_response.json.return_value = {
-            'status': 'success',
-            'balance': {
-                'current_balance': '100.50'
-            }
+            "status": "success",
+            "balance": {"current_balance": "100.50"},
         }
         mock_response.raise_for_status = MagicMock()
 
@@ -133,10 +122,9 @@ class TestVoIPMSClientAsync:
 
         mock_get.side_effect = async_return
 
-        with patch.dict('os.environ', {
-            'VOIPMS_USERNAME': 'test@example.com',
-            'VOIPMS_PASSWORD': 'testpass'
-        }):
+        with patch.dict(
+            "os.environ", {"VOIPMS_USERNAME": "test@example.com", "VOIPMS_PASSWORD": "testpass"}
+        ):
             async with VoIPMSClientAsync() as client:
                 result = await client.getBalance(advanced=True)
-                assert result['status'] == 'success'
+                assert result["status"] == "success"

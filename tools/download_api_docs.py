@@ -127,7 +127,7 @@ def login_with_redirect():
                 try:
                     page.title()
                     time.sleep(1)
-                except:
+                except Exception:
                     break
 
         except Exception as e:
@@ -138,7 +138,7 @@ def login_with_redirect():
         finally:
             try:
                 browser.close()
-            except:
+            except Exception:
                 pass
 
     return False

@@ -9,7 +9,7 @@ from typing import Any, Dict
 
 import httpx
 
-from .base_client import BaseVoIPMSClient, VoIPMSError
+from .base_client import BaseVoIPMSClient
 from .method_factory import MethodFactory
 
 logger = logging.getLogger(__name__)
@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 class VoIPMSClient(BaseVoIPMSClient):
     """
     Data-driven VoIP.ms client that creates methods from JSON API definition
-    
+
     Example:
         >>> client = VoIPMSClient()
         >>> balance = client.getBalance()
@@ -28,7 +28,7 @@ class VoIPMSClient(BaseVoIPMSClient):
     def __init__(self, *args, **kwargs):
         """
         Initialize VoIP.ms client
-        
+
         Args:
             username: VoIP.ms API username (or use VOIPMS_USERNAME env var)
             password: VoIP.ms API password (or use VOIPMS_API_PASSWORD env var)

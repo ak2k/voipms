@@ -9,7 +9,7 @@ IDE autocomplete, type checking, and better developer experience.
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 class TypeStubGenerator:
@@ -21,7 +21,7 @@ class TypeStubGenerator:
             self.api_definition = json.load(f)
         self.operations = self.api_definition.get("operations", {})
 
-    def json_type_to_python(self, json_type: str, param_info: Dict[str, Any] = None) -> str:
+    def json_type_to_python(self, json_type: str, param_info: dict[str, Any] = None) -> str:
         """Convert JSON type to Python type hint, with constraint annotations."""
         if param_info is None:
             param_info = {}
@@ -31,8 +31,8 @@ class TypeStubGenerator:
             "integer": "int",
             "number": "float",
             "boolean": "bool",
-            "array": "List[Any]",
-            "object": "Dict[str, Any]",
+            "array": "list[Any]",
+            "object": "dict[str, Any]",
         }
 
         base_type = base_type_map.get(json_type, "Any")
@@ -88,7 +88,7 @@ class TypeStubGenerator:
 
         return base_type
 
-    def get_literal_values(self, param_name: str, param_info: Dict[str, Any]) -> Optional[str]:
+    def get_literal_values(self, param_name: str, param_info: dict[str, Any]) -> str | None:
         """Extract literal type values from description if applicable."""
         # Check if parameter has enum values from API definition
         if "enum" in param_info:
@@ -113,7 +113,7 @@ class TypeStubGenerator:
 
         return None
 
-    def generate_method_signature(self, method_name: str, method_info: Dict[str, Any]) -> str:
+    def generate_method_signature(self, method_name: str, method_info: dict[str, Any]) -> str:
         """Generate a single method signature."""
         params = method_info.get("parameters", {})
 
@@ -142,7 +142,7 @@ class TypeStubGenerator:
                     optional_params.append((param_name, python_type, param_info))
 
             # Add required parameters first
-            for param_name, python_type, param_info in required_params:
+            for param_name, python_type, _ in required_params:
                 # Handle reserved keywords
                 safe_param_name = (
                     f"{param_name}_" if param_name in ["from", "id", "type", "pass"] else param_name
@@ -150,14 +150,14 @@ class TypeStubGenerator:
                 lines.append(f"        {safe_param_name}: {python_type},")
 
             # Add optional parameters
-            for param_name, python_type, param_info in optional_params:
+            for param_name, python_type, _ in optional_params:
                 # Handle reserved keywords
                 safe_param_name = (
                     f"{param_name}_" if param_name in ["from", "id", "type", "pass"] else param_name
                 )
-                lines.append(f"        {safe_param_name}: Optional[{python_type}] = None,")
+                lines.append(f"        {safe_param_name}: {python_type} | None = None,")
 
-        lines.append("    ) -> Dict[str, Any]:")
+        lines.append("    ) -> dict[str, Any]:")
 
         # Generate docstring
         description = method_info.get("description", f"Execute {method_name} operation")
@@ -173,16 +173,16 @@ class TypeStubGenerator:
             for param_name, param_info in params.items():
                 param_desc = param_info.get("description", "No description")
                 required = " (required)" if param_info.get("required", False) else ""
-                
+
                 # Add note about boolean acceptance for boolean-like enums
                 enum_values = param_info.get("enum", [])
-                if set(enum_values) in [{'0', '1'}, {'1', '0'}]:
+                if set(enum_values) in [{"0", "1"}, {"1", "0"}]:
                     param_desc += " (accepts: true/false, yes/no, on/off, 0/1, boolean)"
-                elif set(enum_values) in [{'true', 'false'}, {'false', 'true'}]:
+                elif set(enum_values) in [{"true", "false"}, {"false", "true"}]:
                     param_desc += " (accepts: true/false, yes/no, on/off, 1/0, boolean)"
-                elif set(enum_values) in [{'yes', 'no'}, {'no', 'yes'}]:
+                elif set(enum_values) in [{"yes", "no"}, {"no", "yes"}]:
                     param_desc += " (accepts: yes/no, true/false, on/off, 1/0, boolean)"
-                
+
                 # Handle reserved keywords in docstring
                 safe_param_name = (
                     f"{param_name}_" if param_name in ["from", "id", "type", "pass"] else param_name
@@ -209,7 +209,7 @@ class TypeStubGenerator:
         # Combine signature and docstring
         return "\n".join(lines) + "\n" + "\n".join(docstring_lines)
 
-    def get_quirks_notes(self, method_name: str) -> List[str]:
+    def get_quirks_notes(self, method_name: str) -> list[str]:
         """Get notes about API quirks for a method."""
         notes = []
 
@@ -253,7 +253,7 @@ class TypeStubGenerator:
             "DO NOT EDIT MANUALLY - This file is auto-generated",
             '"""',
             "",
-            "from typing import Dict, Any, Optional, List, Union, Literal, Annotated",
+            "from typing import Any, Union, Literal, Annotated",
             "from pathlib import Path",
             "",
             "",
@@ -261,16 +261,16 @@ class TypeStubGenerator:
             '    """VoIP.ms API error"""',
             "    code: str",
             "    message: str",
-            "    response: Optional[Dict[str, Any]]",
-            "    def __init__(self, code: str, message: str, response: Optional[Dict[str, Any]] = None) -> None: ...",
+            "    response: dict[str, Any] | None",
+            "    def __init__(self, code: str, message: str, response: dict[str, Any] | None = None) -> None: ...",
             "",
             "",
             "class VoIPMSClient:",
             '    """Data-driven VoIP.ms client that dynamically creates methods from JSON definition."""',
             "    ",
-            "    api_definition: Dict[str, Any]",
-            "    username: Optional[str]",
-            "    password: Optional[str]",
+            "    api_definition: dict[str, Any]",
+            "    username: str | None",
+            "    password: str | None",
             "    base_url: str",
             "    timeout: float",
             "    max_retries: int",
@@ -280,9 +280,9 @@ class TypeStubGenerator:
             "    def __init__(",
             "        self,",
             '        api_definition_path: str = "api_definition.json",',
-            "        username: Optional[str] = None,",
-            "        password: Optional[str] = None,",
-            "        base_url: Optional[str] = None,",
+            "        username: str | None = None,",
+            "        password: str | None = None,",
+            "        base_url: str | None = None,",
             "        timeout: float = 30.0,",
             "        max_retries: int = 3,",
             "        verify_ssl: bool = True,",
@@ -293,8 +293,8 @@ class TypeStubGenerator:
             '    def __enter__(self) -> "VoIPMSClient": ...',
             "    def __exit__(self, exc_type: Any, exc_val: Any, exc_tb: Any) -> None: ...",
             "    ",
-            "    def get_available_methods(self) -> List[str]: ...",
-            "    def get_method_info(self, method_name: str) -> Optional[Dict[str, Any]]: ...",
+            "    def get_available_methods(self) -> list[str]: ...",
+            "    def get_method_info(self, method_name: str) -> dict[str, Any] | None: ...",
             "    def debug_method_params(self, op_name: str, **kwargs: Any) -> None: ...",
             "",
             "    # API Methods",
@@ -351,7 +351,7 @@ def generate_stubs(api_def_path: str, output_dir: str):
     """Generate type stubs from API definition."""
     # Create generator
     generator = TypeStubGenerator(api_def_path)
-    
+
     # Convert to Path objects
     output_dir = Path(output_dir)
 
@@ -385,7 +385,7 @@ def main():
     project_root = Path(__file__).parent.parent
     api_def_path = project_root / "src" / "voipms" / "api_definition.json"
     output_dir = project_root / "src" / "voipms"
-    
+
     generate_stubs(str(api_def_path), str(output_dir))
 
 

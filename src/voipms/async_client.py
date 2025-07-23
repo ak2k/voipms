@@ -7,7 +7,7 @@ from typing import Any, Dict
 
 import httpx
 
-from .base_client import BaseVoIPMSClient, VoIPMSError
+from .base_client import BaseVoIPMSClient
 from .method_factory import MethodFactory
 
 logger = logging.getLogger(__name__)
@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 class VoIPMSClientAsync(BaseVoIPMSClient):
     """
     Asynchronous data-driven VoIP.ms client
-    
+
     Example:
         >>> async with VoIPMSClientAsync() as client:
         ...     balance = await client.getBalance()
@@ -60,7 +60,7 @@ class VoIPMSClientAsync(BaseVoIPMSClient):
         # Ensure initialized
         if not self._initialized:
             await self._async_init()
-            
+
         # Build payload
         payload = self._build_payload(method, **params)
 
@@ -88,5 +88,5 @@ class VoIPMSClientAsync(BaseVoIPMSClient):
 
     async def close(self):
         """Close async HTTP client"""
-        if hasattr(self, '_client') and self._client:
+        if hasattr(self, "_client") and self._client:
             await self._client.aclose()

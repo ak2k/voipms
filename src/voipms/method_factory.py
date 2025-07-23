@@ -4,10 +4,9 @@ Dynamic method generation for VoIP.ms API client.
 This module handles creation of API methods from the API definition.
 """
 
-import inspect
 import logging
 from functools import wraps
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Dict
 
 from pydantic import ValidationError
 
@@ -19,22 +18,24 @@ logger = logging.getLogger(__name__)
 
 class MethodFactory:
     """Factory for creating API methods dynamically."""
-    
+
     def __init__(self, client_instance, debug: bool = False, is_async: bool = False):
         self.client = client_instance
         self.debug = debug
         self.is_async = is_async
         self.model_factory = ModelFactory()
         self.quirks_handler = APIQuirksHandler(debug=debug)
-    
+
     def create_method(self, op_name: str, op_spec: Dict[str, Any]) -> Callable:
         """Create a method for an API operation."""
         if self.is_async:
             return self._create_async_method(op_name, op_spec)
         else:
             return self._create_sync_method(op_name, op_spec)
-    
-    def _process_parameters(self, op_name: str, op_spec: Dict[str, Any], validate: bool, kwargs: Dict[str, Any]) -> Dict[str, Any]:
+
+    def _process_parameters(
+        self, op_name: str, op_spec: Dict[str, Any], validate: bool, kwargs: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Process and validate parameters for a method call."""
         if validate:
             # Get or create Pydantic model for this operation
@@ -60,11 +61,12 @@ class MethodFactory:
 
         # Apply known API quirks/fixes
         params_dict = self.quirks_handler.apply_quirks(op_name, params_dict)
-        
+
         return params_dict
-    
+
     def _create_sync_method(self, op_name: str, op_spec: Dict[str, Any]) -> Callable:
         """Create a synchronous method."""
+
         @wraps(self.client._execute)
         def method(validate=True, **kwargs):
             params_dict = self._process_parameters(op_name, op_spec, validate, kwargs)
@@ -73,11 +75,12 @@ class MethodFactory:
         # Add docstring
         method.__doc__ = self._generate_method_doc(op_name, op_spec)
         method.__name__ = op_name
-        
+
         return method
-    
+
     def _create_async_method(self, op_name: str, op_spec: Dict[str, Any]) -> Callable:
         """Create an asynchronous method."""
+
         async def method(validate=True, **kwargs):
             params_dict = self._process_parameters(op_name, op_spec, validate, kwargs)
             return await self.client._execute(op_name, **params_dict)
@@ -85,40 +88,40 @@ class MethodFactory:
         # Add docstring
         method.__doc__ = self._generate_method_doc(op_name, op_spec)
         method.__name__ = op_name
-        
+
         return method
-    
+
     def _format_validation_errors(self, e: ValidationError, op_spec: Dict[str, Any]) -> list:
         """Format Pydantic validation errors with helpful constraint information."""
         errors = []
         for error in e.errors():
-            field = error['loc'][0]
-            msg = error['msg']
+            field = error["loc"][0]
+            msg = error["msg"]
 
             # Add constraint suggestions based on parameter spec
-            param_spec = op_spec.get('parameters', {}).get(field, {})
+            param_spec = op_spec.get("parameters", {}).get(field, {})
             constraint_hints = []
 
             # Add enum suggestions
-            if enum_values := param_spec.get('enum'):
+            if enum_values := param_spec.get("enum"):
                 constraint_hints.append(f"valid options: {', '.join(enum_values)}")
 
             # Add range suggestions
-            if 'minimum' in param_spec and 'maximum' in param_spec:
+            if "minimum" in param_spec and "maximum" in param_spec:
                 constraint_hints.append(f"range: {param_spec['minimum']}-{param_spec['maximum']}")
-            elif 'minimum' in param_spec:
+            elif "minimum" in param_spec:
                 constraint_hints.append(f"minimum: {param_spec['minimum']}")
-            elif 'maximum' in param_spec:
+            elif "maximum" in param_spec:
                 constraint_hints.append(f"maximum: {param_spec['maximum']}")
 
             # Add length suggestions
-            if 'minLength' in param_spec:
+            if "minLength" in param_spec:
                 constraint_hints.append(f"min length: {param_spec['minLength']}")
-            if 'maxLength' in param_spec:
+            if "maxLength" in param_spec:
                 constraint_hints.append(f"max length: {param_spec['maxLength']}")
 
             # Add format suggestions
-            if format_info := param_spec.get('format'):
+            if format_info := param_spec.get("format"):
                 constraint_hints.append(f"format: {format_info}")
 
             # Combine message with hints
@@ -127,12 +130,14 @@ class MethodFactory:
                 error_msg += f" ({'; '.join(constraint_hints)})"
 
             errors.append(error_msg)
-        
+
         return errors
-    
-    def _apply_html_defaults(self, op_name: str, params_dict: Dict[str, Any], op_spec: Dict[str, Any]) -> Dict[str, Any]:
+
+    def _apply_html_defaults(
+        self, op_name: str, params_dict: Dict[str, Any], op_spec: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Apply default values extracted from HTML documentation."""
-        param_specs = op_spec.get('parameters', {})
+        param_specs = op_spec.get("parameters", {})
         result = params_dict.copy()
 
         for param_name, param_spec in param_specs.items():
@@ -141,23 +146,26 @@ class MethodFactory:
                 continue
 
             # Check if parameter has a default value from HTML
-            default_value = param_spec.get('default')
+            default_value = param_spec.get("default")
             if default_value is not None:
                 # Handle special default values
                 if default_value == "Today":
                     from datetime import datetime
-                    result[param_name] = datetime.now().strftime('%Y-%m-%d')
+
+                    result[param_name] = datetime.now().strftime("%Y-%m-%d")
                     if self.debug:
-                        logger.debug(f"HTML default: {op_name}.{param_name} = {result[param_name]} (today's date)")
-                elif default_value == "50" and param_name in ['limit', 'count', 'records']:
+                        logger.debug(
+                            f"HTML default: {op_name}.{param_name} = {result[param_name]} (today's date)"
+                        )
+                elif default_value == "50" and param_name in ["limit", "count", "records"]:
                     # Numeric defaults for common pagination parameters
                     result[param_name] = int(default_value)
                     if self.debug:
                         logger.debug(f"HTML default: {op_name}.{param_name} = {result[param_name]}")
                 elif isinstance(default_value, str) and default_value.isdigit():
                     # Handle string numeric defaults based on parameter type
-                    param_type = param_spec.get('type', 'string')
-                    if param_type == 'integer':
+                    param_type = param_spec.get("type", "string")
+                    if param_type == "integer":
                         result[param_name] = int(default_value)
                     else:
                         result[param_name] = default_value
@@ -170,29 +178,29 @@ class MethodFactory:
                         logger.debug(f"HTML default: {op_name}.{param_name} = {result[param_name]}")
 
         return result
-    
+
     def _generate_method_doc(self, op_name: str, op_spec: Dict[str, Any]) -> str:
         """Generate method documentation from spec."""
-        doc_parts = [op_spec.get('description', f'Execute {op_name} operation')]
+        doc_parts = [op_spec.get("description", f"Execute {op_name} operation")]
 
         # Add parameters
-        params = op_spec.get('parameters', {})
+        params = op_spec.get("parameters", {})
         if params:
             doc_parts.append("\nParameters:")
             for param_name, param_spec in params.items():
-                required = "*" if param_spec.get('required', False) else ""
-                param_type = param_spec.get('type', 'string')
-                description = param_spec.get('description', '')
+                required = "*" if param_spec.get("required", False) else ""
+                param_type = param_spec.get("type", "string")
+                description = param_spec.get("description", "")
                 doc_parts.append(f"    {param_name}{required} ({param_type}): {description}")
 
         # Add returns
-        returns = op_spec.get('returns', {})
+        returns = op_spec.get("returns", {})
         if returns:
             doc_parts.append(f"\nReturns:\n    {returns.get('description', 'API response')}")
 
         # Add errors
-        errors = op_spec.get('errors', [])
+        errors = op_spec.get("errors", [])
         if errors:
             doc_parts.append(f"\nPossible errors: {', '.join(errors)}")
 
-        return '\n'.join(doc_parts)
+        return "\n".join(doc_parts)

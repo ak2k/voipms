@@ -31,23 +31,23 @@ logger = logging.getLogger(__name__)
 
 class APIQuirksHandler:
     """Handles API-specific quirks and parameter transformations."""
-    
-    def __init__(self, debug: bool = False, quirks_path: str = 'api_quirks.json'):
+
+    def __init__(self, debug: bool = False, quirks_path: str = "api_quirks.json"):
         self.debug = debug
         self.quirks_config = self._load_quirks_config(quirks_path)
-        self._quirks = self.quirks_config.get('quirks', {})
-    
+        self._quirks = self.quirks_config.get("quirks", {})
+
     def _load_quirks_config(self, quirks_path: str) -> Dict[str, Any]:
         """Load quirks configuration from JSON file."""
         # Try as direct path first
         if Path(quirks_path).exists():
             with open(quirks_path) as f:
                 return json.load(f)
-        
+
         # Try as package resource
         try:
             import voipms
-            
+
             if files is not None:
                 # Modern API (Python 3.9+ or with importlib_resources)
                 resource_path = files(voipms) / quirks_path
@@ -61,7 +61,7 @@ class APIQuirksHandler:
             logger.warning(f"Could not load quirks configuration from {quirks_path}: {e}")
             # Return empty config if file not found
             return {"quirks": {}, "error_code_additions": {}}
-    
+
     def apply_quirks(self, op_name: str, params_dict: Dict[str, Any]) -> Dict[str, Any]:
         """Apply known API quirks and fixes."""
         if op_name not in self._quirks:
@@ -94,13 +94,17 @@ class APIQuirksHandler:
                     old_value = result[param]
                     result[param] = mapping["__none__"]
                     if self.debug:
-                        logger.debug(f"API quirk: {op_name}.{param}: {old_value} -> {result[param]}")
+                        logger.debug(
+                            f"API quirk: {op_name}.{param}: {old_value} -> {result[param]}"
+                        )
                 # Handle numeric values (JSON keys are strings)
                 elif str(result[param]) in mapping:
                     old_value = result[param]
                     result[param] = mapping[str(result[param])]
                     if self.debug:
-                        logger.debug(f"API quirk: {op_name}.{param}: {old_value} -> {result[param]}")
+                        logger.debug(
+                            f"API quirk: {op_name}.{param}: {old_value} -> {result[param]}"
+                        )
 
         # Apply date validations for methods that need them
         if "date_validations" in method_quirks:
@@ -119,11 +123,15 @@ class APIQuirksHandler:
             if param not in result:
                 result[param] = default_value
                 if self.debug:
-                    logger.debug(f"API quirk: {op_name} added required default {param}={default_value}")
+                    logger.debug(
+                        f"API quirk: {op_name} added required default {param}={default_value}"
+                    )
 
         return result
-    
-    def _validate_dates(self, op_name: str, params: Dict[str, Any], date_config: Dict[str, Any]) -> None:
+
+    def _validate_dates(
+        self, op_name: str, params: Dict[str, Any], date_config: Dict[str, Any]
+    ) -> None:
         """Validate date parameters."""
         if "date_from" in params and "date_to" in params:
             try:
@@ -152,7 +160,7 @@ class APIQuirksHandler:
                     pass  # Invalid date format, let API handle it
                 else:
                     raise
-    
+
     def get_quirks_for_method(self, op_name: str) -> Dict[str, Any]:
         """Get quirks configuration for a specific method."""
         return self._quirks.get(op_name, {})
