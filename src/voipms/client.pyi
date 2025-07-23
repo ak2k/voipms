@@ -1,7 +1,7 @@
 """
 Type stubs for VoIP.ms Client
 
-Generated from api_definition.json on 2025-07-18
+Generated from api_definition.json on 2025-07-22
 DO NOT EDIT MANUALLY - This file is auto-generated
 """
 
@@ -67,7 +67,7 @@ class VoIPMSClient:
             client: ID for a specific Reseller Client (Example: 561115) (required)
             charge: Amount of money that will be Debited from the customer (Example: 4.99) (required)
             description: Charge Description
-            test: Set to true if testing how adding charges works
+            test: Set to true if testing how adding charges works (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from addCharge operation
@@ -126,8 +126,8 @@ class VoIPMSClient:
             portType: Digits from 1 to 4: 1: United States Local numbers 2: Canadian Local Numbers 3: US/CA Toll Free Numbers 4: United States Fax numbers 5: Canadian Fax Numbers (required)
             numbers: DID(s) to port into VoIP.ms network (Example: 5552341234,5552341233). If you are porting more than one number, please separate them with commas. (required)
             isPartial: If you have more then 1 number with your current carrier and not porting them all, choose yes. If you are porting all the numbers, choose no. Please note that you still need to include all numbers you want to port. If you have 2 numbers and want to port both, you need to include both numbers in the list of numbers to port. - (Values: 1 = true, 0 = false) - Default: 0
-            locationType: - (Values: 1 = Business, 0 = Residential) - Default: 0
-            isMobile: - (Values: 1 = All the numbers are mobile numbers, 0 = false) - Default: 0
+            locationType: - (Values: 1 = Business, 0 = Residential) - Default: 0 (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            isMobile: - (Values: 1 = All the numbers are mobile numbers, 0 = false) - Default: 0 (accepts: true/false, yes/no, on/off, 0/1, boolean)
             pin: PIN Number
             btn: [Required If isMobile = 1] BTN: It is the phone number to which all the other numbers of the customer are charged, in a consolidated telephone bill (instead of showing separate charges for each number you own). Please try to find the BTN on your invoice, and if you are unable to do so please contact the current provider to obtain it.
             services: [Required If isMobile = 1] Please be specific and describe ALL remaining services with the current carrier. This includes DSL/Data services, Hunt Group services, etc. Any services NOT listed below may be disconnected upon completion of this port order.
@@ -185,7 +185,7 @@ class VoIPMSClient:
             client: ID for a specific Reseller Client (Example: 561115) (required)
             payment: Amount of money that will be Credited to the customer (Example: 4.99) (required)
             description: Payment Description
-            test: Set to true if testing how adding payments works
+            test: Set to true if testing how adding payments works (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from addPayment operation
@@ -245,11 +245,11 @@ class VoIPMSClient:
             voicemail: Voicemail for the DID (Example: 101)
             pop: Point of Presence for the DID (Example: 5) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
-            cnam: CNAM for the DID (Boolean: 1/0) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             callerid_prefix: Caller ID Prefix for the DID
             note: Note for the DID
             billing_type: Billing type for the DID (1 = Per Minute, 2 = Flat) (required)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made
+            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from backOrderDIDCAN operation
@@ -293,11 +293,11 @@ class VoIPMSClient:
             voicemail: Voicemail for the DID (Example: 101)
             pop: Point of Presence for the DID (Example: 5) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
-            cnam: CNAM for the DID (Boolean: 1/0) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             callerid_prefix: Caller ID Prefix for the DID
             note: Note for the DID
             billing_type: Billing type for the DID (1 = Per Minute, 2 = Flat) (required)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made
+            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from backOrderDIDUSA operation
@@ -322,8 +322,8 @@ class VoIPMSClient:
             validate: Whether to validate parameters with Pydantic
             did: DID to be canceled and deleted (Example: 5551234567) (required)
             cancelcomment: Comment for DID cancellation
-            portout: Set to true if the DID is being ported out
-            test: Set to true if testing how cancellation works - Cancellation can not be undone - When testing, no changes are made
+            portout: Set to true if the DID is being ported out (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            test: Set to true if testing how cancellation works - Cancellation can not be undone - When testing, no changes are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from cancelDID operation
@@ -342,7 +342,7 @@ class VoIPMSClient:
         Args:
             validate: Whether to validate parameters with Pydantic
             id_: ID for a specific Fax Number (Example: 923) (required)
-            test: Set to true if testing how cancel a Fax Number
+            test: Set to true if testing how cancel a Fax Number (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from cancelFaxNumber operation
@@ -477,14 +477,14 @@ class VoIPMSClient:
             allowed_codecs: List of Allowed Codecs (Values from getAllowedCodecs) Codecs separated by semicolon (Example: ulaw;g729;gsm) (required)
             dtmf_mode: DTMF Mode Code (Values from getDTMFModes) (required)
             nat: NAT Mode Code (Values from getNAT) (required)
-            sip_traffic: Encrypted SIP Traffic (Boolean: 1/0)
+            sip_traffic: Encrypted SIP Traffic (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             max_expiry: Max Expiry between 60 and 3600 (Example: 3000)
             rtp_timeout: RTP Time Out between 1 and 3600 (Example: 60)
             rtp_hold_timeout: RTP Hold Time Out between 1 and 3600 (Example: 600)
             ip_restriction: List of IP Addresses, IP Addresses/Netmask, or Fully Qualified Domain Names to allow outgoing calls separated by commas (Example: 123.45.3.21,10.255.12.0/22,device.mydomain.com)
-            enable_ip_restriction: Enable IP Restriction (Boolean: 1/0)
+            enable_ip_restriction: Enable IP Restriction (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             pop_restriction: List of POP Servers to allow outgoing calls separated by commas (values from getServersInfo. Example: 10,23,45)
-            enable_pop_restriction: Enable POP Restriction (Boolean: 1/0)
+            enable_pop_restriction: Enable POP Restriction (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             internal_extension: Sub Account Internal Extension (Example: 1 -> Creates 101)
             internal_voicemail: Sub Account Internal Voicemail (Example: 101)
             internal_dialtime: Sub Account Internal Dialtime (Example: 60 -> seconds)
@@ -492,9 +492,9 @@ class VoIPMSClient:
             reseller_package: Reseller Package (Example: 92364)
             reseller_nextbilling: Reseller Next Billing Date (Example: '2012-12-31')
             reseller_chargesetup: True if you want to charge Package Setup Fee after Save
-            send_bye: Send BYE on successful transfer (Boolean: 1/0)
-            record_calls: Record Calls (Boolean: 1/0)
-            transcribe: Enable Call Transcription (Boolean: 1/0)
+            send_bye: Send BYE on successful transfer (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            record_calls: Record Calls (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            transcribe: Enable Call Transcription (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             transcription_locale: Call Transcription Locale (values from getLocales)
             transcription_email: Call Transcription Email
             transcription_start_delay: Call Transcription Delay Seconds between 0 and 60, Increments of 5 (Example: 10 -> seconds)
@@ -536,7 +536,7 @@ class VoIPMSClient:
             digits: Digits used to create the voicemail (Example: 01) Minimum 1 digit, maximum 10 digits (required)
             name: Name for the Mailbox (required)
             password: Password for the Mailbox (required)
-            skip_password: True if Skipping Password (Boolean: 1/0) (required)
+            skip_password: True if Skipping Password (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             email: Email address for receiving messages, multiple email addresses are allowed if separated by a comma
             attach_message: Yes for Attaching WAV files to Message (Values: 'yes'/'no') (required)
             delete_message: Yes for Deleting Messages (Values: 'yes'/'no') (required)
@@ -722,7 +722,7 @@ class VoIPMSClient:
         Args:
             validate: Whether to validate parameters with Pydantic
             id_: ID for a specific "Email To Fax Configuration" (Example: 923) (required)
-            test: Set to true if testing how cancel a "Email To Fax Configuration"
+            test: Set to true if testing how cancel a "Email To Fax Configuration" (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from delEmailToFax operation
@@ -741,7 +741,7 @@ class VoIPMSClient:
         Args:
             validate: Whether to validate parameters with Pydantic
             id_: ID for a specific Fax Folder (Example: 923) (required)
-            test: Set to true if testing how to delete a Fax Folder
+            test: Set to true if testing how to delete a Fax Folder (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from delFaxFolder operation
@@ -1023,7 +1023,7 @@ class VoIPMSClient:
         Args:
             validate: Whether to validate parameters with Pydantic
             id_: ID for a specific Fax Message (Example: 923) (required)
-            test: Set to true if testing how cancel a Fax Message
+            test: Set to true if testing how cancel a Fax Message (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from deleteFaxMessage operation
@@ -1292,7 +1292,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        type_: Optional[int] = None,
+        type_: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve auth types information
 
@@ -1343,7 +1343,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        balance_management: Optional[int] = None,
+        balance_management: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve balance management information
 
@@ -1377,10 +1377,10 @@ class VoIPMSClient:
             validate: Whether to validate parameters with Pydantic
             date_from: Start Date for Filtering CDR (Example: '2010-11-30') (required)
             date_to: End Date for Filtering CDR (Example: '2010-11-30') (required)
-            answered: Include Answered Calls to CDR (Boolean: 1/0)
-            noanswer: Include NoAnswered calls to CDR (Boolean: 1/0)
-            busy: Include Busy Calls to CDR (Boolean: 1/0)
-            failed: Include Failed Calls to CDR (Boolean: 1/0)
+            answered: Include Answered Calls to CDR (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            noanswer: Include NoAnswered calls to CDR (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            busy: Include Busy Calls to CDR (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            failed: Include Failed Calls to CDR (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             timezone: Adjust time of calls according to Timezome (Numeric: -12 to 13) (required)
             calltype: Filters CDR by Call Type (Values from getCallTypes)
             callbilling: Filter CDR by Call Billing (Values from getCallBilling)
@@ -2248,7 +2248,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         portid: int,
-        portStatus: Optional[int] = None,
+        portStatus: Optional[str] = None,
         startDate: Optional[str] = None,
         endDate: Optional[str] = None,
     ) -> Dict[str, Any]:
@@ -2750,10 +2750,10 @@ class VoIPMSClient:
             date_from: Start Date for Filtering CDR (Example: '2010-11-30') (required)
             date_to: End Date for Filtering CDR (Example: '2010-11-30') (required)
             client: ID for a specific Reseller Client (Example: 561115) (required)
-            answered: Include Answered Calls to CDR (Boolean: 1/0)
-            noanswer: Include NoAnswered calls to CDR (Boolean: 1/0)
-            busy: Include Busy Calls to CDR (Boolean: 1/0)
-            failed: Include Failed Calls to CDR (Boolean: 1/0)
+            answered: Include Answered Calls to CDR (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            noanswer: Include NoAnswered calls to CDR (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            busy: Include Busy Calls to CDR (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            failed: Include Failed Calls to CDR (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             timezone: Adjust time of calls according to Timezome (Numeric: -12 to 13) (required)
             calltype: Filters CDR by Call Type (Values from getCallTypes)
             callbilling: Filter CDR by Call Billing (Values from getCallBilling)
@@ -3276,7 +3276,7 @@ class VoIPMSClient:
             validate: Whether to validate parameters with Pydantic
             fax_id: ID of the Fax Message requested (Values from getFaxMessages) (required)
             folder_id: ID of the destination Fax Folder (Values from getFaxFolders) (required)
-            test: Set to true if testing how to move a Fax Message
+            test: Set to true if testing how to move a Fax Message (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from moveFaxMessage operation
@@ -3340,7 +3340,7 @@ class VoIPMSClient:
             voicemail: Voicemail for the DID (Example: 101)
             pop: Point of Presence for the DID (Example: 5) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
-            cnam: CNAM for the DID (Boolean: 1/0) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             callerid_prefix: Caller ID Prefix for the DID
             note: Note for the DID
             billing_type: Billing type for the DID (1 = Per Minute, 2 = Flat) (required)
@@ -3348,7 +3348,7 @@ class VoIPMSClient:
             monthly: Montly Fee for Reseller Client (Example: 3.50)
             setup: Setup Fee for Reseller Client (Example: 1.99)
             minute: Minute Rate for Reseller Client (Example: 0.03)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made
+            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from orderDID operation
@@ -3394,7 +3394,7 @@ class VoIPMSClient:
             voicemail: Voicemail for the DID (Example: 101)
             pop: Point of Presence for the DID (Example: 5) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
-            cnam: CNAM for the DID (Boolean: 1/0) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             callerid_prefix: Caller ID Prefix for the DID
             billing_type: Billing type for the DID (1 = Per Minute, 2 = Flat) (required)
             note: Note for the DID
@@ -3402,7 +3402,7 @@ class VoIPMSClient:
             monthly: Montly Fee for Reseller Client (Example: 3.50)
             setup: Setup Fee for Reseller Client (Example: 1.99)
             minute: Minute Rate for Reseller Client (Example: 0.03)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made
+            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from orderDIDInternationalGeographic operation
@@ -3445,7 +3445,7 @@ class VoIPMSClient:
             voicemail: Voicemail for the DID (Example: 101)
             pop: Point of Presence for the DID (Example: 5) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
-            cnam: CNAM for the DID (Boolean: 1/0) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             callerid_prefix: Caller ID Prefix for the DID
             billing_type: Billing type for the DID (1 = Per Minute, 2 = Flat) (required)
             note: Note for the DID
@@ -3453,7 +3453,7 @@ class VoIPMSClient:
             monthly: Montly Fee for Reseller Client (Example: 3.50)
             setup: Setup Fee for Reseller Client (Example: 1.99)
             minute: Minute Rate for Reseller Client (Example: 0.03)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made
+            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from orderDIDInternationalNational operation
@@ -3495,14 +3495,14 @@ class VoIPMSClient:
             voicemail: Voicemail for the DID (Example: 101)
             pop: Point of Presence for the DID (Example: 5) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
-            cnam: CNAM for the DID (Boolean: 1/0) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             callerid_prefix: Caller ID Prefix for the DID
             note: Note for the DID
             account: Reseller Sub Account (Example: '100001_VoIP')
             monthly: Montly Fee for Reseller Client (Example: 3.50)
             setup: Setup Fee for Reseller Client (Example: 1.99)
             minute: Minute Rate for Reseller Client (Example: 0.03)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made
+            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from orderDIDInternationalTollFree operation
@@ -3513,7 +3513,7 @@ class VoIPMSClient:
         self,
         validate: bool = True,
         *,
-        digits: int,
+        digits: str,
         routing: int,
         pop: int,
         dialtime: int,
@@ -3542,14 +3542,14 @@ class VoIPMSClient:
             voicemail: Voicemail for the DID (Example: 101)
             pop: Point of Presence for the DID (Example: 5) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
-            cnam: CNAM for the DID (Boolean: 1/0) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             callerid_prefix: Caller ID Prefix for the DID
             note: Note for the DID
             account: Reseller Sub Account (Example: '100001_VoIP')
             monthly: Montly Fee for Reseller Client (Example: 3.50)
             setup: Setup Fee for Reseller Client (Example: 1.99)
             minute: Minute Rate for Reseller Client (Example: 0.03)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made
+            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from orderDIDVirtual operation
@@ -3561,7 +3561,7 @@ class VoIPMSClient:
         validate: bool = True,
         *,
         location: int,
-        quantity: str,
+        quantity: int,
         email: Optional[Annotated[str, "Format: email"]] = None,
         email_enable: Optional[str] = None,
         email_attach_file: Optional[Annotated[str, "Format: pdf"]] = None,
@@ -3582,7 +3582,7 @@ class VoIPMSClient:
             url_callback: URL where make a POST when you receive a Fax Message.
             url_callback_enable: Flag to enable the URL Callback functionality. - (Values: 1 = true, 0 = false) - Default: 0
             url_callback_retry: Flag to enable retry the POST action in case we don't receive "ok".
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made
+            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from orderFaxNumber operation
@@ -3622,14 +3622,14 @@ class VoIPMSClient:
             voicemail: Voicemail for the DID (Example: 101)
             pop: Point of Presence for the DID (Example: 5) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
-            cnam: CNAM for the DID (Boolean: 1/0) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             callerid_prefix: Caller ID Prefix for the DID
             note: Note for the DID
             account: Reseller Sub Account (Example: '100001_VoIP')
             monthly: Montly Fee for Reseller Client (Example: 3.50)
             setup: Setup Fee for Reseller Client (Example: 1.99)
             minute: Minute Rate for Reseller Client (Example: 0.03)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made
+            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from orderTollFree operation
@@ -3670,7 +3670,7 @@ class VoIPMSClient:
             voicemail: Voicemail for the DID (Example: 101)
             pop: Point of Presence for the DID (Example: 5) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
-            cnam: CNAM for the DID (Boolean: 1/0) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             callerid_prefix: Caller ID Prefix for the DID
             note: Note for the DID
             carrier: Carrier for the DID (Values from getCarriers) (required)
@@ -3678,7 +3678,7 @@ class VoIPMSClient:
             monthly: Montly Fee for Reseller Client (Example: 3.50)
             setup: Setup Fee for Reseller Client (Example: 1.99)
             minute: Minute Rate for Reseller Client (Example: 0.03)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made
+            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from orderVanity operation
@@ -3882,7 +3882,7 @@ class VoIPMSClient:
             send_email: Email address where you want send a copy of your Fax.
             station_id: An word to identify a equipment or department sending the Fax.
             file: The file must be encoded in Base64, and in one of the following formats: pdf, txt, jpg, gif, png, tif (required)
-            test: Set to true if testing how to send a Fax Message
+            test: Set to true if testing how to send a Fax Message (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from sendFaxMessage operation
@@ -4245,19 +4245,19 @@ class VoIPMSClient:
             name: Member name. (required)
             description: Member description.
             pin: Assigned PIN.
-            announce_join_leave: Sets if the conference recording when a member joins or leaves will be played (yes/no).
-            admin: Sets if the member is an admin or not (yes/no).
-            start_muted: Sets if the member should start out muted after entering the conference (yes/no).
-            announce_user_count: Sets if the number of members in the conference should be announced to the caller as he joins (yes/no).
-            announce_only_user: Sets if the "only user" announcement should be played when a caller enters an empty conference (yes/no).
+            announce_join_leave: Sets if the conference recording when a member joins or leaves will be played (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
+            admin: Sets if the member is an admin or not (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
+            start_muted: Sets if the member should start out muted after entering the conference (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
+            announce_user_count: Sets if the number of members in the conference should be announced to the caller as he joins (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
+            announce_only_user: Sets if the "only user" announcement should be played when a caller enters an empty conference (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
             moh_when_empty: Sets whether music on hold (MOH) should be played when only one person is in the conference (Values from getMusicOnHold).
-            quiet: When set to "yes", enter/leave prompts and user introductions are not played (yes/no).
+            quiet: When set to "yes", enter/leave prompts and user introductions are not played (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
             announcement: If set, this recording will be heard only by the user as he joins the conference (Values from getRecordings).
-            drop_silence: The system will drop what is detected as silence from entering into the conference (yes/no).
+            drop_silence: The system will drop what is detected as silence from entering into the conference (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
             talking_threshold: The time, in milliseconds, that a users needs to be sending sound or voice before the system can consider them to be talking (allowed values are 100, 120, 140, 160, 180, 200, 220, 240 or 250).
             silence_threshold: The time, in milliseconds, that silence needs to be present in the user’s sound stream before the system can consider it to be in fact silent and close the audio (allowed values are 2000, 2100, 2200, 2300, 2400, 2500, 2600, 2700, 2800, 2900 or 3000).
-            talk_detection: If set to YES, the conference dashboard will display a notification when a participant starts and stops talking (yes/no).
-            jitter_buffer: When set to YES, the system will place a jitter buffer on the caller's audio stream before any audio mixing is performed (yes/no).
+            talk_detection: If set to YES, the conference dashboard will display a notification when a participant starts and stops talking (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
+            jitter_buffer: When set to YES, the system will place a jitter buffer on the caller's audio stream before any audio mixing is performed (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
 
         Returns:
             Response from setConferenceMember operation
@@ -4319,13 +4319,13 @@ class VoIPMSClient:
             voicemail: Voicemail for the DID
             pop: Point of Presence for the DID ("server_pop" values from getServersInfo. Example: 3) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
-            cnam: CNAM for the DID (Boolean: 1/0) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             callerid_prefix: Caller ID Prefix for the DID
             note: Note for the DID
             port_out_pin: Port Out PIN protection is used as a means of authorizing outgoing portability (only for selected US numbers with the lock icon)
             billing_type: Billing type for the DID (1 = Per Minute, 2 = Flat) (required)
-            record_calls: Record Calls (Boolean: 1/0)
-            transcribe: Enable Call Transcription (Boolean: 1/0)
+            record_calls: Record Calls (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            transcribe: Enable Call Transcription (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             transcription_locale: Call Transcription Locale (values from getLocales)
             transcription_email: Call Transcription Email
             transcription_start_delay: Call Transcription Delay Seconds between 0 and 60, Increments of 5 (Example: 10 -> seconds)
@@ -4435,12 +4435,12 @@ class VoIPMSClient:
         Args:
             validate: Whether to validate parameters with Pydantic
             id_: [Only for updates] ID of the "Email to Fax" to edit (Values from getEmailToFax)
-            enabled: If Enable, we will send Fax Message when we receive an email from the provided address. (Values:1=Enable / 0=Disable)
+            enabled: If Enable, we will send Fax Message when we receive an email from the provided address. (Values:1=Enable / 0=Disable) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             auth_email: Email address from you will sent Fax Messages (required)
             from_number_id: Fax number that will appear as fax sender. (values from getFaxNumbersInfo) (required)
-            security_code_enabled: If Enable, we will check the mail subject if this include a Security Code before send the Fax. (Values:1=Enable / 0=Disable)
+            security_code_enabled: If Enable, we will check the mail subject if this include a Security Code before send the Fax. (Values:1=Enable / 0=Disable) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             security_code: An alphanumeric code to identify your emails before send as Fax. (required)
-            test: Set to true if testing.
+            test: Set to true if testing. (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from setEmailToFax operation
@@ -4461,7 +4461,7 @@ class VoIPMSClient:
             validate: Whether to validate parameters with Pydantic
             id_: [Only for updates] ID of the Fax Folder to edit (Values from getFaxFolders)
             name: Name of the Fax Folder to create or update (Example: FAMILY) (required)
-            test: Set to true if testing how to create/update a Fax Folder
+            test: Set to true if testing how to create/update a Fax Folder (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from setFaxFolder operation
@@ -4486,7 +4486,7 @@ class VoIPMSClient:
             email: Email address where send notifications when receive Fax Messages - (Example: yourname@company.com)
             email_enable: Flag to enable the email notifications. - (Values: 1 = true, 0 = false) - Default: 0
             email_attach_file: Flag to enable attach the Fax Message as a PDF file in the notifications. - (Values: 1 = true, 0 = false) - Default: 0
-            test: Set to true if testing how to set the email of a Fax Number
+            test: Set to true if testing how to set the email of a Fax Number (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from setFaxNumberEmail operation
@@ -4517,7 +4517,7 @@ class VoIPMSClient:
             url_callback: URL where make a POST when you receive a Fax Message.
             url_callback_enable: Flag to enable the URL Callback functionality. - (Values: 1 = true, 0 = false) - Default: 0
             url_callback_retry: Flag to enable retry the POST action in case we don't receive "ok".
-            test: Set to true if testing how to update the information of a Fax Number
+            test: Set to true if testing how to update the information of a Fax Number (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from setFaxNumberInfo operation
@@ -4542,7 +4542,7 @@ class VoIPMSClient:
             url_callback: URL where make a POST when you receive a Fax Message.
             url_callback_enable: Flag to enable the URL Callback functionality. - (Values: 1 = true, 0 = false) - Default: 0
             url_callback_retry: Flag to enable retry the POST action in case we don't receive "ok".
-            test: Set to true if testing how to set the URL callback of a Fax Number
+            test: Set to true if testing how to set the URL callback of a Fax Number (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from setFaxNumberURLCallback operation
@@ -4623,7 +4623,7 @@ class VoIPMSClient:
             validate: Whether to validate parameters with Pydantic
             name: Music on Hold Name (Values from getMusicOnHold)
             description: Music on Hold Description (required)
-            volume: Music on Hold Quiet Volume (Boolean: 1/0)
+            volume: Music on Hold Quiet Volume (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             sort: Selected recordings sort mode (Example: "alpha", "random")
             recordings: Selected recordings separated by commas (Values from getRecordings, example: (1234,1235,1236) (required)
 
@@ -4865,7 +4865,7 @@ class VoIPMSClient:
         Args:
             validate: Whether to validate parameters with Pydantic
             did: DID to be Updated (Example: 5551234567) (required)
-            enable: Enable/Disable the DID to receive SMS Messages (Values:1=Enable / 0=Disable) (required)
+            enable: Enable/Disable the DID to receive SMS Messages (Values:1=Enable / 0=Disable) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             email_enabled: If Enable, SMS Messages received by your DID will be sent to the email address provided (Values:1=Enable / 0=Disable)
             email_address: SMS Messages received by your DID will be sent to the email address provided
             sms_forward_enable: If Enable, SMS Messages received by your DID will be forwarded to the phone number provided (Values:1=Enable / 0=Disable)
@@ -4969,14 +4969,14 @@ class VoIPMSClient:
             allowed_codecs: List of Allowed Codecs (Values from getAllowedCodecs) Codecs separated by semicolon (Example: ulaw;g729;gsm) (required)
             dtmf_mode: DTMF Mode Code (Values from getDTMFModes) (required)
             nat: NAT Mode Code (Values from getNAT) (required)
-            sip_traffic: Encrypted SIP Traffic (Boolean: 1/0)
+            sip_traffic: Encrypted SIP Traffic (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             max_expiry: Max Expiry between 60 and 3600 (Example: 3000)
             rtp_timeout: RTP Time Out between 1 and 3600 (Example: 60)
             rtp_hold_timeout: RTP Hold Time Out between 1 and 3600 (Example: 600)
             ip_restriction: List of IP/Netmask to allow outgoing calls separated by commas (Example: 123.45.3.21,10.255.12.0/22,device.mydomain.com)
-            enable_ip_restriction: Enable IP Restriction (Boolean: 1/0)
+            enable_ip_restriction: Enable IP Restriction (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             pop_restriction: List of POP Servers to allow outgoing calls separated by commas (values from getServersInfo. Example: 10,23,45)
-            enable_pop_restriction: Enable POP Restriction (Boolean: 1/0)
+            enable_pop_restriction: Enable POP Restriction (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             internal_extension: Sub Account Internal Extension (Example: 1 -> Creates 101)
             internal_voicemail: Sub Account Internal Voicemail (Example: 101)
             internal_dialtime: Sub Account Internal Dialtime (Example: 60 -> seconds)
@@ -4984,8 +4984,8 @@ class VoIPMSClient:
             reseller_package: Reseller Package (Example: 92364)
             reseller_nextbilling: Reseller Next Billing Date (Example: '2012-12-31')
             reseller_chargesetup: True if you want to charge Package Setup Fee after Save
-            send_bye: Send BYE on successful transfer (Boolean: 1/0)
-            record_calls: Record Calls (Boolean: 1/0)
+            send_bye: Send BYE on successful transfer (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            record_calls: Record Calls (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             transcribe:  (required)
             transcription_locale:  (required)
             transcription_email:  (required)
@@ -5062,7 +5062,7 @@ class VoIPMSClient:
             mailbox: ID for a specific Mailbox (Example: 1001) (required)
             name: Name for the Mailbox (required)
             password: Password for the Mailbox (required)
-            skip_password: True if Skipping Password (Boolean: 1/0) (required)
+            skip_password: True if Skipping Password (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             email: Email address for receiving messages, multiple email addresses are allowed if separated by a comma
             attach_message: Yes for Attaching WAV files to Message (Values: 'yes'/'no') (required)
             delete_message: Yes for Deleting Messages (Values: 'yes'/'no') (required)
@@ -5122,7 +5122,7 @@ class VoIPMSClient:
             confirm_email: Client's Confirmation e-mail (required)
             password: Client's Password (required)
             confirm_password: Client's Confirmation Password (required)
-            activate: Activates Client (Boolean: 1/0)
+            activate: Activates Client (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             balance_management: Balance Management for Client (Values from getBalanceManagement)
 
         Returns:
@@ -5190,7 +5190,7 @@ class VoIPMSClientAsync(VoIPMSClient):
             client: ID for a specific Reseller Client (Example: 561115) (required)
             charge: Amount of money that will be Debited from the customer (Example: 4.99) (required)
             description: Charge Description
-            test: Set to true if testing how adding charges works
+            test: Set to true if testing how adding charges works (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from addCharge operation
@@ -5249,8 +5249,8 @@ class VoIPMSClientAsync(VoIPMSClient):
             portType: Digits from 1 to 4: 1: United States Local numbers 2: Canadian Local Numbers 3: US/CA Toll Free Numbers 4: United States Fax numbers 5: Canadian Fax Numbers (required)
             numbers: DID(s) to port into VoIP.ms network (Example: 5552341234,5552341233). If you are porting more than one number, please separate them with commas. (required)
             isPartial: If you have more then 1 number with your current carrier and not porting them all, choose yes. If you are porting all the numbers, choose no. Please note that you still need to include all numbers you want to port. If you have 2 numbers and want to port both, you need to include both numbers in the list of numbers to port. - (Values: 1 = true, 0 = false) - Default: 0
-            locationType: - (Values: 1 = Business, 0 = Residential) - Default: 0
-            isMobile: - (Values: 1 = All the numbers are mobile numbers, 0 = false) - Default: 0
+            locationType: - (Values: 1 = Business, 0 = Residential) - Default: 0 (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            isMobile: - (Values: 1 = All the numbers are mobile numbers, 0 = false) - Default: 0 (accepts: true/false, yes/no, on/off, 0/1, boolean)
             pin: PIN Number
             btn: [Required If isMobile = 1] BTN: It is the phone number to which all the other numbers of the customer are charged, in a consolidated telephone bill (instead of showing separate charges for each number you own). Please try to find the BTN on your invoice, and if you are unable to do so please contact the current provider to obtain it.
             services: [Required If isMobile = 1] Please be specific and describe ALL remaining services with the current carrier. This includes DSL/Data services, Hunt Group services, etc. Any services NOT listed below may be disconnected upon completion of this port order.
@@ -5308,7 +5308,7 @@ class VoIPMSClientAsync(VoIPMSClient):
             client: ID for a specific Reseller Client (Example: 561115) (required)
             payment: Amount of money that will be Credited to the customer (Example: 4.99) (required)
             description: Payment Description
-            test: Set to true if testing how adding payments works
+            test: Set to true if testing how adding payments works (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from addPayment operation
@@ -5368,11 +5368,11 @@ class VoIPMSClientAsync(VoIPMSClient):
             voicemail: Voicemail for the DID (Example: 101)
             pop: Point of Presence for the DID (Example: 5) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
-            cnam: CNAM for the DID (Boolean: 1/0) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             callerid_prefix: Caller ID Prefix for the DID
             note: Note for the DID
             billing_type: Billing type for the DID (1 = Per Minute, 2 = Flat) (required)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made
+            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from backOrderDIDCAN operation
@@ -5416,11 +5416,11 @@ class VoIPMSClientAsync(VoIPMSClient):
             voicemail: Voicemail for the DID (Example: 101)
             pop: Point of Presence for the DID (Example: 5) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
-            cnam: CNAM for the DID (Boolean: 1/0) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             callerid_prefix: Caller ID Prefix for the DID
             note: Note for the DID
             billing_type: Billing type for the DID (1 = Per Minute, 2 = Flat) (required)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made
+            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from backOrderDIDUSA operation
@@ -5445,8 +5445,8 @@ class VoIPMSClientAsync(VoIPMSClient):
             validate: Whether to validate parameters with Pydantic
             did: DID to be canceled and deleted (Example: 5551234567) (required)
             cancelcomment: Comment for DID cancellation
-            portout: Set to true if the DID is being ported out
-            test: Set to true if testing how cancellation works - Cancellation can not be undone - When testing, no changes are made
+            portout: Set to true if the DID is being ported out (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            test: Set to true if testing how cancellation works - Cancellation can not be undone - When testing, no changes are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from cancelDID operation
@@ -5465,7 +5465,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         Args:
             validate: Whether to validate parameters with Pydantic
             id_: ID for a specific Fax Number (Example: 923) (required)
-            test: Set to true if testing how cancel a Fax Number
+            test: Set to true if testing how cancel a Fax Number (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from cancelFaxNumber operation
@@ -5600,14 +5600,14 @@ class VoIPMSClientAsync(VoIPMSClient):
             allowed_codecs: List of Allowed Codecs (Values from getAllowedCodecs) Codecs separated by semicolon (Example: ulaw;g729;gsm) (required)
             dtmf_mode: DTMF Mode Code (Values from getDTMFModes) (required)
             nat: NAT Mode Code (Values from getNAT) (required)
-            sip_traffic: Encrypted SIP Traffic (Boolean: 1/0)
+            sip_traffic: Encrypted SIP Traffic (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             max_expiry: Max Expiry between 60 and 3600 (Example: 3000)
             rtp_timeout: RTP Time Out between 1 and 3600 (Example: 60)
             rtp_hold_timeout: RTP Hold Time Out between 1 and 3600 (Example: 600)
             ip_restriction: List of IP Addresses, IP Addresses/Netmask, or Fully Qualified Domain Names to allow outgoing calls separated by commas (Example: 123.45.3.21,10.255.12.0/22,device.mydomain.com)
-            enable_ip_restriction: Enable IP Restriction (Boolean: 1/0)
+            enable_ip_restriction: Enable IP Restriction (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             pop_restriction: List of POP Servers to allow outgoing calls separated by commas (values from getServersInfo. Example: 10,23,45)
-            enable_pop_restriction: Enable POP Restriction (Boolean: 1/0)
+            enable_pop_restriction: Enable POP Restriction (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             internal_extension: Sub Account Internal Extension (Example: 1 -> Creates 101)
             internal_voicemail: Sub Account Internal Voicemail (Example: 101)
             internal_dialtime: Sub Account Internal Dialtime (Example: 60 -> seconds)
@@ -5615,9 +5615,9 @@ class VoIPMSClientAsync(VoIPMSClient):
             reseller_package: Reseller Package (Example: 92364)
             reseller_nextbilling: Reseller Next Billing Date (Example: '2012-12-31')
             reseller_chargesetup: True if you want to charge Package Setup Fee after Save
-            send_bye: Send BYE on successful transfer (Boolean: 1/0)
-            record_calls: Record Calls (Boolean: 1/0)
-            transcribe: Enable Call Transcription (Boolean: 1/0)
+            send_bye: Send BYE on successful transfer (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            record_calls: Record Calls (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            transcribe: Enable Call Transcription (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             transcription_locale: Call Transcription Locale (values from getLocales)
             transcription_email: Call Transcription Email
             transcription_start_delay: Call Transcription Delay Seconds between 0 and 60, Increments of 5 (Example: 10 -> seconds)
@@ -5659,7 +5659,7 @@ class VoIPMSClientAsync(VoIPMSClient):
             digits: Digits used to create the voicemail (Example: 01) Minimum 1 digit, maximum 10 digits (required)
             name: Name for the Mailbox (required)
             password: Password for the Mailbox (required)
-            skip_password: True if Skipping Password (Boolean: 1/0) (required)
+            skip_password: True if Skipping Password (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             email: Email address for receiving messages, multiple email addresses are allowed if separated by a comma
             attach_message: Yes for Attaching WAV files to Message (Values: 'yes'/'no') (required)
             delete_message: Yes for Deleting Messages (Values: 'yes'/'no') (required)
@@ -5845,7 +5845,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         Args:
             validate: Whether to validate parameters with Pydantic
             id_: ID for a specific "Email To Fax Configuration" (Example: 923) (required)
-            test: Set to true if testing how cancel a "Email To Fax Configuration"
+            test: Set to true if testing how cancel a "Email To Fax Configuration" (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from delEmailToFax operation
@@ -5864,7 +5864,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         Args:
             validate: Whether to validate parameters with Pydantic
             id_: ID for a specific Fax Folder (Example: 923) (required)
-            test: Set to true if testing how to delete a Fax Folder
+            test: Set to true if testing how to delete a Fax Folder (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from delFaxFolder operation
@@ -6146,7 +6146,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         Args:
             validate: Whether to validate parameters with Pydantic
             id_: ID for a specific Fax Message (Example: 923) (required)
-            test: Set to true if testing how cancel a Fax Message
+            test: Set to true if testing how cancel a Fax Message (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from deleteFaxMessage operation
@@ -6415,7 +6415,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        type_: Optional[int] = None,
+        type_: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve auth types information
 
@@ -6466,7 +6466,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        balance_management: Optional[int] = None,
+        balance_management: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Retrieve balance management information
 
@@ -6500,10 +6500,10 @@ class VoIPMSClientAsync(VoIPMSClient):
             validate: Whether to validate parameters with Pydantic
             date_from: Start Date for Filtering CDR (Example: '2010-11-30') (required)
             date_to: End Date for Filtering CDR (Example: '2010-11-30') (required)
-            answered: Include Answered Calls to CDR (Boolean: 1/0)
-            noanswer: Include NoAnswered calls to CDR (Boolean: 1/0)
-            busy: Include Busy Calls to CDR (Boolean: 1/0)
-            failed: Include Failed Calls to CDR (Boolean: 1/0)
+            answered: Include Answered Calls to CDR (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            noanswer: Include NoAnswered calls to CDR (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            busy: Include Busy Calls to CDR (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            failed: Include Failed Calls to CDR (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             timezone: Adjust time of calls according to Timezome (Numeric: -12 to 13) (required)
             calltype: Filters CDR by Call Type (Values from getCallTypes)
             callbilling: Filter CDR by Call Billing (Values from getCallBilling)
@@ -7371,7 +7371,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         portid: int,
-        portStatus: Optional[int] = None,
+        portStatus: Optional[str] = None,
         startDate: Optional[str] = None,
         endDate: Optional[str] = None,
     ) -> Dict[str, Any]:
@@ -7873,10 +7873,10 @@ class VoIPMSClientAsync(VoIPMSClient):
             date_from: Start Date for Filtering CDR (Example: '2010-11-30') (required)
             date_to: End Date for Filtering CDR (Example: '2010-11-30') (required)
             client: ID for a specific Reseller Client (Example: 561115) (required)
-            answered: Include Answered Calls to CDR (Boolean: 1/0)
-            noanswer: Include NoAnswered calls to CDR (Boolean: 1/0)
-            busy: Include Busy Calls to CDR (Boolean: 1/0)
-            failed: Include Failed Calls to CDR (Boolean: 1/0)
+            answered: Include Answered Calls to CDR (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            noanswer: Include NoAnswered calls to CDR (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            busy: Include Busy Calls to CDR (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            failed: Include Failed Calls to CDR (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             timezone: Adjust time of calls according to Timezome (Numeric: -12 to 13) (required)
             calltype: Filters CDR by Call Type (Values from getCallTypes)
             callbilling: Filter CDR by Call Billing (Values from getCallBilling)
@@ -8399,7 +8399,7 @@ class VoIPMSClientAsync(VoIPMSClient):
             validate: Whether to validate parameters with Pydantic
             fax_id: ID of the Fax Message requested (Values from getFaxMessages) (required)
             folder_id: ID of the destination Fax Folder (Values from getFaxFolders) (required)
-            test: Set to true if testing how to move a Fax Message
+            test: Set to true if testing how to move a Fax Message (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from moveFaxMessage operation
@@ -8463,7 +8463,7 @@ class VoIPMSClientAsync(VoIPMSClient):
             voicemail: Voicemail for the DID (Example: 101)
             pop: Point of Presence for the DID (Example: 5) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
-            cnam: CNAM for the DID (Boolean: 1/0) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             callerid_prefix: Caller ID Prefix for the DID
             note: Note for the DID
             billing_type: Billing type for the DID (1 = Per Minute, 2 = Flat) (required)
@@ -8471,7 +8471,7 @@ class VoIPMSClientAsync(VoIPMSClient):
             monthly: Montly Fee for Reseller Client (Example: 3.50)
             setup: Setup Fee for Reseller Client (Example: 1.99)
             minute: Minute Rate for Reseller Client (Example: 0.03)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made
+            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from orderDID operation
@@ -8517,7 +8517,7 @@ class VoIPMSClientAsync(VoIPMSClient):
             voicemail: Voicemail for the DID (Example: 101)
             pop: Point of Presence for the DID (Example: 5) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
-            cnam: CNAM for the DID (Boolean: 1/0) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             callerid_prefix: Caller ID Prefix for the DID
             billing_type: Billing type for the DID (1 = Per Minute, 2 = Flat) (required)
             note: Note for the DID
@@ -8525,7 +8525,7 @@ class VoIPMSClientAsync(VoIPMSClient):
             monthly: Montly Fee for Reseller Client (Example: 3.50)
             setup: Setup Fee for Reseller Client (Example: 1.99)
             minute: Minute Rate for Reseller Client (Example: 0.03)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made
+            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from orderDIDInternationalGeographic operation
@@ -8568,7 +8568,7 @@ class VoIPMSClientAsync(VoIPMSClient):
             voicemail: Voicemail for the DID (Example: 101)
             pop: Point of Presence for the DID (Example: 5) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
-            cnam: CNAM for the DID (Boolean: 1/0) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             callerid_prefix: Caller ID Prefix for the DID
             billing_type: Billing type for the DID (1 = Per Minute, 2 = Flat) (required)
             note: Note for the DID
@@ -8576,7 +8576,7 @@ class VoIPMSClientAsync(VoIPMSClient):
             monthly: Montly Fee for Reseller Client (Example: 3.50)
             setup: Setup Fee for Reseller Client (Example: 1.99)
             minute: Minute Rate for Reseller Client (Example: 0.03)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made
+            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from orderDIDInternationalNational operation
@@ -8618,14 +8618,14 @@ class VoIPMSClientAsync(VoIPMSClient):
             voicemail: Voicemail for the DID (Example: 101)
             pop: Point of Presence for the DID (Example: 5) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
-            cnam: CNAM for the DID (Boolean: 1/0) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             callerid_prefix: Caller ID Prefix for the DID
             note: Note for the DID
             account: Reseller Sub Account (Example: '100001_VoIP')
             monthly: Montly Fee for Reseller Client (Example: 3.50)
             setup: Setup Fee for Reseller Client (Example: 1.99)
             minute: Minute Rate for Reseller Client (Example: 0.03)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made
+            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from orderDIDInternationalTollFree operation
@@ -8636,7 +8636,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         self,
         validate: bool = True,
         *,
-        digits: int,
+        digits: str,
         routing: int,
         pop: int,
         dialtime: int,
@@ -8665,14 +8665,14 @@ class VoIPMSClientAsync(VoIPMSClient):
             voicemail: Voicemail for the DID (Example: 101)
             pop: Point of Presence for the DID (Example: 5) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
-            cnam: CNAM for the DID (Boolean: 1/0) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             callerid_prefix: Caller ID Prefix for the DID
             note: Note for the DID
             account: Reseller Sub Account (Example: '100001_VoIP')
             monthly: Montly Fee for Reseller Client (Example: 3.50)
             setup: Setup Fee for Reseller Client (Example: 1.99)
             minute: Minute Rate for Reseller Client (Example: 0.03)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made
+            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from orderDIDVirtual operation
@@ -8684,7 +8684,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         validate: bool = True,
         *,
         location: int,
-        quantity: str,
+        quantity: int,
         email: Optional[Annotated[str, "Format: email"]] = None,
         email_enable: Optional[str] = None,
         email_attach_file: Optional[Annotated[str, "Format: pdf"]] = None,
@@ -8705,7 +8705,7 @@ class VoIPMSClientAsync(VoIPMSClient):
             url_callback: URL where make a POST when you receive a Fax Message.
             url_callback_enable: Flag to enable the URL Callback functionality. - (Values: 1 = true, 0 = false) - Default: 0
             url_callback_retry: Flag to enable retry the POST action in case we don't receive "ok".
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made
+            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from orderFaxNumber operation
@@ -8745,14 +8745,14 @@ class VoIPMSClientAsync(VoIPMSClient):
             voicemail: Voicemail for the DID (Example: 101)
             pop: Point of Presence for the DID (Example: 5) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
-            cnam: CNAM for the DID (Boolean: 1/0) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             callerid_prefix: Caller ID Prefix for the DID
             note: Note for the DID
             account: Reseller Sub Account (Example: '100001_VoIP')
             monthly: Montly Fee for Reseller Client (Example: 3.50)
             setup: Setup Fee for Reseller Client (Example: 1.99)
             minute: Minute Rate for Reseller Client (Example: 0.03)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made
+            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from orderTollFree operation
@@ -8793,7 +8793,7 @@ class VoIPMSClientAsync(VoIPMSClient):
             voicemail: Voicemail for the DID (Example: 101)
             pop: Point of Presence for the DID (Example: 5) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
-            cnam: CNAM for the DID (Boolean: 1/0) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             callerid_prefix: Caller ID Prefix for the DID
             note: Note for the DID
             carrier: Carrier for the DID (Values from getCarriers) (required)
@@ -8801,7 +8801,7 @@ class VoIPMSClientAsync(VoIPMSClient):
             monthly: Montly Fee for Reseller Client (Example: 3.50)
             setup: Setup Fee for Reseller Client (Example: 1.99)
             minute: Minute Rate for Reseller Client (Example: 0.03)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made
+            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from orderVanity operation
@@ -9005,7 +9005,7 @@ class VoIPMSClientAsync(VoIPMSClient):
             send_email: Email address where you want send a copy of your Fax.
             station_id: An word to identify a equipment or department sending the Fax.
             file: The file must be encoded in Base64, and in one of the following formats: pdf, txt, jpg, gif, png, tif (required)
-            test: Set to true if testing how to send a Fax Message
+            test: Set to true if testing how to send a Fax Message (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from sendFaxMessage operation
@@ -9368,19 +9368,19 @@ class VoIPMSClientAsync(VoIPMSClient):
             name: Member name. (required)
             description: Member description.
             pin: Assigned PIN.
-            announce_join_leave: Sets if the conference recording when a member joins or leaves will be played (yes/no).
-            admin: Sets if the member is an admin or not (yes/no).
-            start_muted: Sets if the member should start out muted after entering the conference (yes/no).
-            announce_user_count: Sets if the number of members in the conference should be announced to the caller as he joins (yes/no).
-            announce_only_user: Sets if the "only user" announcement should be played when a caller enters an empty conference (yes/no).
+            announce_join_leave: Sets if the conference recording when a member joins or leaves will be played (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
+            admin: Sets if the member is an admin or not (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
+            start_muted: Sets if the member should start out muted after entering the conference (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
+            announce_user_count: Sets if the number of members in the conference should be announced to the caller as he joins (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
+            announce_only_user: Sets if the "only user" announcement should be played when a caller enters an empty conference (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
             moh_when_empty: Sets whether music on hold (MOH) should be played when only one person is in the conference (Values from getMusicOnHold).
-            quiet: When set to "yes", enter/leave prompts and user introductions are not played (yes/no).
+            quiet: When set to "yes", enter/leave prompts and user introductions are not played (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
             announcement: If set, this recording will be heard only by the user as he joins the conference (Values from getRecordings).
-            drop_silence: The system will drop what is detected as silence from entering into the conference (yes/no).
+            drop_silence: The system will drop what is detected as silence from entering into the conference (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
             talking_threshold: The time, in milliseconds, that a users needs to be sending sound or voice before the system can consider them to be talking (allowed values are 100, 120, 140, 160, 180, 200, 220, 240 or 250).
             silence_threshold: The time, in milliseconds, that silence needs to be present in the user’s sound stream before the system can consider it to be in fact silent and close the audio (allowed values are 2000, 2100, 2200, 2300, 2400, 2500, 2600, 2700, 2800, 2900 or 3000).
-            talk_detection: If set to YES, the conference dashboard will display a notification when a participant starts and stops talking (yes/no).
-            jitter_buffer: When set to YES, the system will place a jitter buffer on the caller's audio stream before any audio mixing is performed (yes/no).
+            talk_detection: If set to YES, the conference dashboard will display a notification when a participant starts and stops talking (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
+            jitter_buffer: When set to YES, the system will place a jitter buffer on the caller's audio stream before any audio mixing is performed (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
 
         Returns:
             Response from setConferenceMember operation
@@ -9442,13 +9442,13 @@ class VoIPMSClientAsync(VoIPMSClient):
             voicemail: Voicemail for the DID
             pop: Point of Presence for the DID ("server_pop" values from getServersInfo. Example: 3) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
-            cnam: CNAM for the DID (Boolean: 1/0) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             callerid_prefix: Caller ID Prefix for the DID
             note: Note for the DID
             port_out_pin: Port Out PIN protection is used as a means of authorizing outgoing portability (only for selected US numbers with the lock icon)
             billing_type: Billing type for the DID (1 = Per Minute, 2 = Flat) (required)
-            record_calls: Record Calls (Boolean: 1/0)
-            transcribe: Enable Call Transcription (Boolean: 1/0)
+            record_calls: Record Calls (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            transcribe: Enable Call Transcription (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             transcription_locale: Call Transcription Locale (values from getLocales)
             transcription_email: Call Transcription Email
             transcription_start_delay: Call Transcription Delay Seconds between 0 and 60, Increments of 5 (Example: 10 -> seconds)
@@ -9558,12 +9558,12 @@ class VoIPMSClientAsync(VoIPMSClient):
         Args:
             validate: Whether to validate parameters with Pydantic
             id_: [Only for updates] ID of the "Email to Fax" to edit (Values from getEmailToFax)
-            enabled: If Enable, we will send Fax Message when we receive an email from the provided address. (Values:1=Enable / 0=Disable)
+            enabled: If Enable, we will send Fax Message when we receive an email from the provided address. (Values:1=Enable / 0=Disable) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             auth_email: Email address from you will sent Fax Messages (required)
             from_number_id: Fax number that will appear as fax sender. (values from getFaxNumbersInfo) (required)
-            security_code_enabled: If Enable, we will check the mail subject if this include a Security Code before send the Fax. (Values:1=Enable / 0=Disable)
+            security_code_enabled: If Enable, we will check the mail subject if this include a Security Code before send the Fax. (Values:1=Enable / 0=Disable) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             security_code: An alphanumeric code to identify your emails before send as Fax. (required)
-            test: Set to true if testing.
+            test: Set to true if testing. (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from setEmailToFax operation
@@ -9584,7 +9584,7 @@ class VoIPMSClientAsync(VoIPMSClient):
             validate: Whether to validate parameters with Pydantic
             id_: [Only for updates] ID of the Fax Folder to edit (Values from getFaxFolders)
             name: Name of the Fax Folder to create or update (Example: FAMILY) (required)
-            test: Set to true if testing how to create/update a Fax Folder
+            test: Set to true if testing how to create/update a Fax Folder (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from setFaxFolder operation
@@ -9609,7 +9609,7 @@ class VoIPMSClientAsync(VoIPMSClient):
             email: Email address where send notifications when receive Fax Messages - (Example: yourname@company.com)
             email_enable: Flag to enable the email notifications. - (Values: 1 = true, 0 = false) - Default: 0
             email_attach_file: Flag to enable attach the Fax Message as a PDF file in the notifications. - (Values: 1 = true, 0 = false) - Default: 0
-            test: Set to true if testing how to set the email of a Fax Number
+            test: Set to true if testing how to set the email of a Fax Number (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from setFaxNumberEmail operation
@@ -9640,7 +9640,7 @@ class VoIPMSClientAsync(VoIPMSClient):
             url_callback: URL where make a POST when you receive a Fax Message.
             url_callback_enable: Flag to enable the URL Callback functionality. - (Values: 1 = true, 0 = false) - Default: 0
             url_callback_retry: Flag to enable retry the POST action in case we don't receive "ok".
-            test: Set to true if testing how to update the information of a Fax Number
+            test: Set to true if testing how to update the information of a Fax Number (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from setFaxNumberInfo operation
@@ -9665,7 +9665,7 @@ class VoIPMSClientAsync(VoIPMSClient):
             url_callback: URL where make a POST when you receive a Fax Message.
             url_callback_enable: Flag to enable the URL Callback functionality. - (Values: 1 = true, 0 = false) - Default: 0
             url_callback_retry: Flag to enable retry the POST action in case we don't receive "ok".
-            test: Set to true if testing how to set the URL callback of a Fax Number
+            test: Set to true if testing how to set the URL callback of a Fax Number (accepts: true/false, yes/no, on/off, 1/0, boolean)
 
         Returns:
             Response from setFaxNumberURLCallback operation
@@ -9746,7 +9746,7 @@ class VoIPMSClientAsync(VoIPMSClient):
             validate: Whether to validate parameters with Pydantic
             name: Music on Hold Name (Values from getMusicOnHold)
             description: Music on Hold Description (required)
-            volume: Music on Hold Quiet Volume (Boolean: 1/0)
+            volume: Music on Hold Quiet Volume (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             sort: Selected recordings sort mode (Example: "alpha", "random")
             recordings: Selected recordings separated by commas (Values from getRecordings, example: (1234,1235,1236) (required)
 
@@ -9988,7 +9988,7 @@ class VoIPMSClientAsync(VoIPMSClient):
         Args:
             validate: Whether to validate parameters with Pydantic
             did: DID to be Updated (Example: 5551234567) (required)
-            enable: Enable/Disable the DID to receive SMS Messages (Values:1=Enable / 0=Disable) (required)
+            enable: Enable/Disable the DID to receive SMS Messages (Values:1=Enable / 0=Disable) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             email_enabled: If Enable, SMS Messages received by your DID will be sent to the email address provided (Values:1=Enable / 0=Disable)
             email_address: SMS Messages received by your DID will be sent to the email address provided
             sms_forward_enable: If Enable, SMS Messages received by your DID will be forwarded to the phone number provided (Values:1=Enable / 0=Disable)
@@ -10092,14 +10092,14 @@ class VoIPMSClientAsync(VoIPMSClient):
             allowed_codecs: List of Allowed Codecs (Values from getAllowedCodecs) Codecs separated by semicolon (Example: ulaw;g729;gsm) (required)
             dtmf_mode: DTMF Mode Code (Values from getDTMFModes) (required)
             nat: NAT Mode Code (Values from getNAT) (required)
-            sip_traffic: Encrypted SIP Traffic (Boolean: 1/0)
+            sip_traffic: Encrypted SIP Traffic (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             max_expiry: Max Expiry between 60 and 3600 (Example: 3000)
             rtp_timeout: RTP Time Out between 1 and 3600 (Example: 60)
             rtp_hold_timeout: RTP Hold Time Out between 1 and 3600 (Example: 600)
             ip_restriction: List of IP/Netmask to allow outgoing calls separated by commas (Example: 123.45.3.21,10.255.12.0/22,device.mydomain.com)
-            enable_ip_restriction: Enable IP Restriction (Boolean: 1/0)
+            enable_ip_restriction: Enable IP Restriction (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             pop_restriction: List of POP Servers to allow outgoing calls separated by commas (values from getServersInfo. Example: 10,23,45)
-            enable_pop_restriction: Enable POP Restriction (Boolean: 1/0)
+            enable_pop_restriction: Enable POP Restriction (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             internal_extension: Sub Account Internal Extension (Example: 1 -> Creates 101)
             internal_voicemail: Sub Account Internal Voicemail (Example: 101)
             internal_dialtime: Sub Account Internal Dialtime (Example: 60 -> seconds)
@@ -10107,8 +10107,8 @@ class VoIPMSClientAsync(VoIPMSClient):
             reseller_package: Reseller Package (Example: 92364)
             reseller_nextbilling: Reseller Next Billing Date (Example: '2012-12-31')
             reseller_chargesetup: True if you want to charge Package Setup Fee after Save
-            send_bye: Send BYE on successful transfer (Boolean: 1/0)
-            record_calls: Record Calls (Boolean: 1/0)
+            send_bye: Send BYE on successful transfer (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            record_calls: Record Calls (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             transcribe:  (required)
             transcription_locale:  (required)
             transcription_email:  (required)
@@ -10185,7 +10185,7 @@ class VoIPMSClientAsync(VoIPMSClient):
             mailbox: ID for a specific Mailbox (Example: 1001) (required)
             name: Name for the Mailbox (required)
             password: Password for the Mailbox (required)
-            skip_password: True if Skipping Password (Boolean: 1/0) (required)
+            skip_password: True if Skipping Password (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
             email: Email address for receiving messages, multiple email addresses are allowed if separated by a comma
             attach_message: Yes for Attaching WAV files to Message (Values: 'yes'/'no') (required)
             delete_message: Yes for Deleting Messages (Values: 'yes'/'no') (required)
@@ -10245,7 +10245,7 @@ class VoIPMSClientAsync(VoIPMSClient):
             confirm_email: Client's Confirmation e-mail (required)
             password: Client's Password (required)
             confirm_password: Client's Confirmation Password (required)
-            activate: Activates Client (Boolean: 1/0)
+            activate: Activates Client (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
             balance_management: Balance Management for Client (Values from getBalanceManagement)
 
         Returns:

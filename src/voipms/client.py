@@ -16,6 +16,7 @@ import httpx
 from pydantic import BaseModel, BeforeValidator, Field, ValidationError, create_model
 
 from .error_codes import ERROR_CODES
+from .types import boolean_01_validator, boolean_true_false_validator, boolean_yes_no_validator, numeric_string_validator
 
 try:
     from importlib import resources
@@ -733,7 +734,23 @@ class VoIPMSClient:
                 # For string enums, we can use Literal type for better validation
                 if param_type == 'string' and all(isinstance(v, str) for v in enum_values):
                     from typing import Literal
-                    python_type = Literal[tuple(enum_values)]
+                    # Check for boolean-like enums and add validators
+                    if set(enum_values) == {'0', '1'} or set(enum_values) == {'1', '0'}:
+                        # Use Literal type with BeforeValidator for conversions
+                        python_type = Annotated[Literal[tuple(enum_values)], BeforeValidator(boolean_01_validator)]
+                        field_kwargs['description'] = field_kwargs.get('description', '') + ' (accepts: true/false, yes/no, on/off, 0/1, boolean)'
+                    elif set(enum_values) == {'true', 'false'} or set(enum_values) == {'false', 'true'}:
+                        python_type = Annotated[Literal[tuple(enum_values)], BeforeValidator(boolean_true_false_validator)]
+                        field_kwargs['description'] = field_kwargs.get('description', '') + ' (accepts: true/false, yes/no, on/off, 1/0, boolean)'
+                    elif set(enum_values) == {'yes', 'no'} or set(enum_values) == {'no', 'yes'}:
+                        python_type = Annotated[Literal[tuple(enum_values)], BeforeValidator(boolean_yes_no_validator)]
+                        field_kwargs['description'] = field_kwargs.get('description', '') + ' (accepts: yes/no, true/false, on/off, 1/0, boolean)'
+                    elif all(v.isdigit() for v in enum_values):
+                        # For numeric string enums like ["1", "2", "3"], accept integers
+                        python_type = Annotated[Literal[tuple(enum_values)], BeforeValidator(numeric_string_validator)]
+                        field_kwargs['description'] = field_kwargs.get('description', '') + ' (accepts: numeric values)'
+                    else:
+                        python_type = Literal[tuple(enum_values)]
 
             # Set default based on required status
             if param_spec.get('required', False):

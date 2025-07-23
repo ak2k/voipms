@@ -548,31 +548,15 @@ def custom_invoke(self, ctx):
                                     # Keep original value if dateparser unavailable or parsing fails
                                     pass
 
-                            # Check for boolean-like string enums (e.g., ["0", "1"])
+                            # Let the client handle boolean conversions via custom types
+                            # Only validate non-boolean enums here
                             enum_values = param_info.get('enum', [])
-                            if enum_values == ['0', '1'] or enum_values == ['1', '0']:
-                                # Allow boolean-like inputs for better UX
-                                if value.lower() in ('true', 'yes', 'on'):
-                                    value = '1'
-                                elif value.lower() in ('false', 'no', 'off'):
-                                    value = '0'
-                                # Validate that the value is in the enum
+                            if enum_values:
+                                # Skip validation for boolean-like enums - they'll be handled by custom types
+                                if set(enum_values) in [{'0', '1'}, {'1', '0'}, {'true', 'false'}, {'false', 'true'}, {'yes', 'no'}, {'no', 'yes'}]:
+                                    pass  # Custom types will handle conversion and validation
                                 elif value not in enum_values:
-                                    cli_instance.print_error(f"Parameter {key} must be one of: {', '.join(enum_values)} (or true/false, yes/no, on/off)")
-                                    sys.exit(1)
-                            elif enum_values == ['true', 'false'] or enum_values == ['false', 'true']:
-                                # Handle string boolean enums
-                                if value.lower() in ('1', 'yes', 'on'):
-                                    value = 'true'
-                                elif value.lower() in ('0', 'no', 'off'):
-                                    value = 'false'
-                                # Validate that the value is in the enum
-                                elif value not in enum_values:
-                                    cli_instance.print_error(f"Parameter {key} must be one of: {', '.join(enum_values)} (or 1/0, yes/no, on/off)")
-                                    sys.exit(1)
-                            elif enum_values:
-                                # General enum validation
-                                if value not in enum_values:
+                                    # General enum validation for non-boolean enums
                                     cli_instance.print_error(f"Parameter {key} must be one of: {', '.join(enum_values)}")
                                     cli_instance.print_error(f"You provided: {value}")
                                     sys.exit(1)

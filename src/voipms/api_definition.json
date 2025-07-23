@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "generated_at": "2025-07-18T21:35:56.967415",
+  "generated_at": "2025-07-21T12:57:43.329660",
   "base_url": "https://voip.ms/api/v1/rest.php",
   "authentication": {
     "type": "api_credentials",
@@ -708,10 +708,10 @@
           "multiple": true,
           "delimiter": ",",
           "examples": [
-            "device.mydomain.com",
-            "123",
             "10.255.12.0/22",
-            "123.45.3.21"
+            "123.45.3.21",
+            "123",
+            "device.mydomain.com"
           ]
         },
         "enable_ip_restriction": {
@@ -1471,7 +1471,7 @@
       "description": "Retrieve auth types information",
       "parameters": {
         "type": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Code for a specific Authorization Type (Example: 2)",
           "examples": [
@@ -1508,7 +1508,7 @@
       "description": "Retrieve balance management information",
       "parameters": {
         "balance_management": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Code for a specific Balance Management Setting (Example: 1)",
           "examples": [
@@ -1769,8 +1769,8 @@
           "required": false,
           "description": "Parameter could have the following values: * Empty Value [Not Required] * Specific Reseller Client ID (Example: 561115) * Specific Reseller Client e-mail  (Example: 'john.doe@mydomain.com')",
           "examples": [
-            "john.doe@mydomain.com",
-            "561115"
+            "561115",
+            "john.doe@mydomain.com"
           ]
         }
       },
@@ -1936,8 +1936,8 @@
           "required": false,
           "description": "Parameter could have the following values: * Empty Value [Not Required] * Specific Reseller Client ID (Example: 561115) * Specific Sub Account (Example: '100001_VoIP')",
           "examples": [
-            "561115",
-            "100001_VoIP"
+            "100001_VoIP",
+            "561115"
           ]
         },
         "did": {
@@ -4032,7 +4032,7 @@
       "description": "Order did virtual",
       "parameters": {
         "digits": {
-          "type": "integer",
+          "type": "string",
           "required": true,
           "description": "Three Digits for the new Virtual DID (Example: 001)",
           "examples": [
@@ -4594,11 +4594,11 @@
           "required": true,
           "description": "Type of Vanity Number Values: '8**', '800', '833', '844', '855', '866', '877', '888'",
           "examples": [
-            "866",
-            "800",
-            "855",
             "844",
-            "833"
+            "800",
+            "866",
+            "833",
+            "855"
           ]
         },
         "query": {
@@ -5004,8 +5004,8 @@
           "description": "Point of Presence for the DID (\"server_pop\" values from getServersInfo. Example: 3)",
           "values_from": "getServersInfo",
           "examples": [
-            "3",
-            "server_pop"
+            "server_pop",
+            "3"
           ]
         },
         "dialtime": {
@@ -5269,8 +5269,8 @@
           "description": "Pause (seconds) when call is answered before sending digits (Example: 1.5 / Values: 0 to 10 in increments of 0.5)",
           "units": "seconds",
           "examples": [
-            "1.5",
-            "1"
+            "1",
+            "1.5"
           ]
         },
         "diversion_header": {
@@ -5547,9 +5547,9 @@
           "required": true,
           "description": "How caller leave the queue (Values 'yes'/'no'/'strict') Examples: yes     Callers are sent to failover when there are no members no      Callers will remain in the queue even if there are no members strict  Callers are sent to failover if there are members but none of them is available.",
           "examples": [
-            "strict",
+            "no",
             "yes",
-            "no"
+            "strict"
           ]
         },
         "ring_strategy": {
@@ -5634,9 +5634,9 @@
           "required": false,
           "description": " Include estimated hold time in position announcements (Values 'yes'/'no'/'once')",
           "examples": [
+            "no",
             "once",
-            "yes",
-            "no"
+            "yes"
           ]
         },
         "thankyou_for_your_patience": {
@@ -5644,8 +5644,8 @@
           "required": false,
           "description": "Yes to say \"Thank you for your patience\" immediatly after announcing Queue Position and Estimated hold time left (Values 'yes'/'no')",
           "examples": [
-            "yes",
-            "no"
+            "no",
+            "yes"
           ]
         },
         "music_on_hold": {
@@ -5777,8 +5777,8 @@
           "description": "Code for Language (Values from getLanguages) \"members\" can receive the following routing headers: account     Used to route the call to an Account or a Sub Account fwd         Used to route the call to a Forwarding entry sip         Used to route the call to a SIP URI Each member can a specific ring time and press1 values, you can add those to the routing header as follow: Example: 'account:100001,25,0;fwd:16006,10,1' 25 = Default ring time value (Values from 1 to 60 sec) 0  = Default press1 value (Values allowed 0 and 1)",
           "values_from": "getLanguages",
           "examples": [
-            "'account:100001",
-            "members"
+            "members",
+            "'account:100001"
           ]
         }
       },
@@ -6113,10 +6113,10 @@
           "multiple": true,
           "delimiter": ",",
           "examples": [
-            "device.mydomain.com",
-            "123",
             "10.255.12.0/22",
-            "123.45.3.21"
+            "123.45.3.21",
+            "123",
+            "device.mydomain.com"
           ]
         },
         "enable_ip_restriction": {
@@ -7055,7 +7055,7 @@
           "values_from": "getFaxRateCentersCAN"
         },
         "quantity": {
-          "type": "string",
+          "type": "integer",
           "required": true,
           "description": "Quantity of Fax Numbers to order (Example: 3)",
           "examples": [
@@ -7068,8 +7068,8 @@
           "description": "Email address where send notifications when receive Fax Messages - (Example: yourname@company.com)",
           "format": "email",
           "examples": [
-            "yourname@company.com",
-            "yourname@company"
+            "yourname@company",
+            "yourname@company.com"
           ]
         },
         "email_enable": {
@@ -7272,8 +7272,8 @@
           "description": "Email address where send notifications when receive Fax Messages - (Example: yourname@company.com)",
           "format": "email",
           "examples": [
-            "yourname@company.com",
-            "yourname@company"
+            "yourname@company",
+            "yourname@company.com"
           ]
         },
         "email_enable": {
@@ -7343,8 +7343,8 @@
           "description": "Email address where send notifications when receive Fax Messages - (Example: yourname@company.com)",
           "format": "email",
           "examples": [
-            "yourname@company.com",
-            "yourname@company"
+            "yourname@company",
+            "yourname@company.com"
           ]
         },
         "email_enable": {
@@ -9190,7 +9190,7 @@
           "description": "ID of the port previously created."
         },
         "portStatus": {
-          "type": "integer",
+          "type": "string",
           "required": false,
           "description": "Status code to filtering Ports. Example: precessing. (You can use the values returned by the method getLNPListStatus)",
           "examples": [

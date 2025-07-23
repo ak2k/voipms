@@ -53,7 +53,12 @@
     "getFaxRateCentersUSA.state": "string",
     "setSMS.url_callback": "string",
     "sendMMS.media2": "string",
-    "setRingGroup.language": "string"
+    "setRingGroup.language": "string",
+    "getLNPList.portStatus": "string",
+    "orderFaxNumber.quantity": "integer",
+    "orderDIDVirtual.digits": "string",
+    "getAuthTypes.type": "string",
+    "getBalanceManagement.balance_management": "string"
   },
   "override_reasons": {
     "account_identifiers": [
@@ -101,7 +106,11 @@
       "e911AddressTypes.type",
       "addLNPPort.country",
       "getLNPListStatus.portStatus",
-      "setRingGroup.members"
+      "setRingGroup.members",
+      "getLNPList.portStatus",
+      "orderDIDVirtual.digits",
+      "getAuthTypes.type",
+      "getBalanceManagement.balance_management"
     ],
     "date_values": [
       "getLNPList.startDate",
@@ -125,6 +134,9 @@
       "setSMS.url_callback",
       "sendMMS.media2",
       "setRingGroup.language"
+    ],
+    "numeric_values": [
+      "orderFaxNumber.quantity"
     ]
   }
 }
