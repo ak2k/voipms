@@ -28,55 +28,85 @@ import sys
 from datetime import datetime
 from typing import Any, Tuple
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
-from voipms import VoIPMSClientAsync, VoIPMSError
+from voipms import VoIPMSAsyncClient, VoIPMSError
 
 # Categories of methods to backup
 BACKUP_CATEGORIES = {
-    'Account': [
-        'getBalance', 'getIP', 'getRegistrationStatus',
-        'getClientThreshold', 'getBalanceManagement'
+    "Account": [
+        "getBalance",
+        "getIP",
+        "getRegistrationStatus",
+        "getClientThreshold",
+        "getBalanceManagement",
     ],
-    'Configuration': [
-        'getServersInfo', 'getProtocols', 'getAllowedCodecs',
-        'getAuthTypes', 'getLanguages', 'getCountries',
-        'getProvinces', 'getStates', 'getLocales'
+    "Configuration": [
+        "getServersInfo",
+        "getProtocols",
+        "getAllowedCodecs",
+        "getAuthTypes",
+        "getLanguages",
+        "getCountries",
+        "getProvinces",
+        "getStates",
+        "getLocales",
     ],
-    'Phone Features': [
-        'getCallAccounts', 'getSubAccounts', 'getForwardings',
-        'getCallHuntings', 'getRingGroups', 'getQueues',
-        'getIVRs', 'getTimeConditions', 'getDISAs',
-        'getCallbacks', 'getSIPURIs', 'getVoicemailSetups'
+    "Phone Features": [
+        "getCallAccounts",
+        "getSubAccounts",
+        "getForwardings",
+        "getCallHuntings",
+        "getRingGroups",
+        "getQueues",
+        "getIVRs",
+        "getTimeConditions",
+        "getDISAs",
+        "getCallbacks",
+        "getSIPURIs",
+        "getVoicemailSetups",
     ],
-    'Settings': [
-        'getPhonebook', 'getPhonebookGroups', 'getStaticMembers',
-        'getRingStrategies', 'getCallTypes', 'getJoinWhenEmptyTypes',
-        'getInternationalTypes', 'getRoutes'
+    "Settings": [
+        "getPhonebook",
+        "getPhonebookGroups",
+        "getStaticMembers",
+        "getRingStrategies",
+        "getCallTypes",
+        "getJoinWhenEmptyTypes",
+        "getInternationalTypes",
+        "getRoutes",
     ],
-    'Fax': [
-        'getFaxNumbersInfo', 'getFaxFolders', 'getEmailToFax',
-        'getFaxProvinces', 'getFaxStates'
+    "Fax": [
+        "getFaxNumbersInfo",
+        "getFaxFolders",
+        "getEmailToFax",
+        "getFaxProvinces",
+        "getFaxStates",
     ],
-    'Rates & Billing': [
-        'getCharges', 'getDeposits', 'getCallBilling',
-        'getClientPackages', 'getPackages', 'getRates',
-        'getTerminationRates', 'getCarriers'
+    "Rates & Billing": [
+        "getCharges",
+        "getDeposits",
+        "getCallBilling",
+        "getClientPackages",
+        "getPackages",
+        "getRates",
+        "getTerminationRates",
+        "getCarriers",
     ],
-    'Conference': [
-        'getConference', 'getConferenceMembers'
-    ]
+    "Conference": ["getConference", "getConferenceMembers"],
 }
 
-async def call_method_safe(client: VoIPMSClientAsync, method_name: str) -> Tuple[str, Any]:
+
+async def call_method_safe(client: VoIPMSAsyncClient, method_name: str) -> Tuple[str, Any]:
     """Safely call a method and return result"""
     try:
         result = await getattr(client, method_name)()
-        return method_name, {'status': 'success', 'data': result}
+        return method_name, {"status": "success", "data": result}
     except VoIPMSError as e:
-        return method_name, {'status': 'error', 'error': str(e), 'code': e.code}
+        return method_name, {"status": "error", "error": str(e), "code": e.code}
     except Exception as e:
-        return method_name, {'status': 'error', 'error': str(e)}
+        return method_name, {"status": "error", "error": str(e)}
+
 
 async def backup_account_simple():
     """Create a simple backup of account configuration"""
@@ -85,12 +115,12 @@ async def backup_account_simple():
 
     start_time = datetime.now()
     backup_data = {
-        'backup_timestamp': datetime.now().isoformat(),
-        'backup_type': 'simple',
-        'categories': {}
+        "backup_timestamp": datetime.now().isoformat(),
+        "backup_type": "simple",
+        "categories": {},
     }
 
-    async with VoIPMSClientAsync() as client:
+    async with VoIPMSAsyncClient() as client:
         total_methods = sum(len(methods) for methods in BACKUP_CATEGORIES.values())
         print(f"Backing up {total_methods} configuration items...\n")
 
@@ -100,7 +130,7 @@ async def backup_account_simple():
         # Process each category
         for category, methods in BACKUP_CATEGORIES.items():
             print(f"{category}:")
-            backup_data['categories'][category] = {}
+            backup_data["categories"][category] = {}
 
             # Call all methods in parallel for this category
             tasks = [call_method_safe(client, method) for method in methods]
@@ -108,9 +138,9 @@ async def backup_account_simple():
 
             # Process results
             for method_name, result in results:
-                backup_data['categories'][category][method_name] = result
+                backup_data["categories"][category][method_name] = result
 
-                if result['status'] == 'success':
+                if result["status"] == "success":
                     print(f"  ✓ {method_name}")
                     successful += 1
                 else:
@@ -121,26 +151,26 @@ async def backup_account_simple():
 
         # Add summary
         execution_time = (datetime.now() - start_time).total_seconds()
-        backup_data['summary'] = {
-            'total_methods': total_methods,
-            'successful': successful,
-            'failed': failed,
-            'execution_time_seconds': round(execution_time, 2)
+        backup_data["summary"] = {
+            "total_methods": total_methods,
+            "successful": successful,
+            "failed": failed,
+            "execution_time_seconds": round(execution_time, 2),
         }
 
         # Extract key information for quick summary
-        if 'Account' in backup_data['categories']:
-            balance_data = backup_data['categories']['Account'].get('getBalance', {})
-            if balance_data.get('status') == 'success':
-                balance = balance_data['data'].get('balance', {}).get('current_balance')
-                backup_data['summary']['current_balance'] = balance
+        if "Account" in backup_data["categories"]:
+            balance_data = backup_data["categories"]["Account"].get("getBalance", {})
+            if balance_data.get("status") == "success":
+                balance = balance_data["data"].get("balance", {}).get("current_balance")
+                backup_data["summary"]["current_balance"] = balance
 
         # Save backup
-        date_str = datetime.now().strftime('%Y-%m-%d')
-        filename = f'voipms_backup_simple_{date_str}.json'
+        date_str = datetime.now().strftime("%Y-%m-%d")
+        filename = f"voipms_backup_simple_{date_str}.json"
 
         print(f"Saving backup to {filename}...")
-        with open(filename, 'w') as f:
+        with open(filename, "w") as f:
             json.dump(backup_data, f, indent=2, sort_keys=True)
 
         # Summary
@@ -152,10 +182,11 @@ async def backup_account_simple():
         print(f"✓ Time: {execution_time:.1f} seconds")
         print(f"✓ File: {filename} ({os.path.getsize(filename) / 1024:.1f} KB)")
 
-        if 'current_balance' in backup_data['summary']:
+        if "current_balance" in backup_data["summary"]:
             print(f"\n💰 Current balance: ${backup_data['summary']['current_balance']}")
 
         return backup_data
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     asyncio.run(backup_account_simple())

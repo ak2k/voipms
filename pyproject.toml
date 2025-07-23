@@ -33,6 +33,7 @@ dependencies = [
     "rich-click>=1.7.0",
     "rich>=13.0.0",
     "python-dotenv>=1.0.0",
+    "tenacity>=8.2.0",
 ]
 
 [project.optional-dependencies]
@@ -43,6 +44,7 @@ dev = [
     "ruff>=0.1.0",
     "mypy>=1.0.0",
     "types-requests",
+    "hypothesis>=6.0.0",
 ]
 docs = [
     "sphinx>=6.0.0",

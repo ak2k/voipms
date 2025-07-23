@@ -118,7 +118,9 @@ class ModelFactory:
         # Determine if this should be integer or float validation
         examples = param_spec.get("examples", [])
         use_integer = (
-            isinstance(minimum, int)
+            minimum is not None
+            and maximum is not None
+            and isinstance(minimum, int)
             and isinstance(maximum, int)
             and all(str(ex).replace(".", "").isdigit() for ex in examples if ex)
         )

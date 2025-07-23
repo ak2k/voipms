@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from voipms import VoIPMSClient, VoIPMSClientAsync, VoIPMSError
+from voipms import VoIPMSClient, VoIPMSAsyncClient, VoIPMSError
 
 
 class TestBasicClient:
@@ -142,9 +142,9 @@ class TestAsyncClient:
             {"VOIPMS_USERNAME": "test@example.com", "VOIPMS_API_PASSWORD": "testpass"},
             clear=True,
         ):
-            async with VoIPMSClientAsync() as client:
+            async with VoIPMSAsyncClient() as client:
                 assert hasattr(client, "getBalance")
-                assert client.username == "test@example.com"
+                assert client.config.username == "test@example.com"
 
     @patch("httpx.AsyncClient.get")
     async def test_async_api_call(self, mock_get):
@@ -168,7 +168,7 @@ class TestAsyncClient:
             {"VOIPMS_USERNAME": "test@example.com", "VOIPMS_API_PASSWORD": "testpass"},
             clear=True,
         ):
-            async with VoIPMSClientAsync() as client:
+            async with VoIPMSAsyncClient() as client:
                 result = await client.getBalance()
                 assert result["status"] == "success"
                 assert result["balance"]["current_balance"] == "100.50"

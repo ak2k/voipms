@@ -372,15 +372,17 @@ class FinalVoIPMSDocumentationParser:
         # Pattern for "true"/"false" string booleans
         elif any(pattern in description for pattern in ["Set to true if", "true if", "false if"]):
             result = {"type": "string", "enum": ["true", "false"]}
+        
+        # Pattern for "True for/to X" which indicates a boolean that uses "0"/"1"
+        elif re.search(r"\bTrue\s+(?:for|to)\b", description):
+            result = {"type": "string", "enum": ["0", "1"]}
 
         # yes/no booleans
         elif "yes/no" in description_lower or "yes or no" in description_lower:
             result = {"type": "string", "enum": ["yes", "no"]}
 
         # Extract explicit enums with patterns like "0 = value1, 1 = value2" or "-1 = value1"
-        elif re.search(
-            r"(-?\d+)\s*=\s*[\w\s]+(?:\s*[,;]\s*-?\d+\s*=\s*[\w\s]+)+", description
-        ):
+        elif re.search(r"(-?\d+)\s*=\s*[\w\s]+(?:\s*[,;]\s*-?\d+\s*=\s*[\w\s]+)+", description):
             # Extract all enum values (including negative numbers)
             enum_values = re.findall(r"(-?\d+)\s*=\s*[^,;]+", description)
             result = {"type": "string", "enum": enum_values}

@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "generated_at": "2025-07-22T21:36:52.757707",
+  "generated_at": "2025-07-23T00:20:56.929843",
   "base_url": "https://voip.ms/api/v1/rest.php",
   "authentication": {
     "type": "api_credentials",
@@ -708,10 +708,10 @@
           "multiple": true,
           "delimiter": ",",
           "examples": [
-            "123",
             "device.mydomain.com",
-            "123.45.3.21",
-            "10.255.12.0/22"
+            "10.255.12.0/22",
+            "123",
+            "123.45.3.21"
           ]
         },
         "enable_ip_restriction": {
@@ -1493,7 +1493,11 @@
         "advanced": {
           "type": "string",
           "required": false,
-          "description": "True for Calls Statistics"
+          "description": "True for Calls Statistics",
+          "enum": [
+            "0",
+            "1"
+          ]
         }
       },
       "returns": {
@@ -3283,8 +3287,8 @@
           "required": false,
           "description": "Parameter could have the following values: * Empty Value [Not Required] * Specific Sub Account (Example: '100000_VoIP') * Specific Reseller Client ID (Example: 561115)",
           "examples": [
-            "561115",
-            "100000_VoIP"
+            "100000_VoIP",
+            "561115"
           ]
         }
       },
@@ -4594,11 +4598,11 @@
           "required": true,
           "description": "Type of Vanity Number Values: '8**', '800', '833', '844', '855', '866', '877', '888'",
           "examples": [
-            "844",
-            "866",
             "800",
+            "844",
             "833",
-            "855"
+            "855",
+            "866"
           ]
         },
         "query": {
@@ -6113,10 +6117,10 @@
           "multiple": true,
           "delimiter": ",",
           "examples": [
-            "123",
             "device.mydomain.com",
-            "123.45.3.21",
-            "10.255.12.0/22"
+            "10.255.12.0/22",
+            "123",
+            "123.45.3.21"
           ]
         },
         "enable_ip_restriction": {
@@ -9748,7 +9752,7 @@
     "total_operations": 217,
     "enriched_operations": 217,
     "coverage_percentage": 100.0,
-    "operations_with_enums": 37,
+    "operations_with_enums": 38,
     "operations_with_constraints": 54,
     "operations_with_defaults": 12,
     "total_error_codes": 463

@@ -70,7 +70,13 @@ class MethodFactory:
         @wraps(self.client._execute)
         def method(validate=True, **kwargs):
             params_dict = self._process_parameters(op_name, op_spec, validate, kwargs)
-            return self.client._execute(op_name, **params_dict)
+
+            # Apply retry decorator if enabled
+            if self.client.enable_retries and self.client._retry_decorator:
+                execute_func = self.client._retry_decorator(self.client._execute)
+                return execute_func(op_name, **params_dict)
+            else:
+                return self.client._execute(op_name, **params_dict)
 
         # Add docstring
         method.__doc__ = self._generate_method_doc(op_name, op_spec)
@@ -83,7 +89,13 @@ class MethodFactory:
 
         async def method(validate=True, **kwargs):
             params_dict = self._process_parameters(op_name, op_spec, validate, kwargs)
-            return await self.client._execute(op_name, **params_dict)
+
+            # Apply retry decorator if enabled
+            if self.client.enable_retries and self.client._retry_decorator:
+                execute_func = self.client._retry_decorator(self.client._execute)
+                return await execute_func(op_name, **params_dict)
+            else:
+                return await self.client._execute(op_name, **params_dict)
 
         # Add docstring
         method.__doc__ = self._generate_method_doc(op_name, op_spec)
@@ -150,9 +162,10 @@ class MethodFactory:
             if default_value is not None:
                 # Handle special default values
                 if default_value == "Today":
-                    from datetime import datetime
+                    from datetime import datetime, timezone
 
-                    result[param_name] = datetime.now().strftime("%Y-%m-%d")
+                    # Use UTC to ensure consistent behavior across timezones
+                    result[param_name] = datetime.now(timezone.utc).strftime("%Y-%m-%d")
                     if self.debug:
                         logger.debug(
                             f"HTML default: {op_name}.{param_name} = {result[param_name]} (today's date)"

@@ -13,6 +13,8 @@ from typing import Any, Dict, List, Optional, Union
 import httpx
 
 from .api_quirks import APIQuirksHandler
+from .exceptions import VoIPMSError
+from .retry_config import create_api_retry_decorator
 
 try:
     from importlib import resources
@@ -31,14 +33,55 @@ except ImportError:
 logger = logging.getLogger(__name__)
 
 
-class VoIPMSError(Exception):
-    """VoIP.ms API error"""
+def load_api_definition(path: str) -> Dict[str, Any]:
+    """Load API definition from JSON file.
+    
+    Module-level function used by factory functions to load API definition.
+    
+    Args:
+        path: Path to API definition JSON file
+        
+    Returns:
+        Loaded API definition dictionary
+        
+    Raises:
+        FileNotFoundError: If API definition cannot be found
+    """
+    # Try as direct path first
+    if Path(path).exists():
+        with open(path) as f:
+            return json.load(f)
 
-    def __init__(self, code: str, message: str, response: Optional[Dict[str, Any]] = None):
-        self.code = code
-        self.message = message
-        self.response = response
-        super().__init__(f"{code}: {message}")
+    # Try as package resource
+    try:
+        import voipms
+
+        if hasattr(resources, "files"):
+            # Python 3.9+
+            package_files = resources.files(voipms)
+            resource_path = package_files / path
+            with resource_path.open("r") as f:
+                return json.load(f)
+        else:
+            # Python 3.7-3.8
+            with resources.path(voipms, path) as resource_path:
+                with open(resource_path) as f:
+                    return json.load(f)
+    except Exception:
+        # Try with default name
+        try:
+            default_name = "api_definition.json"
+            if hasattr(resources, "files"):
+                package_files = resources.files(voipms)
+                resource_path = package_files / default_name
+                with resource_path.open("r") as f:
+                    return json.load(f)
+            else:
+                with resources.path(voipms, default_name) as resource_path:
+                    with open(resource_path) as f:
+                        return json.load(f)
+        except Exception:
+            raise FileNotFoundError(f"API definition not found: {path}") from None
 
 
 class BaseVoIPMSClient(ABC):
@@ -56,6 +99,7 @@ class BaseVoIPMSClient(ABC):
         verify_ssl: bool = True,
         debug: bool = False,
         api_definition_path: str = "api_definition.json",
+        enable_retries: bool = True,
     ):
         """
         Initialize base VoIP.ms client
@@ -69,6 +113,7 @@ class BaseVoIPMSClient(ABC):
             verify_ssl: Whether to verify SSL certificates
             debug: Enable debug logging
             api_definition_path: Path to API definition JSON file
+            enable_retries: Enable automatic retries with exponential backoff
         """
         # Set debug early for use in _load_api_definition
         self.debug = debug
@@ -85,6 +130,15 @@ class BaseVoIPMSClient(ABC):
         self.timeout = timeout
         self.max_retries = max_retries
         self.verify_ssl = verify_ssl
+        self.enable_retries = enable_retries
+
+        # Create retry decorator if enabled
+        if enable_retries:
+            self._retry_decorator = create_api_retry_decorator(
+                max_attempts=max_retries, base_delay=1.0, max_delay=60.0
+            )
+        else:
+            self._retry_decorator = None
 
         # Validate credentials
         if not self.username or not self.password:
@@ -99,42 +153,8 @@ class BaseVoIPMSClient(ABC):
 
     def _load_api_definition(self, path: str):
         """Load API definition from JSON file"""
-        # Try as direct path first
-        if Path(path).exists():
-            with open(path) as f:
-                self.api_definition = json.load(f)
-        else:
-            # Try as package resource
-            try:
-                # Try to load from package resources
-                import voipms
-
-                if hasattr(resources, "files"):
-                    # Python 3.9+
-                    package_files = resources.files(voipms)
-                    resource_path = package_files / path
-                    with resource_path.open("r") as f:
-                        self.api_definition = json.load(f)
-                else:
-                    # Python 3.7-3.8
-                    with resources.path(voipms, path) as resource_path:
-                        with open(resource_path) as f:
-                            self.api_definition = json.load(f)
-            except Exception:
-                # Try with default name
-                try:
-                    default_name = "api_definition.json"
-                    if hasattr(resources, "files"):
-                        package_files = resources.files(voipms)
-                        resource_path = package_files / default_name
-                        with resource_path.open("r") as f:
-                            self.api_definition = json.load(f)
-                    else:
-                        with resources.path(voipms, default_name) as resource_path:
-                            with open(resource_path) as f:
-                                self.api_definition = json.load(f)
-                except Exception:
-                    raise FileNotFoundError(f"API definition not found: {path}") from None
+        # Use the module-level function to avoid duplication
+        self.api_definition = load_api_definition(path)
 
         # Load quirks handler (temporarily) to get additional error codes
         quirks_handler = APIQuirksHandler(debug=self.debug)
@@ -266,7 +286,35 @@ class BaseVoIPMSClient(ABC):
         """Get information about a specific method"""
         return self.api_definition.get("operations", {}).get(method_name)
 
-    @abstractmethod
-    def close(self):
-        """Close HTTP client - must be implemented by subclasses"""
-        pass
+    def is_healthy(self) -> bool:
+        """
+        Check if the client is healthy (HTTP client is open and operational).
+        
+        This is a lightweight check that doesn't make API calls.
+        For actual API connectivity testing, use test_connectivity().
+        
+        Returns:
+            bool: True if client is healthy, False otherwise
+        """
+        return self._client is not None and not self._client.is_closed
+    
+    def test_connectivity(self) -> bool:
+        """
+        Test actual API connectivity with a lightweight call.
+        
+        This makes a real API call to verify the service is reachable
+        and credentials are working.
+        
+        Returns:
+            bool: True if API is reachable and responding, False otherwise
+        """
+        if not self.is_healthy():
+            return False
+            
+        try:
+            result = self._execute("getBalance")
+            return result.get("status") == "success"
+        except Exception as e:
+            logger.debug(f"Connectivity test failed: {e}")
+            return False
+

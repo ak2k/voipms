@@ -1,6 +1,13 @@
-"""VoIP.ms API Client Library"""
+"""
+VoIP.ms Python Client
 
-from .client import VoIPMSClient, VoIPMSClientAsync, VoIPMSError
+Type stubs for the VoIP.ms API client package.
+"""
 
-__all__ = ["VoIPMSClient", "VoIPMSClientAsync", "VoIPMSError"]
-__version__ = "1.0.0"
+from .async_client import VoIPMSAsyncClient as VoIPMSAsyncClient, VoIPMSAsyncService as VoIPMSAsyncService
+from .client import VoIPMSClient as VoIPMSClient, VoIPMSService as VoIPMSService
+from .config import VoIPMSConfig as VoIPMSConfig
+from .exceptions import VoIPMSError as VoIPMSError
+
+__version__: str
+__all__: list[str]

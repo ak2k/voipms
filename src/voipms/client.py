@@ -5,49 +5,54 @@ Dynamically creates methods from JSON API definition
 """
 
 import logging
-from typing import Any, Dict
+from contextlib import contextmanager
+from typing import Any, Dict, Generator, Optional, Union
 
 import httpx
 
-from .base_client import BaseVoIPMSClient
+from .base_client import BaseVoIPMSClient, load_api_definition
+from .config import VoIPMSConfig
 from .method_factory import MethodFactory
 
 logger = logging.getLogger(__name__)
 
 
-class VoIPMSClient(BaseVoIPMSClient):
+class VoIPMSService(BaseVoIPMSClient):
     """
-    Data-driven VoIP.ms client that creates methods from JSON API definition
-
-    Example:
-        >>> client = VoIPMSClient()
-        >>> balance = client.getBalance()
-        >>> print(f"Balance: ${balance['balance']['current_balance']}")
+    Synchronous VoIP.ms service that creates methods from JSON API definition.
+    
+    This is a pure service class similar to VoIPMSAsyncService.
     """
 
-    def __init__(self, *args, **kwargs):
-        """
-        Initialize VoIP.ms client
+    def __init__(self, http_client: httpx.Client, config: VoIPMSConfig, api_definition: Dict[str, Any]):
+        """Initialize VoIP.ms service with provided HTTP client and config."""
+        # Don't call super().__init__() since we're doing custom initialization
+        # Set up the attributes that BaseVoIPMSClient methods expect
+        self._client = http_client  # Use provided HTTP client
+        self.config = config
+        self.api_definition = api_definition
+        self.debug = config.debug
+        self.enable_retries = config.enable_retries
+        
+        # Set up attributes for base class compatibility
+        self.username = config.username
+        self.password = config.password
+        self.base_url = config.base_url
+        self.timeout = config.timeout
+        self.max_retries = config.max_retries
+        self.verify_ssl = config.verify_ssl
 
-        Args:
-            username: VoIP.ms API username (or use VOIPMS_USERNAME env var)
-            password: VoIP.ms API password (or use VOIPMS_API_PASSWORD env var)
-            base_url: API base URL (defaults to value from API definition)
-            timeout: Request timeout in seconds
-            max_retries: Maximum number of retry attempts
-            verify_ssl: Whether to verify SSL certificates
-            debug: Enable debug logging
-            api_definition_path: Path to API definition JSON file
-        """
-        super().__init__(*args, **kwargs)
+        # Create retry decorator if enabled
+        if config.enable_retries:
+            from .retry_config import create_api_retry_decorator
+            self._retry_decorator = create_api_retry_decorator(
+                max_attempts=config.max_retries, base_delay=1.0, max_delay=60.0
+            )
+        else:
+            self._retry_decorator = None
 
-        # HTTP client
-        self._client = self._create_http_client(httpx.Client, "VoIPMS-DataDriven/1.0")
-
-        # Create method factory
-        self._method_factory = MethodFactory(self, debug=self.debug)
-
-        # Dynamically create methods
+        # Create method factory for dynamic methods
+        self._method_factory = MethodFactory(self, debug=config.debug, is_async=False)
         self._create_methods_from_definition()
 
     def _execute(self, method: str, **params) -> Dict[str, Any]:
@@ -58,31 +63,83 @@ class VoIPMSClient(BaseVoIPMSClient):
         if self.debug:
             logger.debug(f"Executing {method} with {len(params)} parameters")
 
-        # Retry logic
-        last_error = None
-        for attempt in range(self.max_retries):
-            try:
-                response = self._client.get("", params=payload)
-                response.raise_for_status()
+        # Make HTTP request (retries are handled by Tenacity decorator if enabled)
+        response = self._client.get("", params=payload)
+        response.raise_for_status()
 
-                data = response.json()
-                return self._handle_response(data, method)
+        data = response.json()
+        return self._handle_response(data, method)
 
-            except httpx.HTTPError as e:
-                last_error = e
-                if attempt < self.max_retries - 1:
-                    if self.debug:
-                        logger.debug(f"Retry {attempt + 1} for {method}")
-                    continue
 
-        raise last_error
 
-    def close(self):
-        """Close HTTP client"""
-        self._client.close()
 
-    def __enter__(self):
-        return self
+@contextmanager
+def VoIPMSClient(
+    config: Optional[VoIPMSConfig] = None, **kwargs
+) -> Generator[VoIPMSService, None, None]:
+    """
+    Factory function for creating VoIP.ms sync client using context management.
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.close()
+    This provides automatic resource management similar to the async client.
+
+    Args:
+        config: VoIPMSConfig object (if None, loads from environment)
+        **kwargs: Direct parameters (username, password, etc.) - creates VoIPMSConfig internally
+
+    Examples:
+        # Simple direct parameters
+        with VoIPMSClient(username="user", password="pass") as client:
+            balance = client.getBalance()
+
+        # Explicit config object (for advanced configuration)
+        config = VoIPMSConfig(username="user", password="pass", debug=True)
+        with VoIPMSClient(config) as client:
+            balance = client.getBalance()
+
+        # From environment variables
+        with VoIPMSClient() as client:
+            balance = client.getBalance()
+    """
+    if config is None:
+        if kwargs:
+            # Direct parameters provided, create config from them
+            config = VoIPMSConfig(**kwargs)
+        else:
+            # No parameters, load from environment
+            config = VoIPMSConfig.from_env()
+    elif kwargs:
+        # Both config object and kwargs provided - that's an error
+        raise ValueError("Cannot provide both config object and direct parameters")
+
+    # Load API definition
+    api_definition = load_api_definition(config.api_definition_path)
+
+    # Load quirks and merge additional error codes if needed
+    from .api_quirks import APIQuirksHandler
+
+    quirks_handler = APIQuirksHandler(debug=config.debug)
+    if error_additions := quirks_handler.quirks_config.get("error_code_additions", {}):
+        for error_id, error_info in error_additions.items():
+            api_definition.setdefault("error_codes", {})[error_id] = error_info["message"]
+
+    logger.info(
+        f"Loaded API definition with {len(api_definition.get('operations', {}))} operations and "
+        f"{len(api_definition.get('error_codes', {}))} error codes"
+    )
+
+    # Create HTTP client with automatic lifecycle management
+    with httpx.Client(
+        base_url=config.base_url,
+        timeout=config.timeout,
+        verify=config.verify_ssl,
+        headers={"User-Agent": "VoIPMS-DataDriven-Sync/2.0"},
+    ) as http_client:
+
+        # Create service instance
+        service = VoIPMSService(http_client, config, api_definition)
+
+        try:
+            yield service
+        finally:
+            # Cleanup is automatic via httpx's context manager
+            logger.debug("VoIP.ms sync client cleaned up automatically")

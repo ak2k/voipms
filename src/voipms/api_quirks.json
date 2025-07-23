@@ -14,6 +14,11 @@
       "note": "Queue-related error not found in official HTML documentation"
     }
   },
+  "parameter_enums": {
+    "getBalance": {
+      "advanced": ["0", "1"]
+    }
+  },
   "quirks": {
     "getCDR": {
       "defaults": {

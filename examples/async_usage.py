@@ -13,29 +13,25 @@ Async example of using the VoIP.ms Python client
 
 import asyncio
 
-from voipms import VoIPMSClientAsync
+from voipms import VoIPMSAsyncClient
 
 
 async def main():
     # Create async client
-    async with VoIPMSClientAsync() as client:
+    async with VoIPMSAsyncClient() as client:
         # Run multiple requests concurrently
         print("Fetching data concurrently...")
 
         # Create tasks for concurrent execution
-        tasks = [
-            client.getBalance(),
-            client.getRegistrationStatus(),
-            client.getServersInfo()
-        ]
+        tasks = [client.getBalance(), client.getServersInfo(), client.getIP()]
 
         # Wait for all tasks to complete
-        balance, status, servers = await asyncio.gather(*tasks)
+        balance, servers, ip_info = await asyncio.gather(*tasks)
 
         # Display results
         print(f"\nBalance: ${balance['balance']['current_balance']}")
-        print(f"Registered accounts: {len(status.get('registered', []))}")
         print(f"Available servers: {len(servers.get('servers', []))}")
+        print(f"Your IP: {ip_info.get('ip', 'N/A')}")
 
 
 if __name__ == "__main__":

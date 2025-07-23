@@ -17,7 +17,7 @@ class TestAPIExamples:
     def setup(self):
         """Setup test client with mock credentials"""
         with patch.dict(
-            "os.environ", {"VOIPMS_USERNAME": "test@example.com", "VOIPMS_PASSWORD": "testpass"}
+            "os.environ", {"VOIPMS_USERNAME": "test@example.com", "VOIPMS_API_PASSWORD": "testpass"}
         ):
             self.client = VoIPMSClient()
 
