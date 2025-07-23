@@ -12,7 +12,6 @@ from typing import Any, Dict, List, Optional, Union
 
 import httpx
 
-from .api_quirks import APIQuirksHandler
 from .exceptions import VoIPMSError
 from .retry_config import create_api_retry_decorator
 
@@ -156,13 +155,7 @@ class BaseVoIPMSClient(ABC):
         # Use the module-level function to avoid duplication
         self.api_definition = load_api_definition(path)
 
-        # Load quirks handler (temporarily) to get additional error codes
-        quirks_handler = APIQuirksHandler(debug=self.debug)
-        if error_additions := quirks_handler.quirks_config.get("error_code_additions", {}):
-            # Merge additional error codes into API definition
-            for error_id, error_info in error_additions.items():
-                self.api_definition.setdefault("error_codes", {})[error_id] = error_info["message"]
-
+        # Error codes are now baked into api_definition.json by apply_quirks.py
         logger.info(
             f"Loaded API definition with {len(self.api_definition.get('operations', {}))} operations and {len(self.api_definition.get('error_codes', {}))} error codes"
         )
@@ -194,9 +187,16 @@ class BaseVoIPMSClient(ABC):
         if status == "success":
             if self.debug:
                 logger.debug(f"Method {method} succeeded")
+
+            # Commit successful discoveries
+            if hasattr(self, "_type_discovery"):
+                self._type_discovery.commit_discoveries(success=True)
+
             return data
 
         # Handle error
+        if hasattr(self, "_type_discovery"):
+            self._type_discovery.commit_discoveries(success=False)
         error_code = status
         error_messages = []
 

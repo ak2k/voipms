@@ -37,6 +37,10 @@ class VoIPMSConfig:
     # API definition
     api_definition_path: str = "api_definition.json"
 
+    # Type discovery settings
+    enable_type_discovery: bool = True
+    type_discovery_dir: Optional[str] = None  # Uses ~/.voipms/discoveries if None
+
     def __post_init__(self):
         """Validate configuration after initialization"""
         # Resolve credentials from environment if not provided

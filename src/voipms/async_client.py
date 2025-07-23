@@ -11,6 +11,7 @@ This implementation uses:
 
 import logging
 from contextlib import asynccontextmanager
+from pathlib import Path
 from typing import Any, AsyncGenerator, Dict, Optional
 
 import httpx
@@ -58,6 +59,10 @@ class VoIPMSAsyncService(BaseVoIPMSClient):
             )
         else:
             self._retry_decorator = None
+
+        # Initialize type discovery
+        from .type_discovery import TypeDiscoveryLogger
+        self._type_discovery = TypeDiscoveryLogger(enabled=config.enable_type_discovery)
 
         # Create method factory for dynamic methods
         self._method_factory = MethodFactory(self, debug=config.debug, is_async=True)
@@ -147,14 +152,7 @@ async def VoIPMSAsyncClient(
     # Load API definition
     api_definition = load_api_definition(config.api_definition_path)
 
-    # Load quirks and merge additional error codes if needed
-    from .api_quirks import APIQuirksHandler
-
-    quirks_handler = APIQuirksHandler(debug=config.debug)
-    if error_additions := quirks_handler.quirks_config.get("error_code_additions", {}):
-        for error_id, error_info in error_additions.items():
-            api_definition.setdefault("error_codes", {})[error_id] = error_info["message"]
-
+    # Error codes are now baked into api_definition.json by apply_quirks.py
     logger.info(
         f"Loaded API definition with {len(api_definition.get('operations', {}))} operations and "
         f"{len(api_definition.get('error_codes', {}))} error codes"
@@ -174,5 +172,15 @@ async def VoIPMSAsyncClient(
         try:
             yield service
         finally:
+            # Save type discoveries
+            try:
+                if hasattr(service, "_type_discovery"):
+                    discovery_dir = None
+                    if config.type_discovery_dir:
+                        discovery_dir = Path(config.type_discovery_dir)
+                    service._type_discovery.save_session(discovery_dir)
+            except Exception as e:
+                logger.debug(f"Failed to save type discoveries: {e}")
+
             # Cleanup is automatic via httpx's context manager
             logger.debug("VoIP.ms client cleaned up automatically")

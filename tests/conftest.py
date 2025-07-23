@@ -93,12 +93,11 @@ def mock_client(mock_http_response):
     with patch.dict(
         os.environ, {"VOIPMS_USERNAME": "test@example.com", "VOIPMS_API_PASSWORD": "test_password"}
     ):
-        client = VoIPMSClient()
-
-        # Mock the HTTP client
-        with patch.object(client, "_client") as mock_http_client:
-            mock_http_client.get.return_value = mock_http_response()
-            yield client
+        with VoIPMSClient() as client:
+            # Mock the HTTP client
+            with patch.object(client, "_client") as mock_http_client:
+                mock_http_client.get.return_value = mock_http_response()
+                yield client
 
 
 @pytest.fixture

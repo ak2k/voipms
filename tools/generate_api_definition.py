@@ -17,7 +17,7 @@ import re
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 
 import requests
 from bs4 import BeautifulSoup
@@ -59,14 +59,18 @@ class FinalVoIPMSJSONGenerator:
             "rate_limits": {},
         }
 
-        # Load type overrides
-        self.type_overrides = {}
-        override_file = Path(__file__).parent / "wsdl_type_overrides.json"
-        if override_file.exists():
-            with open(override_file) as f:
-                override_data = json.load(f)
-                self.type_overrides = override_data.get("type_overrides", {})
-                print(f"Loaded {len(self.type_overrides)} type overrides")
+        # Load corrections (type overrides)
+        self.corrections = {}
+        corrections_file = Path(__file__).parent / "config" / "api_corrections.json"
+        if corrections_file.exists():
+            with open(corrections_file) as f:
+                corrections_data = json.load(f)
+                self.corrections = corrections_data.get("operations", {})
+                print(f"Loaded corrections for {len(self.corrections)} operations from {corrections_file}")
+        else:
+            print(f"ERROR: Corrections file not found at {corrections_file}")
+            print("This file is required to fix WSDL type definition errors.")
+            raise FileNotFoundError(f"Required file {corrections_file} not found")
 
     def generate_with_documentation(self, html_file: Optional[str] = None) -> Dict[str, Any]:
         """Generate API definition with comprehensive documentation"""
@@ -124,7 +128,11 @@ class FinalVoIPMSJSONGenerator:
 
                             # Update type if we have better info
                             if param_info.get("type"):
-                                wsdl_param["type"] = self._map_type(param_info["type"])
+                                html_type = self._map_type(param_info["type"])
+                                wsdl_param["type"] = html_type
+                                # Track HTML declaration in type sources
+                                if "_type_sources" in wsdl_param:
+                                    wsdl_param["_type_sources"]["html_declaration"] = html_type
 
                             # Add all enhanced metadata
                             if param_info.get("enum"):
@@ -164,6 +172,11 @@ class FinalVoIPMSJSONGenerator:
 
                             if param_info.get("examples"):
                                 wsdl_param["examples"] = param_info["examples"]
+                                
+                                # Infer type from examples
+                                inferred_type = self._infer_type_from_examples(param_info["examples"])
+                                if inferred_type and "_type_sources" in wsdl_param:
+                                    wsdl_param["_type_sources"]["html_example_inference"] = inferred_type
 
                             if param_info.get("validation"):
                                 wsdl_param["validation"] = param_info["validation"]
@@ -269,18 +282,26 @@ class FinalVoIPMSJSONGenerator:
 
                                 # Skip auth parameters
                                 if elem_name and elem_name not in ["api_username", "api_password"]:
+                                    param_type = self._map_type(elem_type)
                                     parameters[elem_name] = {
-                                        "type": self._map_type(elem_type),
+                                        "type": param_type,
                                         "required": min_occurs != "0",
                                         "description": "",
+                                        "_type_sources": {
+                                            "wsdl": param_type
+                                        }
                                     }
                 else:
                     # Handle simple parameters (fallback for non-complex types)
                     if param_name and param_name not in ["api_username", "api_password"]:
+                        param_type_mapped = self._map_type(param_type)
                         parameters[param_name] = {
-                            "type": self._map_type(param_type),
+                            "type": param_type_mapped,
                             "required": False,
                             "description": "",
+                            "_type_sources": {
+                                "wsdl": param_type_mapped
+                            }
                         }
 
             operations[op_name] = {
@@ -294,28 +315,29 @@ class FinalVoIPMSJSONGenerator:
         return operations
 
     def _apply_type_overrides(self, operations: Dict[str, Any]) -> None:
-        """Apply type overrides to fix WSDL errors"""
-        if not self.type_overrides:
+        """Apply type corrections from api_corrections.json"""
+        if not self.corrections:
             return
 
         override_count = 0
-        not_found = []
-        for override_key, correct_type in self.type_overrides.items():
-            op_name, param_name = override_key.split(".")
-
-            if op_name in operations:
-                if param_name in operations[op_name]["parameters"]:
-                    operations[op_name]["parameters"][param_name]["type"] = correct_type
-                    override_count += 1
-                else:
-                    not_found.append(f"{op_name}.{param_name}")
-            else:
-                not_found.append(f"{op_name} (operation not found)")
+        for op_name, op_corrections in self.corrections.items():
+            if op_name not in operations:
+                continue
+                
+            # Apply parameter corrections
+            if param_corrections := op_corrections.get("parameters", {}):
+                for param_name, param_correction in param_corrections.items():
+                    if param_name in operations[op_name]["parameters"]:
+                        # Apply type override if present
+                        if "type" in param_correction:
+                            operations[op_name]["parameters"][param_name]["type"] = param_correction["type"]
+                            # Track in type sources
+                            if "_type_sources" in operations[op_name]["parameters"][param_name]:
+                                operations[op_name]["parameters"][param_name]["_type_sources"]["correction"] = param_correction["type"]
+                            override_count += 1
 
         if override_count > 0:
-            print(f"Applied {override_count} type overrides to fix WSDL errors")
-        if not_found:
-            print(f"Could not apply {len(not_found)} overrides: {', '.join(not_found[:5])}...")
+            print(f"Applied {override_count} type corrections from api_corrections.json")
 
     def _has_constraints(self, param: Dict) -> bool:
         """Check if parameter has any constraints"""
@@ -330,6 +352,23 @@ class FinalVoIPMSJSONGenerator:
             "multiple",
         ]
         return any(key in param for key in constraint_keys)
+    
+    def _infer_type_from_examples(self, examples: List[str]) -> Optional[str]:
+        """Infer type from example values."""
+        if not examples:
+            return None
+        
+        # Check if any example contains non-numeric characters
+        for example in examples:
+            example_str = str(example)
+            # Remove common numeric formatting
+            cleaned = example_str.replace('-', '').replace('+', '').replace('.', '')
+            # If it has non-numeric chars or underscores, it's a string
+            if not cleaned.isdigit() or '_' in example_str:
+                return "string"
+        
+        # All examples are purely numeric - in HTTP APIs, these are still strings
+        return "string"
 
     def _map_type(self, wsdl_type: str) -> str:
         """Map WSDL types to JSON Schema types"""

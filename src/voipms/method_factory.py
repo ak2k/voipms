@@ -10,7 +10,6 @@ from typing import Any, Callable, Dict
 
 from pydantic import ValidationError
 
-from .api_quirks import APIQuirksHandler
 from .validation import ModelFactory
 
 logger = logging.getLogger(__name__)
@@ -24,7 +23,6 @@ class MethodFactory:
         self.debug = debug
         self.is_async = is_async
         self.model_factory = ModelFactory()
-        self.quirks_handler = APIQuirksHandler(debug=debug)
 
     def create_method(self, op_name: str, op_spec: Dict[str, Any]) -> Callable:
         """Create a method for an API operation."""
@@ -56,11 +54,11 @@ class MethodFactory:
             # Skip validation, use raw parameters
             params_dict = {k: v for k, v in kwargs.items() if v is not None}
 
-        # Apply extracted HTML defaults before quirks
+        # Apply extracted HTML defaults before transforms
         params_dict = self._apply_html_defaults(op_name, params_dict, op_spec)
 
-        # Apply known API quirks/fixes
-        params_dict = self.quirks_handler.apply_quirks(op_name, params_dict)
+        # Apply parameter transforms from api_definition
+        params_dict = self._apply_transforms(op_name, params_dict, op_spec)
 
         return params_dict
 
@@ -69,6 +67,19 @@ class MethodFactory:
 
         @wraps(self.client._execute)
         def method(validate=True, **kwargs):
+            # Start discovery tracking
+            if hasattr(self.client, "_type_discovery"):
+                self.client._type_discovery.start_call(op_name)
+
+                # Log parameters before validation
+                expected_params = op_spec.get("parameters", {})
+                for param_name, param_value in kwargs.items():
+                    if param_name in expected_params:
+                        expected_type = expected_params[param_name].get("type", "string")
+                        self.client._type_discovery.log_parameter(
+                            param_name, param_value, expected_type
+                        )
+
             params_dict = self._process_parameters(op_name, op_spec, validate, kwargs)
 
             # Apply retry decorator if enabled
@@ -88,6 +99,19 @@ class MethodFactory:
         """Create an asynchronous method."""
 
         async def method(validate=True, **kwargs):
+            # Start discovery tracking
+            if hasattr(self.client, "_type_discovery"):
+                self.client._type_discovery.start_call(op_name)
+
+                # Log parameters before validation
+                expected_params = op_spec.get("parameters", {})
+                for param_name, param_value in kwargs.items():
+                    if param_name in expected_params:
+                        expected_type = expected_params[param_name].get("type", "string")
+                        self.client._type_discovery.log_parameter(
+                            param_name, param_value, expected_type
+                        )
+
             params_dict = self._process_parameters(op_name, op_spec, validate, kwargs)
 
             # Apply retry decorator if enabled
@@ -191,6 +215,110 @@ class MethodFactory:
                         logger.debug(f"HTML default: {op_name}.{param_name} = {result[param_name]}")
 
         return result
+
+    def _apply_transforms(
+        self, op_name: str, params_dict: Dict[str, Any], op_spec: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """Apply parameter transforms defined in api_definition."""
+        param_specs = op_spec.get("parameters", {})
+        result = params_dict.copy()
+        
+        # Apply parameter-level transforms
+        for param_name, value in list(result.items()):
+            if param_name not in param_specs:
+                continue
+                
+            param_spec = param_specs[param_name]
+            if "_transform" not in param_spec:
+                continue
+                
+            transform = param_spec["_transform"]
+            transformed_value = self._apply_parameter_transform(param_name, value, transform)
+            
+            if transformed_value != value:
+                result[param_name] = transformed_value
+                if self.debug:
+                    logger.debug(
+                        f"Transform {op_name}.{param_name}: {value} -> {transformed_value} "
+                        f"(type: {transform['type']})"
+                    )
+        
+        # Apply operation-level transforms (aliases, defaults, etc.)
+        if "_parameter_aliases" in op_spec:
+            for old_name, new_name in op_spec["_parameter_aliases"].items():
+                if old_name in result:
+                    value = result.pop(old_name)
+                    result[new_name] = value
+                    if self.debug:
+                        logger.debug(f"Alias {op_name}: {old_name} -> {new_name}")
+        
+        if "_smart_defaults" in op_spec:
+            for param_name, default_value in op_spec["_smart_defaults"].items():
+                if param_name not in result:
+                    result[param_name] = default_value
+                    if self.debug:
+                        logger.debug(f"Smart default {op_name}.{param_name} = {default_value}")
+        
+        # Apply date validations if present
+        if "_date_validations" in op_spec:
+            self._validate_dates(op_name, result, op_spec["_date_validations"])
+        
+        return result
+    
+    def _apply_parameter_transform(self, param_name: str, value: Any, transform: dict) -> Any:
+        """Apply a single parameter transform."""
+        transform_type = transform["type"]
+        
+        if transform_type == "boolean_to_yes_no":
+            if isinstance(value, bool):
+                return "yes" if value else "no"
+        
+        elif transform_type == "list_to_semicolon":
+            if isinstance(value, list):
+                return ";".join(str(item) for item in value)
+        
+        elif transform_type == "special_value_mapping":
+            mapping = transform.get("mapping", {})
+            # Handle None values (represented as "__none__" in JSON)
+            if value is None and "__none__" in mapping:
+                return mapping["__none__"]
+            # Handle other mapped values
+            elif str(value) in mapping:
+                return mapping[str(value)]
+        
+        return value
+    
+    def _validate_dates(self, op_name: str, params: Dict[str, Any], date_config: Dict[str, Any]) -> None:
+        """Validate date parameters."""
+        if "date_from" in params and "date_to" in params:
+            try:
+                from datetime import datetime
+                
+                date_from = datetime.strptime(params["date_from"], "%Y-%m-%d")
+                date_to = datetime.strptime(params["date_to"], "%Y-%m-%d")
+                
+                # Check date order
+                if date_from > date_to:
+                    raise ValueError(f"{op_name}: date_from must be before or equal to date_to")
+                
+                # Check future dates
+                if date_to > datetime.now():
+                    raise ValueError(f"{op_name}: date_to cannot be in the future")
+                
+                # Check date range
+                if "max_days" in date_config:
+                    days_diff = (date_to - date_from).days
+                    if days_diff > date_config["max_days"]:
+                        raise ValueError(
+                            f"{op_name}: Date range cannot exceed {date_config['max_days']} days "
+                            f"(got {days_diff} days)"
+                        )
+            
+            except ValueError as e:
+                if "strptime" in str(e):
+                    pass  # Invalid date format, let API handle it
+                else:
+                    raise
 
     def _generate_method_doc(self, op_name: str, op_spec: Dict[str, Any]) -> str:
         """Generate method documentation from spec."""

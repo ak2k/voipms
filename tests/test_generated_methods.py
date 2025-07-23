@@ -191,7 +191,8 @@ class TestPerformance:
         ):
             from voipms import VoIPMSClient
 
-            _ = VoIPMSClient()
+            with VoIPMSClient() as client:
+                _ = client
 
         duration = performance_monitor.stop()
 
