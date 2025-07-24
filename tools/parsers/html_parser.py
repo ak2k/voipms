@@ -26,6 +26,7 @@ class FinalVoIPMSDocumentationParser:
         self.error_codes = {}
         self.global_notes = []
         self.rate_limits = {}
+        self.current_category = "Uncategorized"  # Track current category
 
     def parse(self) -> Dict[str, Any]:
         """Parse HTML documentation comprehensively"""
@@ -115,6 +116,10 @@ class FinalVoIPMSDocumentationParser:
                 if "leftmenubottomtdlinefull" in code_cell.get("class", []):
                     code = code_cell.get_text().strip()
                     description = desc_cell.get_text().strip()
+                    # Clean up description: remove newlines and normalize whitespace
+                    description = " ".join(description.split())
+                    # Fix spacing issues: ensure space after period before dash
+                    description = description.replace(".- ", ". - ")
 
                     # Skip if it's not a valid error code
                     if code and not code.startswith("<") and "_" in code:
@@ -147,21 +152,137 @@ class FinalVoIPMSDocumentationParser:
 
     def _extract_methods(self):
         """Extract all API methods with enhanced metadata"""
-        # Find all method sections
-        method_headers = self.soup.find_all("td", class_="toptitlex normaltextbold")
-
-        for header in method_headers:
+        # Find all rows in the documentation table
+        all_rows = self.soup.find_all("tr")
+        
+        for row in all_rows:
+            cells = row.find_all("td")
+            if not cells:
+                continue
+                
+            # Check if this is a category header (has colspan="2" and class "toptitlex")
+            if len(cells) == 1 and cells[0].get("colspan") == "2" and "toptitlex" in cells[0].get("class", []):
+                category_name = cells[0].get_text().strip()
+                if category_name and not any(skip in category_name for skip in ["Error Codes", "FUNCTION"]):
+                    self.current_category = category_name
+                continue
+            
+            # Check if this is a method row (two cells, first one contains method name)
+            if len(cells) >= 2:
+                method_cell = cells[0]
+                desc_cell = cells[1]
+                
+                # Method cells typically have class containing "leftmenubottomtdlinefull"
+                if "leftmenubottomtdlinefull" in method_cell.get("class", []):
+                    method_name = method_cell.get_text().strip()
+                    
+                    # Valid method names (exclude error codes which start with invalid_ or missing_)
+                    if (method_name and len(method_name) > 3 and not method_name.isupper() 
+                        and not method_name.startswith(('invalid_', 'missing_', 'error_'))
+                        and not method_name.endswith('_failed')):
+                        
+                        # Get the description directly from the second cell
+                        description = desc_cell.get_text().strip()
+                        # Clean up description: remove newlines and normalize whitespace
+                        description = " ".join(description.split())
+                        # Fix spacing issues: ensure space after period before dash
+                        description = description.replace(".- ", ". - ")
+                        # Ensure description starts with dash if it doesn't already
+                        if description and not description.startswith("-"):
+                            description = "- " + description
+                        
+                        # Create method info with category
+                        method_info = {
+                            "name": method_name,
+                            "_html_category": self.current_category,
+                            "description": description if description else self._generate_description(method_name),
+                            "parameters": {},
+                            "output_example": None,
+                            "notes": [],
+                            "warnings": [],
+                            "errors": [],
+                            "rate_limit": None,
+                            "authentication": None,
+                            "related_methods": [],
+                            "requirements": [],
+                        }
+                        
+                        # Add the basic method info
+                        self.methods[method_name] = method_info
+                        
+        # Second pass: look for detailed method sections with parameters
+        self._extract_detailed_methods()
+    
+    def _extract_detailed_methods(self):
+        """Extract detailed method information including parameters with cross-references"""
+        # Find all method headers that are standalone (like setSubAccount detailed section)
+        detailed_headers = self.soup.find_all("td", colspan="2", class_="toptitlex normaltextbold")
+        
+        for header in detailed_headers:
             method_name = header.get_text().strip()
-
-            # Skip section headers and error codes
-            if (
-                method_name
-                and not any(skip in method_name for skip in ["VoIP", "Error Codes", "FUNCTION"])
-                and not method_name.isupper()
-                and len(method_name) > 3
-            ):
-
-                self._parse_method_final(header, method_name)
+            
+            # Skip if not a valid method name or if it's a category
+            if (not method_name or len(method_name) < 3 or method_name.isupper() 
+                or any(skip in method_name for skip in ["Error Codes", "FUNCTION"])
+                or method_name.startswith(('invalid_', 'missing_', 'error_'))
+                or method_name.endswith('_failed')):
+                continue
+                
+            # Look for Parameters section after this header
+            current_row = header.parent
+            while current_row:
+                current_row = current_row.find_next_sibling("tr")
+                if not current_row:
+                    break
+                    
+                cells = current_row.find_all("td")
+                if len(cells) >= 2:
+                    label = cells[0].get_text().strip()
+                    
+                    if label == "Parameters":
+                        # Extract parameters from the pre/code block
+                        param_content = cells[1].find("pre")
+                        if param_content:
+                            self._parse_parameters_block(method_name, param_content.get_text())
+                        break
+    
+    def _parse_parameters_block(self, method_name: str, param_text: str):
+        """Parse parameter block and extract cross-references"""
+        if method_name not in self.methods:
+            return
+            
+        # Parse each parameter line
+        lines = param_text.strip().split('\n')
+        for line in lines:
+            # Skip empty lines
+            if not line.strip():
+                continue
+                
+            # Parse lines like: auth_type => [Required] Authorization Type Code (Values from getAuthTypes)
+            match = re.match(r'(\w+)\s*=>\s*(.+)', line)
+            if match:
+                param_name = match.group(1)
+                param_desc = match.group(2)
+                
+                # Parse parameter info
+                param_info = {
+                    "name": param_name,
+                    "required": "[Required]" in param_desc,
+                    "description": param_desc.replace("[Required]", "").strip()
+                }
+                
+                # Extract cross-reference
+                values_match = re.search(r'\(Values from (\w+)\)', param_desc)
+                if values_match:
+                    param_info["_values_from"] = values_match.group(1)
+                
+                # Extract constraints
+                constraints = self._extract_constraints_final(param_desc)
+                if constraints:
+                    param_info.update(constraints)
+                
+                # Add to method parameters
+                self.methods[method_name]["parameters"][param_name] = param_info
 
     def _parse_method_final(self, header_cell, method_name: str):
         """Parse a single method with all available metadata"""
@@ -169,6 +290,7 @@ class FinalVoIPMSDocumentationParser:
 
         method_info = {
             "name": method_name,
+            "_html_category": self.current_category,  # Add category from HTML
             "parameters": {},
             "output_example": None,
             "description": self._generate_description(method_name),
@@ -303,18 +425,25 @@ class FinalVoIPMSDocumentationParser:
 
                 current_param = param_name
                 type_info = self._infer_type_final(param_name, description)
-
+                
+                # Extract constraints first
+                constraints = self._extract_constraints_final(description)
+                
                 current_info = {
                     "description": description,
                     "required": required,
                     "type": type_info.get("type", "string"),
                     "examples": self._extract_examples(description),
-                    "constraints": self._extract_constraints_final(description),
+                    "constraints": constraints,
                     "default": self._extract_default(description),
                     "format": self._extract_format(description),
                     "units": self._extract_units(description),
                     "validation": self._extract_validation(description),
                 }
+                
+                # Move _values_from from constraints to parameter level
+                if "_values_from" in constraints:
+                    current_info["_values_from"] = constraints.pop("_values_from")
 
                 # Add enum if present
                 if "enum" in type_info:
@@ -348,6 +477,10 @@ class FinalVoIPMSDocumentationParser:
         # Update constraints
         new_constraints = self._extract_constraints_final(description)
         param_info["constraints"].update(new_constraints)
+        
+        # Move _values_from from constraints to parameter level
+        if "_values_from" in new_constraints:
+            param_info["_values_from"] = new_constraints.pop("_values_from")
 
         # Update examples
         new_examples = self._extract_examples(description)
@@ -612,7 +745,7 @@ class FinalVoIPMSDocumentationParser:
         for pattern in values_patterns:
             values_match = re.search(pattern, description, re.IGNORECASE)
             if values_match:
-                constraints["values_from"] = values_match.group(1)
+                constraints["_values_from"] = values_match.group(1)
                 break
 
         # Rate limit constraints
@@ -822,11 +955,19 @@ class FinalVoIPMSDocumentationParser:
                 # Convert camelCase to readable
                 words = re.findall(r"[A-Z]?[a-z]+|[A-Z]+(?=[A-Z]|$)", resource)
                 resource = " ".join(words).lower()
-                return template.format(resource)
+                description = template.format(resource)
+                # Ensure generated description starts with dash
+                if not description.startswith("-"):
+                    description = "- " + description
+                return description
 
         # Default: convert camelCase to sentence
         words = re.findall(r"[A-Z]?[a-z]+|[A-Z]+(?=[A-Z]|$)", method_name)
-        return " ".join(words).capitalize()
+        description = " ".join(words).capitalize()
+        # Ensure generated description starts with dash
+        if not description.startswith("-"):
+            description = "- " + description
+        return description
 
     def generate_final_schema(self) -> Dict[str, Any]:
         """Generate final comprehensive schema"""

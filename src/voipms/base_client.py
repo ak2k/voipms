@@ -182,7 +182,23 @@ class BaseVoIPMSClient(ABC):
 
     def _handle_response(self, data: Dict[str, Any], method: str) -> Dict[str, Any]:
         """Handle API response"""
+        # Check if we got a valid response structure
+        if not isinstance(data, dict):
+            raise VoIPMSError(
+                "invalid_response",
+                f"Expected dict response but got {type(data).__name__}",
+                data
+            )
+        
         status = data.get("status")
+        
+        # Handle missing status field
+        if status is None:
+            raise VoIPMSError(
+                "missing_status",
+                "API response is missing required 'status' field",
+                data
+            )
 
         if status == "success":
             if self.debug:
@@ -197,6 +213,7 @@ class BaseVoIPMSClient(ABC):
         # Handle error
         if hasattr(self, "_type_discovery"):
             self._type_discovery.commit_discoveries(success=False)
+        
         error_code = status
         error_messages = []
 

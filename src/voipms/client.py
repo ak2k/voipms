@@ -127,12 +127,18 @@ def VoIPMSClient(
     )
 
     # Create HTTP client with automatic lifecycle management
-    with httpx.Client(
-        base_url=config.base_url,
-        timeout=config.timeout,
-        verify=config.verify_ssl,
-        headers={"User-Agent": "VoIPMS-DataDriven-Sync/2.0"},
-    ) as http_client:
+    client_kwargs = {
+        "base_url": config.base_url,
+        "timeout": config.timeout,
+        "verify": config.verify_ssl,
+        "headers": {"User-Agent": "VoIPMS-DataDriven-Sync/2.0"},
+    }
+    
+    # Add custom limits if specified
+    if config.http_limits is not None:
+        client_kwargs["limits"] = config.http_limits
+    
+    with httpx.Client(**client_kwargs) as http_client:
 
         # Create service instance
         service = VoIPMSService(http_client, config, api_definition)

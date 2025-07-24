@@ -10,7 +10,7 @@ from typing import Annotated, Any, Dict, Optional, Type
 
 from pydantic import BaseModel, BeforeValidator, Field, create_model
 
-from .types import (
+from .type_validators import (
     boolean_01_validator,
     boolean_true_false_validator,
     boolean_yes_no_validator,

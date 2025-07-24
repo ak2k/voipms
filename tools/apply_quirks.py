@@ -86,6 +86,11 @@ def merge_corrections(api_def: dict, corrections: dict) -> dict:
     if error_codes := corrections.get("error_codes", {}):
         print(f"Merging {len(error_codes)} error codes...")
         enhanced.setdefault("error_codes", {}).update(error_codes)
+    
+    # Merge decoder overrides
+    if decoder_overrides := corrections.get("decoder_overrides", {}):
+        print(f"Adding {len(decoder_overrides)} decoder overrides...")
+        enhanced.setdefault("_metadata", {})["decoder_overrides"] = decoder_overrides
 
     # Apply operation corrections
     corrections_operations = corrections.get("operations", {})
@@ -116,16 +121,19 @@ def merge_corrections(api_def: dict, corrections: dict) -> dict:
                     operation_params[param_name] = param_correction
                     applied_corrections.append(f"Added parameter: {param_name}")
                 else:
-                    # Update existing parameter
-                    operation_params[param_name].update(param_correction)
+                    # Merge corrections into existing parameter
+                    # Using dict unpacking to create merged dict
+                    original = operation_params[param_name]
+                    operation_params[param_name] = {**original, **param_correction}
+                    
+                    # Track what was changed
+                    for key in param_correction:
+                        if key not in original or original.get(key) != param_correction[key]:
+                            applied_corrections.append(f"{param_name}.{key}")
                     
                     # Resolve type if overridden
                     if "type" in param_correction:
                         resolve_type_sources(operation_params[param_name], param_correction["type"])
-                        applied_corrections.append(f"{param_name}: type override")
-                    
-                    if "_transform" in param_correction:
-                        applied_corrections.append(f"{param_name}: transform")
         
         # Merge operation-level metadata
         for key, value in operation_corrections.items():
@@ -143,7 +151,82 @@ def merge_corrections(api_def: dict, corrections: dict) -> dict:
             if "_type_sources" in param_spec and "final" not in param_spec.get("_type_sources", {}):
                 resolve_type_sources(param_spec)
 
+    # Add get/set method linkages for cross-reference decoding
+    _add_method_linkages(enhanced)
+    
     return enhanced
+
+
+def _add_method_linkages(api_def: dict):
+    """Add linkages between get and set methods for cross-reference decoding."""
+    operations = api_def.get("operations", {})
+    
+    # Check for manual decoder overrides in corrections
+    decoder_overrides = {}
+    if "_metadata" in api_def and "decoder_overrides" in api_def["_metadata"]:
+        decoder_overrides = api_def["_metadata"]["decoder_overrides"]
+    
+    # Find all set methods with _values_from parameters
+    set_methods_with_values_from = {}
+    for name, op in operations.items():
+        if name.startswith("set"):
+            params_with_values_from = []
+            for param_name, param_data in op.get("parameters", {}).items():
+                if "_values_from" in param_data:
+                    params_with_values_from.append(param_name)
+            if params_with_values_from:
+                set_methods_with_values_from[name] = params_with_values_from
+    
+    # Find matching get methods for each set method
+    get_method_mappings = {}
+    
+    # Start with manual overrides
+    for get_method, set_methods in decoder_overrides.items():
+        if get_method in operations:
+            if isinstance(set_methods, str):
+                set_methods = [set_methods]
+            get_method_mappings[get_method] = set_methods
+    
+    # Then do automatic discovery for remaining set methods
+    mapped_set_methods = set()
+    for sets in get_method_mappings.values():
+        mapped_set_methods.update(sets)
+    
+    for set_method in set_methods_with_values_from.keys():
+        if set_method in mapped_set_methods:
+            continue  # Already mapped by override
+            
+        # Try different patterns to find matching get method
+        potential_gets = [
+            set_method.replace("set", "get"),           # setSubAccount -> getSubAccount
+            set_method.replace("set", "get") + "s",     # setSubAccount -> getSubAccounts
+            set_method.replace("set", "getDIDs") if set_method.startswith("setDID") else None,  # setDIDInfo -> getDIDsInfo
+        ]
+        
+        for potential_get in potential_gets:
+            if potential_get and potential_get in operations:
+                # Don't override existing mappings
+                if potential_get not in get_method_mappings:
+                    get_method_mappings[potential_get] = []
+                get_method_mappings[potential_get].append(set_method)
+                break
+    
+    # Add the mappings to each get method's metadata
+    for get_method, set_methods in get_method_mappings.items():
+        if get_method in operations:
+            operations[get_method]["_decoder_set_methods"] = set_methods
+    
+    # Add summary to metadata
+    if "_metadata" not in api_def:
+        api_def["_metadata"] = {}
+    
+    api_def["_metadata"]["decoder_mappings"] = {
+        "total_get_methods_with_decoding": len(get_method_mappings),
+        "total_set_methods_with_values_from": len(set_methods_with_values_from),
+        "mappings": {get: sets for get, sets in get_method_mappings.items()}
+    }
+
+
 
 
 def main():
@@ -167,7 +250,7 @@ def main():
     if not corrections_path.exists():
         print(f"Error: Corrections file not found: {corrections_path}")
         return 1
-        
+    
     corrections = load_json(corrections_path)
 
     print(f"Loaded {len(api_def.get('operations', {}))} operations")

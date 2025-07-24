@@ -2,12 +2,17 @@
   "version": "1.0",
   "description": "Corrections and overrides for VoIP.ms API definition",
   
+  "decoder_overrides": {
+    "getDIDsInfo": ["setDIDInfo", "setDIDPOP"]
+  },
+  
   "error_codes": {
     "invalid_if_announce_position_enabled_report_estimated_hold_time": "This is not a Report estimated hold time type",
     "missing_if_announce_position_enabled_report_estimated_hold_time": "If announce position enabled report estimated hold time type was not provided"
   },
   
   "operations": {
+    "_comment": "IMPORTANT: Timezone parameters use different formats: CDR/SMS/MMS methods use numeric UTC offsets (e.g., '-5' for EST), while Voicemail methods use timezone identifiers from getTimezones (e.g., 'America/New_York')",
     "getRegistrationStatus": {
       "parameters": {
         "account": {
@@ -31,7 +36,14 @@
     },
     
     "setVoicemail": {
+      "_smart_defaults": {
+        "timezone": "America/New_York"
+      },
       "parameters": {
+        "timezone": {
+          "_values_from": "getTimezones",
+          "_values_from_correction": "Fixed case: getTimeZones → getTimezones"
+        },
         "say_callerid": {
           "type": "string",
           "_transform": {
@@ -96,7 +108,11 @@
     
     "getCDR": {
       "_smart_defaults": {
-        "timezone": "1"
+        "timezone": "-5",
+        "answered": "1",
+        "noanswer": "1",
+        "busy": "1",
+        "failed": "1"
       },
       "_date_validations": {
         "max_days": 92
@@ -107,6 +123,12 @@
       "_parameter_aliases": {
         "from_date": "date_from",
         "to_date": "date_to"
+      },
+      "parameters": {
+        "account": {
+          "type": "string",
+          "_type_override_reason": "Accepts values like '100212_user1'"
+        }
       }
     },
     
@@ -114,6 +136,45 @@
       "_parameter_aliases": {
         "date_from": "from",
         "date_to": "to"
+      },
+      "_smart_defaults": {
+        "timezone": "-5"
+      }
+    },
+    
+    "getResellerCDR": {
+      "_smart_defaults": {
+        "timezone": "-5"
+      }
+    },
+    
+    "getMMS": {
+      "_smart_defaults": {
+        "timezone": "-5"
+      }
+    },
+    
+    "getResellerMMS": {
+      "_smart_defaults": {
+        "timezone": "-5"
+      }
+    },
+    
+    "getResellerSMS": {
+      "_smart_defaults": {
+        "timezone": "-5"
+      }
+    },
+    
+    "createVoicemail": {
+      "_smart_defaults": {
+        "timezone": "America/New_York"
+      },
+      "parameters": {
+        "timezone": {
+          "_values_from": "getTimezones",
+          "_values_from_correction": "Fixed case: getTimeZones → getTimezones"
+        }
       }
     },
     
@@ -200,6 +261,11 @@
           "_type_override_reason": "Accepts email addresses"
         }
       }
+    },
+    
+    "setMusicOnHold": {
+      "_html_category": "Accounts",
+      "_category_override_reason": "Method appears in Accounts section but has separate detailed documentation"
     }
   }
 }

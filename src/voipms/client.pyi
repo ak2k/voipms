@@ -43,19 +43,19 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        charge: str,
-        client: str,
+        charge: float,
+        client: int,
         description: str | None = None,
-        test: Literal["true", "false"] | None = None,
+        test: bool | None = None,
     ) -> dict[str, Any]:
-        """Add new charge
+        """- Adds a Charge to a specific Reseller Client
 
         Args:
             validate: Whether to validate parameters with Pydantic
             charge: Amount of money that will be Debited from the customer (Example: 4.99) (required)
             client: ID for a specific Reseller Client (Example: 561115) (required)
             description: Charge Description
-            test: Set to true if testing how adding charges works (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            test: Set to true if testing how adding charges works
 
         Returns:
             Response from addCharge operation
@@ -66,10 +66,10 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        file: int,
+        file: str,
         portid: int,
     ) -> dict[str, Any]:
-        """Add new lnp file
+        """- Add an invoice file to a portability process.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -90,48 +90,48 @@ class VoIPMSService:
         country: str,
         firstName: str,
         lastName: str,
-        numbers: Annotated[str, "Units: milliseconds"],
-        portType: str,
-        providerAccount: int,
-        providerName: int,
+        numbers: str,
+        portType: int,
+        providerAccount: str,
+        providerName: str,
         state: str,
         statementName: str,
-        zip: int,
+        zip: str,
         address2: str | None = None,
-        btn: Annotated[str, "Format: phone"] | None = None,
-        isMobile: Literal["1", "0"] | None = None,
+        btn: str | None = None,
+        isMobile: int | None = None,
         isPartial: int | None = None,
-        locationType: Literal["1", "0"] | None = None,
-        notes: int | None = None,
+        locationType: int | None = None,
+        notes: str | None = None,
         pin: str | None = None,
         services: str | None = None,
         tfType: int | None = None,
     ) -> dict[str, Any]:
-        """Add new lnp port
+        """- Add one or more numbers to start a portability process.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             address1: This is the "Customer Address" as it appears on the CSR (Customer Service Record) of the losing carrier. (required)
             address2: Optional Address information (e.g: Suite 343)
-            btn: [Required If isMobile = 1] BTN: It is the phone number to which all the other numbers of the customer are charged, in a consolidated telephone bill (instead of showing separate charges for each number you own). Please try to find the BTN on your invoice, and if you are unable to do so please contact the current provider to obtain it.
+            btn: [Required If isMobile = 1] BTN: It is the phone number to which all the other numbers of the customer are
             city: This is the "City" as it appears on the CSR (Customer Service Record) of the losing carrier. (required)
             country: This is the "Country" as it appears on the CSR (Customer Service Record) of the losing carrier. (required)
-            firstName: This is the "Customer First Name" as it appears on  the CSR (Customer Service Record) of the losing carrier. Please Enter the first name of the owner of the number or the autorized contact. No company name must be entered in the field. (required)
-            isMobile: - (Values: 1 = All the numbers are mobile numbers, 0 = false) - Default: 0 (accepts: true/false, yes/no, on/off, 0/1, boolean)
-            isPartial: If you have more then 1 number with your current carrier and not porting them all, choose yes. If you are porting all the numbers, choose no. Please note that you still need to include all numbers you want to port. If you have 2 numbers and want to port both, you need to include both numbers in the list of numbers to port. - (Values: 1 = true, 0 = false) - Default: 0
-            lastName: This is the "Customer Last Name" as it appears on  the CSR (Customer Service Record) of the losing carrier. Please Enter the last name of the owner of the number or the autorized contact. No company name must be entered in the field (required)
-            locationType: - (Values: 1 = Business, 0 = Residential) - Default: 0 (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            firstName: This is the "Customer First Name" as it appears on  the CSR (Customer Service Record) of the (required)
+            isMobile: - (Values: 1 = All the numbers are mobile numbers, 0 = false) - Default: 0
+            isPartial: If you have more then 1 number with your current carrier and not porting them all, choose yes.
+            lastName: This is the "Customer Last Name" as it appears on  the CSR (Customer Service Record) of the (required)
+            locationType: - (Values: 1 = Business, 0 = Residential) - Default: 0
             notes: - If you would like to include additional information regarding this port, you can use this parameter.
-            numbers: DID(s) to port into VoIP.ms network (Example: 5552341234,5552341233). If you are porting more than one number, please separate them with commas. (required)
+            numbers: DID(s) to port into VoIP.ms network (Example: 5552341234,5552341233). If you (required)
             pin: PIN Number
-            portType: Digits from 1 to 4: 1: United States Local numbers 2: Canadian Local Numbers 3: US/CA Toll Free Numbers 4: United States Fax numbers 5: Canadian Fax Numbers (required)
+            portType: Digits from 1 to 4: (required)
             providerAccount: Your Account with your current service provider. (required)
             providerName: The name of your current service provider. (required)
-            services: [Required If isMobile = 1] Please be specific and describe ALL remaining services with the current carrier. This includes DSL/Data services, Hunt Group services, etc. Any services NOT listed below may be disconnected upon completion of this port order.
+            services: [Required If isMobile = 1] Please be specific and describe ALL remaining services with the current carrier. This includes DSL/Data
             state: This is the "State or Province" as it appears on the CSR (Customer Service Record) of the losing carrier. (required)
             statementName: This is for Business numbers only. Please type your Company Name if applicable, otherwise leave it blank. (required)
-            tfType: [Required If portType = 3] Values: 1 - American Carrier, American Callers Only, 2 - American Carrier, American and Canadian Callers allowed, 3 - Canadian Carrier
-            zip: This is the "ZIP or Postal Code" as it appears on the CSR (Customer Service Record) of the losing carrier. (required)
+            tfType: [Required If portType = 3] Values: 1 - American Carrier, American Callers Only, 2 - American Carrier, American
+            zip: This is the "ZIP or Postal Code" as it appears on the CSR (Customer Service Record) of the (required)
 
         Returns:
             Response from addLNPPort operation
@@ -142,10 +142,10 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        conference: str,
-        member: str,
+        conference: int,
+        member: int,
     ) -> dict[str, Any]:
-        """Add new member to conference
+        """- Add Member to a Conference
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -161,19 +161,19 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        client: str,
-        payment: str,
+        client: int,
+        payment: float,
         description: str | None = None,
-        test: Literal["true", "false"] | None = None,
+        test: bool | None = None,
     ) -> dict[str, Any]:
-        """Add new payment
+        """- Adds a Payment to a specific Reseller Client
 
         Args:
             validate: Whether to validate parameters with Pydantic
             client: ID for a specific Reseller Client (Example: 561115) (required)
             description: Payment Description
             payment: Amount of money that will be Credited to the customer (Example: 4.99) (required)
-            test: Set to true if testing how adding payments works (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            test: Set to true if testing how adding payments works
 
         Returns:
             Response from addPayment operation
@@ -187,7 +187,7 @@ class VoIPMSService:
         did: str,
         vpri: int,
     ) -> dict[str, Any]:
-        """Assign di dv pri
+        """- Assigns a Per Minute DID to a VPRI (Flat Rate DIDs can’t be assigned)
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -203,29 +203,29 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        billing_type: Literal["1", "2"],
-        cnam: Literal["0", "1"],
-        dialtime: Annotated[str, "Units: seconds"],
-        pop: str,
+        billing_type: int,
+        cnam: int,
+        dialtime: int,
+        pop: int,
         province: str,
-        quantity: str,
+        quantity: int,
         ratecenter: str,
-        routing: int,
-        callerid_prefix: int | None = None,
-        failover_busy: int | None = None,
-        failover_noanswer: int | None = None,
-        failover_unreachable: int | None = None,
-        note: int | None = None,
-        test: Literal["true", "false"] | None = None,
+        routing: str,
+        callerid_prefix: str | None = None,
+        failover_busy: str | None = None,
+        failover_noanswer: str | None = None,
+        failover_unreachable: str | None = None,
+        note: str | None = None,
+        test: bool | None = None,
         voicemail: str | None = None,
     ) -> dict[str, Any]:
-        """Backorder didcan
+        """- Backorder DID (CANADA) from a specific ratecenter and province.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             billing_type: Billing type for the DID (1 = Per Minute, 2 = Flat) (required)
             callerid_prefix: Caller ID Prefix for the DID
-            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
             failover_busy: Busy Routing for the DID
             failover_noanswer: NoAnswer Routing for the DID
@@ -236,7 +236,7 @@ class VoIPMSService:
             quantity: Number of DIDs to be Ordered (Example: 3) (required)
             ratecenter: USA Ratecenter (Values from getRateCentersUSA) (required)
             routing: Main Routing for the DID (required)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            test: Set to true if testing how Orders work
             voicemail: Voicemail for the DID (Example: 101)
 
         Returns:
@@ -251,29 +251,29 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        billing_type: Literal["1", "2"],
-        cnam: Literal["0", "1"],
-        dialtime: Annotated[str, "Units: seconds"],
-        pop: str,
-        quantity: str,
+        billing_type: int,
+        cnam: int,
+        dialtime: int,
+        pop: int,
+        quantity: int,
         ratecenter: str,
-        routing: int,
+        routing: str,
         state: str,
-        callerid_prefix: int | None = None,
-        failover_busy: int | None = None,
-        failover_noanswer: int | None = None,
-        failover_unreachable: int | None = None,
-        note: int | None = None,
-        test: Literal["true", "false"] | None = None,
+        callerid_prefix: str | None = None,
+        failover_busy: str | None = None,
+        failover_noanswer: str | None = None,
+        failover_unreachable: str | None = None,
+        note: str | None = None,
+        test: bool | None = None,
         voicemail: str | None = None,
     ) -> dict[str, Any]:
-        """Backorder didusa
+        """- Backorder DID (USA) from a specific ratecenter and state.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             billing_type: Billing type for the DID (1 = Per Minute, 2 = Flat) (required)
             callerid_prefix: Caller ID Prefix for the DID
-            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
             failover_busy: Busy Routing for the DID
             failover_noanswer: NoAnswer Routing for the DID
@@ -284,7 +284,7 @@ class VoIPMSService:
             ratecenter: USA Ratecenter (Values from getRateCentersUSA) (required)
             routing: Main Routing for the DID (required)
             state: USA State (values from getStates) (required)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            test: Set to true if testing how Orders work
             voicemail: Voicemail for the DID (Example: 101)
 
         Returns:
@@ -300,18 +300,18 @@ class VoIPMSService:
         validate: bool = True,
         *,
         did: str,
-        cancelcomment: int | None = None,
-        portout: Literal["true", "false"] | None = None,
-        test: Literal["true", "false"] | None = None,
+        cancelcomment: str | None = None,
+        portout: bool | None = None,
+        test: bool | None = None,
     ) -> dict[str, Any]:
-        """Cancel did
+        """- Deletes a specific DID from your Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             cancelcomment: Comment for DID cancellation
             did: DID to be canceled and deleted (Example: 5551234567) (required)
-            portout: Set to true if the DID is being ported out (accepts: true/false, yes/no, on/off, 1/0, boolean)
-            test: Set to true if testing how cancellation works - Cancellation can not be undone - When testing, no changes are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            portout: Set to true if the DID is being ported out
+            test: Set to true if testing how cancellation works
 
         Returns:
             Response from cancelDID operation
@@ -322,15 +322,15 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        id_: str,
-        test: Literal["true", "false"] | None = None,
+        id_: int,
+        test: int | None = None,
     ) -> dict[str, Any]:
-        """Cancel fax number
+        """- Deletes a specific Fax Number from your Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             id_: ID for a specific Fax Number (Example: 923) (required)
-            test: Set to true if testing how cancel a Fax Number (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            test: Set to true if testing how cancel a Fax Number
 
         Returns:
             Response from cancelFaxNumber operation
@@ -343,14 +343,14 @@ class VoIPMSService:
         *,
         account: str,
         did: str,
-        minute: Annotated[str, "Units: minutes"],
-        monthly: str,
-        setup: str,
-        dont_charge_monthly: str | None = None,
-        dont_charge_setup: str | None = None,
+        minute: float,
+        monthly: float,
+        setup: float,
+        dont_charge_monthly: float | None = None,
+        dont_charge_setup: float | None = None,
         next_billing: str | None = None,
     ) -> dict[str, Any]:
-        """Connect did
+        """- Connects a specific DID to a specific Reseller Client Sub Account
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -374,14 +374,14 @@ class VoIPMSService:
         *,
         account: str,
         did: str,
-        minute: Annotated[str, "Units: minutes"],
-        monthly: str,
-        setup: str,
-        dont_charge_monthly: str | None = None,
-        dont_charge_setup: str | None = None,
+        minute: float,
+        monthly: float,
+        setup: float,
+        dont_charge_monthly: float | None = None,
+        dont_charge_setup: float | None = None,
         next_billing: str | None = None,
     ) -> dict[str, Any]:
-        """Connect fax
+        """- Connects a specific FAX DID to a specific Reseller Client Sub Account
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -406,46 +406,46 @@ class VoIPMSService:
         allowed_codecs: str,
         auth_type: int,
         device_type: int,
-        dtmf_mode: int,
+        dtmf_mode: str,
         international_route: int,
         lock_international: int,
-        music_on_hold: int,
-        nat: int,
+        music_on_hold: str,
+        nat: str,
         protocol: int,
         username: str,
-        callerid_number: int | None = None,
-        canada_routing: int | None = None,
+        callerid_number: str | None = None,
+        canada_routing: str | None = None,
         description: str | None = None,
-        dialing_mode: Literal["0", "1", "2"] | None = None,
+        dialing_mode: int | None = None,
         enable_internal_cnam: int | None = None,
-        enable_ip_restriction: Literal["0", "1"] | None = None,
-        enable_pop_restriction: Literal["0", "1"] | None = None,
-        internal_cnam: int | None = None,
-        internal_dialtime: Annotated[str, "Units: seconds"] | None = None,
+        enable_ip_restriction: int | None = None,
+        enable_pop_restriction: int | None = None,
+        internal_cnam: str | None = None,
+        internal_dialtime: str | None = None,
         internal_extension: str | None = None,
         internal_voicemail: str | None = None,
-        ip: int | None = None,
+        ip: str | None = None,
         ip_restriction: str | None = None,
-        language: int | None = None,
-        max_expiry: Annotated[str, "Range: 60-3600"] | None = None,
+        language: str | None = None,
+        max_expiry: int | None = None,
         password: str | None = None,
         pop_restriction: str | None = None,
-        record_calls: Literal["0", "1"] | None = None,
+        record_calls: int | None = None,
         reseller_chargesetup: str | None = None,
         reseller_client: str | None = None,
         reseller_nextbilling: str | None = None,
         reseller_package: str | None = None,
-        rtp_hold_timeout: Annotated[str, "Range: 1-3600"] | None = None,
-        rtp_timeout: Annotated[str, "Range: 1-3600"] | None = None,
-        send_bye: Literal["0", "1"] | None = None,
-        sip_traffic: Literal["0", "1"] | None = None,
-        tfcarrier: Literal["-1", "0", "1", "2"] | None = None,
-        transcribe: Literal["0", "1"] | None = None,
+        rtp_hold_timeout: int | None = None,
+        rtp_timeout: int | None = None,
+        send_bye: int | None = None,
+        sip_traffic: int | None = None,
+        tfcarrier: int | None = None,
+        transcribe: int | None = None,
         transcription_email: str | None = None,
         transcription_locale: str | None = None,
-        transcription_start_delay: Annotated[str, "Range: 0-60; Units: seconds"] | None = None,
+        transcription_start_delay: int | None = None,
     ) -> dict[str, Any]:
-        """Create new sub account
+        """- Adds a new Sub Account entry to your Account
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -458,34 +458,34 @@ class VoIPMSService:
             dialing_mode: Allows you to dial outgoing calls using either the NANPA configuration or the E164 configuration. (Values: 0 = Use Main Account Setting, 1 = E164, 2 = NANPA)
             dtmf_mode: DTMF Mode Code (Values from getDTMFModes) (required)
             enable_internal_cnam: Enable Internal CallerID
-            enable_ip_restriction: Enable IP Restriction (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
-            enable_pop_restriction: Enable POP Restriction (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            enable_ip_restriction: Enable IP Restriction (Boolean: 1/0)
+            enable_pop_restriction: Enable POP Restriction (Boolean: 1/0)
             internal_cnam: Internal CallerID Name
             internal_dialtime: Sub Account Internal Dialtime (Example: 60 -> seconds)
             internal_extension: Sub Account Internal Extension (Example: 1 -> Creates 101)
             internal_voicemail: Sub Account Internal Voicemail (Example: 101)
             international_route: Route Code (Values from getRoutes) (required)
             ip: Sub Account IP (For IP Authentication)
-            ip_restriction: List of IP Addresses, IP Addresses/Netmask, or Fully Qualified Domain Names to allow outgoing calls separated by commas (Example: 123.45.3.21,10.255.12.0/22,device.mydomain.com)
+            ip_restriction: List of IP Addresses, IP Addresses/Netmask, or Fully Qualified Domain Names to allow outgoing calls separated by commas
             language: Language for system messages, such as "Invalid Option" (Values from getLanguages)
             lock_international: Lock International Code (Values from getLockInternational) (required)
             max_expiry: Max Expiry between 60 and 3600 (Example: 3000)
             music_on_hold: Music on Hold Code (Values from getMusicOnHold) (required)
             nat: NAT Mode Code (Values from getNAT) (required)
             password: Sub Account Password (For Password Authentication)
-            pop_restriction: List of POP Servers to allow outgoing calls separated by commas (values from getServersInfo. Example: 10,23,45)
+            pop_restriction: List of POP Servers to allow outgoing calls separated by commas
             protocol: Protocol used for the Sub Account (Values from getProtocols) (required)
-            record_calls: Record Calls (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            record_calls: Record Calls (Boolean: 1/0)
             reseller_chargesetup: True if you want to charge Package Setup Fee after Save
             reseller_client: Reseller Account ID (Example: 561115)
             reseller_nextbilling: Reseller Next Billing Date (Example: '2012-12-31')
             reseller_package: Reseller Package (Example: 92364)
             rtp_hold_timeout: RTP Hold Time Out between 1 and 3600 (Example: 600)
             rtp_timeout: RTP Time Out between 1 and 3600 (Example: 60)
-            send_bye: Send BYE on successful transfer (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
-            sip_traffic: Encrypted SIP Traffic (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            send_bye: Send BYE on successful transfer (Boolean: 1/0)
+            sip_traffic: Encrypted SIP Traffic (Boolean: 1/0)
             tfcarrier: This allows you to select the carrier to be used for outgoing calls to toll-free numbers. (Values: -1 = Use main account settings, 0 = Default server setting, 1 = US carrier, 2 = Canadian carrier)
-            transcribe: Enable Call Transcription (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            transcribe: Enable Call Transcription (Boolean: 1/0)
             transcription_email: Call Transcription Email
             transcription_locale: Call Transcription Locale (values from getLocales)
             transcription_start_delay: Call Transcription Delay Seconds between 0 and 60, Increments of 5 (Example: 10 -> seconds)
@@ -500,24 +500,24 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        attach_message: Annotated[str, "Format: wav"],
+        attach_message: str,
         delete_message: str,
-        digits: Annotated[str, "Range: 1-10"],
-        language: int,
+        digits: int,
+        language: str,
         name: str,
         password: str,
-        play_instructions: int,
+        play_instructions: str,
         say_callerid: str,
         say_time: str,
-        skip_password: Literal["0", "1"],
+        skip_password: str,
         timezone: str,
-        email: Annotated[str, "Format: email"] | None = None,
-        email_attachment_format: int | None = None,
+        email: str | None = None,
+        email_attachment_format: str | None = None,
         transcription: str | None = None,
-        transcription_locale: int | None = None,
+        transcription_locale: str | None = None,
         unavailable_message_recording: str | None = None,
     ) -> dict[str, Any]:
-        """Create new voicemail
+        """- Adds a new Voicemail entry to your Account
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -532,7 +532,7 @@ class VoIPMSService:
             play_instructions: Code for Play Instructions Setting (Values from getPlayInstructions) (required)
             say_callerid: Yes for Saying the Caller ID (Values: 'yes'/'no') (required)
             say_time: Yes for Saying Time Stamp (Values: 'yes'/'no') (required)
-            skip_password: True if Skipping Password (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
+            skip_password: True if Skipping Password (Boolean: 1/0) (required)
             timezone: Time Zone for Mailbox (Values from getTimeZones) (required)
             transcription: Voicemail Transcription
             transcription_locale: Transcription locale code (values from getLocales)
@@ -547,9 +547,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        callhunting: str,
+        callhunting: int,
     ) -> dict[str, Any]:
-        """Delete call hunting
+        """- Deletes a specific Call Hunting from your Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -564,9 +564,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        callparking: str,
+        callparking: int,
     ) -> dict[str, Any]:
-        """Delete call parking
+        """- Deletes a specific Call Parking entry from your Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -581,10 +581,10 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        account: int,
+        account: str,
         callrecording: str,
     ) -> dict[str, Any]:
-        """Delete call recording
+        """- Delete specific call recording, audio file and information related.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -600,9 +600,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        callback: str,
+        callback: int,
     ) -> dict[str, Any]:
-        """Delete callback
+        """- Deletes a specific Callback from your Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -617,9 +617,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        filtering: str,
+        filtering: int,
     ) -> dict[str, Any]:
-        """Delete caller id filtering
+        """- Deletes a specific CallerID Filtering from your Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -634,9 +634,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        client: str,
+        client: int,
     ) -> dict[str, Any]:
-        """Delete client
+        """- Deletes a specific reseller client from your Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -651,9 +651,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        conference: str,
+        conference: int,
     ) -> dict[str, Any]:
-        """Delete conference
+        """- Deletes a specific Conference from your Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -668,9 +668,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        member: str,
+        member: int,
     ) -> dict[str, Any]:
-        """Delete conference member
+        """- Deletes a specific Member profile from your Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -685,9 +685,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        disa: str,
+        disa: int,
     ) -> dict[str, Any]:
-        """Delete disa
+        """- Deletes a specific DISA from your Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -702,15 +702,15 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        id_: str,
-        test: Literal["true", "false"] | None = None,
+        id_: int,
+        test: int | None = None,
     ) -> dict[str, Any]:
-        """Delete email to fax
+        """- Deletes a specific "Email to Fax configuration" from your Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             id_: ID for a specific "Email To Fax Configuration" (Example: 923) (required)
-            test: Set to true if testing how cancel a "Email To Fax Configuration" (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            test: Set to true if testing how cancel a "Email To Fax Configuration"
 
         Returns:
             Response from delEmailToFax operation
@@ -721,15 +721,15 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        id_: str,
-        test: Literal["true", "false"] | None = None,
+        id_: int,
+        test: int | None = None,
     ) -> dict[str, Any]:
-        """Delete fax folder
+        """- Deletes a specific Fax Folder from your Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             id_: ID for a specific Fax Folder (Example: 923) (required)
-            test: Set to true if testing how to delete a Fax Folder (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            test: Set to true if testing how to delete a Fax Folder
 
         Returns:
             Response from delFaxFolder operation
@@ -740,9 +740,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        forwarding: str | None = None,
+        forwarding: int | None = None,
     ) -> dict[str, Any]:
-        """Delete forwarding
+        """- Deletes a specific Forwarding from your Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -757,9 +757,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        ivr: str,
+        ivr: int,
     ) -> dict[str, Any]:
-        """Delete ivr
+        """- Deletes a specific IVR from your Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -774,10 +774,10 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        member: str,
-        conference: str | None = None,
+        member: int,
+        conference: int | None = None,
     ) -> dict[str, Any]:
-        """Delete member from conference
+        """- Removes a member profile from a specific Conference from your Account
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -793,11 +793,11 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        mailbox: str,
+        mailbox: int,
         folder: str | None = None,
-        message_num: str | None = None,
+        message_num: int | None = None,
     ) -> dict[str, Any]:
-        """Delete messages
+        """- Deletes all messages in all servers from a specific Voicemail from your Account
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -816,7 +816,7 @@ class VoIPMSService:
         *,
         music_on_hold: str,
     ) -> dict[str, Any]:
-        """Delete music on hold
+        """- Deletes a specific custom Music on Hold.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -831,9 +831,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        phonebook: Annotated[str, "Format: phone"],
+        phonebook: int,
     ) -> dict[str, Any]:
-        """Delete phonebook
+        """- Deletes a specific Phonebook from your Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -848,9 +848,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        group: int,
+        group: str,
     ) -> dict[str, Any]:
-        """Delete phonebook group
+        """- Deletes a specific Phonebook group from your Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -865,9 +865,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        queue: str,
+        queue: int,
     ) -> dict[str, Any]:
-        """Delete queue
+        """- Deletes a specific Queue from your Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -882,9 +882,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        recording: str,
+        recording: int,
     ) -> dict[str, Any]:
-        """Delete recording
+        """- Deletes a specific Recording from your Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -899,9 +899,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        ringgroup: str,
+        ringgroup: int,
     ) -> dict[str, Any]:
-        """Delete ring group
+        """- Deletes a specific Ring Group from your Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -916,9 +916,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        sipuri: str,
+        sipuri: int,
     ) -> dict[str, Any]:
-        """Delete sipuri
+        """- Deletes a specific SIP URI from your Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -933,10 +933,10 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        member: str,
-        queue: str,
+        member: int,
+        queue: int,
     ) -> dict[str, Any]:
-        """Delete static member
+        """- Deletes a specific Static Member from Queue.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -952,9 +952,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        id_: str | None = None,
+        id_: int | None = None,
     ) -> dict[str, Any]:
-        """Delete sub account
+        """- Deletes a specific Sub Account from your Account
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -969,9 +969,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        timecondition: str,
+        timecondition: int,
     ) -> dict[str, Any]:
-        """Delete time condition
+        """- Deletes a specific Time Condition from your Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -986,9 +986,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        mailbox: str,
+        mailbox: int,
     ) -> dict[str, Any]:
-        """Delete voicemail
+        """- Deletes a specific Voicemail from your Account
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1003,15 +1003,15 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        id_: str,
-        test: Literal["true", "false"] | None = None,
+        id_: int,
+        test: int | None = None,
     ) -> dict[str, Any]:
-        """Delete ete fax message
+        """- Deletes a specific Fax Message from your Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             id_: ID for a specific Fax Message (Example: 923) (required)
-            test: Set to true if testing how cancel a Fax Message (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            test: Set to true if testing how cancel a Fax Message
 
         Returns:
             Response from deleteFaxMessage operation
@@ -1022,9 +1022,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        id_: str,
+        id_: int,
     ) -> dict[str, Any]:
-        """Delete ete mms
+        """- Deletes a specific MMS from your Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1039,9 +1039,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        id_: str,
+        id_: int,
     ) -> dict[str, Any]:
-        """Delete ete sms
+        """- Deletes a specific SMS from your Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1058,7 +1058,7 @@ class VoIPMSService:
         *,
         type_: str | None = None,
     ) -> dict[str, Any]:
-        """E address types
+        """- Retrieves a list of e911 Address Types if no additional parameter is provided. - Retrieves a specific e911 Address Type if an Address code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1073,9 +1073,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        did: int,
+        did: str,
     ) -> dict[str, Any]:
-        """E cancel
+        """- Cancel the e911 Service from a specific DID.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1090,9 +1090,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        did: int,
+        did: str,
     ) -> dict[str, Any]:
-        """E info
+        """- Retrieves the e911 information from a specific DID.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1108,30 +1108,30 @@ class VoIPMSService:
         validate: bool = True,
         *,
         city: str,
-        country: int,
-        did: int,
+        country: str,
+        did: str,
         full_name: str,
         language: str,
         state: str,
         street_name: str,
-        street_number: str,
+        street_number: int,
         zip: str,
-        address_number: str | None = None,
+        address_number: int | None = None,
         address_type: str | None = None,
         other_info: str | None = None,
     ) -> dict[str, Any]:
-        """E provision
+        """- Subscribes your DID to the e911 Emergency Services.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             address_number: Address Number that will be sent to the e911 service.
             address_type: Address Type that will be sent to the e911 service (Values from e911AddressTypes).
             city: City that will be sent to the e911 service. (required)
-            country: Country that will be sent to the e911 service. Value can be US (United states) or CA (Canada). (required)
+            country: Country that will be sent to the e911 service. (required)
             did: DID that will be sent to the e911 service. (required)
             full_name: Full Name that will be sent to the e911 service. (required)
-            language: Language that will be sent to the e911 service. Only available for addresses from Canada. Value can be EN (English) or FR (French). (required)
-            other_info: Additional Address Information that will be sent to the e911 service. Only available for addresses from Canada.
+            language: Language that will be sent to the e911 service. (required)
+            other_info: Additional Address Information that will be sent to the e911 service.
             state: State / Province that will be sent to the e911 service. (required)
             street_name: Street Name that will be sent to the e911 service. (required)
             street_number: Street Number that will be sent to the e911 service. (required)
@@ -1147,30 +1147,30 @@ class VoIPMSService:
         validate: bool = True,
         *,
         city: str,
-        country: int,
-        did: int,
+        country: str,
+        did: str,
         full_name: str,
         language: str,
         state: str,
         street_name: str,
-        street_number: str,
+        street_number: int,
         zip: str,
-        address_number: str | None = None,
+        address_number: int | None = None,
         address_type: str | None = None,
         other_info: str | None = None,
     ) -> dict[str, Any]:
-        """E provision manually
+        """- Subscribes your DID to the e911 Emergency Services. - All e911 information will be validated by the VoIP.ms staff.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             address_number: Address Number that will be sent to the e911 service.
             address_type: Address Type that will be sent to the e911 service (Values from e911AddressTypes).
             city: City that will be sent to the e911 service. (required)
-            country: Country that will be sent to the e911 service. Value can be US (United states) or CA (Canada). (required)
+            country: Country that will be sent to the e911 service. (required)
             did: DID that will be sent to the e911 service. (required)
             full_name: Full Name that will be sent to the e911 service. (required)
-            language: Language that will be sent to the e911 service. Only available for addresses from Canada. Value can be EN (English) or FR (French). (required)
-            other_info: Additional Address Information that will be sent to the e911 service. Only available for addresses from Canada.
+            language: Language that will be sent to the e911 service. (required)
+            other_info: Additional Address Information that will be sent to the e911 service.
             state: State / Province that will be sent to the e911 service. (required)
             street_name: Street Name that will be sent to the e911 service. (required)
             street_number: Street Number that will be sent to the e911 service. (required)
@@ -1186,30 +1186,30 @@ class VoIPMSService:
         validate: bool = True,
         *,
         city: str,
-        country: int,
-        did: int,
+        country: str,
+        did: str,
         full_name: str,
         language: str,
         state: str,
         street_name: str,
-        street_number: str,
+        street_number: int,
         zip: str,
-        address_number: str | None = None,
+        address_number: int | None = None,
         address_type: str | None = None,
         other_info: str | None = None,
     ) -> dict[str, Any]:
-        """E update
+        """- Updates the Information from your e911 Emergency Services Subscription.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             address_number: Address Number that will be updated to the e911 service.
             address_type: Address Type that will be updated to the e911 service (Values from e911AddressTypes).
             city: City that will be updated to the e911 service. (required)
-            country: Country that will be updated to the e911 service. Value can be US (United states) or CA (Canada). (required)
+            country: Country that will be updated to the e911 service. (required)
             did: DID with e911 enabled / in process. (required)
             full_name: Full Name that will be updated to the e911 service. (required)
-            language: Language that will be updated to the e911 service. Only available for addresses from Canada. Value can be EN (English) or FR (French). (required)
-            other_info: Additional Address Information that will be updated to the e911 service. Only available for addresses from Canada.
+            language: Language that will be updated to the e911 service. (required)
+            other_info: Additional Address Information that will be updated to the e911 service.
             state: State / Province that will be updated to the e911 service. (required)
             street_name: Street Name that will be updated to the e911 service. (required)
             street_number: Street Number that will be updated to the e911 service. (required)
@@ -1224,31 +1224,31 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        city: int,
-        country: int,
-        did: int,
-        full_name: int,
-        state: int,
-        street_name: int,
+        city: str,
+        country: str,
+        did: str,
+        full_name: str,
+        state: str,
+        street_name: str,
         street_number: int,
         zip: str,
         address_number: int | None = None,
-        address_type: int | None = None,
-        language: int | None = None,
-        other_info: int | None = None,
+        address_type: str | None = None,
+        language: str | None = None,
+        other_info: str | None = None,
     ) -> dict[str, Any]:
-        """E validate
+        """- Validates your e911 information in order to start your e911 Emergency Services Subscription.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             address_number: Address Number that will be validated.
             address_type: Address Type that will be validated (Values from e911AddressTypes).
             city: City that will be validated. (required)
-            country: Country that will be validated. Value can be US (United states) or CA (Canada). (required)
+            country: Country that will be validated. (required)
             did: DID with e911 enabled / in process. (required)
             full_name: Full Name that will be validated. (required)
-            language: Language that will be validated. Only available for addresses from Canada. Value can be EN (English) or FR (French).
-            other_info: Additional Address Information that will be validated. Only available for addresses from Canada.
+            language: Language that will be validated.
+            other_info: Additional Address Information that will be validated.
             state: State / Province that will be validated. (required)
             street_name: Street Name that will be validated. (required)
             street_number: Street Number that will be validated. (required)
@@ -1265,7 +1265,7 @@ class VoIPMSService:
         *,
         codec: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve allowed codecs information
+        """- Retrieves a list of Allowed Codecs if no additional parameter is provided. - Retrieves a specific Allowed Codec if a codec code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1282,7 +1282,7 @@ class VoIPMSService:
         *,
         type_: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve auth types information
+        """- Retrieves a list of Authentication Types if no additional parameter is provided. - Retrieves a specific Authentication Type if an auth type code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1297,9 +1297,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        id_: int | None = None,
+        id_: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve back orders information
+        """- Retrieves a list of backorder DIDs if no additional parameter is provided. - Retrieves a specific backorder DID if a backorder DID code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1317,7 +1317,7 @@ class VoIPMSService:
         account: str | None = None,
         advanced: Literal["0", "1"] | None = None,
     ) -> dict[str, Any]:
-        """Retrieve balance information
+        """- Retrieves Balance for your Account if no additional parameter is provided. - Retrieves Balance and Calls Statistics for your Account if "advanced" parameter is true.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1335,7 +1335,7 @@ class VoIPMSService:
         *,
         balance_management: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve balance management information
+        """- Retrieves a list of Balance Management Options if no additional parameter is provided. - Retrieves a specific Balance Management Option if a code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1352,28 +1352,28 @@ class VoIPMSService:
         *,
         date_from: str,
         date_to: str,
-        timezone: str,
-        account: int | None = None,
-        answered: Literal["0", "1"] | None = None,
-        busy: Literal["0", "1"] | None = None,
+        timezone: float,
+        account: str | None = None,
+        answered: bool | None = None,
+        busy: bool | None = None,
         callbilling: str | None = None,
         calltype: str | None = None,
-        failed: Literal["0", "1"] | None = None,
-        noanswer: Literal["0", "1"] | None = None,
+        failed: bool | None = None,
+        noanswer: bool | None = None,
     ) -> dict[str, Any]:
-        """Retrieve cdr information
+        """- Retrieves the Call Detail Records of all your calls.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             account: Filter CDR by Account (Values from getCallAccounts)
-            answered: Include Answered Calls to CDR (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
-            busy: Include Busy Calls to CDR (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            answered: Include Answered Calls to CDR (Boolean: 1/0)
+            busy: Include Busy Calls to CDR (Boolean: 1/0)
             callbilling: Filter CDR by Call Billing (Values from getCallBilling)
             calltype: Filters CDR by Call Type (Values from getCallTypes)
             date_from: Start Date for Filtering CDR (Example: '2010-11-30') (required)
             date_to: End Date for Filtering CDR (Example: '2010-11-30') (required)
-            failed: Include Failed Calls to CDR (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
-            noanswer: Include NoAnswered calls to CDR (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            failed: Include Failed Calls to CDR (Boolean: 1/0)
+            noanswer: Include NoAnswered calls to CDR (Boolean: 1/0)
             timezone: Adjust time of calls according to Timezome (Numeric: -12 to 13) (required)
 
         Returns:
@@ -1390,7 +1390,7 @@ class VoIPMSService:
         self,
         validate: bool = True,
     ) -> dict[str, Any]:
-        """Retrieve call accounts information
+        """- Retrieves all Sub Accounts if no additional parameter is provided. - Retrieves Reseller Client Accounts if Reseller Client ID is provided.
 
         Returns:
             Response from getCallAccounts operation
@@ -1401,7 +1401,7 @@ class VoIPMSService:
         self,
         validate: bool = True,
     ) -> dict[str, Any]:
-        """Retrieve call billing information
+        """- Retrieves a list of Call Billing Options.
 
         Returns:
             Response from getCallBilling operation
@@ -1412,9 +1412,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        callhunting: str | None = None,
+        callhunting: int | None = None,
     ) -> dict[str, Any]:
-        """Retrieve call huntings information
+        """- Retrieves a list of Call Huntings if no additional parameter is provided. - Retrieves a specific Call Huntings if a Call Hunting code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1429,9 +1429,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        callparking: str | None = None,
+        callparking: int | None = None,
     ) -> dict[str, Any]:
-        """Retrieve call parking information
+        """- Retrieves all Call Parking entries if no additional parameter is provided. - Retrieves a specific Parking entry if a Call Parking ID is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1446,10 +1446,10 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        account: int,
+        account: str,
         callrecording: str,
     ) -> dict[str, Any]:
-        """Retrieve call recording information
+        """- Retrieves one especific call recording information, including the recording file on mp3 format.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1465,13 +1465,13 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        account: int,
+        account: str,
         date_from: str,
         date_to: str,
         length: int | None = None,
         start: int | None = None,
     ) -> dict[str, Any]:
-        """Retrieve call recordings information
+        """- Retrieves all call recordings related to account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1492,7 +1492,7 @@ class VoIPMSService:
         *,
         client: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve call types information
+        """- Retrieves a list of Call Types and All DIDs if no additional parameter is provided. - Retrieves a list of Call Types and Reseller Client DIDs if a Reseller Client ID is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1509,7 +1509,7 @@ class VoIPMSService:
         *,
         callback: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve callbacks information
+        """- Retrieves a list of Callbacks if no additional parameter is provided. - Retrieves a specific Callback if a Callback code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1524,14 +1524,14 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        did: str | None = None,
+        did: str,
         filtering: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve caller id filtering information
+        """- Retrieves a list of CallerID Filterings if no additional parameter is provided. - Retrieves a specific CallerID Filtering if a CallerID Filtering code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
-            did: DID for a specific CallerID Filtering (Example: 5551234567)
+            did:  (required)
             filtering: ID for a specific CallerID Filtering (Example: 18915)
 
         Returns:
@@ -1545,7 +1545,7 @@ class VoIPMSService:
         *,
         carrier: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve carriers information
+        """- Retrieves a list of Carriers for Vanity Numbers if no additional parameter is provided. - Retrieves a specific Carrier for Vanity Numbers if a carrier code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1562,7 +1562,7 @@ class VoIPMSService:
         *,
         client: str,
     ) -> dict[str, Any]:
-        """Retrieve charges information
+        """- Retrieves Charges made to a specific Reseller Client.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1579,7 +1579,7 @@ class VoIPMSService:
         *,
         client: str,
     ) -> dict[str, Any]:
-        """Retrieve client packages information
+        """- Retrieves a list of Packages for a specific Reseller Client.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1596,7 +1596,7 @@ class VoIPMSService:
         *,
         client: str,
     ) -> dict[str, Any]:
-        """Retrieve client threshold information
+        """- Retrieves the Threshold Information for a specific Reseller Client.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1613,11 +1613,11 @@ class VoIPMSService:
         *,
         client: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve clients information
+        """- Retrieves a list of all Clients if no additional parameter is provided. - Retrieves a specific Reseller Client if a Reseller Client ID is provided. - Retrieves a specific Reseller Client if a Reseller Client e-mail is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
-            client: Parameter could have the following values: * Empty Value [Not Required] * Specific Reseller Client ID (Example: 561115) * Specific Reseller Client e-mail  (Example: 'john.doe@mydomain.com')
+            client: Parameter could have the following values:
 
         Returns:
             Response from getClients operation
@@ -1628,9 +1628,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        conference: str | None = None,
+        conference: int | None = None,
     ) -> dict[str, Any]:
-        """Retrieve conference information
+        """- Retrieves a list of Conferences if no additional parameter is provided. - Retrieves a specific Conference if a conference code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1645,9 +1645,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        member: str | None = None,
+        member: int | None = None,
     ) -> dict[str, Any]:
-        """Retrieve conference members information
+        """- Retrieves a list of Member profiles if no additional parameter is provided. - Retrieves a specific member if a member code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1662,10 +1662,10 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        conference: str,
-        recording: str,
+        conference: int,
+        recording: int,
     ) -> dict[str, Any]:
-        """Retrieve conference recording file information
+        """- Retrieves a specific Recording File data in Base64 format.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1681,11 +1681,11 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        conference: str,
+        conference: int,
         date_from: str | None = None,
         date_to: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve conference recordings information
+        """- Retrieves a list of recordings of a specific conference.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1704,7 +1704,7 @@ class VoIPMSService:
         *,
         country: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve countries information
+        """- Retrieves a list of Countries if no additional parameter is provided. - Retrieves a specific Country if a country code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1719,10 +1719,10 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        type_: int,
+        type_: str,
         country_id: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve did countries information
+        """- Retrieves a list of Countries for International DIDs if no country code is provided. - Retrieves a specific Country for International DIDs if a country code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1741,7 +1741,7 @@ class VoIPMSService:
         province: str,
         ratecenter: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve di ds can information
+        """- Retrives a list of Canadian DIDs by Province and Ratecenter.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1760,11 +1760,11 @@ class VoIPMSService:
         client: str | None = None,
         did: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve di ds info information
+        """- Retrieves information from all your DIDs if no additional parameter is provided. - Retrieves information from Reseller Client's DIDs if a Reseller Client ID is provided. - Retrieves information from Sub Account's DIDs if a Sub Accunt is provided. - Retrieves information from a specific DID if a DID Number is provided. - Retrieves SMS information from a specific DID if the SMS is available.
 
         Args:
             validate: Whether to validate parameters with Pydantic
-            client: Parameter could have the following values: * Empty Value [Not Required] * Specific Reseller Client ID (Example: 561115) * Specific Sub Account (Example: '100001_VoIP')
+            client: Parameter could have the following values:
             did: DID from Client or Sub Account (Example: 5551234567)
 
         Returns:
@@ -1776,9 +1776,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        country_id: int,
+        country_id: str,
     ) -> dict[str, Any]:
-        """Retrieve di ds international geographic information
+        """- Retrieves a list of International Geographic DIDs by Country.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1793,9 +1793,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        country_id: int,
+        country_id: str,
     ) -> dict[str, Any]:
-        """Retrieve di ds international national information
+        """- Retrieves a list of International National DIDs by Country.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1810,9 +1810,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        country_id: int,
+        country_id: str,
     ) -> dict[str, Any]:
-        """Retrieve di ds international toll free information
+        """- Retrieves a list of International TollFree DIDs by Country.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1830,7 +1830,7 @@ class VoIPMSService:
         state: str,
         ratecenter: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve di ds usa information
+        """- Retrives a list of USA DIDs by State and Ratecenter.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1846,9 +1846,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        vpri: int,
+        vpri: str,
     ) -> dict[str, Any]:
-        """Retrieve di dv pri information
+        """- Retrives the list of DIDs assigned to the VPRI.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1865,7 +1865,7 @@ class VoIPMSService:
         *,
         disa: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve dis as information
+        """- Retrieves a list of DISAs if no additional parameter is provided. - Retrieves a specific DISA if a DISA code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1882,7 +1882,7 @@ class VoIPMSService:
         *,
         dtmf_mode: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve dtmf modes information
+        """- Retrieves a list of DTMF Modes if no additional parameter is provided. - Retrieves a specific DTMF Mode if a DTMF mode code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1899,7 +1899,7 @@ class VoIPMSService:
         *,
         client: str,
     ) -> dict[str, Any]:
-        """Retrieve deposits information
+        """- Retrieves Deposits made for a specific Reseller Client.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1916,7 +1916,7 @@ class VoIPMSService:
         *,
         device_type: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve device types information
+        """- Retrieves a list of Device Types if no additional parameter is provided. - Retrieves a specific Device Type if a device type code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1933,7 +1933,7 @@ class VoIPMSService:
         *,
         id_: int,
     ) -> dict[str, Any]:
-        """Retrieve email to fax information
+        """- Retrieves a list of "Email to Fax configurations" from your account if no additional parameter is provided. - Retrieves a specific "Email to Fax configuration" from your account if a ID is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1950,7 +1950,7 @@ class VoIPMSService:
         *,
         id_: int,
     ) -> dict[str, Any]:
-        """Retrieve fax folders information
+        """- Retrieves a list of Fax Folders from your account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1967,7 +1967,7 @@ class VoIPMSService:
         *,
         id_: int,
     ) -> dict[str, Any]:
-        """Retrieve fax message pdf information
+        """- Retrieves a Base64 code of the Fax Message to create a PDF file.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -1984,10 +1984,10 @@ class VoIPMSService:
         *,
         folder: str | None = None,
         from_: str | None = None,
-        id_: str | None = None,
+        id_: int | None = None,
         to: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve fax messages information
+        """- Retrieves a list of Fax Messages. - Retrieves a specific Fax Message if a Fax Message ID is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2005,9 +2005,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        did: str | None = None,
+        did: int | None = None,
     ) -> dict[str, Any]:
-        """Retrieve fax numbers info information
+        """- Retrieves a list of Fax Numbers.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2022,9 +2022,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        did: str,
+        did: int,
     ) -> dict[str, Any]:
-        """Retrieve fax numbers portability information
+        """- Shows if a Fax Number can be ported into our network
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2041,7 +2041,7 @@ class VoIPMSService:
         *,
         province: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve fax provinces information
+        """- Retrieves a list of Canadian Fax Provinces if no additional parameter is provided. - Retrieves a specific Canadian Fax Province if a province code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2058,7 +2058,7 @@ class VoIPMSService:
         *,
         province: str,
     ) -> dict[str, Any]:
-        """Retrieve fax rate centers can information
+        """- Retrieves a list of Canadian Ratecenters by Province.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2075,7 +2075,7 @@ class VoIPMSService:
         *,
         state: str,
     ) -> dict[str, Any]:
-        """Retrieve fax rate centers usa information
+        """- Retrieves a list of USA Ratecenters by State.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2092,7 +2092,7 @@ class VoIPMSService:
         *,
         state: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve fax states information
+        """- Retrieves a list of American Fax States if no additional parameter is provided. - Retrieves a specific American Fax State if a state code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2109,7 +2109,7 @@ class VoIPMSService:
         *,
         forwarding: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve forwardings information
+        """- Retrieves a list of Forwardings if no additional parameter is provided. - Retrieves a specific Forwarding if a fwd code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2124,7 +2124,7 @@ class VoIPMSService:
         self,
         validate: bool = True,
     ) -> dict[str, Any]:
-        """Retrieve ip information
+        """- Shows the IP used by the client application requesting information from the API* this is the only function not using the IP for authentication.* the IP returned should be the one used in the API Configuration.
 
         Returns:
             Response from getIP operation
@@ -2137,7 +2137,7 @@ class VoIPMSService:
         *,
         ivr: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve iv rs information
+        """- Retrieves a list of IVRs if no additional parameter is provided. - Retrieves a specific IVR if a IVR code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2154,7 +2154,7 @@ class VoIPMSService:
         *,
         type_: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve international types information
+        """- Retrieves a list of Types for International DIDs if no additional parameter is provided. - Retrieves a specific Types for International DIDs if a type code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2171,7 +2171,7 @@ class VoIPMSService:
         *,
         type_: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve join when empty types information
+        """- Retrieves a list of 'JoinWhenEmpty' Types if no additional parameter is provided. - Retrieves a specific 'JoinWhenEmpty' Types if a type code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2188,7 +2188,7 @@ class VoIPMSService:
         *,
         attachid: int,
     ) -> dict[str, Any]:
-        """Retrieve lnp attach information
+        """- Retrieve the details of an attached invoice.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2205,7 +2205,7 @@ class VoIPMSService:
         *,
         portid: int,
     ) -> dict[str, Any]:
-        """Retrieve lnp attach list information
+        """- Retrieve the list of invoice (attached) files from a given portability process.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2222,7 +2222,7 @@ class VoIPMSService:
         *,
         portid: int,
     ) -> dict[str, Any]:
-        """Retrieve lnp details information
+        """- Retrieve the details of a given portability process.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2242,7 +2242,7 @@ class VoIPMSService:
         portStatus: str | None = None,
         startDate: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve lnp list information
+        """- Retrieve the full list of all your portability processes.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2260,7 +2260,7 @@ class VoIPMSService:
         self,
         validate: bool = True,
     ) -> dict[str, Any]:
-        """Retrieve lnp list status information
+        """- Retrieve the list of possible status of a portability process.
 
         Returns:
             Response from getLNPListStatus operation
@@ -2273,7 +2273,7 @@ class VoIPMSService:
         *,
         portid: int,
     ) -> dict[str, Any]:
-        """Retrieve lnp notes information
+        """- Retrieve the list of notes from the given portability process.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2290,7 +2290,7 @@ class VoIPMSService:
         *,
         portid: int,
     ) -> dict[str, Any]:
-        """Retrieve lnp status information
+        """- Retrieve the current status of a given portability process.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2307,7 +2307,7 @@ class VoIPMSService:
         *,
         language: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve languages information
+        """- Retrieves a list of Languages if no additional parameter is provided. - Retrieves a specific Language if a language code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2324,7 +2324,7 @@ class VoIPMSService:
         *,
         locale: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve locales information
+        """- Retrieves a list of locale codes if no additional parameter is provided. - Retrieves a specific locale code if a language code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2341,7 +2341,7 @@ class VoIPMSService:
         *,
         lock_international: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve lock international information
+        """- Retrieves a list of Lock Modes if no additional parameter is provided. - Retrieves a specific Lock Mode if a lock code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2361,23 +2361,23 @@ class VoIPMSService:
         did: str | None = None,
         from_: str | None = None,
         limit: str | None = None,
-        mms: str | None = None,
+        mms: int | None = None,
         timezone: str | None = None,
         to: str | None = None,
         type_: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve mms information
+        """- Retrieves a list of MMS messages by: date range, mms type, DID number, and contact.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             all_messages: Filter to recive all MMSs and SMSs, 1 recive all SMS and MMS, 0 if only need MMS, important: the sms ID must be 0
             contact: Contact number for Filtering MMSs (Example: 5551234567)
             did: DID number for Filtering MMSs (Example: 5551234567)
-            from_: Start Date for Filtering MMSs (Example: '2014-03-30') - Default value: Today
-            limit: Number of records to be displayed (Example: 20) - Default value: 50
+            from_: Start Date for Filtering MMSs (Example: '2014-03-30')
+            limit: Number of records to be displayed (Example: 20)
             mms: ID for a specific MMS (Example: 1918)
             timezone: Adjust time of MMSs according to Timezome (Numeric: -12 to 13)
-            to: End Date for Filtering MMSs (Example: '2014-03-30') - Default value: Today
+            to: End Date for Filtering MMSs (Example: '2014-03-30')
             type_: Filter MMSs by Type (Boolean: 1 = received / 0 = sent)
 
         Returns:
@@ -2392,10 +2392,10 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        id_: str | None = None,
-        media_as_array: Annotated[str, "Format: json"] | None = None,
+        id_: int | None = None,
+        media_as_array: int | None = None,
     ) -> dict[str, Any]:
-        """Retrieve media mms information
+        """- Retrieves media files from the message.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2413,7 +2413,7 @@ class VoIPMSService:
         *,
         music_on_hold: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve music on hold information
+        """- Retrieves a list of Music on Hold Options if no additional parameter is provided. - Retrieves a specific Music on Hold Option if a MOH code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2430,7 +2430,7 @@ class VoIPMSService:
         *,
         nat: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve nat information
+        """- Retrieves a list of NAT Options if no additional parameter is provided. - Retrieves a specific NAT Option if a NAT code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2447,7 +2447,7 @@ class VoIPMSService:
         *,
         package: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve packages information
+        """- Retrieves a list of Packages if no additional parameter is provided. - Retrieves a specific Package if a package code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2462,12 +2462,12 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        group: int | None = None,
+        group: str | None = None,
         group_name: str | None = None,
         name: str | None = None,
-        phonebook: Annotated[str, "Format: phone"] | None = None,
+        phonebook: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve phonebook information
+        """- Retrieves a list of Phonebook entries if no additional parameter is provided. - Retrieves a list of Phonebook entries if a name is provided. - Retrieves a specific Phonebook entry if a Phonebook code is provided. - Retrieves a list of Phonebook entries if a phonebook group name is provided. - Retrieves a list of Phonebook entries if a phonebook group code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2485,10 +2485,10 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        group: int | None = None,
+        group: str | None = None,
         name: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve phonebook groups information
+        """- Retrieves a list of Phonebook groups if no additional parameter is provided. - Retrieves a list of Phonebook groups if a name is provided. - Retrieves a specific Phonebook group if a group ID is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2506,7 +2506,7 @@ class VoIPMSService:
         *,
         play_instructions: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve play instructions information
+        """- Retrieves a list of Play Instructions modes if no additional parameter is provided. - Retrieves a specific Play Instructions mode if a play code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2523,7 +2523,7 @@ class VoIPMSService:
         *,
         did: str,
     ) -> dict[str, Any]:
-        """Retrieve portability information
+        """- Shows if a DID Number can be ported into our network. - Display plans and rates available if the DID Number can be ported into our network.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2540,7 +2540,7 @@ class VoIPMSService:
         *,
         protocol: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve protocols information
+        """- Retrieves a list of Protocols if no additional parameter is provided. - Retrieves a specific Protocol if a protocol code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2555,7 +2555,7 @@ class VoIPMSService:
         self,
         validate: bool = True,
     ) -> dict[str, Any]:
-        """Retrieve provinces information
+        """- Retrieves a list of Canadian Provinces.
 
         Returns:
             Response from getProvinces operation
@@ -2568,7 +2568,7 @@ class VoIPMSService:
         *,
         queue: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve queues information
+        """- Retrieves a list of Queue entries if no additional parameter is provided. - Retrieves a specific Queue entry if a Queue code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2585,7 +2585,7 @@ class VoIPMSService:
         *,
         province: str,
     ) -> dict[str, Any]:
-        """Retrieve rate centers can information
+        """- Retrieves a list of Canadian Ratecenters by Province.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2602,7 +2602,7 @@ class VoIPMSService:
         *,
         state: str,
     ) -> dict[str, Any]:
-        """Retrieve rate centers usa information
+        """- Retrieves a list of USA Ratecenters by State.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2620,7 +2620,7 @@ class VoIPMSService:
         package: str,
         query: str,
     ) -> dict[str, Any]:
-        """Retrieve rates information
+        """- Retrieves the Rates for a specific Package and a Search term.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2638,7 +2638,7 @@ class VoIPMSService:
         *,
         recording: str,
     ) -> dict[str, Any]:
-        """Retrieve recording file information
+        """- Retrieves a specific Recording File data in Base64 format.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2655,7 +2655,7 @@ class VoIPMSService:
         *,
         recording: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve recordings information
+        """- Retrieves a list of Recordings if no additional parameter is provided. - Retrieves a specific Recording if a Recording code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2672,7 +2672,7 @@ class VoIPMSService:
         *,
         account: str,
     ) -> dict[str, Any]:
-        """Retrieve registration status information
+        """- Retrieves the Registration Status of all accounts if no account is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2689,7 +2689,7 @@ class VoIPMSService:
         *,
         type_: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve report estimated hold time information
+        """- Retrieves a list of 'ReportEstimateHoldTime' Types if no additional parameter is provided. - Retrieves a specific 'ReportEstimateHoldTime' Type if a type code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2706,7 +2706,7 @@ class VoIPMSService:
         *,
         client: str,
     ) -> dict[str, Any]:
-        """Retrieve reseller balance information
+        """- Retrieves Balance and Calls Statistics for a specific Reseller Client for the last 30 days and current day.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2721,32 +2721,32 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        client: str,
+        client: int,
         date_from: str,
         date_to: str,
-        timezone: str,
-        account: int | None = None,
-        answered: Literal["0", "1"] | None = None,
-        busy: Literal["0", "1"] | None = None,
+        timezone: float,
+        account: str | None = None,
+        answered: bool | None = None,
+        busy: bool | None = None,
         callbilling: str | None = None,
         calltype: str | None = None,
-        failed: Literal["0", "1"] | None = None,
-        noanswer: Literal["0", "1"] | None = None,
+        failed: bool | None = None,
+        noanswer: bool | None = None,
     ) -> dict[str, Any]:
-        """Retrieve reseller cdr information
+        """- Retrieves the Call Detail Records for a specific Reseller Client.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             account: Filter CDR by Account (Values from getCallAccounts)
-            answered: Include Answered Calls to CDR (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
-            busy: Include Busy Calls to CDR (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            answered: Include Answered Calls to CDR (Boolean: 1/0)
+            busy: Include Busy Calls to CDR (Boolean: 1/0)
             callbilling: Filter CDR by Call Billing (Values from getCallBilling)
             calltype: Filters CDR by Call Type (Values from getCallTypes)
             client: ID for a specific Reseller Client (Example: 561115) (required)
             date_from: Start Date for Filtering CDR (Example: '2010-11-30') (required)
             date_to: End Date for Filtering CDR (Example: '2010-11-30') (required)
-            failed: Include Failed Calls to CDR (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
-            noanswer: Include NoAnswered calls to CDR (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            failed: Include Failed Calls to CDR (Boolean: 1/0)
+            noanswer: Include NoAnswered calls to CDR (Boolean: 1/0)
             timezone: Adjust time of calls according to Timezome (Numeric: -12 to 13) (required)
 
         Returns:
@@ -2769,7 +2769,7 @@ class VoIPMSService:
         to: str | None = None,
         type_: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve reseller mms information
+        """- Retrieves a list of MMS messages for a specific Reseller Client. by: date range, mms type, DID number, and contact
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2777,8 +2777,8 @@ class VoIPMSService:
             client:  (required)
             contact: Contact number for Filtering MMSs (Example: 5551234567)
             did: DID number for Filtering MMSs (Example: 5551234567)
-            from_: Start Date for Filtering SMSs (Example: '2014-03-30') - Default value: Today
-            limit: Number of records to be displayed (Example: 20) - Default value: 50
+            from_: Start Date for Filtering SMSs (Example: '2014-03-30')
+            limit: Number of records to be displayed (Example: 20)
             mms:  (required)
             timezone: Adjust time of MMSs according to Timezome (Numeric: -12 to 13)
             to: End Date for Filtering MMSs (Example: '2014-03-30')
@@ -2799,12 +2799,12 @@ class VoIPMSService:
         did: str | None = None,
         from_: str | None = None,
         limit: str | None = None,
-        sms: str | None = None,
+        sms: int | None = None,
         timezone: str | None = None,
         to: str | None = None,
         type_: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve reseller sms information
+        """- Retrieves a list of SMS messages for a specific Reseller Client. by: date range, sms type, DID number, and contact
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2812,8 +2812,8 @@ class VoIPMSService:
             client:  (required)
             contact: Contact number for Filtering SMSs (Example: 5551234567)
             did: DID number for Filtering SMSs (Example: 5551234567)
-            from_: Start Date for Filtering SMSs (Example: '2014-03-30') - Default value: Today
-            limit: Number of records to be displayed (Example: 20) - Default value: 50
+            from_: Start Date for Filtering SMSs (Example: '2014-03-30')
+            limit: Number of records to be displayed (Example: 20)
             sms: ID for a specific SMS (Example: 5853)
             timezone: Adjust time of SMSs according to Timezome (Numeric: -12 to 13)
             to: End Date for Filtering SMSs (Example: '2014-03-30')
@@ -2830,7 +2830,7 @@ class VoIPMSService:
         *,
         ring_group: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve ring groups information
+        """- Retrieves a list of Ring Groups if no additional parameter is provided. - Retrieves a specific Ring Group if a ring group code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2847,7 +2847,7 @@ class VoIPMSService:
         *,
         strategy: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve ring strategies information
+        """- Retrieves a list of Ring Strategies if no additional parameter is provided. - Retrieves a specific Ring Strategy if a ring strategy code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2864,7 +2864,7 @@ class VoIPMSService:
         *,
         route: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve routes information
+        """- Retrieves a list of Route Options if no additional parameter is provided. - Retrieves a specific Route Option if a route code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2881,7 +2881,7 @@ class VoIPMSService:
         *,
         sipuri: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve sipur is information
+        """- Retrieves a list of SIP URIs if no additional parameter is provided. - Retrieves a specific SIP URI if a SIP URI code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2901,23 +2901,23 @@ class VoIPMSService:
         did: str | None = None,
         from_: str | None = None,
         limit: str | None = None,
-        sms: str | None = None,
+        sms: int | None = None,
         timezone: str | None = None,
         to: str | None = None,
         type_: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve sms information
+        """- Retrieves a list of SMS messages by: date range, sms type, DID number, and contact.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             all_messages: Filter to recive all SMSs and MMSs, 1 recive all SMS and MMS, 0 if only need SMS, important: the sms ID must be 0
             contact: Contact number for Filtering SMSs (Example: 5551234567)
             did: DID number for Filtering SMSs (Example: 5551234567)
-            from_: Start Date for Filtering SMSs (Example: '2014-03-30') - Default value: Today
-            limit: Number of records to be displayed (Example: 20) - Default value: 50
+            from_: Start Date for Filtering SMSs (Example: '2014-03-30')
+            limit: Number of records to be displayed (Example: 20)
             sms: ID for a specific SMS (Example: 5853)
             timezone: Adjust time of SMSs according to Timezome (Numeric: -12 to 13)
-            to: End Date for Filtering SMSs (Example: '2014-03-30') - Default value: Today
+            to: End Date for Filtering SMSs (Example: '2014-03-30')
             type_: Filter SMSs by Type (Boolean: 1 = received / 0 = sent)
 
         Returns:
@@ -2934,7 +2934,7 @@ class VoIPMSService:
         *,
         server_pop: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve servers info information
+        """- Retrieves a list of Servers with their info if no additional parameter is provided. - Retrieves a specific Server with its info if a Server POP is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -2949,7 +2949,7 @@ class VoIPMSService:
         self,
         validate: bool = True,
     ) -> dict[str, Any]:
-        """Retrieve states information
+        """- Retrieves a list of USA States.
 
         Returns:
             Response from getStates operation
@@ -2963,11 +2963,11 @@ class VoIPMSService:
         queue: str,
         member: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve static members information
+        """- Retrieves a list of Static Members from a queue if no additional parameter is provided. - Retrieves a specific Static Member from a queue if Queue ID and Member ID are provided
 
         Args:
             validate: Whether to validate parameters with Pydantic
-            member: ID for a specific Static Member (Example: 163) - The Member must belong to the queue provided
+            member: ID for a specific Static Member (Example: 163)
             queue: ID for a specific Queue (Example: 4136) (required)
 
         Returns:
@@ -2981,11 +2981,11 @@ class VoIPMSService:
         *,
         account: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve sub accounts information
+        """- Retrieves all Sub Accounts if no additional parameter is provided. - Retrieves Reseller Client Accounts if Reseller Client ID is provided. - Retrieves a specific Sub Account if a Sub Account is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
-            account: Parameter could have the following values: * Empty Value [Not Required] * Specific Sub Account (Example: '100000_VoIP') * Specific Reseller Client ID (Example: 561115)
+            account: Parameter could have the following values:
 
         Returns:
             Response from getSubAccounts operation
@@ -2997,9 +2997,9 @@ class VoIPMSService:
         validate: bool = True,
         *,
         query: str,
-        route: str,
+        route: int,
     ) -> dict[str, Any]:
-        """Retrieve termination rates information
+        """- Retrieves the Rates for a specific Route (Premium, Value) and a Search term.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3015,9 +3015,9 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        timecondition: str | None = None,
+        timecondition: int | None = None,
     ) -> dict[str, Any]:
-        """Retrieve time conditions information
+        """- Retrieves a list of Time Conditions if no additional parameter is provided. - Retrieves a specific Time Condition if a time condition code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3034,7 +3034,7 @@ class VoIPMSService:
         *,
         timezone: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve timezones information
+        """- Retrieves a list of Timezones if no additional parameter is provided. - Retrieves a specific Timezone if a timezone code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3052,7 +3052,7 @@ class VoIPMSService:
         date_from: str,
         date_to: str,
     ) -> dict[str, Any]:
-        """Retrieve transaction history information
+        """- Retrieves the Transaction History records between two dates.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3068,7 +3068,7 @@ class VoIPMSService:
         self,
         validate: bool = True,
     ) -> dict[str, Any]:
-        """Retrieve vpr is information
+        """- Retrieves a list of vpri.
 
         Returns:
             Response from getVPRIs operation
@@ -3081,7 +3081,7 @@ class VoIPMSService:
         *,
         email_attachment_format: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve voicemail attachment formats information
+        """- Retrieves a list of Email Attachment Format Options if no additional parameter is provided. - Retrieves a specific Email Attachment Format Option if a format value is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3098,7 +3098,7 @@ class VoIPMSService:
         *,
         folder: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve voicemail folders information
+        """- Retrieves a list of default Voicemail Folders if no additional parameter is provided. - Retrieves a list of Voicemail Folders within a mailbox if mailbox parameter is provided. - Retrieves a specific Folder if a folder name is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3115,9 +3115,9 @@ class VoIPMSService:
         *,
         folder: str,
         mailbox: str,
-        message_num: str,
+        message_num: int,
     ) -> dict[str, Any]:
-        """Retrieve voicemail message file information
+        """- Retrieves a specific Voicemail Message File in Base64 format.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3139,7 +3139,7 @@ class VoIPMSService:
         date_to: str | None = None,
         folder: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve voicemail messages information
+        """- Retrieves a list of Voicemail Messages if mailbox parameter is provided. - Retrieves a list of Voicemail Messages in a Folder if a folder is provided. - Retrieves a list of Voicemail Messages in a date range if a from and to are provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3159,7 +3159,7 @@ class VoIPMSService:
         *,
         voicemailsetup: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve voicemail setups information
+        """- Retrieves a list of Voicemail Setup Options if no additional parameter is provided. - Retrieves a specific Voicemail Setup Option if a voicemail setup code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3176,7 +3176,7 @@ class VoIPMSService:
         *,
         mailbox: str | None = None,
     ) -> dict[str, Any]:
-        """Retrieve voicemails information
+        """- Retrieves a list of Voicemails if no additional parameter is provided. - Retrieves a specific Voicemail if a voicemail code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3191,10 +3191,10 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        email: Annotated[str, "Format: email"],
+        email: str,
         id_: int,
     ) -> dict[str, Any]:
-        """Mail fax message pdf
+        """- Send a Fax Message attached as a PDF file to an email destination.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3213,9 +3213,9 @@ class VoIPMSService:
         folder: str,
         listened: str,
         mailbox: str,
-        message_num: str,
+        message_num: int,
     ) -> dict[str, Any]:
-        """Mark listened voicemail message
+        """- Mark a Voicemail Message as Listened or Unlistened. - If value is 'yes', the voicemail message will be marked as listened and will be moved to the Old Folder. - If value is 'no', the voicemail message will be marked as not-listened and will be moved to the INBOX Folder.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3235,10 +3235,10 @@ class VoIPMSService:
         *,
         folder: str,
         mailbox: str,
-        message_num: str,
+        message_num: int,
         urgent: str,
     ) -> dict[str, Any]:
-        """Mark urgent voicemail message
+        """- Mark Voicemail Message as Urgent or not Urgent. - If value is 'yes', the voicemail message will be marked as urgent and will be moved to the Urgent Folder. - If value is 'no', the voicemail message will be unmarked as urgent and will be moved to the INBOX Folder.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3258,15 +3258,15 @@ class VoIPMSService:
         *,
         fax_id: int,
         folder_id: int,
-        test: Literal["true", "false"] | None = None,
+        test: int | None = None,
     ) -> dict[str, Any]:
-        """Move fax message
+        """- Moves a Fax Message to a different folder.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             fax_id: ID of the Fax Message requested (Values from getFaxMessages) (required)
             folder_id: ID of the destination Fax Folder (Values from getFaxFolders) (required)
-            test: Set to true if testing how to move a Fax Message (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            test: Set to true if testing how to move a Fax Message
 
         Returns:
             Response from moveFaxMessage operation
@@ -3279,10 +3279,10 @@ class VoIPMSService:
         *,
         folder: str,
         mailbox: str,
-        message_num: str,
+        message_num: int,
         new_folder: str,
     ) -> dict[str, Any]:
-        """Move folder voicemail message
+        """- Move Voicemail Message to a Destination Folder.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3300,32 +3300,32 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        billing_type: Literal["1", "2"],
-        cnam: Literal["0", "1"],
-        dialtime: Annotated[str, "Units: seconds"],
+        billing_type: int,
+        cnam: int,
+        dialtime: int,
         did: str,
-        pop: str,
-        routing: int,
+        pop: int,
+        routing: str,
         account: str | None = None,
-        callerid_prefix: int | None = None,
-        failover_busy: int | None = None,
-        failover_noanswer: int | None = None,
-        failover_unreachable: int | None = None,
-        minute: Annotated[str, "Units: minutes"] | None = None,
+        callerid_prefix: str | None = None,
+        failover_busy: str | None = None,
+        failover_noanswer: str | None = None,
+        failover_unreachable: str | None = None,
+        minute: str | None = None,
         monthly: str | None = None,
-        note: int | None = None,
+        note: str | None = None,
         setup: str | None = None,
-        test: Literal["true", "false"] | None = None,
+        test: bool | None = None,
         voicemail: str | None = None,
     ) -> dict[str, Any]:
-        """Order did
+        """- Orders and Adds a new DID Number to the Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             account: Reseller Sub Account (Example: '100001_VoIP')
             billing_type: Billing type for the DID (1 = Per Minute, 2 = Flat) (required)
             callerid_prefix: Caller ID Prefix for the DID
-            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
             did: DID to be Ordered (Example: 5552223333) (required)
             failover_busy: Busy Routing for the DID
@@ -3337,7 +3337,7 @@ class VoIPMSService:
             pop: Point of Presence for the DID (Example: 5) (required)
             routing: Main Routing for the DID (required)
             setup: Setup Fee for Reseller Client (Example: 1.99)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            test: Set to true if testing how Orders work
             voicemail: Voicemail for the DID (Example: 101)
 
         Returns:
@@ -3352,38 +3352,38 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        billing_type: Literal["1", "2"],
-        cnam: Literal["0", "1"],
-        dialtime: Annotated[str, "Units: seconds"],
-        location_id: int,
-        pop: str,
-        quantity: str,
-        routing: int,
+        billing_type: int,
+        cnam: str,
+        dialtime: int,
+        location_id: str,
+        pop: int,
+        quantity: int,
+        routing: str,
         account: str | None = None,
-        callerid_prefix: int | None = None,
-        failover_busy: int | None = None,
-        failover_noanswer: int | None = None,
-        failover_unreachable: int | None = None,
-        minute: Annotated[str, "Units: minutes"] | None = None,
+        callerid_prefix: str | None = None,
+        failover_busy: str | None = None,
+        failover_noanswer: str | None = None,
+        failover_unreachable: str | None = None,
+        minute: str | None = None,
         monthly: str | None = None,
-        note: int | None = None,
+        note: str | None = None,
         setup: str | None = None,
-        test: Literal["true", "false"] | None = None,
+        test: int | None = None,
         voicemail: str | None = None,
     ) -> dict[str, Any]:
-        """Order did international geographic
+        """- Orders and Adds new International Geographic DID Numbers to the Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             account: Reseller Sub Account (Example: '100001_VoIP')
             billing_type: Billing type for the DID (1 = Per Minute, 2 = Flat) (required)
             callerid_prefix: Caller ID Prefix for the DID
-            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
             failover_busy: Busy Routing for the DID
             failover_noanswer: NoAnswer Routing for the DID
             failover_unreachable: Unreachable Routing for the DID
-            location_id: ID for a specific International Location (Values from getDIDsInternationalGeographic) (required)
+            location_id: ID for a specific International Location (required)
             minute: Minute Rate for Reseller Client (Example: 0.03)
             monthly: Montly Fee for Reseller Client (Example: 3.50)
             note: Note for the DID
@@ -3391,7 +3391,7 @@ class VoIPMSService:
             quantity: Number of dids to be purchased (Example: 2) (required)
             routing: Main Routing for the DID (required)
             setup: Setup Fee for Reseller Client (Example: 1.99)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            test: Set to true if testing how Orders work
             voicemail: Voicemail for the DID (Example: 101)
 
         Returns:
@@ -3403,38 +3403,38 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        billing_type: Literal["1", "2"],
-        cnam: Literal["0", "1"],
-        dialtime: Annotated[str, "Units: seconds"],
-        location_id: int,
-        pop: str,
-        quantity: str,
-        routing: int,
+        billing_type: int,
+        cnam: str,
+        dialtime: int,
+        location_id: str,
+        pop: int,
+        quantity: int,
+        routing: str,
         account: str | None = None,
-        callerid_prefix: int | None = None,
-        failover_busy: int | None = None,
-        failover_noanswer: int | None = None,
-        failover_unreachable: int | None = None,
-        minute: Annotated[str, "Units: minutes"] | None = None,
+        callerid_prefix: str | None = None,
+        failover_busy: str | None = None,
+        failover_noanswer: str | None = None,
+        failover_unreachable: str | None = None,
+        minute: str | None = None,
         monthly: str | None = None,
-        note: int | None = None,
+        note: str | None = None,
         setup: str | None = None,
-        test: Literal["true", "false"] | None = None,
+        test: int | None = None,
         voicemail: str | None = None,
     ) -> dict[str, Any]:
-        """Order did international national
+        """- Orders and Adds new International National DID Numbers to the Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             account: Reseller Sub Account (Example: '100001_VoIP')
             billing_type: Billing type for the DID (1 = Per Minute, 2 = Flat) (required)
             callerid_prefix: Caller ID Prefix for the DID
-            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
             failover_busy: Busy Routing for the DID
             failover_noanswer: NoAnswer Routing for the DID
             failover_unreachable: Unreachable Routing for the DID
-            location_id: ID for a specific International Location (Values from getDIDsInternationalNational) (required)
+            location_id: ID for a specific International Location (required)
             minute: Minute Rate for Reseller Client (Example: 0.03)
             monthly: Montly Fee for Reseller Client (Example: 3.50)
             note: Note for the DID
@@ -3442,7 +3442,7 @@ class VoIPMSService:
             quantity: Number of dids to be purchased (Example: 2) (required)
             routing: Main Routing for the DID (required)
             setup: Setup Fee for Reseller Client (Example: 1.99)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            test: Set to true if testing how Orders work
             voicemail: Voicemail for the DID (Example: 101)
 
         Returns:
@@ -3454,36 +3454,36 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        cnam: Literal["0", "1"],
-        dialtime: Annotated[str, "Units: seconds"],
-        location_id: int,
-        pop: str,
-        quantity: str,
-        routing: int,
+        cnam: str,
+        dialtime: int,
+        location_id: str,
+        pop: int,
+        quantity: int,
+        routing: str,
         account: str | None = None,
-        callerid_prefix: int | None = None,
-        failover_busy: int | None = None,
-        failover_noanswer: int | None = None,
-        failover_unreachable: int | None = None,
-        minute: Annotated[str, "Units: minutes"] | None = None,
+        callerid_prefix: str | None = None,
+        failover_busy: str | None = None,
+        failover_noanswer: str | None = None,
+        failover_unreachable: str | None = None,
+        minute: str | None = None,
         monthly: str | None = None,
-        note: int | None = None,
+        note: str | None = None,
         setup: str | None = None,
-        test: Literal["true", "false"] | None = None,
+        test: int | None = None,
         voicemail: str | None = None,
     ) -> dict[str, Any]:
-        """Order did international toll free
+        """- Orders and Adds new International TollFree DID Numbers to the Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             account: Reseller Sub Account (Example: '100001_VoIP')
             callerid_prefix: Caller ID Prefix for the DID
-            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
             failover_busy: Busy Routing for the DID
             failover_noanswer: NoAnswer Routing for the DID
             failover_unreachable: Unreachable Routing for the DID
-            location_id: ID for a specific International Location (Values from getDIDsInternationalTollFree) (required)
+            location_id: ID for a specific International Location (required)
             minute: Minute Rate for Reseller Client (Example: 0.03)
             monthly: Montly Fee for Reseller Client (Example: 3.50)
             note: Note for the DID
@@ -3491,7 +3491,7 @@ class VoIPMSService:
             quantity: Number of dids to be purchased (Example: 2) (required)
             routing: Main Routing for the DID (required)
             setup: Setup Fee for Reseller Client (Example: 1.99)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            test: Set to true if testing how Orders work
             voicemail: Voicemail for the DID (Example: 101)
 
         Returns:
@@ -3503,30 +3503,30 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        cnam: Literal["0", "1"],
-        dialtime: Annotated[str, "Units: seconds"],
-        digits: str,
-        pop: str,
-        routing: int,
+        cnam: str,
+        dialtime: int,
+        digits: int,
+        pop: int,
+        routing: str,
         account: str | None = None,
-        callerid_prefix: int | None = None,
-        failover_busy: int | None = None,
-        failover_noanswer: int | None = None,
-        failover_unreachable: int | None = None,
-        minute: Annotated[str, "Units: minutes"] | None = None,
+        callerid_prefix: str | None = None,
+        failover_busy: str | None = None,
+        failover_noanswer: str | None = None,
+        failover_unreachable: str | None = None,
+        minute: str | None = None,
         monthly: str | None = None,
-        note: int | None = None,
+        note: str | None = None,
         setup: str | None = None,
-        test: Literal["true", "false"] | None = None,
+        test: int | None = None,
         voicemail: str | None = None,
     ) -> dict[str, Any]:
-        """Order did virtual
+        """- Orders and Adds a new Virtual DID Number to the Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             account: Reseller Sub Account (Example: '100001_VoIP')
             callerid_prefix: Caller ID Prefix for the DID
-            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
             digits: Three Digits for the new Virtual DID (Example: 001) (required)
             failover_busy: Busy Routing for the DID
@@ -3538,7 +3538,7 @@ class VoIPMSService:
             pop: Point of Presence for the DID (Example: 5) (required)
             routing: Main Routing for the DID (required)
             setup: Setup Fee for Reseller Client (Example: 1.99)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            test: Set to true if testing how Orders work
             voicemail: Voicemail for the DID (Example: 101)
 
         Returns:
@@ -3551,27 +3551,27 @@ class VoIPMSService:
         validate: bool = True,
         *,
         location: int,
-        quantity: str,
-        email: Annotated[str, "Format: email"] | None = None,
-        email_attach_file: Annotated[str, "Format: pdf"] | None = None,
+        quantity: int,
+        email: str | None = None,
+        email_attach_file: str | None = None,
         email_enable: str | None = None,
-        test: Literal["true", "false"] | None = None,
+        test: int | None = None,
         url_callback: str | None = None,
         url_callback_enable: str | None = None,
         url_callback_retry: str | None = None,
     ) -> dict[str, Any]:
-        """Order fax number
+        """- Orders and Adds a new Fax Number to the Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
-            email: Email address where send notifications when receive Fax Messages - (Example: yourname@company.com)
-            email_attach_file: Flag to enable attach the Fax Message as a PDF file in the notifications. - (Values: 1 = true, 0 = false) - Default: 0
-            email_enable: Flag to enable the email notifications. - (Values: 1 = true, 0 = false) - Default: 0
+            email: Email address where send notifications when receive Fax Messages
+            email_attach_file: Flag to enable attach the Fax Message as a PDF file in the notifications.
+            email_enable: Flag to enable the email notifications.
             location: Location ID of the Fax Number (Values from getFaxRateCentersCAN/getFaxRateCentersUSA) (required)
             quantity: Quantity of Fax Numbers to order (Example: 3) (required)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            test: Set to true if testing how Orders work
             url_callback: URL where make a POST when you receive a Fax Message.
-            url_callback_enable: Flag to enable the URL Callback functionality. - (Values: 1 = true, 0 = false) - Default: 0
+            url_callback_enable: Flag to enable the URL Callback functionality.
             url_callback_retry: Flag to enable retry the POST action in case we don't receive "ok".
 
         Returns:
@@ -3583,30 +3583,30 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        cnam: Literal["0", "1"],
-        dialtime: Annotated[str, "Units: seconds"],
+        cnam: int,
+        dialtime: int,
         did: str,
-        pop: str,
-        routing: int,
+        pop: int,
+        routing: str,
         account: str | None = None,
-        callerid_prefix: int | None = None,
-        failover_busy: int | None = None,
-        failover_noanswer: int | None = None,
-        failover_unreachable: int | None = None,
-        minute: Annotated[str, "Units: minutes"] | None = None,
+        callerid_prefix: str | None = None,
+        failover_busy: str | None = None,
+        failover_noanswer: str | None = None,
+        failover_unreachable: str | None = None,
+        minute: str | None = None,
         monthly: str | None = None,
-        note: int | None = None,
+        note: str | None = None,
         setup: str | None = None,
-        test: Literal["true", "false"] | None = None,
+        test: bool | None = None,
         voicemail: str | None = None,
     ) -> dict[str, Any]:
-        """Order toll free
+        """- Orders and Adds a new Toll Free Number to the Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             account: Reseller Sub Account (Example: '100001_VoIP')
             callerid_prefix: Caller ID Prefix for the DID
-            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
             did: DID to be Ordered (Example: 8772223333) (required)
             failover_busy: Busy Routing for the DID
@@ -3618,7 +3618,7 @@ class VoIPMSService:
             pop: Point of Presence for the DID (Example: 5) (required)
             routing: Main Routing for the DID (required)
             setup: Setup Fee for Reseller Client (Example: 1.99)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            test: Set to true if testing how Orders work
             voicemail: Voicemail for the DID (Example: 101)
 
         Returns:
@@ -3631,31 +3631,31 @@ class VoIPMSService:
         validate: bool = True,
         *,
         carrier: int,
-        cnam: Literal["0", "1"],
-        dialtime: Annotated[str, "Units: seconds"],
+        cnam: int,
+        dialtime: int,
         did: str,
-        pop: str,
-        routing: int,
+        pop: int,
+        routing: str,
         account: str | None = None,
-        callerid_prefix: int | None = None,
-        failover_busy: int | None = None,
-        failover_noanswer: int | None = None,
-        failover_unreachable: int | None = None,
-        minute: Annotated[str, "Units: minutes"] | None = None,
+        callerid_prefix: str | None = None,
+        failover_busy: str | None = None,
+        failover_noanswer: str | None = None,
+        failover_unreachable: str | None = None,
+        minute: str | None = None,
         monthly: str | None = None,
-        note: int | None = None,
+        note: str | None = None,
         setup: str | None = None,
-        test: Literal["true", "false"] | None = None,
+        test: bool | None = None,
         voicemail: str | None = None,
     ) -> dict[str, Any]:
-        """Order vanity
+        """- Orders and Adds a new Vanity Toll Free Number to the Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             account: Reseller Sub Account (Example: '100001_VoIP')
             callerid_prefix: Caller ID Prefix for the DID
             carrier: Carrier for the DID (Values from getCarriers) (required)
-            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
             did: DID to be Ordered (Example: 8772223333) (required)
             failover_busy: Busy Routing for the DID
@@ -3667,7 +3667,7 @@ class VoIPMSService:
             pop: Point of Presence for the DID (Example: 5) (required)
             routing: Main Routing for the DID (required)
             setup: Setup Fee for Reseller Client (Example: 1.99)
-            test: Set to true if testing how Orders work - Orders can not be undone - When testing, no Orders are made (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            test: Set to true if testing how Orders work
             voicemail: Voicemail for the DID (Example: 101)
 
         Returns:
@@ -3682,7 +3682,7 @@ class VoIPMSService:
         did: str,
         vpri: int | None = None,
     ) -> dict[str, Any]:
-        """Remove di dv pri
+        """- Removes a DID from a VPRI
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3702,7 +3702,7 @@ class VoIPMSService:
         type_: str,
         province: str | None = None,
     ) -> dict[str, Any]:
-        """Search for di ds can
+        """- Searches for Canadian DIDs by Province using a Search Criteria.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3723,7 +3723,7 @@ class VoIPMSService:
         type_: str,
         state: str | None = None,
     ) -> dict[str, Any]:
-        """Search for di ds usa
+        """- Searches for USA DIDs by State using a Search Criteria.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3742,7 +3742,7 @@ class VoIPMSService:
         *,
         area_code: int,
     ) -> dict[str, Any]:
-        """Search for fax area code can
+        """- Retrieves a list of Canadian Ratecenters searched by Area Code.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3759,7 +3759,7 @@ class VoIPMSService:
         *,
         area_code: int,
     ) -> dict[str, Any]:
-        """Search for fax area code usa
+        """- Retrieves a list of USA Ratecenters searched by Area Code.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3777,7 +3777,7 @@ class VoIPMSService:
         query: str | None = None,
         type_: str | None = None,
     ) -> dict[str, Any]:
-        """Search for toll free can us
+        """- Searches for USA/Canada Toll Free Numbers using a Search Criteria. - Shows all USA/Canada Toll Free Numbers available if no criteria is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3796,7 +3796,7 @@ class VoIPMSService:
         query: str | None = None,
         type_: str | None = None,
     ) -> dict[str, Any]:
-        """Search for toll free usa
+        """- Searches for USA Toll Free Numbers using a Search Criteria. - Shows all USA Toll Free Numbers available if no criteria is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3815,12 +3815,12 @@ class VoIPMSService:
         query: str,
         type_: str,
     ) -> dict[str, Any]:
-        """Search for vanity
+        """- Searches for Vanity Toll Free Numbers using a Search Criteria.
 
         Args:
             validate: Whether to validate parameters with Pydantic
-            query: Query for searching : 7 Chars Examples: '***JHON', '**555**', '**HELLO' (required)
-            type_: Type of Vanity Number Values: '8**', '800', '833', '844', '855', '866', '877', '888' (required)
+            query: Query for searching : 7 Chars (required)
+            type_: Type of Vanity Number (required)
 
         Returns:
             Response from searchVanity operation
@@ -3831,11 +3831,11 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        account: int,
+        account: str,
         callrecording: str,
         email: str,
     ) -> dict[str, Any]:
-        """Send call recording email
+        """- Send information and audio file to email account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3852,16 +3852,16 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        file: int,
+        file: str,
         from_name: str,
-        from_number: int,
+        from_number: str,
         to_number: str,
-        send_email: Annotated[str, "Format: email"] | None = None,
-        send_email_enabled: str | None = None,
-        station_id: int | None = None,
-        test: Literal["true", "false"] | None = None,
+        send_email: str | None = None,
+        send_email_enabled: int | None = None,
+        station_id: str | None = None,
+        test: int | None = None,
     ) -> dict[str, Any]:
-        """Send fax message
+        """- Send a Fax message to a Destination Number.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3869,9 +3869,9 @@ class VoIPMSService:
             from_name: Name of the sender (Example: 5552341234) (required)
             from_number: DID number of the Fax sender (required)
             send_email: Email address where you want send a copy of your Fax.
-            send_email_enabled: Flag to enable the send of a copy of your Fax via email. - (Values: 1 = true, 0 = false) - Default: 0
+            send_email_enabled: Flag to enable the send of a copy of your Fax via email.
             station_id: An word to identify a equipment or department sending the Fax.
-            test: Set to true if testing how to send a Fax Message (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            test: Set to true if testing how to send a Fax Message
             to_number: Destination DID Number (Example: 5552341234) (required)
 
         Returns:
@@ -3886,11 +3886,11 @@ class VoIPMSService:
         did: str,
         dst: str,
         message: str,
-        media1: Annotated[str, "Units: milliseconds"] | None = None,
-        media2: Annotated[str, "Format: base64"] | None = None,
+        media1: str | None = None,
+        media2: str | None = None,
         media3: str | None = None,
     ) -> dict[str, Any]:
-        """Send mms
+        """- Send a MMS message to a Destination Number.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3914,7 +3914,7 @@ class VoIPMSService:
         dst: str,
         message: str,
     ) -> dict[str, Any]:
-        """Send sms
+        """- Send a SMS message to a Destination Number.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3931,12 +3931,12 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        email_address: Annotated[str, "Format: email"],
+        email_address: str,
         folder: str,
         mailbox: str,
-        message_num: str,
+        message_num: int,
     ) -> dict[str, Any]:
-        """Send voicemail email
+        """- Send a Voicemail Message File to an Email Address.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3957,14 +3957,14 @@ class VoIPMSService:
         description: str,
         language: str,
         members: str,
-        music: int,
+        music: str,
         order: str,
         press: str,
         recording: str,
         ring_time: str,
-        callhunting: str | None = None,
+        callhunting: int | None = None,
     ) -> dict[str, Any]:
-        """Update call hunting settings
+        """- Updates a specific Call Hunting if a Call Hunting code is provided. - Adds a new Call Hunting if no Call Hunting code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -3974,7 +3974,7 @@ class VoIPMSService:
             members: The list of members assigned to the call hunting (required)
             music: Music on Hold Code (Values from getMusicOnHold) (required)
             order: The members will be called in follow or random order (values follow or random) (required)
-            press: This option confirm if the member will take the call by pressing 1 * ring_time and press parameters need to have the same amount of items as the members parameter, one for each member. (required)
+            press: This option confirm if the member will take the call by pressing 1 (required)
             recording: Recording for the Call Hunting (values from getRecordings) (required)
             ring_time: The Maximum amount of time the call will ring the member (required)
 
@@ -3988,15 +3988,15 @@ class VoIPMSService:
         validate: bool = True,
         *,
         delay: int,
-        destination: int,
+        destination: str,
         failover: str,
         language: str,
-        music: int,
+        music: str,
         name: str,
         timeout: int,
-        callparking: str | None = None,
+        callparking: int | None = None,
     ) -> dict[str, Any]:
-        """Update call parking settings
+        """- Updates a specific Call Parking entry if a Call Parking ID is provided. - Adds a new Call Parking entry if no Call Parking ID is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -4018,19 +4018,19 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        delay_before: str,
+        delay_before: int,
         description: str,
-        digit_timeout: str,
-        number: str,
-        response_timeout: str,
+        digit_timeout: int,
+        number: int,
+        response_timeout: int,
         callback: str | None = None,
-        callerid_number: int | None = None,
+        callerid_number: str | None = None,
     ) -> dict[str, Any]:
-        """Update callback settings
+        """- Updates a specific Callback if a callback code is provided. - Adds a new Callback entry if no callback code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
-            callback: ID for a specific Callback (Example: 2359 / Leave empty to create a new one)
+            callback: ID for a specific Callback
             callerid_number: Caller ID Override for the callback
             delay_before: Delay befor calling back (required)
             description: Description for the Callback (required)
@@ -4047,25 +4047,25 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        callerid: int,
-        did: int,
+        callerid: str,
+        did: str,
         routing: str,
         failover_busy: str | None = None,
         failover_noanswer: str | None = None,
         failover_unreachable: str | None = None,
         filter: str | None = None,
-        note: int | None = None,
+        note: str | None = None,
     ) -> dict[str, Any]:
-        """Update caller id filtering settings
+        """- Updates a specific Caller ID Filtering if a filtering code is provided. - Adds a new Caller ID Filtering if no filtering code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
-            callerid: Caller ID that triggers the Filter (i = Not North American format, 0 = Anonymous, NPANXXXXXX, s or sb or sc = STIR/SHAKEN Attestation Level, p = All Phone Book, p:XXXX = Specific Phone Book Group) (required)
+            callerid: Caller ID that triggers the Filter (required)
             did: DIDs affected by the filter (all, NPANXXXXXX) (required)
             failover_busy: Route the call follows when busy
             failover_noanswer: Route the call follows when noanswer
             failover_unreachable: Route the call follows when unreachable
-            filter: ID for a specific Caller ID Filtering (Example: 18915 / Leave empty to create a new one)
+            filter: ID for a specific Caller ID Filtering
             note: Note for the Caller ID Filtering
             routing: Route the call follows when filter is triggered (required)
 
@@ -4078,26 +4078,26 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        client: str,
+        client: int,
         email: str,
         firstname: str,
         lastname: str,
         password: str,
-        phone_number: Annotated[str, "Format: phone"],
+        phone_number: str,
         address: str | None = None,
-        balance_management: str | None = None,
+        balance_management: int | None = None,
         city: str | None = None,
         company: str | None = None,
-        country: int | None = None,
+        country: str | None = None,
         state: str | None = None,
-        zip: int | None = None,
+        zip: str | None = None,
     ) -> dict[str, Any]:
-        """Update client settings
+        """- Updates Reseller Client information.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             address: Client's Address
-            balance_management: Balance Management for Client (Values from getBalanceManagement)
+            balance_management: Balance Management for Client
             city: Client's City
             client: ID for a specific Reseller Client (Example: 561115) (required)
             company: Client's Company
@@ -4119,11 +4119,11 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        client: str,
-        threshold: Annotated[str, "Range: 1-250"],
+        client: int,
+        threshold: int,
         email: str | None = None,
     ) -> dict[str, Any]:
-        """Update client threshold settings
+        """- Update the Threshold Amount for a specific Reseller Client. - Update the Threshold notification e-mail for a specific Reseller Client if the e-mail address is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -4140,7 +4140,7 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        conference: str,
+        conference: int,
         description: str,
         max_members: str,
         name: str,
@@ -4150,7 +4150,7 @@ class VoIPMSService:
         sound_get_pin: str | None = None,
         sound_has_joined: str | None = None,
         sound_has_left: str | None = None,
-        sound_invalid_pin: int | None = None,
+        sound_invalid_pin: str | None = None,
         sound_join: str | None = None,
         sound_kicked: str | None = None,
         sound_leave: str | None = None,
@@ -4159,7 +4159,7 @@ class VoIPMSService:
         sound_muted: str | None = None,
         sound_only_one: str | None = None,
         sound_only_person: str | None = None,
-        sound_other_in_party: int | None = None,
+        sound_other_in_party: str | None = None,
         sound_participants_muted: str | None = None,
         sound_participants_unmuted: str | None = None,
         sound_place_into_conference: str | None = None,
@@ -4167,7 +4167,7 @@ class VoIPMSService:
         sound_unlocked_now: str | None = None,
         sound_unmuted: str | None = None,
     ) -> dict[str, Any]:
-        """Update conference settings
+        """- Updates a specific Conference if a conference code is provided. - Adds a new Conference entry if no conference code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -4207,46 +4207,46 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        conference: str,
-        member: str,
+        conference: int,
+        member: int,
         name: str,
-        admin: Literal["yes", "no"] | None = None,
-        announce_join_leave: Literal["yes", "no"] | None = None,
-        announce_only_user: Literal["yes", "no"] | None = None,
-        announce_user_count: Literal["yes", "no"] | None = None,
-        announcement: str | None = None,
+        admin: str | None = None,
+        announce_join_leave: str | None = None,
+        announce_only_user: str | None = None,
+        announce_user_count: str | None = None,
+        announcement: int | None = None,
         description: str | None = None,
-        drop_silence: Literal["yes", "no"] | None = None,
-        jitter_buffer: Literal["yes", "no"] | None = None,
+        drop_silence: str | None = None,
+        jitter_buffer: str | None = None,
         moh_when_empty: str | None = None,
-        pin: str | None = None,
-        quiet: Literal["yes", "no"] | None = None,
-        silence_threshold: Literal["2000", "2100", "2200", "2300", "2400", "2500", "2600", "2700", "2800", "2900"] | None = None,
-        start_muted: Literal["yes", "no"] | None = None,
-        talk_detection: Literal["yes", "no"] | None = None,
-        talking_threshold: Literal["100", "120", "140", "160", "180", "200", "220", "240"] | None = None,
+        pin: int | None = None,
+        quiet: str | None = None,
+        silence_threshold: int | None = None,
+        start_muted: str | None = None,
+        talk_detection: str | None = None,
+        talking_threshold: int | None = None,
     ) -> dict[str, Any]:
-        """Update conference member settings
+        """- Updates a specific Member profile if a member code is provided. - Adds a new Member profile entry if no member code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
-            admin: Sets if the member is an admin or not (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
-            announce_join_leave: Sets if the conference recording when a member joins or leaves will be played (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
-            announce_only_user: Sets if the "only user" announcement should be played when a caller enters an empty conference (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
-            announce_user_count: Sets if the number of members in the conference should be announced to the caller as he joins (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
+            admin: Sets if the member is an admin or not (yes/no).
+            announce_join_leave: Sets if the conference recording when a member joins or leaves will be played (yes/no).
+            announce_only_user: Sets if the "only user" announcement should be played when a caller enters an empty conference (yes/no).
+            announce_user_count: Sets if the number of members in the conference should be announced to the caller as he joins (yes/no).
             announcement: If set, this recording will be heard only by the user as he joins the conference (Values from getRecordings).
             conference: ID for a specific Conference (Example: 5356) (required)
             description: Member description.
-            drop_silence: The system will drop what is detected as silence from entering into the conference (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
-            jitter_buffer: When set to YES, the system will place a jitter buffer on the caller's audio stream before any audio mixing is performed (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
+            drop_silence: The system will drop what is detected as silence from entering into the conference (yes/no).
+            jitter_buffer: When set to YES, the system will place a jitter buffer on the caller's audio stream before any audio mixing is performed (yes/no).
             member: ID for a specific Member profile (Example: 5356) (required)
             moh_when_empty: Sets whether music on hold (MOH) should be played when only one person is in the conference (Values from getMusicOnHold).
             name: Member name. (required)
             pin: Assigned PIN.
-            quiet: When set to "yes", enter/leave prompts and user introductions are not played (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
+            quiet: When set to "yes", enter/leave prompts and user introductions are not played (yes/no).
             silence_threshold: The time, in milliseconds, that silence needs to be present in the user’s sound stream before the system can consider it to be in fact silent and close the audio (allowed values are 2000, 2100, 2200, 2300, 2400, 2500, 2600, 2700, 2800, 2900 or 3000).
-            start_muted: Sets if the member should start out muted after entering the conference (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
-            talk_detection: If set to YES, the conference dashboard will display a notification when a participant starts and stops talking (yes/no). (accepts: yes/no, true/false, on/off, 1/0, boolean)
+            start_muted: Sets if the member should start out muted after entering the conference (yes/no).
+            talk_detection: If set to YES, the conference dashboard will display a notification when a participant starts and stops talking (yes/no).
             talking_threshold: The time, in milliseconds, that a users needs to be sending sound or voice before the system can consider them to be talking (allowed values are 100, 120, 140, 160, 180, 200, 220, 240 or 250).
 
         Returns:
@@ -4258,10 +4258,10 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        billing_type: Literal["1", "2"],
-        did: int,
+        billing_type: int,
+        did: str,
     ) -> dict[str, Any]:
-        """Update did billing type settings
+        """- Updates the Billing Plan from a specific DID.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -4277,44 +4277,44 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        billing_type: Literal["1", "2"],
-        cnam: Literal["0", "1"],
-        dialtime: Annotated[str, "Units: seconds"],
+        billing_type: int,
+        cnam: int,
+        dialtime: int,
         did: str,
-        pop: str,
-        routing: int,
-        callerid_prefix: int | None = None,
-        failover_busy: int | None = None,
-        failover_noanswer: int | None = None,
-        failover_unreachable: int | None = None,
-        note: int | None = None,
+        pop: int,
+        routing: str,
+        callerid_prefix: str | None = None,
+        failover_busy: str | None = None,
+        failover_noanswer: str | None = None,
+        failover_unreachable: str | None = None,
+        note: str | None = None,
         port_out_pin: int | None = None,
-        record_calls: Literal["0", "1"] | None = None,
-        transcribe: Literal["0", "1"] | None = None,
+        record_calls: int | None = None,
+        transcribe: int | None = None,
         transcription_email: str | None = None,
         transcription_locale: str | None = None,
-        transcription_start_delay: Annotated[str, "Range: 0-60; Units: seconds"] | None = None,
-        voicemail: int | None = None,
-        voicemail_threshold: Annotated[str, "Range: 0-60; Units: seconds"] | None = None,
+        transcription_start_delay: int | None = None,
+        voicemail: str | None = None,
+        voicemail_threshold: int | None = None,
     ) -> dict[str, Any]:
-        """Update did info settings
+        """- Updates the information from a specific DID.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             billing_type: Billing type for the DID (1 = Per Minute, 2 = Flat) (required)
             callerid_prefix: Caller ID Prefix for the DID
-            cnam: CNAM for the DID (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
+            cnam: CNAM for the DID (Boolean: 1/0) (required)
             dialtime: Dial Time Out for the DID (Example: 60 -> in seconds) (required)
             did: DID to be Updated (Example: 5551234567) (required)
             failover_busy: Busy Routing for the DID
             failover_noanswer: NoAnswer Routing for the DID
             failover_unreachable: Unreachable Routing for the DID
             note: Note for the DID
-            pop: Point of Presence for the DID ("server_pop" values from getServersInfo. Example: 3) (required)
+            pop: Point of Presence for the DID (required)
             port_out_pin: Port Out PIN protection is used as a means of authorizing outgoing portability (only for selected US numbers with the lock icon)
-            record_calls: Record Calls (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            record_calls: Record Calls (Boolean: 1/0)
             routing: Main Routing for the DID (required)
-            transcribe: Enable Call Transcription (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            transcribe: Enable Call Transcription (Boolean: 1/0)
             transcription_email: Call Transcription Email
             transcription_locale: Call Transcription Locale (values from getLocales)
             transcription_start_delay: Call Transcription Delay Seconds between 0 and 60, Increments of 5 (Example: 10 -> seconds)
@@ -4331,9 +4331,9 @@ class VoIPMSService:
         validate: bool = True,
         *,
         did: str,
-        pop: str,
+        pop: int,
     ) -> dict[str, Any]:
-        """Update didpop settings
+        """- Updates the POP from a specific DID.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -4350,9 +4350,9 @@ class VoIPMSService:
         validate: bool = True,
         *,
         did: str,
-        routing: int,
+        routing: str,
     ) -> dict[str, Any]:
-        """Update did routing settings
+        """- Updates the Routing from a specific DID.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -4369,9 +4369,9 @@ class VoIPMSService:
         validate: bool = True,
         *,
         did: str,
-        voicemail: int | None = None,
+        voicemail: str | None = None,
     ) -> dict[str, Any]:
-        """Update did voicemail settings
+        """- Updates the Voicemail from a specific DID.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -4387,19 +4387,19 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        digit_timeout: str,
+        digit_timeout: int,
         name: str,
-        pin: str,
-        callerid_override: int | None = None,
+        pin: int,
+        callerid_override: str | None = None,
         disa: str | None = None,
     ) -> dict[str, Any]:
-        """Update disa settings
+        """- Updates a specific DISA if a disa code is provided. - Adds a new DISA entry if no disa code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             callerid_override: Caller ID Override for the DISA
             digit_timeout: Time between digits (required)
-            disa: ID for a specific DISA (Example: 2114 / Leave empty to create a new one)
+            disa: ID for a specific DISA
             name: Name for the DISA (required)
             pin: Password for the DISA (required)
 
@@ -4412,25 +4412,25 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        auth_email: Annotated[str, "Format: email"],
+        auth_email: str,
         from_number_id: str,
-        security_code: int,
-        enabled: Literal["0", "1"] | None = None,
+        security_code: str,
+        enabled: int | None = None,
         id_: int | None = None,
-        security_code_enabled: Literal["0", "1"] | None = None,
-        test: Literal["true", "false"] | None = None,
+        security_code_enabled: int | None = None,
+        test: int | None = None,
     ) -> dict[str, Any]:
-        """Update email to fax settings
+        """- Create or update the information of a specific "Email to Fax configuration".
 
         Args:
             validate: Whether to validate parameters with Pydantic
             auth_email: Email address from you will sent Fax Messages (required)
-            enabled: If Enable, we will send Fax Message when we receive an email from the provided address. (Values:1=Enable / 0=Disable) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            enabled: If Enable, we will send Fax Message when we receive an email from the provided address. (Values:1=Enable / 0=Disable)
             from_number_id: Fax number that will appear as fax sender. (values from getFaxNumbersInfo) (required)
             id_: [Only for updates] ID of the "Email to Fax" to edit (Values from getEmailToFax)
             security_code: An alphanumeric code to identify your emails before send as Fax. (required)
-            security_code_enabled: If Enable, we will check the mail subject if this include a Security Code before send the Fax. (Values:1=Enable / 0=Disable) (accepts: true/false, yes/no, on/off, 0/1, boolean)
-            test: Set to true if testing. (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            security_code_enabled: If Enable, we will check the mail subject if this include a Security Code before send the Fax. (Values:1=Enable / 0=Disable)
+            test: Set to true if testing.
 
         Returns:
             Response from setEmailToFax operation
@@ -4443,15 +4443,15 @@ class VoIPMSService:
         *,
         name: str,
         id_: int | None = None,
-        test: Literal["true", "false"] | None = None,
+        test: int | None = None,
     ) -> dict[str, Any]:
-        """Update fax folder settings
+        """- Create or update the information of a specific Fax Folder.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             id_: [Only for updates] ID of the Fax Folder to edit (Values from getFaxFolders)
             name: Name of the Fax Folder to create or update (Example: FAMILY) (required)
-            test: Set to true if testing how to create/update a Fax Folder (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            test: Set to true if testing how to create/update a Fax Folder
 
         Returns:
             Response from setFaxFolder operation
@@ -4462,21 +4462,21 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        did: str,
-        email: Annotated[str, "Format: email"] | None = None,
-        email_attach_file: Annotated[str, "Format: pdf"] | None = None,
+        did: int,
+        email: str | None = None,
+        email_attach_file: str | None = None,
         email_enable: str | None = None,
-        test: Literal["true", "false"] | None = None,
+        test: int | None = None,
     ) -> dict[str, Any]:
-        """Update fax number email settings
+        """- Updates the email configuration from a specific Fax Number.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             did: DID Number to be ported into our network (Example: 5552341234) (required)
-            email: Email address where send notifications when receive Fax Messages - (Example: yourname@company.com)
-            email_attach_file: Flag to enable attach the Fax Message as a PDF file in the notifications. - (Values: 1 = true, 0 = false) - Default: 0
-            email_enable: Flag to enable the email notifications. - (Values: 1 = true, 0 = false) - Default: 0
-            test: Set to true if testing how to set the email of a Fax Number (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            email: Email address where send notifications when receive Fax Messages
+            email_attach_file: Flag to enable attach the Fax Message as a PDF file in the notifications.
+            email_enable: Flag to enable the email notifications.
+            test: Set to true if testing how to set the email of a Fax Number
 
         Returns:
             Response from setFaxNumberEmail operation
@@ -4487,26 +4487,26 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        did: str,
-        email: Annotated[str, "Format: email"] | None = None,
-        email_attach_file: Annotated[str, "Format: pdf"] | None = None,
+        did: int,
+        email: str | None = None,
+        email_attach_file: str | None = None,
         email_enable: str | None = None,
-        test: Literal["true", "false"] | None = None,
+        test: int | None = None,
         url_callback: str | None = None,
         url_callback_enable: str | None = None,
         url_callback_retry: str | None = None,
     ) -> dict[str, Any]:
-        """Update fax number info settings
+        """- Updates the information from a specific Fax Number.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             did: DID Number to be ported into our network (Example: 5552341234) (required)
-            email: Email address where send notifications when receive Fax Messages - (Example: yourname@company.com)
-            email_attach_file: Flag to enable attach the Fax Message as a PDF file in the notifications. - (Values: 1 = true, 0 = false) - Default: 0
-            email_enable: Flag to enable the email notifications. - (Values: 1 = true, 0 = false) - Default: 0
-            test: Set to true if testing how to update the information of a Fax Number (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            email: Email address where send notifications when receive Fax Messages
+            email_attach_file: Flag to enable attach the Fax Message as a PDF file in the notifications.
+            email_enable: Flag to enable the email notifications.
+            test: Set to true if testing how to update the information of a Fax Number
             url_callback: URL where make a POST when you receive a Fax Message.
-            url_callback_enable: Flag to enable the URL Callback functionality. - (Values: 1 = true, 0 = false) - Default: 0
+            url_callback_enable: Flag to enable the URL Callback functionality.
             url_callback_retry: Flag to enable retry the POST action in case we don't receive "ok".
 
         Returns:
@@ -4518,20 +4518,20 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        did: str,
-        test: Literal["true", "false"] | None = None,
+        did: int,
+        test: int | None = None,
         url_callback: str | None = None,
         url_callback_enable: str | None = None,
         url_callback_retry: str | None = None,
     ) -> dict[str, Any]:
-        """Update fax number url callback settings
+        """- Updates the url callback configuration from a specific Fax Number.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             did: DID Number to be ported into our network (Example: 5552341234) (required)
-            test: Set to true if testing how to set the URL callback of a Fax Number (accepts: true/false, yes/no, on/off, 1/0, boolean)
+            test: Set to true if testing how to set the URL callback of a Fax Number
             url_callback: URL where make a POST when you receive a Fax Message.
-            url_callback_enable: Flag to enable the URL Callback functionality. - (Values: 1 = true, 0 = false) - Default: 0
+            url_callback_enable: Flag to enable the URL Callback functionality.
             url_callback_retry: Flag to enable retry the POST action in case we don't receive "ok".
 
         Returns:
@@ -4543,15 +4543,15 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        phone_number: Annotated[str, "Format: phone"],
-        callerid_override: int | None = None,
+        phone_number: str,
+        callerid_override: str | None = None,
         description: str | None = None,
-        diversion_header: str | None = None,
+        diversion_header: int | None = None,
         dtmf_digits: str | None = None,
         forwarding: str | None = None,
-        pause: Annotated[str, "Units: seconds"] | None = None,
+        pause: str | None = None,
     ) -> dict[str, Any]:
-        """Update forwarding settings
+        """- Updates a specific Forwarding if a fwd code is provided. - Adds a new Forwarding entry if no fwd code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -4559,8 +4559,8 @@ class VoIPMSService:
             description: Description for the Forwarding
             diversion_header: If enabled, we will add a Diversion Header to your forwarded call
             dtmf_digits: Send DTMF digits when call is answered
-            forwarding: ID for a specific Forwarding (Example: 19183 / Leave empty to create a new one)
-            pause: Pause (seconds) when call is answered before sending digits (Example: 1.5 / Values: 0 to 10 in increments of 0.5)
+            forwarding: ID for a specific Forwarding
+            pause: Pause (seconds) when call is answered before sending digits
             phone_number: Phone Number for the Forwarding (required)
 
         Returns:
@@ -4575,17 +4575,17 @@ class VoIPMSService:
         choices: str,
         language: str,
         name: str,
-        recording: str,
-        timeout: str,
-        voicemailsetup: str,
+        recording: int,
+        timeout: int,
+        voicemailsetup: int,
         ivr: str | None = None,
     ) -> dict[str, Any]:
-        """Update ivr settings
+        """- Updates a specific IVR if an IVR code is provided. - Adds a new IVR entry if no IVR code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             choices: Choices for the IVR (Example: '1=sip:5096 ; 2=fwd:20222') (required)
-            ivr: ID for a specific IVR (Example: 4636 / Leave empty to create a new one)
+            ivr: ID for a specific IVR
             language: Language for the IVR (values from getLanguages) (required)
             name: Name for the IVR (required)
             recording: Recording for the IVR (values from getRecordings) (required)
@@ -4602,20 +4602,20 @@ class VoIPMSService:
         validate: bool = True,
         *,
         description: str,
-        recordings: Literal["1234", "1235", "1236"],
-        name: str | None = None,
-        sort: str | None = None,
-        volume: Literal["0", "1"] | None = None,
+        name: str,
+        recordings: str,
+        sort: str,
+        volume: str,
     ) -> dict[str, Any]:
-        """Update music on hold settings
+        """- Update music on hold settings
 
         Args:
             validate: Whether to validate parameters with Pydantic
-            description: Music on Hold Description (required)
-            name: Music on Hold Name (Values from getMusicOnHold)
-            recordings: Selected recordings separated by commas (Values from getRecordings, example: (1234,1235,1236) (required)
-            sort: Selected recordings sort mode (Example: "alpha", "random")
-            volume: Music on Hold Quiet Volume (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            description:  (required)
+            name:  (required)
+            recordings:  (required)
+            sort:  (required)
+            volume:  (required)
 
         Returns:
             Response from setMusicOnHold operation
@@ -4626,15 +4626,15 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        name: Annotated[str, "Format: phone"],
-        number: str,
-        callerid: int | None = None,
+        name: str,
+        number: int,
+        callerid: str | None = None,
         group: int | None = None,
-        note: Annotated[str, "Format: phone"] | None = None,
-        phonebook: Annotated[str, "Format: phone"] | None = None,
-        speed_dial: Annotated[str, "Format: phone"] | None = None,
+        note: str | None = None,
+        phonebook: str | None = None,
+        speed_dial: str | None = None,
     ) -> dict[str, Any]:
-        """Update phonebook settings
+        """- Updates a specific Phonebook entry if a phonebook code is provided. - Adds a new Phonebook entry if no phonebook code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -4643,7 +4643,7 @@ class VoIPMSService:
             name: Name for the Phonebook Entry (required)
             note: Note for the phonebook entry
             number: Number or SIP for the Phonebook entry (Example: 'sip:2563' or '5552223333') (required)
-            phonebook: ID for a specific Phonebook entry (Example: 32207 / Leave empty to create a new one)
+            phonebook: ID for a specific Phonebook entry
             speed_dial: Speed Dial for the Phonebook entry
 
         Returns:
@@ -4655,16 +4655,16 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        name: Annotated[str, "Format: phone"],
+        name: str,
         phonebook: str,
-        group: Annotated[str, "Format: phone"] | None = None,
-        members: int | None = None,
+        group: str | None = None,
+        members: str | None = None,
     ) -> dict[str, Any]:
-        """Update phonebook group settings
+        """- Updates a specific Phonebook group if a phonebook code is provided. - Adds a new Phonebook group if no phonebook group code is provided. - Assigns or modifies group members if a member list is provided
 
         Args:
             validate: Whether to validate parameters with Pydantic
-            group: ID for a specific Phonebook group (Example: 32207 / Leave empty to create a new one)
+            group: ID for a specific Phonebook group
             members: Phonebook entry codes associated to this group separated by a semicolon
             name: Name for the Phonebook group (required)
             phonebook:  (required)
@@ -4678,19 +4678,20 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
+        if_announce_position_enabled_report_estimated_hold_time: str,
         join_when_empty: str,
         leave_when_empty: str,
         priority_weight: str,
-        queue_language: int,
+        queue_language: str,
         queue_name: str,
-        queue_number: str,
-        report_hold_time_agent: int,
+        queue_number: int,
+        report_hold_time_agent: str,
         ring_inuse: str,
         ring_strategy: str,
         agent_announcement: str | None = None,
         agent_ring_timeout: int | None = None,
-        announce_position_frecuency: Annotated[str, "Units: seconds"] | None = None,
-        announce_round_seconds: Annotated[str, "Units: seconds"] | None = None,
+        announce_position_frecuency: str | None = None,
+        announce_round_seconds: str | None = None,
         callerid_prefix: int | None = None,
         fail_over_routing_full: str | None = None,
         fail_over_routing_join_empty: str | None = None,
@@ -4698,42 +4699,41 @@ class VoIPMSService:
         fail_over_routing_leave_empty: str | None = None,
         fail_over_routing_leave_unavail: str | None = None,
         fail_over_routing_timeout: str | None = None,
-        frequency_announcement: Annotated[str, "Units: seconds"] | None = None,
-        if_announce_position_enabled_report_estimated_hold_time: str | None = None,
+        frequency_announcement: str | None = None,
         join_announcement: str | None = None,
         maximum_callers: str | None = None,
-        maximum_wait_time: Annotated[str, "Units: seconds"] | None = None,
-        member_delay: Annotated[str, "Units: seconds"] | None = None,
-        music_on_hold: int | None = None,
+        maximum_wait_time: str | None = None,
+        member_delay: str | None = None,
+        music_on_hold: str | None = None,
         queue: str | None = None,
         queue_password: str | None = None,
-        retry_timer: Annotated[str, "Units: seconds"] | None = None,
+        retry_timer: str | None = None,
         thankyou_for_your_patience: str | None = None,
         voice_announcement: str | None = None,
-        wrapup_time: Annotated[str, "Units: seconds"] | None = None,
+        wrapup_time: str | None = None,
     ) -> dict[str, Any]:
-        """Update queue settings
+        """- Updates a specific Queue entry if a queue code is provided. - Adds a new Queue entry if no queue code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             agent_announcement: Recording Code (Values from getRecordings or 'none')
             agent_ring_timeout: Number of seconds to ring an agent (Values 5 to 60)
-            announce_position_frecuency: How often to make any periodic announcement (Values in seconds: multiples of 15, max value: 1200 or 'none' = No announcement)
+            announce_position_frecuency: How often to make any periodic announcement
             announce_round_seconds: Announce seconds (Values in seconds: 1 to 60  or 'none' = Do not announce)
             callerid_prefix: Caller ID Prefix for queue
             fail_over_routing_full: Failover routing to Maximum callers reached
             fail_over_routing_join_empty: A call was sent to the queue but the queue had no members (Only works when Join when Empty is set to no)
             fail_over_routing_join_unavail: Same as routingjoinempty, except that there were still queue members, but all were status unavailable
-            fail_over_routing_leave_empty: The last agent was removed form the queue before alls calls were handled (Only works when Leave when Empty is set to yes)
+            fail_over_routing_leave_empty: The last agent was removed form the queue before alls calls were handled
             fail_over_routing_leave_unavail: Same as routingleaveempty, except that there were still queue members, but all were status unavailable
             fail_over_routing_timeout: Failover routing to Maximum wait time reached
-            frequency_announcement: Periodic interval to play voice announce recording (Values in seconds: multiples of 15, max value: 1200 or 'none' = No announcement)
-            if_announce_position_enabled_report_estimated_hold_time:  Include estimated hold time in position announcements (Values 'yes'/'no'/'once')
+            frequency_announcement: Periodic interval to play voice announce recording
+            if_announce_position_enabled_report_estimated_hold_time:  (required)
             join_announcement: Recording Code (Values from getRecordings or 'none')
-            join_when_empty: How caller join to the queue (Values from getJoinWhenEmptyTypes) Examples: yes     Callers can join a queue with no members or only unavailable members no      Callers cannot join a queue with no members strict  Callers cannot join a queue with no members or only unavailable members (required)
-            leave_when_empty: How caller leave the queue (Values 'yes'/'no'/'strict') Examples: yes     Callers are sent to failover when there are no members no      Callers will remain in the queue even if there are no members strict  Callers are sent to failover if there are members but none of them is available. (required)
+            join_when_empty: How caller join to the queue (Values from getJoinWhenEmptyTypes) (required)
+            leave_when_empty: How caller leave the queue (Values 'yes'/'no'/'strict') (required)
             maximum_callers: Maximum callers (Values: 1 to 60 or 'unlimited')
-            maximum_wait_time: Ammount of time a caller can wait in queue (Values in seconds: multiples of 30, max value: 1200 or 'unlimited')
+            maximum_wait_time: Ammount of time a caller can wait in queue
             member_delay: Member delay when the agent is connected to the caller (Values 1 to 15 in seconds or 'none')
             music_on_hold: Music on Hold Code (Values from getMusicOnHold)
             priority_weight: weight/priority of queue (Values 1 to 60) (required)
@@ -4746,9 +4746,9 @@ class VoIPMSService:
             retry_timer: How long do we wait before trying all the members again (Values 5 to 60 seconds or 'none'= No Delay)
             ring_inuse: If you want the queue to avoid sending calls to members (Values 'yes'/'no') (required)
             ring_strategy: Ring strategy (Values from getRingStrategies) (required)
-            thankyou_for_your_patience: Yes to say "Thank you for your patience" immediatly after announcing Queue Position and Estimated hold time left (Values 'yes'/'no')
+            thankyou_for_your_patience: Yes to say "Thank you for your patience" immediatly after announcing Queue Position and Estimated hold time left
             voice_announcement: Code for Recording (Values from getRecordings or 'none')
-            wrapup_time: After a successful call, the number of seconds to wait before sending a free agent another call (Values 1 to 60 seconds or 'none'= No Delay)
+            wrapup_time: After a successful call, the number of seconds to wait before sending a free agent another call
 
         Returns:
             Response from setQueue operation
@@ -4763,17 +4763,17 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        file: int,
+        file: str,
         name: str,
-        recording: Annotated[str, "Format: phone"] | None = None,
+        recording: str | None = None,
     ) -> dict[str, Any]:
-        """Update recording settings
+        """- Updates a specific Recording File if a Recording ID is provided. - Adds a new Recording file entry if no Recording ID is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
-            file: Base64 encoded file (Provide Recording ID and file if you want update the file only) (required)
-            name: Name for the Recording Entry (Example: 'recording1') (Provide Recording ID and name if you want update the name only) (Provide Recording ID, file and name if you want update both parameters at the same time) (required)
-            recording: ID for a specific Phonebook entry (Example: 33221 / Leave empty to create a new one)
+            file: Base64 encoded file (required)
+            name: Name for the Recording Entry (Example: 'recording1') (required)
+            recording: ID for a specific Phonebook entry
 
         Returns:
             Response from setRecording operation
@@ -4787,17 +4787,17 @@ class VoIPMSService:
         members: str,
         name: str,
         voicemail: str,
-        caller_announcement: int | None = None,
+        caller_announcement: str | None = None,
         language: str | None = None,
-        music_on_hold: int | None = None,
+        music_on_hold: str | None = None,
         ring_group: str | None = None,
     ) -> dict[str, Any]:
-        """Update ring group settings
+        """- Updates a specific Ring Group if a ring group code is provided. - Adds a new Ring Group entry if no ring group code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             caller_announcement: Recording Code (Values from getRecordings)
-            language: Code for Language (Values from getLanguages) "members" can receive the following routing headers: account     Used to route the call to an Account or a Sub Account fwd         Used to route the call to a Forwarding entry sip         Used to route the call to a SIP URI Each member can a specific ring time and press1 values, you can add those to the routing header as follow: Example: 'account:100001,25,0;fwd:16006,10,1' 25 = Default ring time value (Values from 1 to 60 sec) 0  = Default press1 value (Values allowed 0 and 1)
+            language: Code for Language (Values from getLanguages)
             members: Members for the Ring Group (Example: 'account:100001;fwd:16006') (required)
             music_on_hold: Music on Hold Code (Values from getMusicOnHold)
             name: Name for the Ring Group (required)
@@ -4813,18 +4813,18 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        uri: Annotated[str, "Format: email; Units: milliseconds"],
+        uri: str,
         callerid_e164: int | None = None,
-        callerid_override: int | None = None,
+        callerid_override: str | None = None,
         description: str | None = None,
         sipuri: str | None = None,
     ) -> dict[str, Any]:
-        """Update sipuri settings
+        """- Updates a specific SIP URI if a SIP URI code is provided. - Adds a new SIP URI entry if no SIP URI code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
             callerid_e164: If this option is Enabled, then your CallerID will be E164 compliant.
-            callerid_override: This setting is optional.  You can  configure a 'CallerID Number Override'. Your default CallerID number will be changed to the override you have configured here when using this SIP URI.
+            callerid_override: This setting is optional.  You can  configure a 'CallerID Number Override'.
             description: Description for the SIP URI
             sipuri: ID for a specific SIP URI (Example: 6199 / Leave empty to create a new one)
             uri: SIP URI (Example: '5552223333@sip.voip.ms') (required)
@@ -4839,32 +4839,32 @@ class VoIPMSService:
         validate: bool = True,
         *,
         did: str,
-        enable: Literal["0", "1"],
-        email_address: int | None = None,
-        email_enabled: int | None = None,
-        sms_forward: Annotated[str, "Format: phone"] | None = None,
-        sms_forward_enable: int | None = None,
-        sms_sipaccount: int | None = None,
-        sms_sipaccount_enabled: int | None = None,
-        url_callback: Annotated[str, "Format: phone"] | None = None,
-        url_callback_enable: int | None = None,
-        url_callback_retry: Annotated[str, "Units: minutes"] | None = None,
+        enable: str,
+        email_address: str | None = None,
+        email_enabled: str | None = None,
+        sms_forward: str | None = None,
+        sms_forward_enable: str | None = None,
+        sms_sipaccount: str | None = None,
+        sms_sipaccount_enabled: str | None = None,
+        url_callback: str | None = None,
+        url_callback_enable: str | None = None,
+        url_callback_retry: str | None = None,
     ) -> dict[str, Any]:
-        """Update sms settings
+        """- Enable/Disable the SMS Service for a DID- Change the SMS settings for a DID
 
         Args:
             validate: Whether to validate parameters with Pydantic
             did: DID to be Updated (Example: 5551234567) (required)
             email_address: SMS Messages received by your DID will be sent to the email address provided
-            email_enabled: If Enable, SMS Messages received by your DID will be sent to the email address provided (Values:1=Enable / 0=Disable)
-            enable: Enable/Disable the DID to receive SMS Messages (Values:1=Enable / 0=Disable) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
+            email_enabled: If Enable, SMS Messages received by your DID will be sent to the email address provided
+            enable: Enable/Disable the DID to receive SMS Messages (Values:1=Enable / 0=Disable) (required)
             sms_forward: SMS Messages received by your DID will be forwarded to the phone number provided (Example: 5551234567)
-            sms_forward_enable: If Enable, SMS Messages received by your DID will be forwarded to the phone number provided (Values:1=Enable / 0=Disable)
+            sms_forward_enable: If Enable, SMS Messages received by your DID will be forwarded to the phone number provided
             sms_sipaccount: SIP account or sub-account that will receive the SMS Messages
-            sms_sipaccount_enabled: If Enable, SMS Messages received by your DID will be sent to the specified SIP account or sub-account (Values:1=Enable / 0=Disable)
-            url_callback: SMS Messages received by your DID will be send a GET request to the URL callback provided Available Variables for your URL {FROM}    The phone number that sent you the message. {TO}      The DID number that received the message. {MESSAGE} The content of the message. Example: http://mysite.com/sms.php?to={TO}&from={FROM}&message={MESSAGE}
-            url_callback_enable: If Enable, SMS Messages received by your DID will be send a GET request to the URL callback provided (Values:1=Enable / 0=Disable)
-            url_callback_retry: Enable URL callback Retry (Values:1=Enable / 0=Disable) we will be expecting an 'ok' output (without quotes) from your URL callback page as an indicator that you have received the message correctly. If we don\'t receive the 'ok' letters (wihtout quotes) from your callback page, we will keep sending you the same message every 30 minutes.
+            sms_sipaccount_enabled: If Enable, SMS Messages received by your DID will be sent to the specified SIP account or sub-account
+            url_callback: SMS Messages received by your DID will be send a GET request to the URL callback provided Available
+            url_callback_enable: If Enable, SMS Messages received by your DID will be send a GET request to the URL callback provided
+            url_callback_retry: Enable URL callback Retry
 
         Returns:
             Response from setSMS operation
@@ -4876,16 +4876,16 @@ class VoIPMSService:
         validate: bool = True,
         *,
         member_name: str,
-        priority: str,
+        priority: int,
         queue: int,
         account: str | None = None,
         member: str | None = None,
     ) -> dict[str, Any]:
-        """Update static member settings
+        """- Updates a specific Member from queue if a Member code is provided. - Adds a new Member to Queue if no Member code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
-            account: Static Member Routing to receive calls - You can get all sub accounts using the getSubAccounts function
+            account: Static Member Routing to receive calls
             member: ID for a specific Member (Example: 619 / Leave empty to create a new one)
             member_name: Member Description (required)
             priority: Values for get calls first (Example: 0) (required)
@@ -4903,44 +4903,44 @@ class VoIPMSService:
         allowed_codecs: str,
         auth_type: int,
         device_type: int,
-        dtmf_mode: int,
-        id_: str,
+        dtmf_mode: str,
+        id_: int,
         international_route: int,
         lock_international: int,
-        music_on_hold: int,
-        nat: int,
+        music_on_hold: str,
+        nat: str,
         transcribe: int,
         transcription_email: str,
         transcription_locale: str,
-        callerid_number: int | None = None,
-        canada_routing: int | None = None,
-        default_e911: int | None = None,
+        callerid_number: str | None = None,
+        canada_routing: str | None = None,
+        default_e911: str | None = None,
         description: str | None = None,
-        dialing_mode: Literal["0", "1", "2"] | None = None,
-        enable_ip_restriction: Literal["0", "1"] | None = None,
-        enable_pop_restriction: Literal["0", "1"] | None = None,
-        internal_dialtime: Annotated[str, "Units: seconds"] | None = None,
+        dialing_mode: int | None = None,
+        enable_ip_restriction: int | None = None,
+        enable_pop_restriction: int | None = None,
+        internal_dialtime: str | None = None,
         internal_extension: str | None = None,
         internal_voicemail: str | None = None,
-        ip: int | None = None,
+        ip: str | None = None,
         ip_restriction: str | None = None,
-        language: int | None = None,
-        max_expiry: Annotated[str, "Range: 60-3600"] | None = None,
-        password: int | None = None,
+        language: str | None = None,
+        max_expiry: int | None = None,
+        password: str | None = None,
         pop_restriction: str | None = None,
-        record_calls: Literal["0", "1"] | None = None,
+        record_calls: int | None = None,
         reseller_chargesetup: str | None = None,
         reseller_client: str | None = None,
         reseller_nextbilling: str | None = None,
         reseller_package: str | None = None,
-        rtp_hold_timeout: Annotated[str, "Range: 1-3600"] | None = None,
-        rtp_timeout: Annotated[str, "Range: 1-3600"] | None = None,
-        send_bye: Literal["0", "1"] | None = None,
-        sip_traffic: Literal["0", "1"] | None = None,
-        tfcarrier: Literal["-1", "0", "1", "2"] | None = None,
-        transcription_start_delay: Annotated[str, "Range: 0-60; Units: seconds"] | None = None,
+        rtp_hold_timeout: int | None = None,
+        rtp_timeout: int | None = None,
+        send_bye: int | None = None,
+        sip_traffic: int | None = None,
+        tfcarrier: int | None = None,
+        transcription_start_delay: int | None = None,
     ) -> dict[str, Any]:
-        """Update sub account settings
+        """- Updates Sub Account information.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -4953,31 +4953,31 @@ class VoIPMSService:
             device_type: Device Type Code (Values from getDeviceTypes) (required)
             dialing_mode: Allows you to dial outgoing calls using either the NANPA configuration or the E164 configuration. (Values: 0 = Use Main Account Setting, 1 = E164, 2 = NANPA)
             dtmf_mode: DTMF Mode Code (Values from getDTMFModes) (required)
-            enable_ip_restriction: Enable IP Restriction (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
-            enable_pop_restriction: Enable POP Restriction (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            enable_ip_restriction: Enable IP Restriction (Boolean: 1/0)
+            enable_pop_restriction: Enable POP Restriction (Boolean: 1/0)
             id_: Sub Account ID (Example: 10236) (required)
             internal_dialtime: Sub Account Internal Dialtime (Example: 60 -> seconds)
             internal_extension: Sub Account Internal Extension (Example: 1 -> Creates 101)
             internal_voicemail: Sub Account Internal Voicemail (Example: 101)
             international_route: Route Code (Values from getRoutes) (required)
             ip: Sub Account IP (For IP Authentication)
-            ip_restriction: List of IP/Netmask to allow outgoing calls separated by commas (Example: 123.45.3.21,10.255.12.0/22,device.mydomain.com)
+            ip_restriction: List of IP/Netmask to allow outgoing calls separated by commas
             language: Language for system messages, such as "Invalid Option" (Values from getLanguages)
             lock_international: Lock International Code (Values from getLockInternational) (required)
             max_expiry: Max Expiry between 60 and 3600 (Example: 3000)
             music_on_hold: Music on Hold Code (Values from getMusicOnHold) (required)
             nat: NAT Mode Code (Values from getNAT) (required)
             password: Sub Account Password (For Password Authentication)
-            pop_restriction: List of POP Servers to allow outgoing calls separated by commas (values from getServersInfo. Example: 10,23,45)
-            record_calls: Record Calls (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            pop_restriction: List of POP Servers to allow outgoing calls separated by commas
+            record_calls: Record Calls (Boolean: 1/0)
             reseller_chargesetup: True if you want to charge Package Setup Fee after Save
             reseller_client: Reseller Account ID (Example: 561115)
             reseller_nextbilling: Reseller Next Billing Date (Example: '2012-12-31')
             reseller_package: Reseller Package (Example: 92364)
             rtp_hold_timeout: RTP Hold Time Out between 1 and 3600 (Example: 600)
             rtp_timeout: RTP Time Out between 1 and 3600 (Example: 60)
-            send_bye: Send BYE on successful transfer (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
-            sip_traffic: Encrypted SIP Traffic (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            send_bye: Send BYE on successful transfer (Boolean: 1/0)
+            sip_traffic: Encrypted SIP Traffic (Boolean: 1/0)
             tfcarrier: This allows you to select the carrier to be used for outgoing calls to toll-free numbers. (Values: -1 = Use main account settings, 0 = Default server setting, 1 = US carrier, 2 = Canadian carrier)
             transcribe:  (required)
             transcription_email:  (required)
@@ -4993,18 +4993,18 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        endhour: Annotated[str, "Units: hours"],
-        endminute: Annotated[str, "Units: minutes"],
+        endhour: str,
+        endminute: str,
         name: str,
         routing_match: str,
         routing_nomatch: str,
-        starthour: Annotated[str, "Units: hours"],
-        startminute: Annotated[str, "Units: minutes"],
-        weekdayend: Annotated[str, "Units: days"],
-        weekdaystart: Annotated[str, "Units: days"],
+        starthour: str,
+        startminute: str,
+        weekdayend: str,
+        weekdaystart: str,
         timecondition: str | None = None,
     ) -> dict[str, Any]:
-        """Update time condition settings
+        """- Updates a specific Time Condition if a time condition code is provided. - Adds a new Time Condition entry if no time condition code is provided.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -5028,24 +5028,24 @@ class VoIPMSService:
         self,
         validate: bool = True,
         *,
-        attach_message: Annotated[str, "Format: wav"],
+        attach_message: str,
         delete_message: str,
-        language: int,
-        mailbox: str,
+        language: str,
+        mailbox: int,
         name: str,
         password: str,
-        play_instructions: int,
+        play_instructions: str,
         say_callerid: str,
         say_time: str,
-        skip_password: Literal["0", "1"],
+        skip_password: str,
         timezone: str,
-        email: Annotated[str, "Format: email"] | None = None,
-        email_attachment_format: int | None = None,
+        email: str | None = None,
+        email_attachment_format: str | None = None,
         transcription: str | None = None,
-        transcription_locale: int | None = None,
+        transcription_locale: str | None = None,
         unavailable_message_recording: str | None = None,
     ) -> dict[str, Any]:
-        """Update voicemail settings
+        """- Updates the information from a specific Voicemail.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -5060,7 +5060,7 @@ class VoIPMSService:
             play_instructions: Code for Play Instructions Setting (Values from getPlayInstructions) (required)
             say_callerid: Yes for Saying the Caller ID (Values: 'yes'/'no') (required)
             say_time: Yes for Saying Time Stamp (Values: 'yes'/'no') (required)
-            skip_password: True if Skipping Password (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean) (required)
+            skip_password: True if Skipping Password (Boolean: 1/0) (required)
             timezone: Time Zone for Mailbox (Values from getTimeZones) (required)
             transcription: Voicemail Transcription
             transcription_locale: Transcription locale code (values from getLocales)
@@ -5083,25 +5083,25 @@ class VoIPMSService:
         city: str,
         confirm_email: str,
         confirm_password: str,
-        country: int,
+        country: str,
         email: str,
         firstname: str,
         lastname: str,
         password: str,
-        phone_number: Annotated[str, "Format: phone"],
+        phone_number: str,
         state: str,
-        zip: int,
-        activate: Literal["0", "1"] | None = None,
-        balance_management: str | None = None,
+        zip: str,
+        activate: bool | None = None,
+        balance_management: int | None = None,
         company: str | None = None,
     ) -> dict[str, Any]:
-        """Sign up client
+        """- Signs a new Reseller Client to your Reseller Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
-            activate: Activates Client (Boolean: 1/0) (accepts: true/false, yes/no, on/off, 0/1, boolean)
+            activate: Activates Client (Boolean: 1/0)
             address: Client's Address (required)
-            balance_management: Balance Management for Client (Values from getBalanceManagement)
+            balance_management: Balance Management for Client
             city: Client's City (required)
             company: Client's Company
             confirm_email: Client's Confirmation e-mail (required)
@@ -5126,7 +5126,7 @@ class VoIPMSService:
         *,
         did: str,
     ) -> dict[str, Any]:
-        """Unconnect did
+        """- Unconnects specific DID from Reseller Client Sub Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic
@@ -5143,7 +5143,7 @@ class VoIPMSService:
         *,
         did: str,
     ) -> dict[str, Any]:
-        """Unconnect fax
+        """- Unconnects specific FAX DID from Reseller Client Sub Account.
 
         Args:
             validate: Whether to validate parameters with Pydantic

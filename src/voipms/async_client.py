@@ -159,12 +159,18 @@ async def VoIPMSAsyncClient(
     )
 
     # Create HTTP client with automatic lifecycle management
-    async with httpx.AsyncClient(
-        base_url=config.base_url,
-        timeout=config.timeout,
-        verify=config.verify_ssl,
-        headers={"User-Agent": "VoIPMS-DataDriven-Async/2.0"},
-    ) as http_client:
+    client_kwargs = {
+        "base_url": config.base_url,
+        "timeout": config.timeout,
+        "verify": config.verify_ssl,
+        "headers": {"User-Agent": "VoIPMS-DataDriven-Async/2.0"},
+    }
+    
+    # Add custom limits if specified
+    if config.http_limits is not None:
+        client_kwargs["limits"] = config.http_limits
+    
+    async with httpx.AsyncClient(**client_kwargs) as http_client:
 
         # Create service instance
         service = VoIPMSAsyncService(http_client, config, api_definition)

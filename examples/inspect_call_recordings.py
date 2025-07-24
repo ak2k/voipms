@@ -5,6 +5,7 @@
 #     "httpx>=0.24.0",
 #     "pydantic>=2.0.0",
 #     "python-dotenv>=1.0.0",
+#     "tenacity>=8.2.0",
 # ]
 # ///
 """
@@ -175,16 +176,15 @@ class CallRecordingsInspector:
 
         for date_str in sorted(recording_dates):
             try:
-                # Use validate=False with natural parameters - quirks are handled automatically
+                # Get CDR with all call statuses
                 result = await self.client.getCDR(
-                    validate=False,  # Skip validation, use automatic quirks handling
                     date_from=date_str,
                     date_to=date_str,
-                    answered=True,  # Boolean gets converted to "1" automatically
-                    noanswer=True,
-                    busy=True,
-                    failed=True,
-                    # timezone="1" gets added automatically
+                    answered="1",  # Need to pass "1" not True for these parameters
+                    noanswer="1",
+                    busy="1", 
+                    failed="1",
+                    # timezone="-5" gets added automatically as smart default
                 )
 
                 if result.get("status") == "success" and "cdr" in result:

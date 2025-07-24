@@ -8,6 +8,8 @@ import os
 from dataclasses import dataclass
 from typing import Optional
 
+import httpx
+
 
 @dataclass
 class VoIPMSConfig:
@@ -26,6 +28,7 @@ class VoIPMSConfig:
     base_url: str = "https://voip.ms/api/v1/rest.php"
     timeout: float = 30.0
     verify_ssl: bool = True
+    http_limits: Optional[httpx.Limits] = None
 
     # Retry settings
     enable_retries: bool = True

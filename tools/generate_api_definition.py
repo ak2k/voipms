@@ -29,7 +29,7 @@ try:
     from parse_html_docs import FinalVoIPMSDocumentationParser
 except ImportError:
     # Try importing from parsers module
-    from parsers.html import FinalVoIPMSDocumentationParser
+    from parsers.html_parser import FinalVoIPMSDocumentationParser
 
 
 class FinalVoIPMSJSONGenerator:
@@ -111,6 +111,15 @@ class FinalVoIPMSJSONGenerator:
                     # Update operation description
                     if method_doc.get("description"):
                         op_data["description"] = method_doc["description"]
+                    
+                    # Ensure description starts with a dash
+                    if "description" in op_data and op_data["description"]:
+                        if not op_data["description"].startswith("-"):
+                            op_data["description"] = "- " + op_data["description"]
+
+                    # Add category from HTML documentation
+                    if method_doc.get("_html_category"):
+                        op_data["_html_category"] = method_doc["_html_category"]
 
                     # Add notes and warnings
                     if method_doc.get("notes"):
@@ -158,8 +167,10 @@ class FinalVoIPMSJSONGenerator:
                                     wsdl_param["maxLength"] = constraints["maxLength"]
                                 if "pattern" in constraints:
                                     wsdl_param["pattern"] = constraints["pattern"]
-                                if "values_from" in constraints:
-                                    wsdl_param["values_from"] = constraints["values_from"]
+                                if "_values_from" in constraints:
+                                    wsdl_param["_values_from"] = constraints["_values_from"]
+                                elif "values_from" in constraints:
+                                    wsdl_param["_values_from"] = constraints["values_from"]
                                 if "rate_limit" in constraints:
                                     wsdl_param["rate_limit"] = constraints["rate_limit"]
                                 if "multiple" in constraints:
@@ -188,6 +199,20 @@ class FinalVoIPMSJSONGenerator:
                             # Use required field from HTML docs (more accurate than WSDL)
                             if "required" in param_info:
                                 wsdl_param["required"] = param_info["required"]
+                            
+                            # Add _values_from if present at top level
+                            if "_values_from" in param_info:
+                                wsdl_param["_values_from"] = param_info["_values_from"]
+                            elif "values_from" in param_info:
+                                wsdl_param["_values_from"] = param_info["values_from"]
+                                
+                    # Also extract values_from from WSDL descriptions if not already set
+                    for param_name, wsdl_param in op_data["parameters"].items():
+                        if "_values_from" not in wsdl_param and "description" in wsdl_param:
+                            import re
+                            values_match = re.search(r'\(Values from (\w+)\)', wsdl_param["description"])
+                            if values_match:
+                                wsdl_param["_values_from"] = values_match.group(1)
 
                     # Add output example
                     if method_doc.get("output_example"):
@@ -198,6 +223,12 @@ class FinalVoIPMSJSONGenerator:
                         op_data["method_errors"] = method_doc["errors"]
 
             print(f"\nEnriched {enriched_count} operations with documentation")
+            
+            # Ensure all operations have descriptions starting with dash
+            for op_name, op_data in operations.items():
+                if "description" in op_data and op_data["description"]:
+                    if not op_data["description"].startswith("-"):
+                        op_data["description"] = "- " + op_data["description"]
 
         # Apply type overrides to fix WSDL errors (must be done after HTML enrichment)
         self._apply_type_overrides(operations)

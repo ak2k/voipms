@@ -47,7 +47,7 @@ except ImportError:
 # Add parent directory to path so we can import voipms
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from voipms import VoIPMSClient, VoIPMSError  # noqa: E402
+from voipms import VoIPMSClient, VoIPMSAsyncClient, VoIPMSError  # noqa: E402
 
 
 class VoIPMSCLI:
@@ -109,26 +109,19 @@ class VoIPMSCLI:
         operations = self.api_definition.get("operations", {})
         return operations.get(method_name)
 
-    def call_method(self, method_name: str, params: Dict[str, Any], pretty: bool = True):
+    def call_method(self, method_name: str, params: Dict[str, Any], pretty: bool = True, decode: bool = False):
         """Call an API method with given parameters."""
+        import asyncio
+        
         try:
-            # Create a new client context for this method call
-            with VoIPMSClient(username=self.username, password=self.password) as client:
-                # Check if method exists
-                if not hasattr(client, method_name):
-                    self.print_error(f"Unknown method: {method_name}")
-                    self.show_similar_methods(method_name)
-                    sys.exit(1)
-
-                # Call the method - let it use validation
-                method = getattr(client, method_name)
-                result = method(**params)
-
-                # Format output
-                if pretty:
-                    self.console.print(JSON(json.dumps(result)))
-                else:
-                    click.echo(json.dumps(result))
+            # Use async client for better performance, especially with decoding
+            result = asyncio.run(self._async_call_method(method_name, params, decode))
+            
+            # Format output
+            if pretty:
+                self.console.print(JSON(json.dumps(result)))
+            else:
+                click.echo(json.dumps(result))
 
         except VoIPMSError as e:
             self.print_error(f"API error: {e}")
@@ -136,6 +129,39 @@ class VoIPMSCLI:
         except Exception as e:
             self.print_error(str(e))
             sys.exit(1)
+    
+    async def _async_call_method(self, method_name: str, params: Dict[str, Any], decode: bool = False):
+        """Async implementation of method calling with parallel decoding."""
+        # Configure higher connection limits for CLI usage, especially when decoding
+        # The decoder may need to make many parallel lookup calls
+        from .config import VoIPMSConfig
+        import httpx
+        
+        config = VoIPMSConfig(
+            username=self.username, 
+            password=self.password
+        )
+        # Override the limits in the async client context for CLI usage
+        config.http_limits = httpx.Limits(max_connections=20, max_keepalive_connections=10)
+        
+        async with VoIPMSAsyncClient(config) as client:
+            # Check if method exists
+            if not hasattr(client, method_name):
+                self.print_error(f"Unknown method: {method_name}")
+                self.show_similar_methods(method_name)
+                sys.exit(1)
+
+            # Call the method
+            method = getattr(client, method_name)
+            result = await method(**params)
+            
+            # Decode cross-referenced values if requested
+            if decode and result.get("status") == "success":
+                from .cli_decoder import CLIResultDecoder
+                decoder = CLIResultDecoder(client)
+                result = await decoder.decode_result_async(method_name, result)
+            
+            return result
 
     def show_similar_methods(self, method_name: str):
         """Show methods with similar names."""
@@ -201,15 +227,15 @@ class VoIPMSCLI:
 
         return param_type, desc
 
-    def list_methods(self, filter_text: Optional[str] = None):
-        """List all available methods."""
+    def list_methods(self, filter_text: Optional[str] = None, category_filter: Optional[str] = None):
+        """List all available methods, optionally grouped by category."""
         if not self.api_definition:
             self.print_error("No API definition loaded")
             return
 
         operations = self.api_definition.get("operations", {})
 
-        # Filter if requested
+        # Filter by text if requested
         if filter_text:
             operations = {
                 name: info
@@ -218,23 +244,56 @@ class VoIPMSCLI:
                 or filter_text.lower() in info.get("description", "").lower()
             }
 
-        # Create a rich table
-        table = Table(title=f"[bold]VoIP.ms API Methods[/bold] ({len(operations)} found)")
-        table.add_column("Method", style="cyan", no_wrap=True, width=30)
-        table.add_column("Description", style="white")
-        table.add_column("Category", style="green", width=12)
+        # Filter by category if requested
+        if category_filter:
+            operations = {
+                name: info
+                for name, info in operations.items()
+                if category_filter.lower() in info.get("_html_category", "").lower()
+            }
 
-        # Group and add methods
-        for name, info in sorted(operations.items()):
-            prefix = (
-                name.split(next(c for c in name if c.isupper()))[0]
-                if any(c.isupper() for c in name)
-                else "other"
-            )
-            desc = info.get("description", "No description")
-            table.add_row(name, desc, prefix.upper())
+        # Group methods by category
+        categories = {}
+        for name, info in operations.items():
+            category = info.get("_html_category", info.get("category", "Uncategorized"))
+            if category not in categories:
+                categories[category] = []
+            categories[category].append((name, info))
 
-        self.console.print(table)
+        # Display methods grouped by category
+        total_methods = len(operations)
+        
+        if not operations:
+            self.console.print("[yellow]No methods found matching the filter criteria.[/yellow]")
+            return
+
+        # Sort categories for consistent display
+        sorted_categories = sorted(categories.keys())
+        
+        for category in sorted_categories:
+            methods = sorted(categories[category], key=lambda x: x[0])
+            
+            # Create category header
+            self.console.print(f"\n[bold cyan]═══ {category} ═══[/bold cyan]")
+            
+            # Create table for this category
+            table = Table(show_header=True, header_style="bold", box=None, padding=(0, 2))
+            table.add_column("Method", style="green", no_wrap=True, width=35)
+            table.add_column("Description", style="white")
+            
+            for method_name, method_info in methods:
+                desc = method_info.get("description", "No description")
+                # Truncate long descriptions
+                if len(desc) > 80:
+                    desc = desc[:77] + "..."
+                table.add_row(method_name, desc)
+            
+            self.console.print(table)
+        
+        # Summary
+        self.console.print(f"\n[bold]Total: {total_methods} methods in {len(categories)} categories[/bold]")
+        if filter_text or category_filter:
+            self.console.print(f"[dim]Filtered by: {filter_text or category_filter}[/dim]")
 
     def apply_smart_defaults(self, method_name: str, params: Dict[str, Any]) -> Dict[str, Any]:
         """Apply smart defaults based on method context."""
@@ -354,11 +413,32 @@ class VoIPMSCLI:
                 self.console.print(opt_table)
 
         # Show smart defaults if applicable
+        smart_defaults_text = []
+        
+        # Get CLI-level defaults from cli_smart_defaults.json
         method_descriptions = self.smart_defaults.get("method_descriptions", {})
-        if method_name in method_descriptions:
+        cli_description = method_descriptions.get(method_name, "")
+        
+        # Get API-level defaults from the API definition
+        if method_info and "_smart_defaults" in method_info:
+            api_defaults = method_info["_smart_defaults"]
+            api_defaults_str = ", ".join(f"{k}={v}" for k, v in api_defaults.items())
+            smart_defaults_text.append(f"[cyan]API defaults:[/cyan] {api_defaults_str}")
+        
+        # Add CLI description if it exists (for date ranges, etc.)
+        if cli_description:
+            # Only show the CLI-specific part if there are API defaults
+            if smart_defaults_text:
+                # Extract just the CLI-specific info (date ranges, etc.)
+                if "Date range defaults to last 7 days" in cli_description:
+                    smart_defaults_text.insert(0, "[cyan]CLI defaults:[/cyan] Date range defaults to last 7 days")
+            else:
+                smart_defaults_text.append(cli_description)
+        
+        if smart_defaults_text:
             self.console.print(
                 Panel(
-                    f"[green]{method_descriptions[method_name]}[/green]",
+                    "\n".join(smart_defaults_text),
                     title="[bold green]Smart Defaults[/bold green]",
                     border_style="green",
                 )
@@ -389,8 +469,9 @@ cli_instance = VoIPMSCLI()
 @click.option("--username", envvar="VOIPMS_USERNAME", help="VoIP.ms username")
 @click.option("--password", envvar="VOIPMS_API_PASSWORD", help="VoIP.ms API password")
 @click.option("--pretty/--raw", default=True, help="Pretty print JSON output")
+@click.option("--decode/--no-decode", default=False, help="Decode cross-referenced values")
 @click.pass_context
-def cli(ctx, username: Optional[str], password: Optional[str], pretty: bool):
+def cli(ctx, username: Optional[str], password: Optional[str], pretty: bool, decode: bool):
     """VoIP.ms API Client - Data-Driven CLI
 
     This CLI dynamically supports all VoIP.ms API methods based on the
@@ -414,6 +495,8 @@ def cli(ctx, username: Optional[str], password: Optional[str], pretty: bool):
     # Store context
     ctx.ensure_object(dict)
     ctx.obj["pretty"] = pretty
+    ctx.obj["decode"] = decode
+    
 
     # If no command given, show help
     if ctx.invoked_subcommand is None:
@@ -422,9 +505,10 @@ def cli(ctx, username: Optional[str], password: Optional[str], pretty: bool):
 
 @cli.command("list-methods")
 @click.option("--filter", "filter_text", help="Filter methods by name or description")
-def list_methods_cmd(filter_text: Optional[str]):
-    """List all available API methods."""
-    cli_instance.list_methods(filter_text)
+@click.option("--category", "category_filter", help="Filter methods by category (e.g., 'General', 'DIDs')")
+def list_methods_cmd(filter_text: Optional[str], category_filter: Optional[str]):
+    """List all available API methods grouped by category."""
+    cli_instance.list_methods(filter_text, category_filter)
 
 
 @cli.command("help")
@@ -490,6 +574,11 @@ def custom_invoke(self, ctx):
     import sys
 
     full_args = sys.argv[1:]  # Skip script name
+    
+    # Parse global options from command line directly
+    # This is needed because custom_invoke doesn't get the parsed options properly
+    decode = "--decode" in full_args
+    pretty = "--raw" not in full_args
 
     # Extract command name
     cmd_name = None
@@ -515,6 +604,10 @@ def custom_invoke(self, ctx):
             # Parse parameters from remaining arguments
             params = {}
             for arg in cmd_args:
+                # Skip global CLI flags
+                if arg in ["--decode", "--no-decode", "--pretty", "--raw"]:
+                    continue
+                    
                 if arg.startswith("--"):
                     if "=" in arg:
                         key, value = arg[2:].split("=", 1)
@@ -615,9 +708,8 @@ def custom_invoke(self, ctx):
                 click.echo(f"\nUse 'voipms help {cmd_name}' for more information.")
                 sys.exit(1)
 
-            # Call the method
-            pretty = ctx.obj.get("pretty", True) if ctx.obj else True
-            cli_instance.call_method(cmd_name, params, pretty)
+            # Call the method (options parsed above)
+            cli_instance.call_method(cmd_name, params, pretty, decode)
             return
 
     # If we get here, it's an unknown command

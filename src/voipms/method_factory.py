@@ -35,13 +35,22 @@ class MethodFactory:
         self, op_name: str, op_spec: Dict[str, Any], validate: bool, kwargs: Dict[str, Any]
     ) -> Dict[str, Any]:
         """Process and validate parameters for a method call."""
+        # First, apply smart defaults to kwargs before validation
+        kwargs_with_defaults = kwargs.copy()
+        if "_smart_defaults" in op_spec:
+            for param_name, default_value in op_spec["_smart_defaults"].items():
+                if param_name not in kwargs_with_defaults:
+                    kwargs_with_defaults[param_name] = default_value
+                    if self.debug:
+                        logger.debug(f"Smart default applied: {op_name}.{param_name} = {default_value}")
+        
         if validate:
             # Get or create Pydantic model for this operation
             param_model = self.model_factory.get_or_create_model(op_name, op_spec)
 
             try:
                 # Validate and coerce types using Pydantic
-                validated_params = param_model(**kwargs)
+                validated_params = param_model(**kwargs_with_defaults)
                 # Convert to dict, excluding None values
                 params_dict = validated_params.model_dump(exclude_none=True)
             except ValidationError as e:
@@ -52,7 +61,7 @@ class MethodFactory:
                 ) from None
         else:
             # Skip validation, use raw parameters
-            params_dict = {k: v for k, v in kwargs.items() if v is not None}
+            params_dict = {k: v for k, v in kwargs_with_defaults.items() if v is not None}
 
         # Apply extracted HTML defaults before transforms
         params_dict = self._apply_html_defaults(op_name, params_dict, op_spec)
@@ -252,12 +261,7 @@ class MethodFactory:
                     if self.debug:
                         logger.debug(f"Alias {op_name}: {old_name} -> {new_name}")
         
-        if "_smart_defaults" in op_spec:
-            for param_name, default_value in op_spec["_smart_defaults"].items():
-                if param_name not in result:
-                    result[param_name] = default_value
-                    if self.debug:
-                        logger.debug(f"Smart default {op_name}.{param_name} = {default_value}")
+        # Smart defaults are now applied before validation in _process_parameters
         
         # Apply date validations if present
         if "_date_validations" in op_spec:

@@ -3,7 +3,7 @@
     "methods": ["getCDR", "getSMS", "getMMS", "getCallRecordings", "getFaxMessages"],
     "defaults": {
       "date_range_days": 7,
-      "timezone": "1"
+      "timezone": "-5"
     },
     "parameter_mapping": {
       "getSMS": {"from": "date_from", "to": "date_to"},
@@ -39,19 +39,32 @@
       "enable": true
     }
   },
+  "cdr_methods": {
+    "methods": ["getCDR"],
+    "defaults": {
+      "answered": "1",
+      "noanswer": "1", 
+      "busy": "1",
+      "failed": "1"
+    }
+  },
   "method_descriptions": {
-    "getCDR": "Date range defaults to last 7 days, timezone defaults to 1",
-    "getSMS": "Date range defaults to last 7 days",
-    "getMMS": "Date range defaults to last 7 days",
-    "getCallRecordings": "Date range defaults to last 7 days",
-    "getFaxMessages": "Date range defaults to last 7 days",
+    "getCDR": "Date range defaults to last 7 days (CLI). API defaults: timezone=-5 (numeric UTC offset), all call statuses=1",
+    "getSMS": "Date range defaults to last 7 days (CLI). API defaults: timezone=-5 (numeric UTC offset)",
+    "getMMS": "Date range defaults to last 7 days (CLI). API defaults: timezone=-5 (numeric UTC offset)",
+    "getCallRecordings": "Date range defaults to last 7 days (CLI)",
+    "getFaxMessages": "Date range defaults to last 7 days (CLI)",
+    "getResellerCDR": "API defaults: timezone=-5 (numeric UTC offset)",
+    "getResellerSMS": "API defaults: timezone=-5 (numeric UTC offset)",
+    "getResellerMMS": "API defaults: timezone=-5 (numeric UTC offset)",
     "orderDID": "pop=1, dialtime=60, billing_type=1 (per minute)",
     "backOrderDIDUSA": "pop=1, dialtime=60, billing_type=1 (per minute)",
     "backOrderDIDCAN": "pop=1, dialtime=60, billing_type=1 (per minute)",
     "orderTollFree": "pop=1, dialtime=60, billing_type=1 (per minute)",
     "orderVanity": "pop=1, dialtime=60, billing_type=1 (per minute)",
     "orderDIDVirtual": "pop=1, dialtime=60, billing_type=1 (per minute)",
-    "setVoicemail": "attach_message=true, delete_message=false",
+    "setVoicemail": "attach_message=true, delete_message=false. API defaults: timezone=America/New_York (timezone identifier from getTimezones)",
+    "createVoicemail": "API defaults: timezone=America/New_York (timezone identifier from getTimezones)",
     "setQueue": "agent_ring_timeout=15, retry_timer=30",
     "setSMS": "enable=true",
     "setMMS": "enable=true"

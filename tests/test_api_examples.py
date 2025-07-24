@@ -73,7 +73,7 @@ class TestAPIExamples:
         mock_get.return_value = mock_response
 
         # Make API call
-        result = client.getClients(email="Jane.doe@mydomain.com")
+        result = client.getClients(client="Jane.doe@mydomain.com")
 
         # Verify response
         assert result["status"] == "success"
@@ -169,7 +169,7 @@ class TestAPIExamples:
         mock_response.raise_for_status = MagicMock()
         mock_get.return_value = mock_response
 
-        # Make API call
+        # Make API call (timezone will use smart default)
         result = client.getCDR(date_from="2024-01-01", date_to="2024-01-31")
 
         # Verify response
@@ -188,8 +188,8 @@ class TestAPIExamples:
         mock_response.raise_for_status = MagicMock()
         mock_get.return_value = mock_response
 
-        # Make API call
-        result = client.getResellerCDR(date_from="2024-01-01", date_to="2024-01-31")
+        # Make API call (timezone will use smart default)
+        result = client.getResellerCDR(client="100001_VoIP", date_from="2024-01-01", date_to="2024-01-31")
 
         # Verify response
         assert result["status"] == "success"
