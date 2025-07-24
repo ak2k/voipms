@@ -52,21 +52,23 @@ uv run tools/cli.py download
 
 - Fetches WSDL from https://voip.ms/api/v1/server.wsdl
 - Parses HTML documentation from `resources/voipms_api_documentation.html`
-- Applies type overrides from `tools/config/type_overrides.json`
-- **Output**: `src/voipms/api_definition_source.json`
+- Extracts cross-references (_values_from) from documentation
+- Applies type corrections from `tools/config/api_corrections.json`
+- **Output**: `tools/generated/api_definition_source.json`
 
 **When to run**: When VoIP.ms updates their API or you update type overrides
 
 #### Stage 2: Quirks Application (`--stage=quirks`)
 **What it does**: Applies behavioral adjustments to create runtime definition
 
-- Reads `src/voipms/api_definition_source.json`
-- Applies quirks from `src/voipms/api_quirks.json`:
+- Reads `tools/generated/api_definition_source.json`
+- Applies corrections from `tools/config/api_corrections.json`:
   - Parameter type conversions (boolean → yes/no)
   - Parameter aliases (date_from → from)
   - Smart defaults
   - Additional error codes
   - Special value mappings
+  - Cross-reference (_values_from) information
 - **Output**: `src/voipms/api_definition.json` (used by the client)
 
 **When to run**: When you add/modify quirks or after stage 1
@@ -84,15 +86,16 @@ uv run tools/cli.py download
 
 The system uses two API definition files:
 
-- **`api_definition_source.json`**: Pure API definition from WSDL/HTML documentation
-- **`api_definition.json`**: Runtime API definition with quirks applied (used by the client)
+- **`tools/generated/api_definition_source.json`**: Pure API definition from WSDL/HTML documentation
+- **`src/voipms/api_definition.json`**: Runtime API definition with quirks applied (used by the client)
 
-Quirks are behavioral adjustments discovered through testing, stored in `api_quirks.json`:
+Corrections are behavioral adjustments discovered through testing, stored in `api_corrections.json`:
 - Parameter type conversions (e.g., boolean → yes/no strings)
 - Parameter aliases (e.g., `date_from` → `from`)
 - Smart defaults
 - Additional error codes not in documentation
 - Special value mappings
+- Cross-reference information (_values_from) for decoding numeric codes
 
 ### 3. Documentation Downloader
 **Downloads VoIP.ms HTML documentation (requires login)**
@@ -116,9 +119,9 @@ tools/
 │   └── download.py     # Documentation download command
 ├── parsers/            # Parsing modules
 │   ├── wsdl.py        # WSDL parser (from parse_wsdl.py)
-│   └── html.py        # HTML parser (from parse_html_docs.py)
+│   └── html_parser.py # HTML parser (from parse_html_docs.py)
 ├── config/            # Configuration files
-│   └── type_overrides.json  # WSDL type corrections
+│   └── api_corrections.json  # API corrections and type overrides
 ├── generate_api_definition.py  # Legacy direct script
 ├── generate_type_stubs.py      # Legacy direct script
 └── download_api_docs.py        # Legacy direct script
@@ -126,11 +129,14 @@ tools/
 
 ## Configuration Files
 
-### `config/type_overrides.json`
-Contains type corrections for WSDL errors, organized by:
-- `core` - Essential overrides (61 corrections)
-- `extended` - Additional overrides (45 corrections)
-- Categories explain the reason for each override
+### `config/api_corrections.json`
+Contains all API corrections and overrides:
+- Type corrections for WSDL errors
+- Parameter transformations (boolean → yes/no)
+- Smart defaults for methods
+- Cross-reference information (_values_from)
+- Additional error codes
+- Category overrides for proper documentation organization
 
 ## Common Regeneration Scenarios
 
@@ -156,18 +162,18 @@ uv run tools/cli.py generate
 ### 2. When You Discover New Quirks
 
 ```bash
-# Step 1: Edit src/voipms/api_quirks.json
-# Add your quirk to the appropriate method
+# Step 1: Edit tools/config/api_corrections.json
+# Add your correction to the appropriate method
 
 # Step 2: Regenerate (only stages 2-3 needed)
-uv run tools/cli.py generate --stage=quirks  # Apply updated quirks
+uv run tools/cli.py generate --stage=quirks  # Apply updated corrections
 uv run tools/cli.py generate --stage=stubs   # Update type stubs
 ```
 
 ### 3. When You Fix Type Overrides
 
 ```bash
-# Step 1: Edit tools/config/type_overrides.json
+# Step 1: Edit tools/config/api_corrections.json
 # Add type correction for WSDL errors
 
 # Step 2: Regenerate everything (source needs updating)
@@ -201,12 +207,17 @@ uv run tools/cli.py generate --stage=stubs
 
 If you discover new type errors in the WSDL:
 
-1. Add the override to `tools/config/type_overrides.json`:
+1. Add the override to `tools/config/api_corrections.json`:
    ```json
    {
-     "overrides": {
-       "core": {
-         "methodName.parameterName": "string"
+     "operations": {
+       "methodName": {
+         "parameters": {
+           "parameterName": {
+             "type": "string",
+             "_type_override_reason": "Explain why this override is needed"
+           }
+         }
        }
      }
    }
@@ -221,10 +232,9 @@ If you discover new type errors in the WSDL:
 
 ## Key Files
 
-- **`src/voipms/api_definition_source.json`**: Pure API definition from WSDL/HTML
-- **`src/voipms/api_definition.json`**: Runtime API definition with quirks (loaded by client)
-- **`src/voipms/api_quirks.json`**: Behavioral adjustments and fixes
-- **`tools/config/type_overrides.json`**: WSDL type corrections
+- **`tools/generated/api_definition_source.json`**: Pure API definition from WSDL/HTML
+- **`src/voipms/api_definition.json`**: Runtime API definition with corrections (loaded by client)
+- **`tools/config/api_corrections.json`**: Behavioral adjustments, fixes, and type overrides
 - **`resources/voipms_api_documentation.html`**: Cached HTML documentation
 
 ## Troubleshooting Regeneration
@@ -251,7 +261,7 @@ ls src/voipms/py.typed
 ### Need to verify changes?
 ```bash
 # Compare source vs runtime definitions
-diff -u <(jq '.operations.getCDR.parameters' src/voipms/api_definition_source.json) \
+diff -u <(jq '.operations.getCDR.parameters' tools/generated/api_definition_source.json) \
         <(jq '.operations.getCDR.parameters' src/voipms/api_definition.json)
 ```
 
